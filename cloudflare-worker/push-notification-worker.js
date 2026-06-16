@@ -7,12 +7,14 @@
 // SETUP:
 //   1. Create a new Worker in Cloudflare dashboard named "bluespot-push"
 //   2. Paste this entire file → Save and Deploy
-//   3. Add the SAME environment variables as the delete-user worker:
+//   3. Add these environment variables in Cloudflare Worker Settings → Variables:
 //        FIREBASE_PROJECT_ID   = bluespot-hub
 //        FIREBASE_CLIENT_EMAIL = <your service account email>
 //        FIREBASE_PRIVATE_KEY  = <your service account private key>
 //        DATABASE_URL          = https://bluespot-hub-default-rtdb.firebaseio.com
+//        PUSH_SECRET           = <any random string you choose, e.g. "mySecret123">
 //        ALLOWED_ORIGIN        = * (or your domain)
+//   4. Copy that same PUSH_SECRET value into adminpanel.html → PUSH_SECRET constant
 // ─────────────────────────────────────────────────────────────────────────
 
 export default {
@@ -27,12 +29,13 @@ export default {
     if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, corsHeaders);
 
     try {
-      const { hubId, title, body, idToken } = await request.json();
-      if (!hubId || !title || !idToken) return json({ error: 'Missing fields' }, 400, corsHeaders);
+      const { hubId, title, body, secret } = await request.json();
+      if (!hubId || !title) return json({ error: 'Missing fields' }, 400, corsHeaders);
 
-      // 1. Verify the caller is a valid logged-in user
-      const callerUid = await verifyFirebaseIdToken(idToken, env.FIREBASE_PROJECT_ID);
-      if (!callerUid) return json({ error: 'Unauthorized' }, 401, corsHeaders);
+      // 1. Verify caller using shared secret
+      if (!env.PUSH_SECRET || secret !== env.PUSH_SECRET) {
+        return json({ error: 'Unauthorized' }, 401, corsHeaders);
+      }
 
       // 2. Get a service account access token
       const accessToken = await getServiceAccountAccessToken(env);

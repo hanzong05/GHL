@@ -763,6 +763,8 @@
   // for setup steps), paste its workers.dev URL in here:
   const DELETE_USER_WORKER_URL = 'https://bluespot-delete-user.christian-51e.workers.dev/';
   const PUSH_WORKER_URL = 'https://bluespot-push.christian-51e.workers.dev/';
+  // Must match the PUSH_SECRET env var set in your Cloudflare Worker:
+  const PUSH_SECRET = 'YOUR_PUSH_SECRET_HERE';
   // Paste your GHL Workflow Webhook URL here:
   const GHL_WEBHOOK_URL = 'YOUR_GHL_WEBHOOK_URL_HERE';
 
@@ -1288,13 +1290,11 @@
       closeModal('announcementModal');
       // Fire push notification via FCM Worker (non-blocking)
       if (active) {
-        getIdToken(currentUser).then(idToken => {
-          fetch(PUSH_WORKER_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ hubId, title: `📢 ${title}`, body: message.slice(0, 120), idToken }),
-          }).catch(() => {});
-        });
+        fetch(PUSH_WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hubId, title: `📢 ${title}`, body: message.slice(0, 120), secret: PUSH_SECRET }),
+        }).catch(() => {});
       }
       // Fire GHL Workflow webhook (non-blocking — triggers SMS/Email to contacts)
       if (active && GHL_WEBHOOK_URL && GHL_WEBHOOK_URL !== 'YOUR_GHL_WEBHOOK_URL_HERE') {
