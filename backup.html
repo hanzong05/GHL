@@ -8,17 +8,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
-    <title id="pageTitle">Sanwar Rv Resort Hub</title>
+    <title id="pageTitle">Stone Mountain Park Guest Hub</title>
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" id="ogTitle" content="Sanwar Rv Resort Hub">
+    <meta property="og:title" id="ogTitle" content="Stone Mountain Park Guest Hub">
     <meta property="og:description" id="ogDescription"
         content="Your campground companion — announcements, amenities, activities and more.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png">
     <meta property="og:url" id="ogUrl" content="">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twTitle" content="Sanwar Rv Resort Hub">
+    <meta name="twitter:title" id="twTitle" content="Stone Mountain Park Guest Hub">
     <meta name="twitter:description" id="twDescription"
         content="Your campground companion — announcements, amenities, activities and more.">
     <meta name="twitter:image" id="twImage"
@@ -31,7 +31,7 @@
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png">
     <link rel="apple-touch-icon" sizes="120x120" id="pwaAppleTouchIcon120"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png">
-    <link rel="manifest" href="https://hub.bluespotguide.com/sanwar-rv-resort-hub/manifest.json">
+    <link rel="manifest" href="https://hub.bluespotguide.com/stone-mountain-park-hub/manifest.json">
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
@@ -1133,32 +1133,32 @@
         .qa-btn {
             flex: 1;
             background: #fff;
-            border-radius: 10px;
-            padding: 6px 4px;
+            border-radius: 14px;
+            padding: 12px 4px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+            gap: 6px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
             cursor: pointer;
         }
 
         .qa-icon {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .qa-icon svg {
-            width: 16px;
-            height: 16px;
+            width: 22px;
+            height: 22px;
         }
 
         .qa-label {
-            font-size: 9px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             color: var(--text);
         }
 
@@ -2479,6 +2479,54 @@
             opacity: .9;
         }
 
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d1d5db;
+            transition: .2s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            transition: .2s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: #16a34a;
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .toggle-switch input:disabled+.toggle-slider {
+            opacity: .5;
+            cursor: default;
+        }
+
         /* ── Register Modal — centered popup ── */
         #registerModal {
             align-items: center !important;
@@ -2668,52 +2716,138 @@
            RESPONSIVE — small phones (≤ 390px)
         ══════════════════════════════════════════ */
         @media (max-width: 390px) {
-            html { font-size: 81.25%; }
+            html {
+                font-size: 81.25%;
+            }
 
-            .hero { height: 200px; }
+            /* 13px base */
+
+            .hero {
+                height: 200px;
+            }
+
             #tab-home .hero,
             #tab-activities .hero,
-            #tab-more .hero { height: 170px; }
+            #tab-more .hero {
+                height: 170px;
+            }
 
-            .hero-content { padding: 10px 12px 28px; }
+            .hero-content {
+                padding: 10px 12px 28px;
+            }
 
-            .nav-ico-wrap { width: 30px; height: 30px; border-radius: 10px; }
-            .nav-item svg  { width: 19px; height: 19px; }
-            .nav-item span { font-size: 8.5px; }
+            /* Bottom nav — tighten labels on tiny screens */
+            .nav-ico-wrap {
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+            }
 
-            .status-card { padding: 8px 4px; }
-            .status-card-icon { width: 24px; height: 24px; margin-bottom: 4px; }
-            .status-card-icon svg { width: 17px; height: 17px; }
+            .nav-item svg {
+                width: 19px;
+                height: 19px;
+            }
 
-            .qa-icon { width: 26px; height: 26px; }
-            .qa-icon svg { width: 14px; height: 14px; }
-            .qa-label { font-size: 8px; }
+            .nav-item span {
+                font-size: 8.5px;
+            }
 
-            .dash-body { padding: 12px 12px calc(var(--nav-h) + var(--safe-bottom) + 20px); }
-            .contact-body { padding: 12px; }
+            /* Status grid — keep 4 cols but tighter */
+            .status-card {
+                padding: 8px 4px;
+            }
 
+            .status-card-icon {
+                width: 24px;
+                height: 24px;
+                margin-bottom: 4px;
+            }
+
+            .status-card-icon svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            /* Quick actions */
+            .qa-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .qa-icon svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            .qa-label {
+                font-size: 8px;
+            }
+
+            /* Dash body */
+            .dash-body {
+                padding: 12px 12px calc(var(--nav-h) + var(--safe-bottom) + 20px);
+            }
+
+            /* Contact / Services body padding */
+            .contact-body {
+                padding: 12px;
+            }
+
+            /* Modals — full width with less horizontal padding */
             .modal-box,
-            .reg-modal { margin: 0 8px; }
+            .reg-modal {
+                margin: 0 8px;
+            }
         }
 
         /* ══════════════════════════════════════════
            RESPONSIVE — very small phones (≤ 360px)
         ══════════════════════════════════════════ */
         @media (max-width: 360px) {
-            html { font-size: 75%; }
+            html {
+                font-size: 75%;
+            }
 
-            .hero { height: 185px; }
+            /* 12px base */
+
+            .hero {
+                height: 185px;
+            }
+
             #tab-home .hero,
             #tab-activities .hero,
-            #tab-more .hero { height: 155px; }
+            #tab-more .hero {
+                height: 155px;
+            }
 
-            .nav-item span { display: none; }
-            .nav-ico-wrap  { width: 34px; height: 34px; }
-            .nav-item svg  { width: 21px; height: 21px; }
-            :root { --nav-h: 48px; }
+            /* Nav: hide labels on tiny screens to prevent overflow */
+            .nav-item span {
+                display: none;
+            }
 
-            .status-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            .dash-body { padding: 10px 10px calc(var(--nav-h) + var(--safe-bottom) + 16px); }
+            .nav-ico-wrap {
+                width: 34px;
+                height: 34px;
+            }
+
+            .nav-item svg {
+                width: 21px;
+                height: 21px;
+            }
+
+            :root {
+                --nav-h: 48px;
+            }
+
+            /* Status grid — 2×2 on very small */
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .dash-body {
+                padding: 10px 10px calc(var(--nav-h) + var(--safe-bottom) + 16px);
+            }
         }
     </style>
 </head>
@@ -2733,8 +2867,9 @@
                     <div class="hero-content">
                         <div class="hero-top">
                             <div class="hero-logo">
-                                <img id="heroLogoImg" src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png"
-                                    alt="Sanwar RV Resort" style="height:70px;width:auto;display:block;"
+                                <img id="heroLogoImg"
+                                    src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png"
+                                    alt="Stone Mountain Park" style="height:70px;width:auto;display:block;"
                                     fetchpriority="high" decoding="async">
                             </div>
                             <div class="hero-bell" id="heroBell" onclick="openNotifOverlay()">
@@ -2747,7 +2882,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Sanwar RV Resort</div>
+                            <div class="hero-title">Stone Mountain Park</div>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>
@@ -2802,12 +2937,12 @@
                                             d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                                     </svg></div><span class="qa-label">Contact</span>
                             </div>
-                            <div class="qa-btn" id="qa-rules" onclick="openWifi()">
+                            <div class="qa-btn" id="qa-rules" onclick="openRules()">
                                 <div class="qa-icon ic-wifi"><svg viewBox="0 0 24 24" fill="none" stroke="#0891b2"
-                                        stroke-width="2" stroke-linecap="round">
-                                        <path
-                                            d="M1.5 8.5a15 15 0 0121 0M5 12a11 11 0 0114 0M8.5 15.5a6 6 0 017 0M12 19h.01" />
-                                    </svg></div><span class="qa-label">WiFi</span>
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 11l3 3L22 4" />
+                                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                                    </svg></div><span class="qa-label">Rules</span>
                             </div>
                         </div>
                     </div>
@@ -2859,16 +2994,16 @@
                 <div style="background:#fff;padding:14px 16px 12px;flex-shrink:0;border-bottom:1px solid #f0f0f0;">
                     <div
                         style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
-                        Sanwar Rv Resort</div>
-                    
+                        Stone Mountain Park</div>
+                    <div style="font-size:20px;font-weight:700;color:#111827;margin-bottom:2px;">Park Map</div>
                     <div style="font-size:12px;color:#9ca3af;">Pinch or double-tap to zoom · Drag to move when zoomed
                     </div>
                 </div>
                 <div id="mapContainer"
                     style="flex:1;min-height:0;overflow:hidden;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;touch-action:none;padding:12px 12px calc(var(--nav-h) + var(--safe-bottom) + 12px);">
                     <img id="mapImg"
-                        src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47aa96989afcfcc9ff72d0.jpg"
-                        alt="Sanwar Rv Resort Map"
+                        src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a315713dd7879239a2d4612.png"
+                        alt="Stone Mountain Park Map"
                         style="max-width:100%;max-height:100%;width:auto;height:auto;display:block;object-fit:contain;transform-origin:center center;user-select:none;-webkit-user-drag:none;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.15);"
                         loading="lazy" decoding="async" draggable="false">
                 </div>
@@ -3065,7 +3200,7 @@
                                 </div>
                                 <div class="more-item-arrow">›</div>
                             </div>
-                            <div class="more-item" id="more-item-amenities" onclick="openAmenitiesInfo()">
+                            <div class="more-item" id="more-item-amenities" onclick="openAmenitiesPicker()">
                                 <div class="more-item-icon" style="background:#e0f7fa"><svg viewBox="0 0 24 24"
                                         fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round">
                                         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
@@ -3073,7 +3208,7 @@
                                     </svg></div>
                                 <div class="more-item-text">
                                     <div class="more-item-title">Amenities</div>
-                                    <div class="more-item-sub">Pool · Playground · Events &amp; More</div>
+                                    <div class="more-item-sub">Fishing · Outpost · Golf Club</div>
                                 </div>
                                 <div class="more-item-arrow">›</div>
                             </div>
@@ -3230,6 +3365,19 @@
                                 </div>
                                 <div class="more-item-arrow">›</div>
                             </div>
+                            <div class="more-item" id="more-item-notifSettings" onclick="openNotifSettingsModal()">
+                                <div class="more-item-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24"
+                                        fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                        <path d="M13.73 21a2 2 0 01-3.46 0" />
+                                    </svg></div>
+                                <div class="more-item-text">
+                                    <div class="more-item-title">Notification Settings</div>
+                                    <div class="more-item-sub">Turn alerts on or off</div>
+                                </div>
+                                <div class="more-item-arrow">›</div>
+                            </div>
 
                         </div>
 
@@ -3253,34 +3401,119 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <div class="contact-section-label">Follow Us</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:14px 16px;">
-                        <div style="text-align:center;">
-                            <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">Follow Sanwar on social media!</div>
-                            <div style="display:flex;justify-content:center;gap:10px;">
-                                <a href="https://www.instagram.com/sanwar.rv.resort/" target="_blank" rel="noopener noreferrer" style="width:38px;height:38px;border-radius:50%;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
-                                </a>
-                                <a href="https://www.facebook.com/SanWarRV/" target="_blank" rel="noopener noreferrer" style="width:38px;height:38px;border-radius:50%;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.25-1.5 1.5-1.5H16.5V4.3c-.26-.03-1.15-.1-2.2-.1-2.17 0-3.65 1.32-3.65 3.75V10.5H8v3h2.65V21h2.85z"/></svg>
-                                </a>
-                                <a href="https://www.youtube.com/@SanwarRVPark" target="_blank" rel="noopener noreferrer" style="width:38px;height:38px;border-radius:50%;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="#fff"><path d="M23 12s0-3.5-.45-5.2a2.9 2.9 0 00-2.05-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.5.5a2.9 2.9 0 00-2.05 2C1 8.5 1 12 1 12s0 3.5.45 5.2a2.9 2.9 0 002.05 2c1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5a2.9 2.9 0 002.05-2C23 15.5 23 12 23 12z"/><path d="M9.75 15.5V8.5l6 3.5z" fill="#111827"/></svg>
-                                </a>
-                                <a href="https://www.tiktok.com/@sanwar.rv.resort" target="_blank" rel="noopener noreferrer" style="width:38px;height:38px;border-radius:50%;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M16.5 2h-3v13.5a3 3 0 11-3-3c.35 0 .68.06 1 .16V9.5a6 6 0 105 5.92V9.2c1.2.86 2.67 1.36 4.25 1.36V7.5c-1.9 0-3.6-1-4.25-2.36V2z"/></svg>
-                                </a>
-                            </div>
+                    <div class="contact-section-label">Main Line</div>
+                    <a class="contact-main-call" href="tel:4784786686">
+                        <div class="contact-main-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-main-text">
+                            <div class="contact-main-label">Guest Services</div>
+                            <div class="contact-main-number">(478) 478-6686</div>
+                            <div class="contact-main-hours">Daily, 9:00 a.m. – 7:00 p.m.</div>
                         </div>
-                        <div style="text-align:center;">
-                            <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">Follow Ghost Town Saloon on social media!</div>
-                            <div style="display:flex;justify-content:center;gap:10px;">
-                                <a href="https://www.facebook.com/profile.php?id=61565497955019" target="_blank" rel="noopener noreferrer" style="width:38px;height:38px;border-radius:50%;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.25-1.5 1.5-1.5H16.5V4.3c-.26-.03-1.15-.1-2.2-.1-2.17 0-3.65 1.32-3.65 3.75V10.5H8v3h2.65V21h2.85z"/></svg>
-                                </a>
-                            </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                </div>
+                <div class="contact-section">
+                    <div class="contact-section-label">Other Numbers</div>
+                    <a class="contact-row" href="tel:7704135333">
+                        <div class="contact-row-icon" style="background:#fef2f2"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#ef4444" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">SMP Police Emergency #</div>
+                            <div class="contact-row-value">770-413-5333</div>
                         </div>
-                    </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704985675">
+                        <div class="contact-row-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#f97316" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Non-Emergency #</div>
+                            <div class="contact-row-value">770-498-5675</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704135276">
+                        <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">CG Welcome Center</div>
+                            <div class="contact-row-value">770-413-5276</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:4048951038">
+                        <div class="contact-row-icon" style="background:#fdf4ff"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#9333ea" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">After Hours Host</div>
+                            <div class="contact-row-value">404-895-1038</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704985710">
+                        <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#2563eb" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Call Center</div>
+                            <div class="contact-row-value">770-498-5710</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704983272">
+                        <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">SMP Golf Course</div>
+                            <div class="contact-row-value">770-498-3272</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704653260">
+                        <div class="contact-row-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#f97316" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Commons Restaurant</div>
+                            <div class="contact-row-value">770-465-3260</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7704653240">
+                        <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#2563eb" stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Waterside Restaurant</div>
+                            <div class="contact-row-value">770-465-3240</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
                 </div>
                 <div class="contact-section">
                     <div class="contact-section-label">Welcome Center Hours</div>
@@ -3295,8 +3528,8 @@
                 </div>
                 <div class="contact-section">
                     <div class="contact-section-label">Mailing Address</div>
-                    <div class="contact-address">Sanwar RV Resort<br>1181 GA Hwy 15 North<br>Sandersville, GA
-                        31082</div>
+                    <div class="contact-address">Stone Mountain Park<br>4003 Stonewall Jackson Dr<br>Stone Mountain, GA
+                        30083</div>
                 </div>
             </div>
         </div>
@@ -3352,7 +3585,7 @@
                         <div class="contact-row-arrow">›</div>
                     </a>
                     <div class="contact-row"
-                        onclick="window.open('https://booking.staylist.app/Sanwar','_blank','noopener,noreferrer')"
+                        onclick="window.open('https://www.campspot.com/book/stone-mountain-park','_blank','noopener,noreferrer')"
                         style="cursor:pointer;">
                         <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none"
                                 stroke="#16a34a" stroke-width="2" stroke-linecap="round">
@@ -3364,7 +3597,7 @@
                             </svg></div>
                         <div class="contact-row-text">
                             <div class="contact-row-label">Book Online</div>
-                            <div class="contact-row-value">Sanwar Reservations</div>
+                            <div class="contact-row-value">Campspot Reservations</div>
                         </div>
                         <div class="contact-row-arrow">›</div>
                     </div>
@@ -3677,74 +3910,6 @@
             </div>
         </div>
 
-        <!-- AMENITIES INFO OVERLAY -->
-        <div id="tab-amenities-info"
-            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
-            <div class="contact-header" style="background:linear-gradient(135deg,#1a56db,#1e3a8a);">
-                <div class="contact-back" onclick="closeAmenitiesInfo()">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                    Back
-                </div>
-                <h2>Amenities</h2>
-                <p>Everything Sanwar has to offer</p>
-            </div>
-            <div class="contact-body">
-                <div class="rules-section">
-                    <div class="rules-rule" style="border-top:none;display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#e0f7fa;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round"><path d="M2 8c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0M2 14c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0M2 20c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">Pools, Lazy River, &amp; Splash Pad</div>
-                            <div class="rules-rule-body">Take a dip in the pool, catch a ride on the lazy river, and get ready to splash.</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#fdf4ff;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round"><rect x="4" y="9" width="16" height="12" rx="1"/><path d="M9 21v-6h6v6"/><path d="M4 9l8-6 8 6"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">Youth Center &amp; Playground</div>
-                            <div class="rules-rule-body">Come play some classic arcade games at the Youth Center, then check out the playground. Full of Sanwar's unique charm, this is where kids make memories that will last a lifetime. Please request access.</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#f0fdf4;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="16" r="3.2"/><path d="M10.3 10.3l3.4 3.4"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">PickleBall, Volleyball, &amp; Basketball</div>
-                            <div class="rules-rule-body">Feeling competitive? Jump into a game of volleyball on our professional court, challenge your friends to a game of pickleball, or shoot some hoops at the basketball court.</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#fef9c3;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M4.9 4.9l2.8 2.8M2 12h4M4.9 19.1l2.8-2.8M12 18v4M16.3 16.3l2.8 2.8M18 12h4M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="2.2"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">Seasonal and Weekly Events</div>
-                            <div class="rules-rule-body">We host a whole array of events. Including: Seasonal events, live entertainment, vendors, games and more!</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#fff7ed;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M9 2h6v4l1.5 2.5v10a2 2 0 01-2 2h-5a2 2 0 01-2-2v-10L9 6z"/><line x1="9" y1="11" x2="15" y2="11"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">The Lodge / Ghost Town Saloon</div>
-                            <div class="rules-rule-body">Ready for a bite to eat and an ice cold drink? We've got you covered. Ghost Town Saloon is located inside Sanwar RV Park &amp; Resort. Open to campers and the public. Forgot something? Swing by the General Store to find all of the necessities!</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#eff6ff;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18M9 3l3 5 3-5M12 8l-3 5 3 8 3-8z"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">Gem Mining</div>
-                            <div class="rules-rule-body">Get ready to strike gold! Our gem mining experience is fun for the whole family.</div>
-                        </div>
-                    </div>
-                    <div class="rules-rule" style="display:flex;gap:12px;align-items:flex-start;">
-                        <div class="more-item-icon" style="background:#e0f7fa;flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round"><path d="M2 12s3-5 9-5 9 5 9 5-3 5-9 5-9-5-9-5z"/><circle cx="16" cy="12" r="1"/><path d="M2 12c0-2 1-3 1-3"/></svg></div>
-                        <div>
-                            <div class="rules-rule-title">Stocked Ponds</div>
-                            <div class="rules-rule-body">Pack your rod and reel. Our stocked, catch-and-release pond is full of bream and bass, with a second pond stocked with catfish to be completed in 2025.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- PREMIUM SITES OVERLAY -->
         <div id="tab-premium-sites"
             style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
@@ -3756,16 +3921,13 @@
                     Back
                 </div>
                 <h2>Premium Sites</h2>
-                <p>Sanwar RV Resort</p>
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a46589762d435fa9529853f.jpg"
-                        alt="Premium Sites"
+                    <img src="" alt="Premium Sites"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Close to all of the amenities and easy to access, our premium sites come with their very own
-                        outdoor kitchen, equipped with a gas grill or Blackstone cooktop.
+                        Add a description of the Premium Sites here.
                     </div>
                     <button onclick="openBookingWebview()"
                         style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
@@ -3785,16 +3947,13 @@
                     Back
                 </div>
                 <h2>Waterfront</h2>
-                <p>Sanwar RV Resort</p>
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465897e098dfac37aa3d43.jpg"
-                        alt="Waterfront"
+                    <img src="" alt="Waterfront"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        By the pools or by the ponds, our waterfront sites are designed to help you reconnect with
-                        nature, while still embracing modern comforts.
+                        Add a description of the Waterfront sites here.
                     </div>
                     <button onclick="openBookingWebview()"
                         style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
@@ -3814,16 +3973,13 @@
                     Back
                 </div>
                 <h2>Buddy Sites</h2>
-                <p>Sanwar RV Resort</p>
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465897ac41ea59b0db2fb8.jpg"
-                        alt="Buddy Sites"
+                    <img src="" alt="Buddy Sites"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Traveling with a group just got a whole lot easier. Buddy sites face each other and share
-                        their outdoor lots.
+                        Add a description of the Buddy Sites here.
                     </div>
                     <button onclick="openBookingWebview()"
                         style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
@@ -3843,22 +3999,13 @@
                     Back
                 </div>
                 <h2>The Big Cabin</h2>
-                <p>Sanwar RV Resort</p>
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465cd5d0f48753964aa797.png"
-                        alt="The Big Cabin"
+                    <img src="" alt="The Big Cabin"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        With a queen sized bed on the bottom floor and a full sized bed on the loft, The Big Cabin has
-                        been the home base for countless family adventures. The Big Cabin comes with it's own full
-                        bathroom, an outdoor kitchen, and a firepit for entertaining your own way. Additionally, the
-                        Big Cabin sits next door to the included Bunk House. Inside, you'll find two twin bunk beds
-                        and a full sized pull-out futon — a kid's dream camping destination!
-                        <br><br>
-                        For an additional fee, the Big Cabin has it's own, private RV site. Contact us today to learn
-                        more!
+                        Add a description of The Big Cabin here.
                     </div>
                     <button onclick="openBookingWebview()"
                         style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
@@ -3878,19 +4025,13 @@
                     Back
                 </div>
                 <h2>Small Cabins</h2>
-                <p>Sanwar RV Resort</p>
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465cd562d435fa952a1b07.png"
-                        alt="Small Cabins"
+                    <img src="" alt="Small Cabins"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Our three small cabins are all you need, and nothing you don't. With a queen bed on the main
-                        floor and a twin bed in the top loft, there is ample space for a small family or group! The
-                        small cabins overlook the pond for a picturesque vacation moment. Just steps away from a bath
-                        house, the playground, Ghost Town Saloon, and the pools, our small cabins take the stress out
-                        of your vacation! Small Cabins have a microwave, minifridge, and AC.
+                        Add a description of the Small Cabins here.
                     </div>
                     <button onclick="openBookingWebview()"
                         style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
@@ -3909,154 +4050,22 @@
                     Back
                 </div>
                 <h2>Rules &amp; Regulations</h2>
-                <p>Everything you need to know to plan your trip to Sanwar</p>
+                <p>Park policies for a safe and enjoyable visit</p>
             </div>
             <div class="contact-body">
 
-                <!-- FAQs -->
-                <div class="rules-section">
-                    <div class="rules-section-label">❓ FAQs</div>
+                <!-- Emergency Numbers -->
+                <div class="rules-section" style="border-left:4px solid #ef4444;">
+                    <div class="rules-section-label" style="color:#ef4444;">🚨 Emergency Numbers</div>
                     <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-title">Is Sanwar open to the public?</div>
-                        <div class="rules-rule-body">Ghost Town Saloon is open to the public. Park amenities,
-                            including the pools, lazy river, and youth center are only available to campers.</div>
+                        <div class="rules-rule-title">SMP Police Emergency</div>
+                        <div class="rules-rule-body"><a href="tel:7704135333"
+                                style="color:#ef4444;font-weight:700;text-decoration:none;">770-413-5333</a></div>
                     </div>
                     <div class="rules-rule">
-                        <div class="rules-rule-title">Does Sanwar offer long-term, monthly, or seasonal sites?</div>
-                        <div class="rules-rule-body">In the Resort, there is a maximum stay of 2 weeks. However, we do
-                            have a seasonal section. Please call us for details about long-term stays, availability,
-                            and pricing.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">I don't have an RV, but I want to experience Sanwar. Can I
-                            purchase an RV site for tent camping?</div>
-                        <div class="rules-rule-body">We have cabins available for booking at Sanwar for our campers
-                            that aren't RV-ers. Currently, an RV must be present to check in to an RV site.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">I have an RV. Can I set up a tent on my site as well?</div>
-                        <div class="rules-rule-body">Yes, as long as each site remains within allowed occupancy levels
-                            (6 or less people per site).</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">I'm traveling with a group. How can I make sure our sites are
-                            next to each other?</div>
-                        <div class="rules-rule-body">Check out our buddy sites, where you share the same outdoor space
-                            with your neighbor. Found a site you love? Make sure you lock your site at checkout. This
-                            <strong>$20 lock site fee</strong> ensures your sites are not changed, especially during
-                            peak camping season (Memorial Day to Labor Day).</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Is Sanwar family friendly?</div>
-                        <div class="rules-rule-body">Absolutely! We take pride in creating a safe, comfortable, and
-                            fun environment for the entire family.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">How do I rent a golf cart?</div>
-                        <div class="rules-rule-body">Golf carts can now be reserved in advance, and they are rented
-                            out on a first-come-first-serve basis only. Daily rental is <strong>$75</strong>, and
-                            weekend rental is <strong>$150</strong>. Lessee must present their valid driver's
-                            license.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Can I bring my own golf cart?</div>
-                        <div class="rules-rule-body">Yes! Guests are welcome to bring their own gas or electric
-                            powered golf carts. Absolutely no UTVs, side-by-sides, ATVs, minibikes, or other
-                            powersport equipment will be allowed.</div>
-                    </div>
-                </div>
-
-                <!-- Cancellation Policy -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Cancellation Policy</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-body">
-                            Cancellation 8+ days before a reservation date will incur <strong>no cancellation
-                                fee</strong>.<br><br>
-                            Cancellation 7–3 days before a reservation date will incur <strong>1/2 of the reservation
-                                total</strong>.<br><br>
-                            Cancellation 2 days to the day of the reservation date will incur the <strong>full
-                                reservation amount</strong>.<br><br>
-                            <em>This information is also available in our booking confirmation email.</em>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- General Park Rules -->
-                <div class="rules-section">
-                    <div class="rules-section-label">General</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-body">
-                            Tenants and Guests are responsible for any damage or injury caused by themselves, their
-                            children and/or pets. Tenant assumes any and all risks associated with the foregoing and
-                            agrees to hold Landlord harmless from and indemnify Landlord against the same. The resort
-                            is not responsible for personal injuries or damage, loss or theft of any personal property
-                            or vehicle. We reserve the right to evict any person(s) who does not comply with the rules
-                            and policies.
-                        </div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Trash</div>
-                        <div class="rules-rule-body">Trash will be picked up from your site — please have it out
-                            before <strong>8:30 AM</strong>. Any cardboard boxes are not our responsibility; it must
-                            be bagged trash. If you leave your site with boxes or any unbagged trash, there will be a
-                            <strong>$50 fee</strong> charged to your card. Do not leave trash out overnight.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Mail &amp; Packages</div>
-                        <div class="rules-rule-body">Sanwar RV Park does not allow the delivery of mail or packages
-                            to any guests. Guests must plan to have their mail or packages delivered to a third-party
-                            location for pickup.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">RVs, Motorhomes &amp; Travel Trailers</div>
-                        <div class="rules-rule-body">All Motorhomes, RVs or Travel Trailers must be in good working
-                            order and appearance. (Anything seven years old or older must be approved before coming to
-                            the park.) We reserve the right to refuse access to any guests whose vehicle is deemed to
-                            be unacceptable.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Occupancy</div>
-                        <div class="rules-rule-body">The total number of guests in any space cannot exceed the
-                            maximum capacity for that site. A maximum of <strong>6 people</strong> total at RV sites
-                            at any given time. Any person that is NOT staying with you in your RV/Tent/Cabin is
-                            <strong>not permitted — no visitors.</strong></div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Vehicles on Site</div>
-                        <div class="rules-rule-body">Only 1 RV and a maximum of 2 other vehicles allowed per site —
-                            the first vehicle is no charge, the second vehicle will have a fee attached. No vehicles
-                            can block any portion of the roadway. Vehicles may park in designated spaces only.
-                            Maintenance and washing of RVs or vehicles on property is not allowed.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Storage &amp; Overnight Parking</div>
-                        <div class="rules-rule-body">No overnight parking or storage of trailers, boats, jet skis or
-                            utility trailers is allowed. Boats, boat trailers, cargo trailers or car dollies are not
-                            allowed on sites — storage is available for a fee in our storage lot.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Not Allowed on Site</div>
-                        <div class="rules-rule-body">Deep fryers and tiki torches are <strong>prohibited</strong>.
-                            Propane grills and propane fire pits are allowed. Blow-up mattresses, sleeping bags and
-                            cots are not allowed outside. The use of any paint products or chemicals is prohibited.
-                            Clotheslines are not allowed. Guests may not hang any items from the trees.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Site Upkeep</div>
-                        <div class="rules-rule-body">All sites are to be kept neat and clean for the duration of your
-                            stay. <strong>No rugs on grass.</strong></div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Drones</div>
-                        <div class="rules-rule-body">Drones or other remote-controlled machines may not be used at
-                            any time on the property.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Wildlife</div>
-                        <div class="rules-rule-body">Sanwar is a natural wildlife habitat area. There are coyotes,
-                            birds of prey and reptiles. All guests should ensure pets and small children are
-                            supervised at all times.</div>
+                        <div class="rules-rule-title">Non-Emergency</div>
+                        <div class="rules-rule-body"><a href="tel:7704985675"
+                                style="color:#1a56db;font-weight:700;text-decoration:none;">770-498-5675</a></div>
                     </div>
                 </div>
 
@@ -4065,103 +4074,173 @@
                     <div class="rules-section-label">Check-In &amp; Check-Out</div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Check-In Time</div>
-                        <div class="rules-rule-body">All Sites: <strong>1:00 PM</strong></div>
+                        <div class="rules-rule-body"><strong>2:00 PM</strong> — A valid Driver's License or government
+                            ID is required. Guests must be 18 or older to register.</div>
                     </div>
                     <div class="rules-rule">
                         <div class="rules-rule-title">Check-Out Time</div>
-                        <div class="rules-rule-body">All Sites: <strong>11:00 AM</strong></div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Late Check-Out Policy</div>
-                        <div class="rules-rule-body">The front desk may be able to arrange a late checkout, if
-                            available. Additional fees may apply. In order to ensure availability for incoming guests,
-                            please plan prompt departures.</div>
-                    </div>
-                </div>
-
-                <!-- Safety -->
-                <div class="rules-section" style="border-left:4px solid #ef4444;">
-                    <div class="rules-section-label" style="color:#ef4444;">⚠️ Safety</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-title">Pool &amp; Splash Pad</div>
-                        <div class="rules-rule-body">Pool and lazy river hours are <strong>9:00 AM – 9:00 PM</strong>.
-                            No glass containers allowed at the pool or splash pad area. <strong>No lifeguard on duty
-                                in pool or splash pad areas — use at your own risk.</strong> Children under 14 must
-                            always be accompanied by an adult in the pool area.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Weapons &amp; Fireworks</div>
-                        <div class="rules-rule-body">The use of firearms of any kind is <strong>prohibited</strong>
-                            in the Resort. The use of archery, paintball, slingshots or air guns is prohibited.
-                            Fireworks of any kind are prohibited.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Conduct</div>
-                        <div class="rules-rule-body">Use of illegal drugs is prohibited. Obnoxious behavior of any
-                            kind is prohibited.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Speed &amp; Vehicles</div>
-                        <div class="rules-rule-body">Speed limit on property is <strong>5 MPH</strong>. Motorcycles
-                            must be in idle speed when traveling through the Resort. Only persons with a valid
-                            driver's license may operate a motor vehicle in the Resort, including golf carts,
-                            scooters, etc. Vehicles may only be used to enter and exit the park — we have golf carts
-                            available to rent for riding around.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Golf Carts</div>
-                        <div class="rules-rule-body">Guests may bring their own electric or gas operated golf carts.
-                            No side-by-sides, UTVs, ATVs, or any other type of powersport equipment with all-terrain
-                            tires will be allowed.</div>
-                    </div>
-                    <div class="rules-rule">
-                        <div class="rules-rule-title">Vandalism</div>
-                        <div class="rules-rule-body">Vandalism of any kind by anyone in your group (regardless of
-                            age) may result in eviction from the resort.</div>
-                    </div>
-                </div>
-
-                <!-- Security -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Security</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-body">Management is not responsible for lost, stolen, or damaged
-                            articles — keep your valuables locked up. Report any problems with your site to the Main
-                            Office immediately. We adhere to and maintain all state, county, and local laws on
-                            property.</div>
-                    </div>
-                </div>
-
-                <!-- Quiet Hours -->
-                <div class="rules-section">
-                    <div class="rules-section-label">🌙 Quiet Hours</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-body">Quiet hours are from <strong>11:00 PM to 8:00 AM</strong>. Please
-                            be courteous to other guests around you. Loud music or objectionable noise is not allowed
-                            at any time. Inconsiderate guests will be evicted from the park. Profanity or violence
-                            towards other guests or Resort staff will result in immediate eviction from the park.
-                            <strong>Guests violating rules that result in eviction notice will not receive any
-                                refunds for their stay.</strong></div>
-                    </div>
-                </div>
-
-                <!-- Pet Policy -->
-                <div class="rules-section">
-                    <div class="rules-section-label">🐾 Pet Policy</div>
-                    <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-body">
-                            We reserve the right to refuse service to anyone whose pet is not considered suitable to
-                            the serenity/safety of our guests or the Resort. Pets must be kept on a leash under the
-                            control of someone who can always manage all animals. There is a <strong>two-pet
-                                limit</strong> in the resort. No exotic or oversized pets are permitted — this
-                            includes all reptiles or large birds. All pets must be registered at the Front Desk upon
-                            arrival, or online. Pets may not be left outside unattended. Guests are responsible to
-                            clean up after their pets and should carry proof of pet's current vaccinations. Pets are
-                            prohibited in resort buildings and amenity areas. Resort is not responsible for, and will
-                            hold accountable, pet owners for any injury or damage caused by their pet(s). Service
-                            animals may accompany a disabled person without any proof of disability or certification
-                            for the service animal.
+                        <div class="rules-rule-body">Lodging: <strong>11:00 AM</strong> &nbsp;|&nbsp; RVs &amp; Tents:
+                            <strong>12:00 PM</strong>
                         </div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Site Changes &amp; Extensions</div>
+                        <div class="rules-rule-body">Register by <strong>10:00 AM</strong> to move to a new site or
+                            extend your stay. For late check-out, call the office on your departure day.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Maximum Length of Stay</div>
+                        <div class="rules-rule-body">RV Sites: <strong>14 days</strong> (see manager to extend)
+                            &nbsp;|&nbsp; Lodging &amp; Tent Sites: <strong>7 days</strong></div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Camp Credit</div>
+                        <div class="rules-rule-body">May be available for RV/Tent Sites if you leave by 12 PM at least 1
+                            day before your scheduled departure. <strong>No Camp Credit during holidays.</strong></div>
+                    </div>
+                </div>
+
+                <!-- Site Rules -->
+                <div class="rules-section">
+                    <div class="rules-section-label">Site Rules</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">Occupancy</div>
+                        <div class="rules-rule-body">Each RV Site is for <strong>one RV only</strong>. Pricing is based
+                            on 5 guests per site. Additional guests are <strong>$5.00/night</strong>. No refund on
+                            Lodging once checked in.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Water Pressure</div>
+                        <div class="rules-rule-body"><strong>Water Pressure Regulators must be used at all
+                                sites.</strong></div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Tents</div>
+                        <div class="rules-rule-body">Tents are only allowed on designated tent sites (brown and yellow
+                            sites). One tent on Primitive Sites, two on Yellow Sites.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Vehicles on Site</div>
+                        <div class="rules-rule-body">Two vehicles max per site (car, truck, van, SUV, street-legal
+                            motorcycle) plus a golf cart. <strong>ATVs, UTVs, Go Carts, and Dirt Bikes are
+                                prohibited.</strong> All vehicles must have a current tag and hang tag — get your hang
+                            tag at the Welcome Center with your receipt.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Vehicle Camping</div>
+                        <div class="rules-rule-body">Camping in your vehicle, unless self-contained, is prohibited per
+                            Stone Mountain Park Ordinances.</div>
+                    </div>
+                </div>
+
+                <!-- Quiet Hours & Conduct -->
+                <div class="rules-section">
+                    <div class="rules-section-label">Quiet Hours &amp; Conduct</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">🌙 Quiet Hours</div>
+                        <div class="rules-rule-body"><strong>11:00 PM – 7:00 AM.</strong> Call SMP PD Non-Emergency for
+                            noise complaints: <a href="tel:7704985675"
+                                style="color:#1a56db;font-weight:700;text-decoration:none;">770-498-5675</a></div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Speed Limit</div>
+                        <div class="rules-rule-body"><strong>15 MPH</strong> inside the campground.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Children &amp; Bicycles</div>
+                        <div class="rules-rule-body">Parents are responsible for the actions and safety of their
+                            children. Georgia law requires all riders age 15 and younger to wear a helmet when biking.
+                        </div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Pool</div>
+                        <div class="rules-rule-body">Registered campground guests may use the pool (open seasonally).
+                            <strong>No lifeguard on duty — swim at your own risk.</strong>
+                        </div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Fireworks</div>
+                        <div class="rules-rule-body">Fireworks of any kind are <strong>prohibited by law.</strong>
+                            Defacing, cutting down, or driving nails into trees is also prohibited.</div>
+                    </div>
+                </div>
+
+                <!-- Waste & Environment -->
+                <div class="rules-section">
+                    <div class="rules-section-label">Waste &amp; Environment</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">🗑️ Garbage Pickup</div>
+                        <div class="rules-rule-body">Curbside at your site <strong>9 AM – 4 PM</strong>. Bag all trash
+                            in kitchen-size bags or larger.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Wastewater</div>
+                        <div class="rules-rule-body">Georgia State Health Department prohibits emptying any liquids
+                            (including dishwater) at campsites. Use the designated <strong>Dump Station</strong> for all
+                            wastewater. Do not pour fats, oils, or grease into sinks, dump stations, or sewage lines.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pets -->
+                <div class="rules-section">
+                    <div class="rules-section-label">🐾 Pets</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">Leash &amp; Control</div>
+                        <div class="rules-rule-body">Keep pets on a leash and under control at all times. Clean up after
+                            your pet in all areas.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Unattended Pets</div>
+                        <div class="rules-rule-body">Do not leave dogs unattended outside. Keep pets quiet during quiet
+                            hours.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Lodging &amp; Welcome Center</div>
+                        <div class="rules-rule-body">Pets are <strong>NOT allowed</strong> in or around lodging areas or
+                            in the Campground Welcome Center.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Aggressive Dogs</div>
+                        <div class="rules-rule-body">Pets that interfere with the guest experience or show aggression
+                            will be required to leave the campground.</div>
+                    </div>
+                </div>
+
+                <!-- Weather Alert -->
+                <div class="rules-section" style="border-left:4px solid #ef4444;">
+                    <div class="rules-section-label" style="color:#ef4444;">⚡ Weather Alert System</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">Horn Signals</div>
+                        <div class="rules-rule-body">
+                            <strong>1 long blast (15 sec)</strong> — Lightning detected within 10 miles.<br>
+                            <strong>3 short blasts</strong> — Lightning has cleared.<br>
+                            <strong>Continuous horn</strong> — Severe weather approaching, seek shelter immediately.
+                        </div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Emergency Shelters</div>
+                        <div class="rules-rule-body">
+                            🏠 CS#4 — Trail F &nbsp;|&nbsp; CS#5 — Trail C<br>
+                            🏠 CS#6 — Trail A &nbsp;|&nbsp; CS#8 — Trail N
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liability -->
+                <div class="rules-section">
+                    <div class="rules-section-label">Liability &amp; Compliance</div>
+                    <div class="rules-rule" style="border-top:none;">
+                        <div class="rules-rule-title">Waiver Required</div>
+                        <div class="rules-rule-body">All campground guests must sign a waiver at or before check-in.
+                            Stone Mountain Park is not responsible for lost/stolen articles or personal injury/damage
+                            from any cause.</div>
+                    </div>
+                    <div class="rules-rule">
+                        <div class="rules-rule-title">Right to Remove</div>
+                        <div class="rules-rule-body">Stone Mountain Park Campground reserves the right to remove any
+                            guest from the premises, <strong>without refund</strong>, for failure to comply with
+                            campground rules, park regulations, or applicable laws.</div>
                     </div>
                 </div>
 
@@ -4349,7 +4428,7 @@
                     Back
                 </div>
                 <h2>Campground Newsletter</h2>
-                <p>Sanwar Rv Resort Campground</p>
+                <p>Stone Mountain Park Campground</p>
             </div>
             <div class="contact-body" id="newsletterBody" style="padding:0;">
 
@@ -4646,11 +4725,11 @@
                             </div>
                         </div>
                         <!-- Communication Authorization Section -->
-                        <div
+                        <div id="commAuthCard"
                             style="background:#f0fdf4;border:1px solid #dcfce7;border-radius:12px;padding:14px;margin-bottom:14px;margin-top:16px;">
                             <!-- Title row: bell icon + title -->
                             <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                <svg class="comm-auth-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                     style="flex-shrink:0;">
                                     <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -4672,7 +4751,7 @@
                                 </label>
                             </div>
                             <!-- Security message row: shield icon + text -->
-                            <div style="display:flex;align-items:flex-start;gap:6px;font-size:10px;color:#059669;">
+                            <div class="comm-privacy-text" style="display:flex;align-items:flex-start;gap:6px;font-size:10px;color:#059669;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                     style="flex-shrink:0;margin-top:1px;">
@@ -4685,8 +4764,11 @@
                             <!-- Enable Notifications button -->
                             <button type="button" id="enableNotifsBtn" onclick="requestNotifPermission()"
                                 style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;padding:10px 14px;background:#fff;border:1.5px solid #059669;border-radius:10px;font-size:13px;font-weight:600;color:#059669;cursor:pointer;">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
-                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="flex-shrink:0;">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                    <path d="M13.73 21a2 2 0 01-3.46 0" />
                                 </svg>
                                 <span id="enableNotifsBtnLabel">Enable Push Notifications</span>
                             </button>
@@ -4819,6 +4901,40 @@
             </div>
         </div>
 
+        <!-- NOTIFICATION SETTINGS MODAL -->
+        <div class="wifi-modal-ov" id="notifSettingsModal" onclick="if(event.target===this)closeNotifSettingsModal()">
+            <div class="wifi-modal" style="padding-bottom:32px;">
+                <div class="wifi-modal-pill"></div>
+                <div class="wifi-modal-header" style="padding-bottom:16px;">
+                    <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#0ea5e9,#0891b2);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 01-3.46 0" />
+                        </svg>
+                    </div>
+                    <div class="wifi-modal-title">Notification Settings</div>
+                    <div class="wifi-modal-sub">Manage alerts &amp; updates</div>
+                </div>
+                <div class="wifi-modal-body">
+                    <div
+                        style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#f5f7ff;border:1px solid #e8ecff;border-radius:14px;padding:16px;">
+                        <div style="flex:1;">
+                            <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:3px;">Push
+                                Notifications</div>
+                            <div id="notifSettingsStatus" style="font-size:12px;color:#6b7280;line-height:1.4;">Turn on
+                                to receive announcements, event reminders, and updates.</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifSettingsToggle" onchange="onNotifSettingsToggle(this)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <button class="wifi-close-btn" onclick="closeNotifSettingsModal()">Done</button>
+            </div>
+        </div>
+
         <!-- BOTTOM NAV — inside #app so it never scrolls away -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-tab="home">
@@ -4933,8 +5049,8 @@
         function closeWifi() { document.getElementById('wifiModal').classList.remove('active'); }
 
         // ── Weather — Open-Meteo (no API key needed) ──
-        // Sandersville, GA: 32.9779°N, 82.8046°W
-        const WX_LAT = 32.9779, WX_LON = -82.8046;
+        // Stone Mountain, GA: 33.8082°N, 84.1704°W
+        const WX_LAT = 33.8082, WX_LON = -84.1704;
 
         // WMO weather code → { label, emoji }
         function wxCode(code) {
@@ -5002,7 +5118,7 @@
             // Load weather radar
             const radarEl = document.getElementById('weatherRadar');
             const loadingEl = document.getElementById('radarLoading');
-            radarEl.src = 'https://embed.windy.com/embed2.html?lat=32.98&lon=-82.80&detailLat=32.98&detailLon=-82.80&width=100%25&height=100%25&zoom=10&level=surface&overlay=radar&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarAnimation=1';
+            radarEl.src = 'https://embed.windy.com/embed2.html?lat=33.81&lon=-84.17&detailLat=33.81&detailLon=-84.17&width=100%25&height=100%25&zoom=10&level=surface&overlay=radar&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarAnimation=1';
             radarEl.style.display = '';
             loadingEl.style.display = 'none';
 
@@ -5052,8 +5168,24 @@
         // ── Fishing overlay ──
         function openFishing() { const el = document.getElementById('tab-fishing'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
         function closeFishing() { const el = document.getElementById('tab-fishing'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openAmenitiesInfo() { const el = document.getElementById('tab-amenities-info'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeAmenitiesInfo() { const el = document.getElementById('tab-amenities-info'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+
+        // ── RV Sites ──
+        function openRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.add('open'); }
+        function closeRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.remove('open'); }
+        function openPremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closePremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+
+        // ── Cabins ──
+        function openCabinsPicker() { document.getElementById('cabinsOverlay').classList.add('open'); }
+        function closeCabinsPicker() { document.getElementById('cabinsOverlay').classList.remove('open'); }
+        function openBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
 
         // ── Outpost overlay ──
         function openOutpost() { const el = document.getElementById('tab-outpost'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
@@ -5071,20 +5203,6 @@
         function closeTicketsSpecials() { document.getElementById('ticketsSpecialsOverlay').classList.remove('open'); }
         function openStoreGallery() { document.getElementById('storeGalleryOverlay').classList.add('open'); }
         function closeStoreGallery() { document.getElementById('storeGalleryOverlay').classList.remove('open'); }
-        function openRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.add('open'); }
-        function closeRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.remove('open'); }
-        function openPremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closePremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openCabinsPicker() { document.getElementById('cabinsOverlay').classList.add('open'); }
-        function closeCabinsPicker() { document.getElementById('cabinsOverlay').classList.remove('open'); }
-        function openBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
         function openAmenitiesPicker() { document.getElementById('amenitiesOverlay').classList.add('open'); }
         function closeAmenitiesPicker() { document.getElementById('amenitiesOverlay').classList.remove('open'); }
 
@@ -5255,8 +5373,15 @@
                         Available Days</div>
                     <div class="act-modal-days-cal" id="actModalDays"></div>
                 </div>
-                <button id="actModalCalBtn" onclick="addToCalendar(window.__openAct, window.__selectedActDateGlobal)" style="display:none;margin-top:18px;width:100%;padding:12px;border:none;border-radius:12px;background:#f0f7ff;color:#1d4ed8;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <button id="actModalCalBtn" onclick="addToCalendar(window.__openAct, window.__selectedActDateGlobal)"
+                    style="display:none;margin-top:18px;width:100%;padding:12px;border:none;border-radius:12px;background:#f0f7ff;color:#1d4ed8;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
                     Add to Calendar
                 </button>
             </div>
@@ -5289,8 +5414,8 @@
                 <button class="notif-close-btn" onclick="closeReservePicker()">✕</button>
             </div>
             <div style="padding:8px 0 4px;">
-                <div onclick="window.open('https://booking.staylist.app/Sanwar','_blank','noopener,noreferrer');closeReservePicker();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
+                <div onclick="window.open('https://stonemountainpark.com/campground/','_blank','noopener,noreferrer');closeReservePicker();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
                     <div
                         style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2"
@@ -5300,8 +5425,42 @@
                         </svg>
                     </div>
                     <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Sanwar RV Resort</div>
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Campground</div>
                         <div style="font-size:12px;color:#6b7280;margin-top:2px;">RV &amp; Tent Sites</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="window.open('https://stonemountainpark.com/camping-and-lodging/evergreen-lakeside-resort/','_blank','noopener,noreferrer');closeReservePicker();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
+                            stroke-linecap="round">
+                            <path d="M2 20h20M4 20V10l8-6 8 6v10" />
+                            <path d="M10 20v-6h4v6" />
+                            <path d="M2 10h20" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Evergreen Lakeside Resort</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Hotel &amp; Lakeside Lodging</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="window.open('https://stonemountainpark.com/camping-and-lodging/stone-mountain-inn/','_blank','noopener,noreferrer');closeReservePicker();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <rect x="3" y="7" width="18" height="14" rx="2" />
+                            <path d="M3 11h18M7 7V5a2 2 0 012-2h6a2 2 0 012 2v2" />
+                            <path d="M10 15h4" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Stone Mountain Inn</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Classic Park Inn</div>
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
@@ -5372,101 +5531,6 @@
         </div>
     </div>
 
-    <!-- FOOD & SHOPPING PICKER SHEET -->
-    <div class="notif-overlay" id="foodShopOverlay" onclick="if(event.target===this)closeFoodShop()">
-        <div class="notif-sheet">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">On Park Food &amp; Shopping</div>
-                <button class="notif-close-btn" onclick="closeFoodShop()">✕</button>
-            </div>
-            <div style="padding:8px 0 4px;">
-                <div onclick="window.open('https://hub.bluespotguide.com/stone-mountain-park-campground-store','_blank','noopener,noreferrer');closeFoodShop();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                            <line x1="3" y1="6" x2="21" y2="6" />
-                            <path d="M16 10a4 4 0 01-8 0" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Campground Store</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Hours, Location &amp; Contact</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="window.open('https://stonemountainpark.com/activities/shopping/','_blank','noopener,noreferrer');closeFoodShop();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
-                            stroke-linecap="round">
-                            <circle cx="9" cy="21" r="1" />
-                            <circle cx="20" cy="21" r="1" />
-                            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Park Stores</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Shopping at Sanwar Rv Resort</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="window.open('https://stonemountainpark.com/activities/dining/','_blank','noopener,noreferrer');closeFoodShop();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M18 8h1a4 4 0 010 8h-1" />
-                            <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" />
-                            <line x1="6" y1="1" x2="6" y2="4" />
-                            <line x1="10" y1="1" x2="10" y2="4" />
-                            <line x1="14" y1="1" x2="14" y2="4" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Restaurants</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Dining at Sanwar Rv Resort</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TICKETS & SPECIALS PICKER SHEET -->
-    <div class="notif-overlay" id="ticketsSpecialsOverlay" onclick="if(event.target===this)closeTicketsSpecials()">
-        <div class="notif-sheet">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Tickets &amp; Specials</div>
-                <button class="notif-close-btn" onclick="closeTicketsSpecials()">✕</button>
-            </div>
-            <div id="ticketsSpecialsItems" style="padding:8px 0 4px;"></div>
-        </div>
-    </div>
-
-    <!-- CAMPGROUND STORE GALLERY -->
-    <div class="notif-overlay" id="storeGalleryOverlay" onclick="if(event.target===this)closeStoreGallery()"
-        style="z-index:1100;">
-        <div class="notif-sheet" style="max-height:92vh;">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Campground Store</div>
-                <button class="notif-close-btn" onclick="closeStoreGallery()">✕</button>
-            </div>
-            <div style="padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
-                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316e29c87bd94b1221ebbe.png"
-                    alt="Campground Store"
-                    style="width:100%;height:460px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
-                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316b4d602476018d545d4f.png"
-                    alt="Campground Store"
-                    style="width:100%;height:420px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
-            </div>
-        </div>
-    </div>
-
     <!-- RV SITES PICKER SHEET -->
     <div class="notif-overlay" id="rvSitesOverlay" onclick="if(event.target===this)closeRvSitesPicker()">
         <div class="notif-sheet">
@@ -5512,7 +5576,8 @@
                         style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
                             stroke-linecap="round">
-                            <path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-8.13a4 4 0 110 8 4 4 0 010-8zM6 12a4 4 0 110-8 4 4 0 010 8z" />
+                            <path
+                                d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-8.13a4 4 0 110 8 4 4 0 010-8zM6 12a4 4 0 110-8 4 4 0 010 8z" />
                         </svg>
                     </div>
                     <div style="flex:1;">
@@ -5568,6 +5633,101 @@
         </div>
     </div>
 
+    <!-- FOOD & SHOPPING PICKER SHEET -->
+    <div class="notif-overlay" id="foodShopOverlay" onclick="if(event.target===this)closeFoodShop()">
+        <div class="notif-sheet">
+            <div class="notif-sheet-header">
+                <div class="notif-sheet-title">On Park Food &amp; Shopping</div>
+                <button class="notif-close-btn" onclick="closeFoodShop()">✕</button>
+            </div>
+            <div style="padding:8px 0 4px;">
+                <div onclick="window.open('https://hub.bluespotguide.com/stone-mountain-park-campground-store','_blank','noopener,noreferrer');closeFoodShop();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2"
+                            stroke-linecap="round">
+                            <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <path d="M16 10a4 4 0 01-8 0" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Campground Store</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Hours, Location &amp; Contact</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="window.open('https://stonemountainpark.com/activities/shopping/','_blank','noopener,noreferrer');closeFoodShop();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <circle cx="9" cy="21" r="1" />
+                            <circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Park Stores</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Shopping at Stone Mountain Park</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="window.open('https://stonemountainpark.com/activities/dining/','_blank','noopener,noreferrer');closeFoodShop();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2"
+                            stroke-linecap="round">
+                            <path d="M18 8h1a4 4 0 010 8h-1" />
+                            <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" />
+                            <line x1="6" y1="1" x2="6" y2="4" />
+                            <line x1="10" y1="1" x2="10" y2="4" />
+                            <line x1="14" y1="1" x2="14" y2="4" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Restaurants</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Dining at Stone Mountain Park</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TICKETS & SPECIALS PICKER SHEET -->
+    <div class="notif-overlay" id="ticketsSpecialsOverlay" onclick="if(event.target===this)closeTicketsSpecials()">
+        <div class="notif-sheet">
+            <div class="notif-sheet-header">
+                <div class="notif-sheet-title">Tickets &amp; Specials</div>
+                <button class="notif-close-btn" onclick="closeTicketsSpecials()">✕</button>
+            </div>
+            <div id="ticketsSpecialsItems" style="padding:8px 0 4px;"></div>
+        </div>
+    </div>
+
+    <!-- CAMPGROUND STORE GALLERY -->
+    <div class="notif-overlay" id="storeGalleryOverlay" onclick="if(event.target===this)closeStoreGallery()"
+        style="z-index:1100;">
+        <div class="notif-sheet" style="max-height:92vh;">
+            <div class="notif-sheet-header">
+                <div class="notif-sheet-title">Campground Store</div>
+                <button class="notif-close-btn" onclick="closeStoreGallery()">✕</button>
+            </div>
+            <div style="padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316e29c87bd94b1221ebbe.png"
+                    alt="Campground Store"
+                    style="width:100%;height:460px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
+                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316b4d602476018d545d4f.png"
+                    alt="Campground Store"
+                    style="width:100%;height:420px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
+            </div>
+        </div>
+    </div>
+
     <div class="notif-overlay" id="notifOverlay" onclick="if(event.target===this)closeNotifOverlay()">
         <div class="notif-sheet">
             <div class="notif-sheet-header">
@@ -5595,7 +5755,7 @@
             appId: "1:819010976218:web:3f8ce672704169cee528e3"
         };
 
-        const HUB_ID = 'sanwar-rv-resort-hub'; // change to match your hub ID in Firebase
+        const HUB_ID = 'stone-mountain-park-hub'; // change to match your hub ID in Firebase
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
@@ -5603,27 +5763,27 @@
         window.HUB_ID = HUB_ID; // expose for per-hub access tracking
         let HUB_NAME = HUB_ID; // fallback to slug; overwritten once hubs_meta loads
         get(ref(db, `hubs_meta/${HUB_ID}`)).then(s => {
-          if (!s.exists()) return;
-          const meta = s.val();
-          if (meta.name) HUB_NAME = meta.name;
-          if (meta.logoUrl) {
-            const icon = document.getElementById('a2hsIcon');
-            if (icon) icon.src = meta.logoUrl;
-            const heroLogo = document.getElementById('heroLogoImg');
-            if (heroLogo) heroLogo.src = meta.logoUrl;
-            ['pwaFavicon', 'pwaAppleTouchIcon', 'pwaAppleTouchIcon152', 'pwaAppleTouchIcon120'].forEach(id => {
-              const el = document.getElementById(id);
-              if (el) el.href = meta.logoUrl;
-            });
-          }
-        }).catch(() => {});
+            if (!s.exists()) return;
+            const meta = s.val();
+            if (meta.name) HUB_NAME = meta.name;
+            if (meta.logoUrl) {
+                const icon = document.getElementById('a2hsIcon');
+                if (icon) icon.src = meta.logoUrl;
+                const heroLogo = document.getElementById('heroLogoImg');
+                if (heroLogo) heroLogo.src = meta.logoUrl;
+                ['pwaFavicon', 'pwaAppleTouchIcon', 'pwaAppleTouchIcon152', 'pwaAppleTouchIcon120'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.href = meta.logoUrl;
+                });
+            }
+        }).catch(() => { });
         const messaging = getMessaging(app);
 
         // ── PUSH NOTIFICATIONS ──
         const VAPID_KEY = 'BOz7iTS5YoV_ogTJvZ9149Nx4ViO0qzuC5rijvSFh6ggdyXqGSmqZ5_lOCpsaAVudW3lHCvrfKRUCdm_HsqmYsw';
         // Cloudflare Worker that serves the Firebase SW with Service-Worker-Allowed: / header.
         // Deploy cloudflare-worker/sw-host-worker.js and paste its URL here:
-        const SW_HOST_URL = 'https://hub.bluespotguide.com/sanwar-rv-resort-hub/sw.js';
+        const SW_HOST_URL = 'https://hub.bluespotguide.com/stone-mountain-park-hub/sw.js';
 
         function urlBase64ToUint8Array(b64) {
             const pad = '='.repeat((4 - b64.length % 4) % 4);
@@ -5637,6 +5797,7 @@
         async function registerPush(hubId) {
             if (!('serviceWorker' in navigator)) return;
 
+            // iOS Safari browser (not installed as PWA) — push won't work, show A2HS guide
             if (isIOS && !isStandalone) {
                 showA2HS();
                 return;
@@ -5663,6 +5824,7 @@
 
                 const guestToken = localStorage.getItem('bs_guest_token');
                 if (isIOS) {
+                    // iOS 16.4+ uses native Web Push (not FCM)
                     const sub = await reg.pushManager.subscribe({
                         userVisibleOnly: true,
                         applicationServerKey: urlBase64ToUint8Array(VAPID_KEY)
@@ -5677,18 +5839,20 @@
                     };
                     await set(ref(db, `hubs/${hubId}/webPushSubs/${subKey}`), subData);
                     if (guestToken) await set(ref(db, `hubs/${hubId}/guests/${guestToken}/webPushSub`), subData);
-                    try { localStorage.setItem('bs_push_registered', '1'); } catch(e) {}
+                    try { localStorage.setItem('bs_push_registered_v2', '1'); } catch (e) { }
                     showPushBanner('✅ Subscribed', 'Push notifications enabled!');
                 } else {
+                    // Android / desktop — use FCM
                     const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
                     if (!token) { showPushBanner('⚠️ Push setup', 'No token returned from FCM'); return; }
                     const tokenKey = token.replace(/[.#$\[\]]/g, '_');
                     const tokenData = { token, savedAt: new Date().toISOString() };
                     await set(ref(db, `hubs/${hubId}/fcmTokens/${tokenKey}`), tokenData);
                     if (guestToken) await set(ref(db, `hubs/${hubId}/guests/${guestToken}/fcmToken`), tokenData);
-                    try { localStorage.setItem('bs_push_registered', '1'); } catch(e) {}
+                    try { localStorage.setItem('bs_push_registered_v2', '1'); } catch (e) { }
                     showPushBanner('✅ Subscribed', 'Push notifications enabled!');
                     onMessage(messaging, payload => {
+                        if (localStorage.getItem('bs_notifs_optout') === '1') return;
                         const { title, body } = payload.notification || {};
                         showPushBanner(title, body);
                     });
@@ -5932,7 +6096,7 @@
           <div class="event-info">
             <div class="event-title">${a.title}</div>
             ${a.hours ? `<div class="event-time">${a.hours}</div>` : ''}
-            ${a.description ? `<div class="event-loc">${truncateText(a.description, 100)}</div>` : ''}
+            ${a.location ? `<div class="event-loc" style="display:flex;align-items:center;gap:4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${a.location}</div>` : (a.description ? `<div class="event-loc">${truncateText(a.description, 80)}</div>` : '')}
           </div>
           <div class="event-arrow">›</div>
         </div>`).join('');
@@ -6026,6 +6190,14 @@
         // Push registration is triggered by user tapping the bell — not on load
         window.__registerPush = () => registerPush(HUB_ID);
 
+        // Silently re-subscribe guests who already granted permission previously —
+        // catches anyone whose token got saved under a stale/incorrect hub path.
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted'
+            && localStorage.getItem('bs_push_registered_v2') !== '1'
+            && localStorage.getItem('bs_notifs_optout') !== '1') {
+            registerPush(HUB_ID);
+        }
+
         onValue(ref(db, `hubs/${HUB_ID}/announcements`), snap => {
             hubAnns = snap.val() || {};
             merge();
@@ -6034,9 +6206,9 @@
         // ── Static hero images ──
         (function () {
             const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${url}')`; };
-            set('heroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f2f130cb119f6ff4bc.png');
-            set('actHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f236fd67b89e62c5fb.png');
-            set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f23d21db4e6982ff8c.png');
+            set('heroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff442998928ce1fa88448.png');
+            set('actHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4fcb9af5312bc3d2968.png');
+            set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff54f0a683b64fe41c1df.png');
         })();
 
         // ── Tickets & Specials — static URL ──
@@ -6051,33 +6223,35 @@
             renderActivities(acts);
         });
 
-        // More tab visibility — controlled by admin Campground Status toggles
+        // Hub visibility — More nav items
         onValue(ref(db, `hubs/${HUB_ID}/settings/visibility`), snap => {
             const more = (snap.val() || {}).more || {};
-            ['bookNow','register','weather','wifi','amenities','rvsites','cabins','rules','reservations','foodshopping','tickets','cable','contact','newsletter','review']
+            ['bookNow', 'register', 'weather', 'wifi', 'amenities', 'rvsites', 'cabins', 'rules', 'reservations', 'foodshopping', 'tickets', 'cable', 'contact', 'newsletter', 'review']
                 .forEach(id => {
                     const el = document.getElementById('more-item-' + id);
                     if (el) el.style.display = more[id] === false ? 'none' : '';
                 });
         });
 
+        // Quick actions — render dynamically from settings
         const QA_DEFS = {
-            map:          { label: 'Map',          color: '#16a34a', onclick: "switchTab('map')",           icon: '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>' },
-            events:       { label: 'Events',       color: '#7c3aed', onclick: "switchTab('activities')",    icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
-            contact:      { label: 'Contact',      color: '#2563eb', onclick: 'openContact()',              icon: '<path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>' },
-            wifi:         { label: 'WiFi',         color: '#0891b2', onclick: 'openWifi()',                 icon: '<path d="M1.5 8.5a15 15 0 0121 0M5 12a11 11 0 0114 0M8.5 15.5a6 6 0 017 0M12 19h.01"/>' },
-            rules:        { label: 'Rules',        color: '#0891b2', onclick: 'openRules()',                icon: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
-            amenities:    { label: 'Amenities',    color: '#0891b2', onclick: 'openAmenitiesInfo()',      icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
-            rvsites:      { label: 'RV Sites',     color: '#0891b2', onclick: 'openRvSitesPicker()',        icon: '<rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/>' },
-            cabins:       { label: 'Cabins',       color: '#f97316', onclick: 'openCabinsPicker()',         icon: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>' },
-            reservations: { label: 'Reservations', color: '#f97316', onclick: "openReservePicker()", icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
-            foodshopping: { label: 'Food',         color: '#16a34a', onclick: 'openFoodShop()',             icon: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
-            tickets:      { label: 'Tickets',      color: '#db2777', onclick: 'openTicketsSpecialsLink()',  icon: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>' },
-            cable:        { label: 'Cable',        color: '#6366f1', onclick: 'openCableChannels()',        icon: '<rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/>' },
-            weather:      { label: 'Weather',      color: '#2563eb', onclick: 'openWeatherOverlay()',       icon: '<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>' },
-            newsletter:   { label: 'Newsletter',   color: '#7c3aed', onclick: 'openNewsletter()',           icon: '<path d="M4 3h16a1 1 0 011 1v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4a1 1 0 011-1z"/><path d="M8 7h8M8 11h8M8 15h4"/>' },
-            review:       { label: 'Review',       color: '#f59e0b', onclick: 'openReviewModal()',          icon: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' },
+            map: { label: 'Map', color: '#16a34a', onclick: "switchTab('map')", icon: '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>' },
+            events: { label: 'Events', color: '#7c3aed', onclick: "switchTab('activities')", icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+            contact: { label: 'Contact', color: '#2563eb', onclick: 'openContact()', icon: '<path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>' },
+            wifi: { label: 'WiFi', color: '#0891b2', onclick: 'openWifi()', icon: '<path d="M1.5 8.5a15 15 0 0121 0M5 12a11 11 0 0114 0M8.5 15.5a6 6 0 017 0M12 19h.01"/>' },
+            rules: { label: 'Rules', color: '#0891b2', onclick: 'openRules()', icon: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
+            amenities: { label: 'Amenities', color: '#0891b2', onclick: 'openAmenitiesPicker()', icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+            rvsites: { label: 'RV Sites', color: '#0891b2', onclick: 'openRvSitesPicker()', icon: '<rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/>' },
+            cabins: { label: 'Cabins', color: '#f97316', onclick: 'openCabinsPicker()', icon: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>' },
+            reservations: { label: 'Reservations', color: '#f97316', onclick: 'openReservePicker()', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+            foodshopping: { label: 'Food', color: '#16a34a', onclick: 'openFoodShop()', icon: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
+            tickets: { label: 'Tickets', color: '#db2777', onclick: 'openTicketsSpecialsLink()', icon: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>' },
+            cable: { label: 'Cable', color: '#6366f1', onclick: 'openCableChannels()', icon: '<rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/>' },
+            weather: { label: 'Weather', color: '#2563eb', onclick: 'openWeatherOverlay()', icon: '<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>' },
+            newsletter: { label: 'Newsletter', color: '#7c3aed', onclick: 'openNewsletter()', icon: '<path d="M4 3h16a1 1 0 011 1v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4a1 1 0 011-1z"/><path d="M8 7h8M8 11h8M8 15h4"/>' },
+            review: { label: 'Review', color: '#f59e0b', onclick: 'openReviewModal()', icon: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' },
         };
+
         function renderQuickActions(slots) {
             const container = document.querySelector('.quick-actions');
             if (!container) return;
@@ -6089,8 +6263,11 @@
                 </div>`;
             }).join('');
         }
+
+        const DEFAULT_QA = ['map', 'events', 'contact', 'rules'];
         onValue(ref(db, `hubs/${HUB_ID}/settings/quickActions`), snap => {
-            renderQuickActions(snap.val() || ['map','events','contact','wifi']);
+            const slots = snap.val() || DEFAULT_QA;
+            renderQuickActions(slots);
         });
 
         // WiFi credentials — set by the hub manager in the admin panel
@@ -6114,33 +6291,38 @@
         // Booking link — fixed per hub. Opens in a new tab since the booking
         // site blocks iframe embedding (X-Frame-Options / CSP frame-ancestors).
         window.openBookingWebview = function () {
-            window.open('https://booking.staylist.app/Sanwar', '_blank', 'noopener,noreferrer');
+            window.open('https://www.campspot.com/book/stone-mountain-park', '_blank', 'noopener,noreferrer');
         };
 
         // ── Color Palette ──
         const HUB_PALETTES = {
-            blue:   { bg:'#e8e5ef', primary:'#1a56db', dark:'#1e3a8a', tab:'#7c3aed', tabDark:'#5b21b6' },
-            green:  { bg:'#e5efea', primary:'#16a34a', dark:'#14532d', tab:'#059669', tabDark:'#047857' },
-            orange: { bg:'#f0ede8', primary:'#ea580c', dark:'#9a3412', tab:'#b45309', tabDark:'#92400e' },
-            pink:   { bg:'#f0e8ef', primary:'#db2777', dark:'#9d174d', tab:'#9333ea', tabDark:'#6b21a8' },
-            teal:   { bg:'#e5f0ef', primary:'#0891b2', dark:'#0e7490', tab:'#0d9488', tabDark:'#0f766e' },
-            slate:  { bg:'#e8eaef', primary:'#334155', dark:'#1e293b', tab:'#4f46e5', tabDark:'#3730a3' },
+            blue: { bg: '#e8e5ef', primary: '#1a56db', dark: '#1e3a8a', tab: '#7c3aed', tabDark: '#5b21b6' },
+            green: { bg: '#e5efea', primary: '#16a34a', dark: '#14532d', tab: '#059669', tabDark: '#047857' },
+            orange: { bg: '#f0ede8', primary: '#ea580c', dark: '#9a3412', tab: '#b45309', tabDark: '#92400e' },
+            pink: { bg: '#f0e8ef', primary: '#db2777', dark: '#9d174d', tab: '#9333ea', tabDark: '#6b21a8' },
+            teal: { bg: '#e5f0ef', primary: '#0891b2', dark: '#0e7490', tab: '#0d9488', tabDark: '#0f766e' },
+            slate: { bg: '#e8eaef', primary: '#334155', dark: '#1e293b', tab: '#4f46e5', tabDark: '#3730a3' },
         };
         function darkenHex(hex, amount) {
-            const n = parseInt((hex || '#1a56db').replace('#',''), 16);
+            const n = parseInt((hex || '#1a56db').replace('#', ''), 16);
             const r = Math.max(0, Math.round(((n >> 16) & 255) * (1 - amount)));
-            const g = Math.max(0, Math.round(((n >> 8)  & 255) * (1 - amount)));
-            const b = Math.max(0, Math.round(((n)       & 255) * (1 - amount)));
-            return '#' + [r, g, b].map(v => v.toString(16).padStart(2,'0')).join('');
+            const g = Math.max(0, Math.round(((n >> 8) & 255) * (1 - amount)));
+            const b = Math.max(0, Math.round(((n) & 255) * (1 - amount)));
+            return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
         }
         function applyHubPalette(val) {
             let p;
             if (val && typeof val === 'object' && val.primary) {
                 const primary = val.primary;
-                const bg = val.bg || '#e8e5ef';
-                const secondary = val.secondary || '#6b7280';
-                const textPrimary = val.textPrimary || primary;
-                p = { bg, primary, secondary, textPrimary, dark: darkenHex(primary, 0.28), tab: primary, tabDark: darkenHex(primary, 0.15) };
+                p = {
+                    primary,
+                    dark:        val.dark        || darkenHex(primary, 0.28),
+                    tab:         val.tab         || primary,
+                    tabDark:     val.tabDark     || darkenHex(primary, 0.15),
+                    bg:          val.bg          || '#e8e5ef',
+                    secondary:   val.secondary   || '#6b7280',
+                    textPrimary: val.textPrimary || primary,
+                };
             } else {
                 p = HUB_PALETTES[val] || HUB_PALETTES.blue;
                 p.secondary = p.secondary || '#6b7280';
@@ -6153,7 +6335,7 @@
             if (!el) { el = document.createElement('style'); el.id = 'hub-theme-style'; document.head.appendChild(el); }
             el.textContent = `
                 #app, body { background: ${p.bg}; }
-                .date-tab.active { background: linear-gradient(135deg,${p.tab},${p.tabDark}) !important; box-shadow: 0 4px 14px ${p.tab}59 !important; }
+                .date-tab.active { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; box-shadow: 0 4px 14px ${p.primary}59 !important; }
                 .date-tab.today:not(.active) .day-name, .date-tab.today:not(.active) .day-num { color: ${p.tab} !important; }
                 .date-tab .today-dot { background: ${p.tab} !important; }
                 .date-tab.active .today-dot { background: rgba(255,255,255,.7) !important; }
@@ -6177,6 +6359,90 @@
                 .status-card-label, .contact-address, .contact-address strong,
                 .contact-row-label, .contact-main-label, .more-section-label,
                 .wifi-field-label, .act-section-title { color: ${p.secondary} !important; }
+                .section-title { color: ${p.textPrimary} !important; }
+                .section-link { color: ${p.textPrimary} !important; }
+                /* Quick actions */
+                .qa-icon.ic-map { background: ${p.primary}22 !important; }
+                .qa-icon.ic-act { background: ${p.tab}22 !important; }
+                .qa-icon.ic-call { background: ${p.primary}18 !important; }
+                .qa-icon.ic-wifi { background: ${p.primary}15 !important; }
+                .qa-icon.ic-map svg, .qa-icon.ic-call svg, .qa-icon.ic-wifi svg { stroke: ${p.primary} !important; }
+                .qa-icon.ic-act svg { stroke: ${p.tab} !important; }
+                .qa-label { color: ${p.textPrimary} !important; }
+                /* Alerts */
+                .alert-icon { background: ${p.primary}18 !important; color: ${p.primary} !important; }
+                .alert-title { color: ${p.textPrimary} !important; }
+                /* More tab */
+                .more-row-icon { background: ${p.primary}18 !important; }
+                .more-row-icon svg { stroke: ${p.primary} !important; }
+                .more-item-title { color: ${p.textPrimary} !important; }
+                /* Notifications overlay */
+                .notif-overlay-header { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
+                .notif-item-title { color: ${p.textPrimary} !important; }
+                .notif-item-read-more { color: ${p.primary} !important; }
+                /* Hero */
+                .hero-pill { background: ${p.primary}33 !important; }
+                .hero-pill-label { color: #fff !important; }
+                /* Modals */
+                .ann-modal-close { background: ${p.primary} !important; color: #fff !important; }
+                .ann-modal-title { color: ${p.textPrimary} !important; }
+                .act-modal-close { background: ${p.primary} !important; color: #fff !important; }
+                .act-modal-title { color: ${p.textPrimary} !important; }
+                .act-section-title { color: ${p.textPrimary} !important; }
+                /* Date picker today */
+                .date-tab.today:not(.active) .day-name,
+                .date-tab.today:not(.active) .day-num { color: ${p.tab} !important; }
+                .date-tab .today-dot { background: ${p.tab} !important; }
+                .upcoming-date-sep { color: ${p.tab} !important; }
+                /* Act hero */
+                .act-hero-content h2 { color: #fff !important; }
+                .act-hero-content p { color: rgba(255,255,255,.8) !important; }
+                .more-hero-title { color: #fff !important; }
+                .more-hero-sub { color: rgba(255,255,255,.8) !important; }
+                /* Buttons */
+                .reg-submit-btn, .checkin-btn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; color: #fff !important; }
+                .wifi-copy-btn, .wifi-close-btn, .weather-close-btn { background: ${p.primary} !important; color: #fff !important; }
+                /* Contact */
+                .contact-header { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
+                .contact-main-number { color: ${p.primary} !important; }
+                /* Cable */
+                .cable-channel-num { background: ${p.primary} !important; }
+                /* Map page inline overrides */
+                #tab-map [style*="color:#111827"] { color: ${p.textPrimary} !important; }
+                /* Discover banner */
+                .discover-banner { background: linear-gradient(135deg,${p.dark} 0%,${p.primary} 55%,${p.dark} 100%) !important; }
+                .discover-banner::after { background: conic-gradient(from var(--shine-angle,0deg), transparent 0deg, ${p.tab}30 60deg, ${p.tab} 120deg, #fff 150deg, ${p.tab} 180deg, ${p.tab}30 240deg, transparent 360deg) !important; }
+                .discover-title em { color: rgba(255,255,255,.88) !important; -webkit-text-fill-color: rgba(255,255,255,.88) !important; }
+                .discover-eyebrow { background: rgba(255,255,255,.15) !important; border-color: rgba(255,255,255,.3) !important; }
+                .discover-eyebrow span { color: rgba(255,255,255,.9) !important; }
+                .discover-eyebrow svg { stroke: rgba(255,255,255,.8) !important; }
+                /* Event cards (Home tab) */
+                .event-card { border-left: 3px solid ${p.primary} !important; }
+                .event-title { color: ${p.textPrimary} !important; }
+                /* Activity cards (Events/Activities tab) */
+                .act-card { border-left: 3px solid ${p.primary} !important; }
+                .act-title { color: ${p.textPrimary} !important; }
+                /* Alert / Announcement cards */
+                .alert-card { border-left: 3px solid ${p.primary} !important; }
+                /* Communication Authorization card */
+                #commAuthCard { background: ${p.bg} !important; border-color: ${p.primary}55 !important; }
+                #commAuthCard .comm-auth-icon { stroke: ${p.primary} !important; }
+                .comm-privacy-text { color: ${p.primary} !important; }
+                #enableNotifsBtn { border-color: ${p.primary} !important; color: ${p.primary} !important; }
+                #regSubmitBtn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
+                /* Section header labels */
+                .section-title { color: ${p.dark} !important; opacity: 1 !important; }
+                .act-section-title { color: ${p.dark} !important; opacity: 1 !important; }
+                /* Bottom nav active state */
+                .nav-item.active svg { stroke: ${p.dark} !important; }
+                .nav-item.active span { color: ${p.dark} !important; }
+                .nav-item.active .nav-ico-wrap { background: ${p.dark}22 !important; }
+                .nav-item.active.purple svg { stroke: ${p.dark} !important; }
+                .nav-item.active.purple span { color: ${p.dark} !important; }
+                .nav-item.active.purple .nav-ico-wrap { background: ${p.dark}22 !important; }
+                /* Hero backgrounds */
+                .act-hero { background: ${p.dark} !important; }
+                .more-hero { background: ${p.dark} !important; }
             `;
         }
         onValue(ref(db, `hubs/${HUB_ID}/settings/colorPalette`), snap => {
@@ -6201,8 +6467,6 @@
 
         window.openNotifOverlay = function () {
             document.getElementById('notifOverlay').classList.add('open');
-            const alreadyRegistered = localStorage.getItem('bs_push_registered') === '1';
-            if (window.__registerPush && !alreadyRegistered) window.__registerPush();
         };
         window.closeNotifOverlay = function () { document.getElementById('notifOverlay').classList.remove('open'); };
 
@@ -6222,7 +6486,7 @@
         function saveReadId(id) {
             const ids = getReadIds();
             ids.add(String(id));
-            try { localStorage.setItem('park_read_anns', JSON.stringify([...ids])); } catch {}
+            try { localStorage.setItem('park_read_anns', JSON.stringify([...ids])); } catch { }
         }
         function updateNotifBadge() {
             const readIds = getReadIds();
@@ -6393,6 +6657,7 @@
         window.closeActModal = function () { document.getElementById('actModal').classList.remove('active'); };
 
         function parseHoursToTimes(hoursStr, dateIso) {
+            // Parses "10:00 AM - 2:00 PM" style strings into UTC ISO for .ics
             if (!hoursStr || !dateIso) return null;
             const m = hoursStr.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?(?:\s*[-–]\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)?)?/i);
             if (!m) return null;
@@ -6423,7 +6688,7 @@
             const times = parseHoursToTimes(a.hours, dateIso);
             const fmt = s => s.replace(/-/g, '');
             const dtStart = times ? times.start : fmt(dateIso);
-            const dtEnd   = times ? times.end   : fmt(dateIso);
+            const dtEnd = times ? times.end : fmt(dateIso);
             const details = [a.description, a.fullDesc || a.fullDescription].filter(Boolean).join(' — ');
             const gcUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
                 + '&text=' + encodeURIComponent(a.title || 'Event')
@@ -6464,7 +6729,7 @@
             document.getElementById('regProfileName').textContent = `${profile.firstName} ${profile.lastName}`;
             document.getElementById('regProfilePhone').textContent = profile.phone;
             document.getElementById('regProfileEmail').textContent = profile.email;
-            document.getElementById('regProfileLocation').textContent = profile.location || 'Sanwar Rv Resort';
+            document.getElementById('regProfileLocation').textContent = profile.location || 'Stone Mountain Park';
 
             const fmtDate = iso => iso ? new Date(iso + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
             const arr = profile.arrivalDate || (profile.stayDetails && profile.stayDetails.arrivalDate) || '';
@@ -6664,6 +6929,59 @@
         };
         // ──────────────────────────────────────────────────────────────────
 
+        // ── Notification Settings (More tab) ───────────────────────────────
+        window.openNotifSettingsModal = function () {
+            document.getElementById('notifSettingsModal').classList.add('active');
+            syncNotifSettingsToggle();
+        };
+        window.closeNotifSettingsModal = function () {
+            document.getElementById('notifSettingsModal').classList.remove('active');
+        };
+
+        function syncNotifSettingsToggle() {
+            const toggle = document.getElementById('notifSettingsToggle');
+            const status = document.getElementById('notifSettingsStatus');
+            if (!toggle || !status) return;
+            if (!('Notification' in window)) {
+                toggle.checked = false;
+                toggle.disabled = true;
+                status.textContent = 'Notifications are not supported on this device or browser.';
+                return;
+            }
+            if (Notification.permission === 'denied') {
+                toggle.checked = false;
+                toggle.disabled = true;
+                status.textContent = 'Blocked in your browser/device settings. Enable notifications for this site to turn back on.';
+                return;
+            }
+            const optedOut = localStorage.getItem('bs_notifs_optout') === '1';
+            toggle.disabled = false;
+            toggle.checked = Notification.permission === 'granted' && !optedOut;
+            status.textContent = toggle.checked
+                ? 'You will receive announcements, event reminders, and updates.'
+                : 'Notifications are off. Turn on to receive announcements, event reminders, and updates.';
+        }
+
+        window.onNotifSettingsToggle = async function (toggle) {
+            if (!('Notification' in window)) return;
+            if (toggle.checked) {
+                if (Notification.permission === 'granted') {
+                    localStorage.removeItem('bs_notifs_optout');
+                    if (typeof window.__registerPush === 'function') window.__registerPush();
+                } else if (Notification.permission !== 'denied') {
+                    const perm = await Notification.requestPermission();
+                    if (perm === 'granted') {
+                        localStorage.removeItem('bs_notifs_optout');
+                        if (typeof window.__registerPush === 'function') window.__registerPush();
+                    }
+                }
+            } else {
+                localStorage.setItem('bs_notifs_optout', '1');
+            }
+            syncNotifSettingsToggle();
+        };
+        // ──────────────────────────────────────────────────────────────────
+
         // ── A2HS (Add to Home Screen) ──────────────────────────────────────
         window.__a2hsPrompt = null;
         window.addEventListener('beforeinstallprompt', e => {
@@ -6733,7 +7051,7 @@
                     hubData.count = (hubData.count || 0) + 1;
                     hubData.lastAccess = timestamp;
                     await update(hubAnalyticsRef, hubData);
-                } 
+                }
             } catch (e) {
                 console.log('Per-hub access tracking (non-critical):', e.message);
             }
@@ -6772,9 +7090,13 @@
             z-index: 9999;
             align-items: flex-end;
             justify-content: center;
-            background: rgba(0,0,0,.45);
+            background: rgba(0, 0, 0, .45);
         }
-        #a2hsModal.a2hs-visible { display: flex; }
+
+        #a2hsModal.a2hs-visible {
+            display: flex;
+        }
+
         .a2hs-sheet {
             background: #fff;
             border-radius: 20px 20px 0 0;
@@ -6784,30 +7106,40 @@
             text-align: center;
             animation: a2hs-slide-up .3s ease;
         }
+
         @keyframes a2hs-slide-up {
-            from { transform: translateY(100%); }
-            to   { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
+
         .a2hs-icon {
             width: 72px;
             height: 72px;
             border-radius: 16px;
             object-fit: cover;
             margin-bottom: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
         }
+
         .a2hs-title {
             font-size: 1.15rem;
             font-weight: 700;
             color: #1a2a3a;
             margin-bottom: 6px;
         }
+
         .a2hs-sub {
             font-size: .9rem;
             color: #5a6a7a;
             margin-bottom: 22px;
             line-height: 1.4;
         }
+
         .a2hs-btn-install {
             display: block;
             width: 100%;
@@ -6821,6 +7153,7 @@
             cursor: pointer;
             margin-bottom: 10px;
         }
+
         .a2hs-btn-later {
             display: block;
             width: 100%;
@@ -6831,6 +7164,7 @@
             font-size: .9rem;
             cursor: pointer;
         }
+
         .a2hs-ios-tip {
             font-size: .82rem;
             color: #888;
@@ -6840,10 +7174,10 @@
 
     <div id="a2hsModal" role="dialog" aria-modal="true" onclick="if(event.target===this)dismissA2HS()">
         <div class="a2hs-sheet">
-            <img class="a2hs-icon" id="a2hsIcon"
-                src="https://i.ibb.co/JRSCH453/5ff6d9c30936.jpg" alt="App icon">
+            <img class="a2hs-icon" id="a2hsIcon" src="https://i.ibb.co/vCrzVMfr/f16e7a86599a.jpg" alt="App icon">
             <div class="a2hs-title">Add to Home Screen</div>
-            <div class="a2hs-sub">Install the app for quick access to announcements, amenities, and more — right from your home screen.</div>
+            <div class="a2hs-sub">Install the app for quick access to announcements, amenities, and more — right from
+                your home screen.</div>
 
             <!-- Android / Chrome: native prompt -->
             <button class="a2hs-btn-install" id="a2hsBtnInstall" onclick="triggerA2HS()" style="display:none">

@@ -36,6 +36,12 @@ export default {
       if (url.pathname === '/verify-reset') {
         return await handleVerifyReset(request, env, corsHeaders);
       }
+      if (url.pathname === '/send-guest-reset') {
+        return await handleSendGuestReset(request, env, corsHeaders);
+      }
+      if (url.pathname === '/verify-guest-reset') {
+        return await handleVerifyGuestReset(request, env, corsHeaders);
+      }
       return json({ error: 'Not found' }, 404, corsHeaders);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500, corsHeaders);
@@ -55,6 +61,7 @@ async function handleSendReset(request, env, corsHeaders) {
   // Verify the email exists in Firebase Auth before sending anything.
   const accessToken = await getServiceAccountAccessToken(env);
   const uid = await lookupUidByEmail(env.FIREBASE_PROJECT_ID, email, accessToken);
+  const requesterHubId = uid ? await dbGet(env.DATABASE_URL, `users/${uid}/hubId`, accessToken) : null;
   // Always return success to prevent email enumeration — don't tell the caller if the account exists.
   if (!uid) return json({ ok: true }, 200, corsHeaders);
 
@@ -122,7 +129,68 @@ async function handleSendReset(request, env, corsHeaders) {
     throw new Error('Failed to send email: ' + (err?.message || res.status));
   }
 
+  // Optional copy of the SAME reset link to the hub's configured notify
+  // email — lets a manager who doesn't have access to the account's own
+  // inbox (e.g. resetting a shared/front-desk login) still complete the
+  // reset themselves. Configured per-hub in the admin panel's Settings tab
+  // by that hub's own manager, so it's trusted at the same level as the
+  // account owner; failure here must never block the real reset email above.
+  if (requesterHubId) {
+    await notifyPasswordResetRequested(env, requesterHubId, email, senderName, resetUrl).catch(() => {});
+  }
+
   return json({ ok: true }, 200, corsHeaders);
+}
+
+// ── Copy of the reset link to a hub's configured notify address ──────────
+async function notifyPasswordResetRequested(env, hubId, requestedForEmail, senderName, resetUrl) {
+  const accessToken = await getServiceAccountAccessToken(env);
+  const settings = await dbGet(env.DATABASE_URL, `hubs/${hubId}/settings/passwordResetNotify`, accessToken);
+  if (!settings || !settings.enabled || !settings.email) return;
+
+  const when = new Date().toUTCString();
+  const notifyBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1117;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:480px;background:#1a1d27;border-radius:12px;padding:40px;border:1px solid #2a2d3a;">
+        <tr><td>
+          <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#f0f2f8;">Password reset requested</p>
+          <p style="margin:0 0 24px;font-size:15px;color:#8b90a8;line-height:1.6;">
+            <strong style="color:#c0c4d8;">${requestedForEmail}</strong> requested a password reset on the admin panel
+            at ${when}. Use the button below to set a new password for that account. This link expires in
+            <strong style="color:#c0c4d8;">1 hour</strong>.
+          </p>
+          <a href="${resetUrl}" style="display:inline-block;background:#4fa3e8;color:#fff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;margin-bottom:28px;">
+            Reset Password
+          </a>
+          <p style="margin:0 0 8px;font-size:13px;color:#5a5f75;line-height:1.6;">
+            Or copy and paste this link into your browser:
+          </p>
+          <p style="margin:0;font-size:12px;color:#4fa3e8;word-break:break-all;">${resetUrl}</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: `${senderName} <${env.RESEND_FROM_EMAIL}>`,
+      to: [settings.email],
+      subject: `Password reset requested — ${requestedForEmail}`,
+      html: notifyBody,
+    }),
+  });
 }
 
 // ── POST /verify-reset ────────────────────────────────────────────────────
@@ -149,6 +217,120 @@ async function handleVerifyReset(request, env, corsHeaders) {
 
   // Delete the token so it can't be reused.
   await dbDelete(env.DATABASE_URL, `passwordResets/${token}`, accessToken).catch(() => {});
+
+  return json({ ok: true }, 200, corsHeaders);
+}
+
+// ── POST /send-guest-reset ────────────────────────────────────────────────
+// Guests aren't Firebase Auth users — they're plain records under
+// hubs/{hubId}/guests/{guestKey} with a client-hashed `passwordHash` field
+// (see the guest hub's registration flow). This resets THAT field directly
+// via the Realtime Database REST API — no Identity Toolkit calls needed.
+async function handleSendGuestReset(request, env, corsHeaders) {
+  const { hubId, email, hubUrl } = await request.json();
+  if (!hubId || !email || !hubUrl) return json({ error: 'Missing hubId, email, or hubUrl.' }, 400, corsHeaders);
+
+  if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL) {
+    return json({ error: 'Email service not configured.' }, 500, corsHeaders);
+  }
+
+  const accessToken = await getServiceAccountAccessToken(env);
+  const emailNormalized = String(email).toLowerCase();
+
+  const guests = await dbGet(env.DATABASE_URL, `hubs/${hubId}/guests`, accessToken);
+  let guestKey = null;
+  if (guests) {
+    for (const [key, g] of Object.entries(guests)) {
+      if (g && g.email && String(g.email).toLowerCase() === emailNormalized) { guestKey = key; break; }
+    }
+  }
+  // Always return success to prevent email enumeration.
+  if (!guestKey) return json({ ok: true }, 200, corsHeaders);
+
+  const token = crypto.randomUUID();
+  const expires = Math.floor(Date.now() / 1000) + 3600; // 1 hour
+  await dbSet(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, { guestKey, email: emailNormalized, expires }, accessToken);
+
+  const resetUrl = `${hubUrl}${hubUrl.includes('?') ? '&' : '?'}resetToken=${token}`;
+  const senderName = env.RESEND_SENDER_NAME || 'BlueSpot Hub';
+
+  const emailBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1117;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:480px;background:#1a1d27;border-radius:12px;padding:40px;border:1px solid #2a2d3a;">
+        <tr><td align="center" style="padding-bottom:28px;">
+          <div style="font-size:28px;font-weight:800;color:#4fa3e8;letter-spacing:-0.5px;">${senderName}</div>
+        </td></tr>
+        <tr><td>
+          <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#f0f2f8;">Reset your password</p>
+          <p style="margin:0 0 24px;font-size:15px;color:#8b90a8;line-height:1.6;">
+            We received a request to reset the password for your guest account (<strong style="color:#c0c4d8;">${emailNormalized}</strong>).
+            Click the button below to set a new password. This link expires in <strong style="color:#c0c4d8;">1 hour</strong>.
+          </p>
+          <a href="${resetUrl}" style="display:inline-block;background:#4fa3e8;color:#fff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;margin-bottom:28px;">
+            Reset Password
+          </a>
+          <p style="margin:0 0 8px;font-size:13px;color:#5a5f75;line-height:1.6;">
+            Or copy and paste this link into your browser:
+          </p>
+          <p style="margin:0 0 24px;font-size:12px;color:#4fa3e8;word-break:break-all;">${resetUrl}</p>
+          <hr style="border:none;border-top:1px solid #2a2d3a;margin:0 0 20px;">
+          <p style="margin:0;font-size:12px;color:#5a5f75;line-height:1.6;">
+            If you didn't request this, you can safely ignore this email — your password won't change.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: `${senderName} <${env.RESEND_FROM_EMAIL}>`,
+      to: [emailNormalized],
+      subject: 'Reset your password',
+      html: emailBody,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error('Failed to send email: ' + (err?.message || res.status));
+  }
+
+  return json({ ok: true }, 200, corsHeaders);
+}
+
+// ── POST /verify-guest-reset ──────────────────────────────────────────────
+async function handleVerifyGuestReset(request, env, corsHeaders) {
+  const { hubId, token, passwordHash } = await request.json();
+  if (!hubId || !token || !passwordHash) return json({ error: 'Missing hubId, token, or passwordHash.' }, 400, corsHeaders);
+
+  const accessToken = await getServiceAccountAccessToken(env);
+
+  const record = await dbGet(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken);
+  if (!record) return json({ error: 'Reset link is invalid or has already been used.' }, 400, corsHeaders);
+
+  const now = Math.floor(Date.now() / 1000);
+  if (record.expires < now) {
+    await dbDelete(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken).catch(() => {});
+    return json({ error: 'Reset link has expired. Please request a new one.' }, 400, corsHeaders);
+  }
+
+  // The password itself is never sent to the worker — the guest hub hashes it
+  // client-side the same way it does at registration, we just store the hash.
+  await dbSet(env.DATABASE_URL, `hubs/${hubId}/guests/${record.guestKey}/passwordHash`, passwordHash, accessToken);
+  await dbDelete(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken).catch(() => {});
 
   return json({ ok: true }, 200, corsHeaders);
 }

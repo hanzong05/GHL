@@ -1,0 +1,16 @@
+<link rel="manifest" href="https://hub.bluespotguide.com/splash-rv-resort-hub/manifest.json">
+<meta name="theme-color" content="#1a56db">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register(
+        'https://hub.bluespotguide.com/splash-rv-resort-hub/sw.js',
+        { scope: '/' }
+      ).then(function(reg) {
+        console.log('SW registered', reg.scope);
+      }).catch(function(err) {
+        console.error('SW failed:', err);
+      });
+    });
+  }
+</script>

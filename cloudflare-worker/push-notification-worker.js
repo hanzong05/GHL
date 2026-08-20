@@ -621,33 +621,136 @@ async function handleWelcomeEmail(request, env, corsHeaders) {
 }
 
 function buildWelcomeEmail(toName, loginEmail, loginPassword, loginUrl) {
+  // Twemoji PNGs instead of raw emoji glyphs — Outlook/Windows Mail fall back
+  // to a broken monochrome outline for many emoji codepoints (that's what
+  // produced the grayscale "broken icon" look for 📰/⚙️). A real hosted image
+  // renders identically in every client instead of depending on the reader's
+  // OS emoji font.
+  const TW = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
+  const icon = (code, size) => `<img src="${TW}${code}.png" width="${size}" height="${size}" alt="" style="width:${size}px;height:${size}px;display:inline-block;vertical-align:middle;border:0;outline:none;">`;
+
+  const TOOLS = [
+    { code: '1f514', title: 'Push Notifications', body: 'Send instant alerts, updates, and important messages.' },
+    { code: '1f4c5', title: 'Events', body: 'Create and promote events your guests will love.' },
+    { code: '1f4f0', title: 'Newsletter', body: 'Keep guests informed with news and updates.' },
+    { code: '1f4f6', title: 'Control WiFi', body: 'Manage access, settings, and guest connectivity.' },
+    { code: '1f4ca', title: 'Insights', body: "See what's working with real time analytics." },
+    { code: '2699', title: 'Easy Management', body: 'Update info, hours, amenities, and more in minutes.' },
+  ];
+  // Two-per-row table grid — the widest layout most email clients (Gmail,
+  // Outlook desktop, Apple Mail) render consistently without CSS Grid/Flexbox.
+  let toolRows = '';
+  for (let i = 0; i < TOOLS.length; i += 2) {
+    const a = TOOLS[i], b = TOOLS[i + 1];
+    const cell = t => t ? `
+      <td width="50%" valign="top" style="padding:0 10px 24px;">
+        <table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center">
+          <table cellpadding="0" cellspacing="0" style="margin:0 auto 10px;"><tr><td width="52" height="52" align="center" valign="middle" style="width:52px;height:52px;border-radius:50%;border:1.5px solid #005baa;line-height:52px;font-size:0;mso-line-height-rule:exactly;">${icon(t.code, 22)}</td></tr></table>
+          <div style="font-size:14px;font-weight:700;color:#0b2a4a;margin-bottom:4px;">${t.title}</div>
+          <div style="font-size:12px;color:#5b7290;line-height:1.5;">${t.body}</div>
+        </td></tr></table>
+      </td>` : `<td width="50%"></td>`;
+    toolRows += `<tr>${cell(a)}${cell(b)}</tr>`;
+  }
+
   const btn = loginUrl
-    ? `<a href="${loginUrl}" style="display:inline-block;background:#1a56db;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 26px;border-radius:10px;">Open the Control Panel →</a>`
+    ? `<a href="${loginUrl}" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:16px 34px;border-radius:999px;">Access Your iConnectHub Dashboard →</a>`
     : '';
-  return `<!DOCTYPE html><html><body style="margin:0;background:#f0f4ff;font-family:'Segoe UI',Arial,sans-serif;color:#0f1f4a;">
-    <div style="max-width:520px;margin:0 auto;padding:32px 20px;">
-      <div style="background:#fff;border:1px solid #dde5f5;border-radius:18px;overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#1a3a6b,#2a52a0);padding:26px 28px;color:#fff;">
-          <div style="font-size:18px;font-weight:800;">BlueSpot Hub</div>
-          <div style="font-size:12px;opacity:.8;">Admin Control Panel</div>
+
+  const logoUrl = 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png';
+  // Fixed-size table cell (not a bare <img>) so a blocked/failed load shows a
+  // small blank box instead of overflowing alt text on top of the next line.
+  const logo = size => `<table cellpadding="0" cellspacing="0" style="width:${size}px;height:${size}px;border-radius:50%;background:#fff;overflow:hidden;"><tr><td style="width:${size}px;height:${size}px;overflow:hidden;"><img src="${logoUrl}" width="${size}" height="${size}" alt="" style="width:${size}px;height:${size}px;display:block;border:0;outline:none;object-fit:cover;"></td></tr></table>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#eef1f7;font-family:'Segoe UI',Arial,sans-serif;color:#0b2a4a;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 12px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border:1px solid #e3e8f0;border-radius:20px;">
+
+  <!-- HERO -->
+  <tr><td style="background:#0b2a4a;padding:36px 32px;border-radius:19px 19px 0 0;" align="center">
+    <table cellpadding="0" cellspacing="0" style="margin:0 auto 16px;"><tr><td style="box-shadow:0 0 0 3px #005baa;border-radius:50%;">${logo(52)}</td></tr></table>
+    <table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center">
+      <div style="color:#fff;font-size:22px;font-weight:800;margin-bottom:18px;">BlueSpot</div>
+      <h1 style="color:#fff;font-size:26px;font-weight:800;margin:0 0 10px;line-height:1.25;">Welcome to iConnect<span style="color:#005baa;">Hub</span>!</h1>
+      <p style="color:#cfe0f0;font-size:14px;line-height:1.6;margin:0 0 22px;max-width:380px;">Your <strong style="color:#fff;">no-download app</strong> to manage everything, anywhere — just add it to your home screen and go.</p>
+    </td></tr></table>
+    <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+      <tr><td style="padding:6px 0;" valign="middle"><table cellpadding="0" cellspacing="0" style="display:inline-table;vertical-align:middle;margin-right:10px;"><tr><td width="34" height="34" align="center" valign="middle" style="width:34px;height:34px;border-radius:50%;background:#005baa;line-height:34px;font-size:0;mso-line-height-rule:exactly;">${icon('1f4f1', 16)}</td></tr></table><span style="color:#fff;font-size:13px;font-weight:700;vertical-align:middle;">No Download — Just Add and Go!</span></td></tr>
+      <tr><td style="padding:6px 0;" valign="middle"><table cellpadding="0" cellspacing="0" style="display:inline-table;vertical-align:middle;margin-right:10px;"><tr><td width="34" height="34" align="center" valign="middle" style="width:34px;height:34px;border-radius:50%;background:#005baa;line-height:34px;font-size:0;mso-line-height-rule:exactly;">${icon('1f3e0', 16)}</td></tr></table><span style="color:#fff;font-size:13px;font-weight:700;vertical-align:middle;">Add to Your Home Screen</span></td></tr>
+      <tr><td style="padding:6px 0;" valign="middle"><table cellpadding="0" cellspacing="0" style="display:inline-table;vertical-align:middle;margin-right:10px;"><tr><td width="34" height="34" align="center" valign="middle" style="width:34px;height:34px;border-radius:50%;background:#005baa;line-height:34px;font-size:0;mso-line-height-rule:exactly;">${icon('2b50', 16)}</td></tr></table><span style="color:#fff;font-size:13px;font-weight:700;vertical-align:middle;">One-Tap Access, Every Time</span></td></tr>
+    </table>
+  </td></tr>
+
+  <!-- CREDENTIALS -->
+  <tr><td style="padding:44px 32px 8px;" align="center">
+    <h2 style="font-size:22px;font-weight:800;margin:0 0 10px;">Great news, ${toName}! Your account is ready.</h2>
+    <p style="font-size:14px;color:#5b7290;line-height:1.6;margin:0 0 26px;max-width:420px;">You can now manage your iConnectHub, connect with your guests, and control everything from one easy place.</p>
+  </td></tr>
+  <tr><td style="padding:0 32px 28px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#eef2f8;border-radius:16px;">
+      <tr><td style="padding:18px 22px;border-bottom:1px solid #dbe3ee;">
+        <table cellpadding="0" cellspacing="0"><tr>
+          <td width="34" height="34" align="center" valign="middle" style="width:34px;height:34px;border-radius:50%;background:#dfe7f5;line-height:34px;font-size:0;mso-line-height-rule:exactly;">${icon('2709', 16)}</td>
+          <td style="padding-left:12px;"><span style="display:block;font-size:11px;font-weight:700;color:#0b2a4a;text-transform:uppercase;letter-spacing:.04em;">Email</span><span style="font-size:15px;color:#1f3a5c;font-weight:600;">${loginEmail}</span></td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="padding:18px 22px;">
+        <table cellpadding="0" cellspacing="0"><tr>
+          <td width="34" height="34" align="center" valign="middle" style="width:34px;height:34px;border-radius:50%;background:#dfe7f5;line-height:34px;font-size:0;mso-line-height-rule:exactly;">${icon('1f512', 16)}</td>
+          <td style="padding-left:12px;"><span style="display:block;font-size:11px;font-weight:700;color:#0b2a4a;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;">Temporary Password</span><span style="display:inline-block;font-family:'Courier New',monospace;font-size:14px;color:#0b2a4a;font-weight:700;background:#ffffff;border:1px solid #dbe3ee;border-radius:6px;padding:3px 10px;letter-spacing:.03em;">${loginPassword}</span></td>
+        </tr></table>
+      </td></tr>
+    </table>
+  </td></tr>
+  <tr><td align="center" style="padding:0 32px 12px;">${btn}</td></tr>
+  <tr><td align="center" style="padding:0 32px 40px;">
+    <p style="font-size:13px;color:#5b7290;margin:0;">🛡️ For your security, please change your password after your first sign-in.</p>
+  </td></tr>
+
+  <!-- DIVIDER -->
+  <tr><td style="padding:0 32px;"><div style="height:1px;background:#e9edf5;line-height:1px;font-size:0;">&nbsp;</div></td></tr>
+
+  <!-- TOOLS -->
+  <tr><td style="padding:36px 24px 8px;" align="center">
+    <h2 style="font-size:20px;font-weight:800;margin:0 0 6px;">Powerful Tools to Enhance the <span style="color:#005baa;">Guest</span> Experience</h2>
+    <div style="width:56px;height:3px;background:#005baa;border-radius:2px;margin:12px auto 28px;"></div>
+  </td></tr>
+  <tr><td style="padding:0 22px 8px;">
+    <table width="100%" cellpadding="0" cellspacing="0">${toolRows}</table>
+  </td></tr>
+
+  <!-- DIVIDER -->
+  <tr><td style="padding:8px 32px 0;"><div style="height:1px;background:#e9edf5;line-height:1px;font-size:0;">&nbsp;</div></td></tr>
+
+  <!-- HELP -->
+  <tr><td style="padding:28px 32px 36px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#eef2f8;border-radius:16px;">
+      <tr><td style="padding:22px 26px;">
+        <div style="font-size:15px;font-weight:800;color:#0b2a4a;margin-bottom:4px;">Need help?</div>
+        <div style="font-size:13px;color:#5b7290;margin-bottom:16px;">We're here to help you every step of the way.</div>
+        <div style="font-size:13px;color:#0b2a4a;font-weight:600;line-height:2;">
+          support@bluespotconnect.com<br>
+          (888) 922-8726<br>
+          bluespotconnect.com
         </div>
-        <div style="padding:26px 28px;">
-          <h1 style="font-size:20px;margin:0 0 10px;">Welcome, ${toName}!</h1>
-          <p style="font-size:14px;line-height:1.6;color:#3d5580;margin:0 0 18px;">
-            An account has been created for you. Use the credentials below to sign in.
-          </p>
-          <div style="background:#f4f7fd;border:1px solid #cdd9ef;border-radius:12px;padding:16px 18px;margin-bottom:20px;font-size:14px;line-height:1.9;">
-            <div><strong>Email:</strong> ${loginEmail}</div>
-            <div><strong>Temporary password:</strong> ${loginPassword}</div>
-          </div>
-          ${btn}
-          <p style="font-size:12px;color:#7890b8;margin:22px 0 0;line-height:1.6;">
-            For your security, please change your password after your first sign-in.
-          </p>
-        </div>
-      </div>
-    </div>
-  </body></html>`;
+      </td></tr>
+    </table>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td style="background:#081f39;padding:22px 32px;border-radius:0 0 19px 19px;" align="center">
+    <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr>
+      <td style="padding-right:8px;">${logo(18)}</td>
+      <td><span style="color:#fff;font-weight:800;font-size:15px;vertical-align:middle;">BlueSpot</span><span style="color:#cfe0f0;font-size:13px;vertical-align:middle;"> &nbsp;·&nbsp; Enhancing the <strong style="color:#005baa;">Guest</strong> Experience</span></td>
+    </tr></table>
+  </td></tr>
+
+</table>
+</td></tr></table>
+</body></html>`;
 }
 
 function buildAnnouncementEmail(hubName, title, body, toName) {

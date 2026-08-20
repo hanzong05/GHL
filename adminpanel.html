@@ -5,6 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BlueSpot Hub — Admin Panel</title>
+    <!-- PWA — installable admin panel, served by the shared bluesopt-sw.js
+         Cloudflare Worker (same one hosting the guest hubs' sw.js/manifest.json) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="iConnectHub Admin">
+    <meta name="theme-color" content="#1a56db">
+    <link rel="manifest" href="https://hub.bluespotguide.com/iconnecthub/manifest.json">
+    <link rel="icon" href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -654,6 +665,48 @@
             min-height: 0
         }
 
+        /* Events (activities) list can grow very long — give this panel its
+           own scroll container instead of relying on .content's scrolling,
+           since the flex:1/min-height:0 chain here was letting .card's
+           overflow:hidden clip extra events instead of making them reachable. */
+        #panel-activities.active {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+        }
+
+        /* .card normally clips to round its corners, but that same
+           overflow:hidden also clips the events list itself instead of
+           letting #panel-activities scroll to reach it. */
+        #panel-activities .card {
+            overflow: visible;
+        }
+
+        /* Same fix as #panel-activities above — the Registered Guests table
+           can run long, and .panel.active's flex:1/min-height:0 combined with
+           .card's overflow:hidden clipped the bottom rows instead of letting
+           the panel scroll to reach them. */
+        #panel-guests.active {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+        }
+
+        #panel-guests .card {
+            overflow: visible;
+        }
+
+        /* Same fix again for the Users table. */
+        #panel-users.active {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+        }
+
+        #panel-users .card {
+            overflow: visible;
+        }
+
         #panel-dashboard.active {
             gap: 10px
         }
@@ -817,6 +870,49 @@
             min-height: 44px
         }
 
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: var(--border2);
+            transition: .2s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            transition: .2s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--blue);
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
         .form-input:focus {
             border-color: var(--blue);
             box-shadow: 0 0 0 3px var(--blue-glow)
@@ -951,6 +1047,119 @@
         .ann-body {
             flex: 1;
             min-width: 0
+        }
+
+        /* ── Guest Chat panel ── */
+        .chat-convo-empty {
+            padding: 24px 16px;
+            text-align: center;
+            color: var(--text3);
+            font-size: 12px;
+        }
+
+        .chat-convo-item {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .chat-convo-item:hover {
+            background: var(--surface2);
+        }
+
+        .chat-convo-item.active {
+            background: var(--surface2);
+            box-shadow: inset 3px 0 0 var(--blue);
+        }
+
+        .chat-convo-guest {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .chat-unread-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ef4444;
+            flex-shrink: 0;
+        }
+
+        .chat-convo-preview {
+            font-size: 12px;
+            color: var(--text3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+
+        .chat-convo-time {
+            font-size: 10px;
+            color: var(--text3);
+        }
+
+        .chat-adm-msg {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .chat-adm-msg.guest-msg {
+            justify-content: flex-start;
+        }
+
+        .chat-adm-msg.admin-msg {
+            justify-content: flex-end;
+        }
+
+        .chat-adm-bubble {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .chat-adm-msg.guest-msg .chat-adm-bubble {
+            background: var(--surface2);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-adm-msg.admin-msg .chat-adm-bubble {
+            background: var(--blue);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-adm-ts {
+            font-size: 10px;
+            color: var(--text3);
+            margin-top: 3px;
+        }
+
+        .chat-adm-msg.admin-msg .chat-adm-ts {
+            text-align: right;
+        }
+
+        .chat-guest-result {
+            padding: 9px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chat-guest-result:last-child {
+            border-bottom: none;
+        }
+
+        .chat-guest-result:hover {
+            background: var(--surface2);
         }
 
         .ann-hub-badge {
@@ -1386,6 +1595,7 @@
             width: 100%;
             max-width: 520px;
             max-height: 90vh;
+            overflow-x: hidden;
             overflow-y: auto;
             overscroll-behavior: contain;
             touch-action: pan-y;
@@ -1828,6 +2038,20 @@
 
             .modal {
                 max-width: 90%;
+            }
+
+            .v2-wifi-chat-row {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .v2-wifi-chat-row .v2-settings-card {
+                max-height: none !important;
+            }
+
+            #mgrChatListView,
+            #mgrChatThreadView {
+                min-height: 260px;
             }
         }
 
@@ -2464,13 +2688,51 @@
         }
 
         .date-cal-day.sel {
-            background: var(--green-glow);
+            background: var(--green);
             border-color: var(--green);
-            color: var(--green);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .date-cal-day.sel.today {
+            color: #fff;
         }
 
         .date-cal-day.empty {
             cursor: default;
+        }
+
+        .date-cal-dow-quick {
+            display: flex;
+            gap: 4px;
+            padding: 8px 8px 0;
+        }
+
+        .date-cal-dow-btn {
+            flex: 1;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text2);
+            background: var(--surface3);
+            border: 1.5px solid var(--border2);
+            cursor: pointer;
+            transition: all .15s;
+            user-select: none;
+        }
+
+        .date-cal-dow-btn:hover {
+            background: var(--border2);
+        }
+
+        .date-cal-dow-btn.on {
+            background: var(--blue-glow);
+            border-color: var(--blue);
+            color: var(--blue);
         }
 
         .date-cal-selected-chips {
@@ -2696,7 +2958,7 @@
         /* ── v2 super-admin dashboard (greeting + stats + quick actions + recent) ── */
         .v2-stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 14px;
             margin-bottom: 18px
         }
@@ -2739,6 +3001,20 @@
 
         .v2-stat.s-purple .v2-stat-spark path {
             stroke: var(--purple)
+        }
+
+        .v2-stat.s-cyan::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0ea5e9, transparent)
+        }
+
+        .v2-stat.s-cyan .v2-stat-spark path {
+            stroke: #0ea5e9
         }
 
         .v2-stat-lbl {
@@ -3219,17 +3495,82 @@
                 grid-template-columns: 1fr
             }
         }
+
+        /* ── Guest Chat — stack into a single pane on narrow screens ── */
+        @media(max-width:768px) {
+            .chat-card {
+                position: relative;
+            }
+
+            .chat-list-pane {
+                width: 100% !important;
+                border-right: none !important;
+            }
+
+            .chat-thread-pane {
+                display: none !important;
+                position: absolute;
+                inset: 0;
+                background: var(--surface, #fff);
+            }
+
+            .chat-card.thread-open .chat-list-pane {
+                display: none !important;
+            }
+
+            .chat-card.thread-open .chat-thread-pane {
+                display: flex !important;
+            }
+
+            .chat-mobile-back {
+                display: flex !important;
+            }
+        }
     </style>
 </head>
 
 <body>
+
+    <script>
+        // GHL's page builder strips this file's <html>/<head>/<body> wrapper and
+        // drops everything as one flat block of body content — so the <meta>/<link>
+        // PWA tags up in our <head> section never actually land in document.head,
+        // and Chrome's manifest/install processing never sees them (confirmed via
+        // DevTools: the tag renders in the DOM but zero network request ever fires
+        // for manifest.json). Build the same tags here and append them straight to
+        // the real document.head so the browser's PWA logic can find them.
+        (function () {
+            var head = document.head;
+            function addMeta(name, content) {
+                var m = document.createElement('meta');
+                m.name = name;
+                m.content = content;
+                head.appendChild(m);
+            }
+            function addLink(rel, href, extra) {
+                var l = document.createElement('link');
+                l.rel = rel;
+                l.href = href;
+                if (extra) Object.keys(extra).forEach(function (k) { l.setAttribute(k, extra[k]); });
+                head.appendChild(l);
+            }
+            addMeta('mobile-web-app-capable', 'yes');
+            addMeta('apple-mobile-web-app-capable', 'yes');
+            addMeta('apple-mobile-web-app-status-bar-style', 'black-translucent');
+            addMeta('apple-mobile-web-app-title', 'iConnectHub Admin');
+            addMeta('theme-color', '#1a56db');
+            addLink('manifest', 'https://hub.bluespotguide.com/iconnecthub/manifest.json');
+            addLink('icon', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png');
+            addLink('apple-touch-icon', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png', { sizes: '180x180' });
+        })();
+    </script>
 
     <!-- AUTH -->
     <div class="auth-screen" id="authScreen">
         <div class="auth-card">
             <div class="auth-logo">
                 <div class="auth-logo-mark"><img
-                        src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a3a233b0b68a1153c5c318b.png"
+                        src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png"
                         alt="iConnectHub Admin" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
                 </div>
                 <div>
@@ -3320,7 +3661,7 @@
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <div class="sidebar-logo-mark"><img
-                            src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a3a233b0b68a1153c5c318b.png"
+                            src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png"
                             alt="BlueSpot Hub" style="width:100%;height:100%;object-fit:cover;border-radius:9px;"></div>
                     <div>
                         <div class="sidebar-logo-name">iConnectHub Admin</div>
@@ -3373,6 +3714,14 @@
                     Events
                     <span class="nav-badge green" id="navActCount">0</span>
                 </div>
+                <div class="nav-item manager-only" data-panel="chat" onclick="switchPanel(this)">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+                    </svg>
+                    Guest Chat
+                    <span class="nav-badge" id="navChatBadge" style="display:none;">0</span>
+                </div>
                 <div class="nav-item manager-only" data-panel="newsletter" onclick="switchPanel(this)">
                     <svg viewBox="0 0 24 24">
                         <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -3380,10 +3729,30 @@
                     </svg>
                     Newsletter
                 </div>
-                <div class="nav-item super-only" data-panel="hub-settings" onclick="switchPanel(this);loadHubSettingsPanel()">
+                <div class="nav-item manager-only" data-panel="monthlyhappenings" id="navMonthlyHappenings"
+                    onclick="switchPanel(this)">
                     <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" />
+                    </svg>
+                    Monthly Happenings
+                </div>
+                <div class="nav-item manager-only" data-panel="musicfestival" id="navMusicFestival"
+                    onclick="switchPanel(this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 18V5l12-2v13" />
+                        <circle cx="6" cy="18" r="3" />
+                        <circle cx="18" cy="16" r="3" />
+                    </svg>
+                    Music Festival
+                </div>
+                <div class="nav-item super-only" data-panel="hub-settings"
+                    onclick="switchPanel(this);loadHubSettingsPanel()">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                     </svg>
                     Settings
                 </div>
@@ -3412,6 +3781,22 @@
                 </div>
             </nav>
             <div class="sidebar-footer" style="border-top:1px solid rgba(255,255,255,.1);">
+                <button class="logout-btn" id="pwaInstallBtn" onclick="installPwa()"
+                    style="display:none;color:rgba(255,255,255,.85);font-size:14px;gap:12px;padding:11px 12px;margin-bottom:4px;">
+                    <svg viewBox="0 0 24 24" style="width:18px;height:18px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Install App
+                </button>
+                <button class="logout-btn" id="pushEnableBtn" onclick="enablePushNotifications()"
+                    style="display:none;color:rgba(255,255,255,.85);font-size:14px;gap:12px;padding:11px 12px;margin-bottom:4px;">
+                    <svg viewBox="0 0 24 24" style="width:18px;height:18px;">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    Enable Notifications
+                </button>
                 <button class="logout-btn" onclick="doLogout()"
                     style="color:rgba(255,255,255,.85);font-size:14px;gap:12px;padding:11px 12px;">
                     <svg viewBox="0 0 24 24" style="width:18px;height:18px;">
@@ -3527,6 +3912,19 @@
                                 </div>
                                 <svg class="v2-stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none">
                                     <path d="M0,16 C12,14 18,22 30,18 S46,10 58,16 72,22 84,14 100,18" />
+                                </svg>
+                            </div>
+                            <div class="v2-stat s-cyan">
+                                <div class="v2-stat-lbl">Notifications On</div>
+                                <div class="v2-stat-row">
+                                    <div class="v2-stat-val" id="statNotifsOnV2">—</div>
+                                    <div class="v2-stat-ic" style="color:#0ea5e9;"><svg viewBox="0 0 24 24">
+                                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                                        </svg></div>
+                                </div>
+                                <svg class="v2-stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                                    <path d="M0,20 C12,18 18,10 30,14 S46,22 58,16 72,8 84,14 100,10" />
                                 </svg>
                             </div>
                         </div>
@@ -3673,13 +4071,107 @@
                             </div>
                         </div>
 
+                        <!-- WiFi + Guest Chat row -->
+                        <div class="v2-wifi-chat-row"
+                            style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;">
+                            <!-- WiFi Settings card -->
+                            <div class="v2-settings-card" style="margin-bottom:0;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24">
+                                            <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                                            <path d="M1.42 9A16 16 0 0 1 22.58 9" />
+                                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                                            <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>WiFi Settings</h3>
+                                        <p>Change WiFi name and password in seconds.</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                                    <div>
+                                        <div class="v2-field-lbl">WiFi Name (SSID)</div>
+                                        <input class="v2-field-input" id="mgrWifiSsid" type="text"
+                                            placeholder="e.g. PineRidge_Guest">
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">WiFi Password</div>
+                                        <input class="v2-field-input" id="mgrWifiPass" type="text"
+                                            placeholder="WiFi password">
+                                    </div>
+                                    <button class="v2-btn-sm" onclick="saveMgrWifi()" style="width:100%;">Update
+                                        WiFi</button>
+                                </div>
+                            </div>
+
+                            <!-- Guest Chat mini widget -->
+                            <div class="v2-settings-card"
+                                style="margin-bottom:0;display:flex;flex-direction:column;min-height:0;max-height:340px;overflow:hidden;position:relative;">
+                                <button id="mgrChatCloseBtn" onclick="closeMgrChatThread()"
+                                    style="display:none;position:absolute;top:20px;right:20px;width:26px;height:26px;border-radius:7px;border:none;background:var(--surface2);cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;z-index:1;">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="18" y1="6" x2="6" y2="18" />
+                                        <line x1="6" y1="6" x2="18" y2="18" />
+                                    </svg>
+                                </button>
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Guest Chat
+                                            <span id="mgrChatBadge"
+                                                style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:9px;padding:1px 6px;margin-left:6px;">0</span>
+                                        </h3>
+                                        <p>Recent conversations with guests.</p>
+                                    </div>
+                                </div>
+                                <div id="mgrChatListView"
+                                    style="flex:1;min-height:0;display:flex;flex-direction:column;margin-top:10px;">
+                                    <div id="mgrChatConvoList" style="flex:1;overflow-y:auto;"></div>
+                                </div>
+                                <div id="mgrChatThreadView"
+                                    style="display:none;flex-direction:column;flex:1;min-height:0;margin-top:10px;">
+                                    <div
+                                        style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-shrink:0;">
+                                        <div id="mgrChatThreadName"
+                                            style="flex:1;min-width:0;font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                        </div>
+                                        <button onclick="deleteMgrChatConversation()" title="Delete this conversation"
+                                            style="width:26px;height:26px;border-radius:7px;border:none;background:var(--surface2);color:#ef4444;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;display:flex;">
+                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                                                <path d="M10 11v6M14 11v6M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="mgrChatThreadMsgs" style="flex:1;overflow-y:auto;margin-bottom:8px;">
+                                    </div>
+                                    <div style="display:flex;gap:6px;flex-shrink:0;">
+                                        <input id="mgrChatReplyInput" class="v2-field-input" placeholder="Type a reply…"
+                                            style="min-height:36px;height:36px;padding:8px 12px;font-size:12px;"
+                                            onkeydown="if(event.key==='Enter'){sendMgrChatReply();}">
+                                        <button class="v2-btn-sm" onclick="sendMgrChatReply()"
+                                            style="padding:0 14px;height:36px;flex-shrink:0;">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Tip bar -->
                         <div class="v2-tip">
                             <svg viewBox="0 0 24 24">
-                                <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.5-1.5 4.5-3 6H9c-1.5-1.5-3-3.5-3-6a6 6 0 0 1 6-6z" />
+                                <path
+                                    d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.5-1.5 4.5-3 6H9c-1.5-1.5-3-3.5-3-6a6 6 0 0 1 6-6z" />
                                 <path d="M9 17h6" />
                             </svg>
-                            <span>Tip: Go to <strong>Settings</strong> in the menu to manage WiFi and hub visibility.</span>
+                            <span>Tip: Go to <strong>Settings</strong> in the menu to manage WiFi and hub
+                                visibility.</span>
                         </div>
                     </div>
                 </div>
@@ -3696,112 +4188,267 @@
                             </select>
                         </div>
 
-                        <!-- WiFi Settings -->
-                        <div class="v2-settings-card" id="v2WifiCard2">
-                            <div class="v2-settings-head">
-                                <div class="v2-settings-ic"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9A16 16 0 0 1 22.58 9"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg></div>
-                                <div><h3>WiFi Settings</h3><p>Change WiFi name and password in seconds.</p></div>
-                            </div>
-                            <div class="v2-field-row">
-                                <div>
-                                    <div class="v2-field-lbl">WiFi Name (SSID)</div>
-                                    <input class="v2-field-input" id="mgrWifiSsid2" type="text" placeholder="e.g. PineRidge_Guest">
-                                </div>
-                                <div>
-                                    <div class="v2-field-lbl">WiFi Password</div>
-                                    <input class="v2-field-input" id="mgrWifiPass2" type="text" placeholder="WiFi password">
-                                </div>
-                                <button class="v2-btn-sm" onclick="saveHubSettingsWifi()">Update WiFi</button>
-                            </div>
-                        </div>
+                        <!-- Settings 2×2 grid — all 4 cards equal height -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;">
 
-                        <!-- Color Palette -->
-                        <div class="v2-settings-card" id="v2ColorPaletteCard">
-                            <div class="v2-settings-head">
-                                <div class="v2-settings-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="13" r="2.5"/><circle cx="6.5" cy="19.5" r="2.5"/><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></svg></div>
-                                <div><h3>Color Palette</h3><p>Choose a color scheme for this hub.</p></div>
+                            <!-- WiFi Settings -->
+                            <div class="v2-settings-card" id="v2WifiCard2"
+                                style="margin-bottom:0;min-height:340px;max-height:340px;display:flex;flex-direction:column;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24">
+                                            <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                                            <path d="M1.42 9A16 16 0 0 1 22.58 9" />
+                                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                                            <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>WiFi Settings</h3>
+                                        <p>Change WiFi name and password in seconds.</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                                    <div>
+                                        <div class="v2-field-lbl">WiFi Name (SSID)</div>
+                                        <input class="v2-field-input" id="mgrWifiSsid2" type="text"
+                                            placeholder="e.g. PineRidge_Guest"
+                                            style="width:100%;box-sizing:border-box;">
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">WiFi Password</div>
+                                        <input class="v2-field-input" id="mgrWifiPass2" type="text"
+                                            placeholder="WiFi password" style="width:100%;box-sizing:border-box;">
+                                    </div>
+                                    <button class="v2-btn-sm" onclick="saveHubSettingsWifi()"
+                                        style="width:100%;padding:13px;font-size:14px;font-weight:700;">Update
+                                        WiFi</button>
+                                </div>
                             </div>
-                            <div id="hubPaletteGrid" style="margin-top:8px;">
-                                <div style="display:flex;flex-direction:column;gap:14px;">
-                                    <!-- Color 1 -->
-                                    <div style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;">
-                                        <label for="hubColor1" style="position:relative;cursor:pointer;flex-shrink:0;">
-                                            <input type="color" id="hubColor1" value="#1a56db" oninput="previewHubPalette()"
-                                                style="width:48px;height:48px;border-radius:10px;border:2px solid #e5e7eb;cursor:pointer;padding:2px;background:none;">
-                                        </label>
+
+                            <!-- Notification Range -->
+                            <div class="v2-settings-card" id="v2GeofenceCard"
+                                style="margin-bottom:0;min-height:340px;max-height:340px;display:flex;flex-direction:column;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Notification Range</h3>
+                                        <p>Require guests to be near the park to get alerts.</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+                                    <div
+                                        style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface2);border-radius:12px;border:1px solid var(--border2);">
                                         <div>
-                                            <div style="font-size:13px;font-weight:700;color:#111827;">Color 1 — Primary</div>
-                                            <div style="font-size:11px;color:#6b7280;margin-top:2px;">Buttons, active nav, headers &amp; accents</div>
+                                            <div style="font-size:13px;font-weight:600;color:var(--text);">25-mile radius
+                                            </div>
+                                            <div style="font-size:11px;color:var(--text3);margin-top:2px;">Off = alerts
+                                                go out to every guest, anywhere.</div>
                                         </div>
+                                        <button class="ann-toggle on" id="geofenceToggle"
+                                            onclick="toggleHubGeofence(this)"></button>
                                     </div>
-                                    <!-- Color 2 -->
-                                    <div style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;">
-                                        <label for="hubColor2" style="position:relative;cursor:pointer;flex-shrink:0;">
-                                            <input type="color" id="hubColor2" value="#e8e5ef" oninput="previewHubPalette()"
-                                                style="width:48px;height:48px;border-radius:10px;border:2px solid #e5e7eb;cursor:pointer;padding:2px;background:none;">
-                                        </label>
-                                        <div>
-                                            <div style="font-size:13px;font-weight:700;color:#111827;">Color 2 — Background</div>
-                                            <div style="font-size:11px;color:#6b7280;margin-top:2px;">Page background tint</div>
-                                        </div>
-                                    </div>
-                                    <!-- Color 3 -->
-                                    <div style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;">
-                                        <label for="hubColor3" style="position:relative;cursor:pointer;flex-shrink:0;">
-                                            <input type="color" id="hubColor3" value="#6b7280" oninput="previewHubPalette()"
-                                                style="width:48px;height:48px;border-radius:10px;border:2px solid #e5e7eb;cursor:pointer;padding:2px;background:none;">
-                                        </label>
-                                        <div>
-                                            <div style="font-size:13px;font-weight:700;color:#111827;">Color 3 — Secondary Text</div>
-                                            <div style="font-size:11px;color:#6b7280;margin-top:2px;">Labels, sublabels &amp; muted text</div>
-                                        </div>
-                                    </div>
-                                    <!-- Color 4 -->
-                                    <div style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;">
-                                        <label for="hubColor4" style="position:relative;cursor:pointer;flex-shrink:0;">
-                                            <input type="color" id="hubColor4" value="#1a56db" oninput="previewHubPalette()"
-                                                style="width:48px;height:48px;border-radius:10px;border:2px solid #e5e7eb;cursor:pointer;padding:2px;background:none;">
-                                        </label>
-                                        <div>
-                                            <div style="font-size:13px;font-weight:700;color:#111827;">Color 4 — Primary Text</div>
-                                            <div style="font-size:11px;color:#6b7280;margin-top:2px;">Links, highlighted numbers &amp; "Read more" text</div>
-                                        </div>
-                                    </div>
-                                    <!-- Live preview strip -->
-                                    <div id="hubPalettePreview" style="border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;display:flex;height:40px;">
-                                        <div id="hubPreviewBg"      style="flex:2;background:#e8e5ef;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#666;">Background</div>
-                                        <div id="hubPreviewPrimary" style="flex:2;background:#1a56db;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;">Primary</div>
-                                        <div id="hubPreviewSecondary" style="flex:2;background:#6b7280;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;">Secondary</div>
-                                        <div id="hubPreviewTextPrimary" style="flex:2;background:#1a56db;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;">Text</div>
-                                        <div id="hubPreviewDark"    style="flex:1;background:#1e3a8a;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;">Dark</div>
-                                    </div>
-                                    <div style="display:flex;gap:8px;">
-                                        <button onclick="resetHubPalette()" class="v2-btn-sm" style="flex:1;padding:10px;font-size:13px;background:#f3f4f6;color:#374151;">Reset to Default</button>
-                                        <button onclick="saveHubPalette()" class="v2-btn-sm" style="flex:2;padding:10px;font-size:13px;">Apply Colors</button>
+                                    <div style="font-size:11px;color:var(--text3);line-height:1.5;padding:0 2px;">
+                                        When on, guests must confirm they're within 25 miles of the park before push
+                                        notifications turn on, and alerts pause automatically if they leave that range.
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Hub Visibility -->
-                        <div class="v2-settings-card">
-                            <div class="v2-settings-head">
-                                <div class="v2-settings-ic"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
-                                <div><h3>Hub Visibility</h3><p>Show or hide sections on your hub for guests.</p></div>
+                            <!-- Color Palette -->
+                            <div class="v2-settings-card" id="v2ColorPaletteCard"
+                                style="margin-bottom:0;min-height:340px;max-height:340px;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <circle cx="13.5" cy="6.5" r="2.5" />
+                                            <circle cx="19" cy="13" r="2.5" />
+                                            <circle cx="6.5" cy="19.5" r="2.5" />
+                                            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Color Palette</h3>
+                                        <p>Choose a color scheme for this hub.</p>
+                                    </div>
+                                </div>
+                                <div id="hubPaletteGrid" style="margin-top:8px;">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
+                                        <!-- Left: compact stacked swatches with hex overlay -->
+                                        <div
+                                            style="position:relative;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.13);">
+                                            <div id="hgp-primary" style="height:54px;background:#1a56db;"></div>
+                                            <div id="hgp-dark" style="height:54px;background:#122fa0;"></div>
+                                            <div id="hgp-tab" style="height:54px;background:#4a4fe0;"></div>
+                                            <div id="hgp-bg" style="height:54px;background:#f0f2fa;"></div>
+                                            <!-- Hidden elements kept so JS can still update their hex text -->
+                                            <span id="hgp-dark-hex" style="display:none;">#122fa0</span>
+                                            <span id="hgp-tab-hex" style="display:none;">#4a4fe0</span>
+                                            <span id="hgp-bg-hex" style="display:none;">#f0f2fa</span>
+                                            <span id="hgp-secondary" style="display:none;"></span>
+                                            <span id="hgp-secondary-hex" style="display:none;">#7b85a0</span>
+                                            <!-- Hex label chip at bottom-left -->
+                                            <div
+                                                style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.38);padding:5px 10px;">
+                                                <span id="hgp-primary-hex"
+                                                    style="font-size:11px;font-family:monospace;color:#fff;font-weight:700;letter-spacing:.03em;">#1a56db</span>
+                                            </div>
+                                        </div>
+                                        <!-- Right: picker + buttons -->
+                                        <div style="display:flex;flex-direction:column;gap:10px;">
+                                            <!-- Brand color row: small swatch + label -->
+                                            <div
+                                                style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
+                                                <label for="hubBrandColor" style="cursor:pointer;flex-shrink:0;">
+                                                    <div id="hubBrandPreview"
+                                                        style="width:52px;height:52px;border-radius:10px;background:#1a56db;box-shadow:0 2px 8px rgba(0,0,0,.18);border:3px solid #fff;outline:2px solid #e5e7eb;">
+                                                    </div>
+                                                    <input type="color" id="hubBrandColor" value="#1a56db"
+                                                        oninput="previewHubPalette()"
+                                                        style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;">
+                                                </label>
+                                                <div>
+                                                    <div style="font-size:13px;font-weight:700;color:#111827;">Brand
+                                                        Color</div>
+                                                    <div
+                                                        style="font-size:11px;color:#6b7280;margin-top:3px;line-height:1.4;">
+                                                        Pick one color — your full palette is auto-generated from it
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Hex input -->
+                                            <div
+                                                style="display:flex;align-items:center;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;">
+                                                <span
+                                                    style="padding:0 10px;font-size:13px;font-weight:700;color:#6b7280;font-family:monospace;border-right:1px solid #e5e7eb;background:#f1f3f8;height:100%;display:flex;align-items:center;">#</span>
+                                                <input type="text" id="hubHexInput" maxlength="7" placeholder="1a56db"
+                                                    oninput="syncHexInput(this)"
+                                                    style="flex:1;border:none;background:transparent;padding:10px 12px;font-size:13px;font-family:monospace;color:#111827;outline:none;letter-spacing:.04em;">
+                                            </div>
+                                            <button onclick="saveHubPalette()" class="v2-btn-sm"
+                                                style="width:100%;padding:13px;font-size:14px;font-weight:700;">Apply
+                                                Colors</button>
+                                            <button onclick="resetHubPalette()" class="v2-btn-sm"
+                                                style="width:100%;padding:11px;font-size:13px;background:#f3f4f6;color:#374151;">Reset
+                                                to Default</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="margin-bottom:10px;font-size:.78rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;">More Nav Items</div>
-                            <div id="visMoreToggles2" style="display:flex;flex-direction:column;gap:0;margin-bottom:20px;"></div>
-                            <div style="margin-bottom:10px;font-size:.78rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;">Quick Actions (Home)</div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="qaSlotGrid">
-                                <div><div class="v2-field-lbl">Slot 1</div><select class="v2-field-input" id="qaSlot0" onchange="saveQuickActions()"></select></div>
-                                <div><div class="v2-field-lbl">Slot 2</div><select class="v2-field-input" id="qaSlot1" onchange="saveQuickActions()"></select></div>
-                                <div><div class="v2-field-lbl">Slot 3</div><select class="v2-field-input" id="qaSlot2" onchange="saveQuickActions()"></select></div>
-                                <div><div class="v2-field-lbl">Slot 4</div><select class="v2-field-input" id="qaSlot3" onchange="saveQuickActions()"></select></div>
+
+
+                            <!-- Hub Visibility -->
+                            <div class="v2-settings-card"
+                                style="margin-bottom:0;min-height:340px;max-height:400px;display:flex;flex-direction:column;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Hub Visibility</h3>
+                                        <p>Drag items to group and arrange the guest "More" menu.</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex;gap:6px;margin:2px 0 8px;">
+                                    <button class="v2-btn-sm" onclick="addVisGroup()"
+                                        style="flex:1;height:auto;padding:6px 8px;font-size:11px;">+ Add
+                                        Group</button>
+                                    <button class="v2-btn-sm" onclick="resetVisGroupsToDefault()"
+                                        style="flex:1;height:auto;padding:6px 8px;font-size:11px;background:#f3f4f6;color:#374151;">Reset
+                                        to Suggested</button>
+                                </div>
+                                <div id="visGroupsEditor"
+                                    style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1;min-height:0;padding-right:4px;">
+                                </div>
                             </div>
-                        </div>
+
+                            <!-- Quick Actions (Home) -->
+                            <div class="v2-settings-card"
+                                style="margin-bottom:0;min-height:340px;max-height:340px;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Quick Actions</h3>
+                                        <p>Set the 4 shortcut buttons shown on the home screen.</p>
+                                    </div>
+                                </div>
+                                <div
+                                    style="margin-bottom:10px;font-size:.78rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;">
+                                    Home Screen Slots</div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="qaSlotGrid">
+                                    <div>
+                                        <div class="v2-field-lbl">Slot 1</div><select class="v2-field-input"
+                                            id="qaSlot0" onchange="saveQuickActions()"></select>
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">Slot 2</div><select class="v2-field-input"
+                                            id="qaSlot1" onchange="saveQuickActions()"></select>
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">Slot 3</div><select class="v2-field-input"
+                                            id="qaSlot2" onchange="saveQuickActions()"></select>
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">Slot 4</div><select class="v2-field-input"
+                                            id="qaSlot3" onchange="saveQuickActions()"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Password Reset Notifications -->
+                            <div class="v2-settings-card" id="v2PwResetNotifyCard"
+                                style="margin-bottom:0;min-height:340px;max-height:340px;display:flex;flex-direction:column;overflow:hidden;">
+                                <div class="v2-settings-head">
+                                    <div class="v2-settings-ic"><svg viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg></div>
+                                    <div>
+                                        <h3>Password Reset Notifications</h3>
+                                        <p>Get an email when this hub's users request a password reset.</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+                                    <div
+                                        style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface2);border-radius:12px;border:1px solid var(--border2);">
+                                        <div>
+                                            <div style="font-size:13px;font-weight:600;color:var(--text);">Notify me
+                                            </div>
+                                            <div style="font-size:11px;color:var(--text3);margin-top:2px;">Off = only the
+                                                normal reset email goes out.</div>
+                                        </div>
+                                        <button class="ann-toggle" id="pwResetNotifyToggle"
+                                            onclick="toggleHubPwResetNotify(this)"></button>
+                                    </div>
+                                    <div>
+                                        <div class="v2-field-lbl">Notify Email</div>
+                                        <input class="v2-field-input" id="pwResetNotifyEmail2" type="email"
+                                            placeholder="you@example.com" style="width:100%;box-sizing:border-box;">
+                                    </div>
+                                    <button class="v2-btn-sm" onclick="saveHubPwResetNotify()"
+                                        style="width:100%;padding:13px;font-size:14px;font-weight:700;">Save</button>
+                                </div>
+                            </div>
+
+                        </div><!-- /Settings 2×2 grid -->
 
                         <div class="v2-tip">
-                            <svg viewBox="0 0 24 24"><path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.5-1.5 4.5-3 6H9c-1.5-1.5-3-3.5-3-6a6 6 0 0 1 6-6z"/><path d="M9 17h6"/></svg>
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.5-1.5 4.5-3 6H9c-1.5-1.5-3-3.5-3-6a6 6 0 0 1 6-6z" />
+                                <path d="M9 17h6" />
+                            </svg>
                             <span>Changes are saved instantly and visible to guests right away.</span>
                         </div>
                     </div>
@@ -3909,6 +4556,69 @@
                     </div>
                 </div>
 
+                <!-- MONTHLY HAPPENINGS (multi-flyer upload; guests swipe through them) -->
+                <div class="panel" id="panel-monthlyhappenings">
+                    <div class="card">
+                        <div class="card-body" style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+                            <div>
+                                <label class="form-label">Hub</label>
+                                <select class="form-select" id="mhHubSelect"
+                                    onchange="loadMonthlyHappenings()"></select>
+                            </div>
+                            <div class="form-hint">Upload as many flyers as you like — guests can swipe through all of
+                                them in the order shown below.</div>
+                            <div id="mhGrid"
+                                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:420px;overflow-y:auto;padding-right:4px;">
+                            </div>
+                            <div id="mhEmptyNote"
+                                style="display:none;background:var(--surface2);border-radius:10px;padding:16px;text-align:center;color:var(--text2);font-size:13px;">
+                                No flyers uploaded yet for this hub.</div>
+                            <div>
+                                <label class="form-label">Add Flyers</label>
+                                <input type="file" id="mhFileInput" accept="image/*" multiple style="display:none;"
+                                    onchange="handleMHUpload(this)">
+                                <button class="btn btn-primary" style="width:100%;padding:12px;"
+                                    onclick="document.getElementById('mhFileInput').click()" id="mhUploadBtn">Choose
+                                    Images to Upload</button>
+                                <div class="form-hint">You can select multiple images at once.</div>
+                            </div>
+                            <div id="mhStatus"
+                                style="display:none;font-size:13px;color:var(--text2);text-align:center;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-musicfestival">
+                    <div class="card">
+                        <div class="card-body" style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+                            <div>
+                                <label class="form-label">Hub</label>
+                                <select class="form-select" id="mfHubSelect"
+                                    onchange="loadMusicFestival()"></select>
+                            </div>
+                            <div class="form-hint">Upload as many flyers as you like — guests can swipe through all of
+                                them in the order shown below.</div>
+                            <div id="mfGrid"
+                                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:420px;overflow-y:auto;padding-right:4px;">
+                            </div>
+                            <div id="mfEmptyNote"
+                                style="display:none;background:var(--surface2);border-radius:10px;padding:16px;text-align:center;color:var(--text2);font-size:13px;">
+                                No flyers uploaded yet for this hub.</div>
+                            <div>
+                                <label class="form-label">Add Flyers</label>
+                                <input type="file" id="mfFileInput" accept="image/*" multiple style="display:none;"
+                                    onchange="handleMFUpload(this)">
+                                <button class="btn btn-primary" style="width:100%;padding:12px;"
+                                    onclick="document.getElementById('mfFileInput').click()" id="mfUploadBtn">Choose
+                                    Images to Upload</button>
+                                <div class="form-hint">You can select multiple images at once.</div>
+                            </div>
+                            <div id="mfStatus"
+                                style="display:none;font-size:13px;color:var(--text2);text-align:center;"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- HUBS -->
                 <div class="panel" id="panel-hubs">
                     <div class="section-header">
@@ -3927,7 +4637,14 @@
                 <!-- USERS -->
                 <div class="panel super-only" id="panel-users">
                     <div class="section-header">
-                        <div></div>
+                        <select class="form-select" id="usersSortSelect" onchange="renderUsersTable()"
+                            style="font-size:12px;padding:7px 28px 7px 10px;width:auto;">
+                            <option value="name">Sort: Name (A–Z)</option>
+                            <option value="email">Sort: Email (A–Z)</option>
+                            <option value="role">Sort: Role</option>
+                            <option value="hub">Sort: Hub Access (A–Z)</option>
+                            <option value="status">Sort: Status</option>
+                        </select>
                         <button class="btn btn-primary" onclick="openAddUserModal()">
                             <svg viewBox="0 0 24 24">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -3965,6 +4682,13 @@
                         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                             <select class="form-select" id="guestHubSelect" onchange="loadGuestProfiles()"
                                 style="font-size:12px;padding:7px 28px 7px 10px;width:auto;flex-shrink:0;"></select>
+                            <select class="form-select" id="guestSortSelect" onchange="filterGuests()"
+                                style="font-size:12px;padding:7px 28px 7px 10px;width:auto;flex-shrink:0;">
+                                <option value="registered">Sort: Newest First</option>
+                                <option value="name">Sort: Name (A–Z)</option>
+                                <option value="email">Sort: Email (A–Z)</option>
+                                <option value="hub">Sort: Hub (A–Z)</option>
+                            </select>
                             <input class="form-input" id="guestSearch" oninput="filterGuests()"
                                 placeholder="Search name, phone, email…"
                                 style="font-size:13px;padding:8px 12px;min-width:0;flex:1;">
@@ -3990,6 +4714,109 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <!-- CHAT -->
+                <div class="panel" id="panel-chat">
+                    <div
+                        style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-end;">
+                        <select class="form-select" id="chatHubSelect" onchange="onChatHubChange()"
+                            style="font-size:12px;padding:7px 28px 7px 10px;width:auto;flex-shrink:0;"></select>
+                    </div>
+                    <div class="card chat-card" id="chatCard"
+                        style="display:flex;height:calc(100vh - 220px);min-height:420px;overflow:hidden;padding:0;">
+
+                        <!-- LEFT — conversation list -->
+                        <div class="chat-list-pane"
+                            style="width:280px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;">
+                                <span style="font-size:15px;font-weight:700;color:var(--text);">Chats</span>
+                                <button onclick="toggleChatNewMsg()" title="New message"
+                                    style="width:28px;height:28px;border-radius:8px;border:none;background:var(--surface2);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div style="position:relative;padding:0 16px 12px;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--text3)"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="position:absolute;left:28px;top:50%;transform:translateY(-50%);pointer-events:none;">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input class="form-input" id="chatConvoSearch" placeholder="Search conversations"
+                                    oninput="onChatSearchInput()" autocomplete="off"
+                                    style="font-size:12px;padding:8px 10px 8px 30px;">
+                                <div id="chatGuestSearchResults"
+                                    style="display:none;position:absolute;top:100%;left:16px;right:16px;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.14);max-height:280px;overflow-y:auto;z-index:30;">
+                                </div>
+                            </div>
+                            <div id="chatConvoList" style="flex:1;overflow-y:auto;">
+                                <div class="chat-convo-empty">Select a hub to view messages.</div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT — thread -->
+                        <div class="chat-thread-pane" style="flex:1;display:flex;flex-direction:column;min-width:0;">
+                            <div id="chatNoThread"
+                                style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:13px;text-align:center;padding:20px;">
+                                Select a conversation to view messages.
+                            </div>
+                            <div id="chatThreadActive" style="display:none;flex-direction:column;flex:1;min-height:0;">
+                                <div
+                                    style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);flex-shrink:0;">
+                                    <button class="chat-mobile-back" onclick="closeChatThreadMobile()"
+                                        style="display:none;width:30px;height:30px;border-radius:8px;border:none;background:var(--surface2);color:var(--text2);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <polyline points="15 18 9 12 15 6" />
+                                        </svg>
+                                    </button>
+                                    <div id="chatThreadAvatar"></div>
+                                    <div style="flex:1;min-width:0;">
+                                        <div id="chatThreadName"
+                                            style="font-size:14px;font-weight:700;color:var(--text);"></div>
+                                        <div id="chatThreadTime"
+                                            style="font-size:11px;color:var(--text3);margin-top:1px;"></div>
+                                    </div>
+                                    <button onclick="deleteChatConversation()" title="Delete this conversation"
+                                        style="width:32px;height:32px;border-radius:8px;border:none;background:var(--surface2);color:#ef4444;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;display:flex;">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <polyline points="3 6 5 6 21 6" />
+                                            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                                            <path d="M10 11v6M14 11v6M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="chatThreadMsgs" style="flex:1;overflow-y:auto;padding:16px 18px;"></div>
+                                <div
+                                    style="display:flex;gap:8px;align-items:center;padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;">
+                                    <textarea id="chatReplyInput" rows="1" placeholder="Type a reply…"
+                                        style="flex:1;resize:none;border:1px solid var(--border);border-radius:20px;padding:10px 16px;font-size:13px;font-family:inherit;max-height:100px;outline:none;"
+                                        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"
+                                        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAdminReply();}"></textarea>
+                                    <button class="btn-primary"
+                                        style="flex-shrink:0;border-radius:20px;padding:0 18px;height:38px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"
+                                        onclick="sendAdminReply()">
+                                        Send
+                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <line x1="22" y1="2" x2="11" y2="13" />
+                                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -4512,10 +5339,13 @@
                                 <span class="date-cal-month" id="actCalMonthLabel"></span>
                                 <button class="date-cal-nav-btn" onclick="actCalNext()">›</button>
                             </div>
+                            <div class="date-cal-dow-quick" id="actCalDowQuick"></div>
                             <div class="date-cal-grid" id="actCalGrid"></div>
                             <div class="date-cal-selected-chips" id="actCalChips"></div>
                         </div>
-                        <div class="form-hint">Tap dates to mark when this activity is available.</div>
+                        <div class="form-hint">Tap dates to mark specific days this activity is available, or tap a
+                            weekday letter above to repeat it every week on that day forever (this replaces any specific
+                            dates already picked).</div>
                     </div>
                     <div class="form-field full">
                         <div class="form-label">Activity Image</div>
@@ -4625,6 +5455,17 @@
         </div>
     </div>
 
+    <!-- ICON THEME PICKER (used by the Hub Visibility group editor) -->
+    <div id="iconThemeOv"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1200;align-items:center;justify-content:center;padding:20px;"
+        onclick="if(event.target===this)closeIconPickerModal()">
+        <div
+            style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;max-width:340px;width:100%;">
+            <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;">Choose an Icon</div>
+            <div id="iconThemeGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div>
+        </div>
+    </div>
+
     <div class="toast-wrap" id="toastWrap"></div>
 
     <script type="module">
@@ -4652,6 +5493,112 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
+
+        // ── PWA — installable admin panel ──
+        // Served by the shared bluesopt-sw.js Cloudflare Worker (routes:
+        // hub.bluespotguide.com/*/sw.js and /*/manifest.json) — same one that
+        // hosts the guest hubs, just under the 'iconnecthub' hub id.
+        const SW_HOST_URL = 'https://hub.bluespotguide.com/iconnecthub/sw.js';
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Scoped to this hub's own path — every hub on hub.bluespotguide.com
+                // used to register with scope '/', so whichever hub's worker was
+                // registered last became the SINGLE controller for the ENTIRE
+                // origin, bleeding its manifest/icon into every other hub's pages
+                // (e.g. installing this admin panel would show another hub's name).
+                navigator.serviceWorker.register(SW_HOST_URL, { scope: '/iconnecthub' }).catch(() => { });
+            });
+        }
+        let _pwaInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            _pwaInstallPrompt = e;
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = '';
+        });
+        window.installPwa = async function () {
+            if (!_pwaInstallPrompt) return;
+            _pwaInstallPrompt.prompt();
+            await _pwaInstallPrompt.userChoice;
+            _pwaInstallPrompt = null;
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'none';
+        };
+        window.addEventListener('appinstalled', () => {
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'none';
+        });
+
+        // ── Push notifications — lets a hub manager get alerted the instant a
+        // guest sends a chat message, even if the admin panel isn't open. Uses
+        // native Web Push (not FCM) via the shared bluespot-push.js worker,
+        // which already implements RFC 8291 encryption for raw subscriptions.
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        }
+
+        async function updatePushButtonVisibility() {
+            const btn = document.getElementById('pushEnableBtn');
+            if (!btn) return;
+            const supported = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+            if (!supported || !currentUser || Notification.permission === 'denied') {
+                btn.style.display = 'none';
+                return;
+            }
+            // Per-user, not per-device: Notification.permission is shared by every
+            // account that logs in on this browser, so checking it alone hides the
+            // button for every user after the first one who ever granted it. Check
+            // whether THIS uid has actually saved a subscription instead.
+            try {
+                const snap = await get(ref(db, `users/${currentUser.uid}/webPushSub`));
+                btn.style.display = snap.exists() ? 'none' : '';
+            } catch (e) {
+                btn.style.display = ''; // if the check fails, show it rather than lock the user out
+            }
+        }
+
+        window.enablePushNotifications = async function () {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                showToast('Push notifications are not supported in this browser.', 'error');
+                return;
+            }
+            try {
+                const perm = await Notification.requestPermission();
+                if (perm !== 'granted') {
+                    showToast('Notification permission was not granted.', 'info');
+                    return;
+                }
+                const registration = await navigator.serviceWorker.ready;
+                const keyRes = await fetch(PUSH_WORKER_URL + 'vapid-public-key');
+                const { publicKey } = await keyRes.json();
+                if (!publicKey) { showToast("Push isn't configured on the server yet.", 'error'); return; }
+
+                let sub = await registration.pushManager.getSubscription();
+                if (!sub) {
+                    sub = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(publicKey),
+                    });
+                }
+
+                const idToken = await getIdToken(currentUser);
+                const res = await fetch(PUSH_WORKER_URL + 'save-manager-subscription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idToken, subscription: sub.toJSON() }),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.saved) throw new Error(data.error || 'Save failed');
+
+                showToast('Push notifications enabled!', 'success');
+                updatePushButtonVisibility();
+            } catch (e) {
+                showToast('Error enabling notifications: ' + (e.message || e), 'error');
+            }
+        };
 
         // ── HAMBURGER MENU & RESPONSIVE ──
         // Lock app shell to real visible viewport — prevents address-bar / keyboard
@@ -4699,7 +5646,7 @@
         // for setup steps), paste its workers.dev URL in here:
         const DELETE_USER_WORKER_URL = 'https://bluespot-delete-user.christian-51e.workers.dev/';
         const PUSH_WORKER_URL = 'https://bluespot-push.christian-51e.workers.dev/';
-        const PASSWORD_RESET_WORKER_URL = 'https://bluespot-password-reset.christian-51e.workers.dev';
+        const PASSWORD_RESET_WORKER_URL = 'https://password-reset-worker.christian-51e.workers.dev';
         // Paste your GHL Workflow Webhook URL here:
         const GHL_WEBHOOK_URL = 'YOUR_GHL_WEBHOOK_URL_HERE';
 
@@ -4767,6 +5714,23 @@
             });
         }
 
+        // Monthly Happenings is a Sanwar-only feature — hide it from every
+        // other hub manager, keep it visible for Super Admins (who manage all hubs).
+        const SANWAR_HUB_ID = 'sanwar-rv-resort-hub';
+        function updateMonthlyHappeningsNavVisibility() {
+            const nav = document.getElementById('navMonthlyHappenings');
+            if (!nav) return;
+            const show = currentUserHubId === SANWAR_HUB_ID;
+            nav.style.display = show ? '' : 'none';
+        }
+
+        function updateMusicFestivalNavVisibility() {
+            const nav = document.getElementById('navMusicFestival');
+            if (!nav) return;
+            const show = currentUserHubId === SANWAR_HUB_ID;
+            nav.style.display = show ? '' : 'none';
+        }
+
         let selectedType = 'info';
         let allAnnsCache = {};
         let hubsCache = {};
@@ -4776,6 +5740,7 @@
         let currentUser = null;
         let currentUserRole = 'manager';
         let currentUserHubId = null;
+        let currentUserName = null;
         let annListeners = {};
         let viewingAsHubId = null;
 
@@ -4840,12 +5805,14 @@
                     const profile = userSnap.val();
                     currentUserRole = profile.role || 'manager';
                     currentUserHubId = profile.hubId || null;
+                    currentUserName = profile.name || null;
                     document.getElementById('sidebarRole').textContent = currentUserRole === 'super' ? 'Super Admin' : 'Hub Manager';
                     document.getElementById('sidebarRole').className = 'sidebar-user-role ' + (currentUserRole === 'super' ? 'super' : 'manager');
                     document.getElementById('sidebarName').textContent = profile.name || user.email;
                     document.getElementById('sidebarHubTag').textContent = currentUserRole === 'super' ? 'All Hubs' : (profile.hubName || profile.hubId || '—');
                 } else {
                     currentUserRole = 'super';
+                    currentUserName = null;
                     document.getElementById('sidebarRole').textContent = 'Super Admin';
                     document.getElementById('sidebarRole').className = 'sidebar-user-role super';
                     document.getElementById('sidebarName').textContent = user.email;
@@ -4858,6 +5825,8 @@
                 document.querySelectorAll('.manager-only').forEach(el =>
                     el.style.display = currentUserRole === 'manager' ? '' : 'none'
                 );
+                updateMonthlyHappeningsNavVisibility();
+                updateMusicFestivalNavVisibility();
 
                 // Update sidebar section label
                 const contentLbl = document.getElementById('navSectionContent');
@@ -4897,6 +5866,7 @@
                 loadUsers();
                 loadHubAnalytics();
                 showDashboardLayout();
+                updatePushButtonVisibility();
                 // Load dashboard data immediately
                 setTimeout(() => {
                     if (currentUserHubId && currentUserRole === 'manager') {
@@ -4970,6 +5940,10 @@
                 renderRecentUsers();
                 renderDashRecentUsersList();
                 renderAllRoleCards();
+            }, (err) => {
+                console.error('Failed to load users/ (likely a Realtime Database permission-denied):', err);
+                const tbody = document.getElementById('usersBody');
+                if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red,#ef4444);">Couldn't load users: ${err.message || err}</td></tr>`;
             });
         }
 
@@ -5078,7 +6052,7 @@
         }
 
         // ── RENDER USERS TABLE (FIX: toggle switch instead of checkmark icon) ──
-        function renderUsersTable() {
+        window.renderUsersTable = function renderUsersTable() {
             const tbody = document.getElementById('usersBody');
             if (!tbody) return;
             const users = Object.entries(usersCache);
@@ -5086,9 +6060,20 @@
                 tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text3);">No users found.</td></tr>`;
                 return;
             }
+            const hubLabel = u => u.hubId === '_global' ? 'All Hubs' : (hubsCache[u.hubId]?.name || u.hubId || '');
+            const sortBy = document.getElementById('usersSortSelect')?.value || 'name';
+            const SORTERS = {
+                name: ([, a], [, b]) => (a.name || a.email || '').localeCompare(b.name || b.email || ''),
+                email: ([, a], [, b]) => (a.email || '').localeCompare(b.email || ''),
+                role: ([, a], [, b]) => (a.role || '').localeCompare(b.role || '') || (a.name || a.email || '').localeCompare(b.name || b.email || ''),
+                hub: ([, a], [, b]) => hubLabel(a).localeCompare(hubLabel(b)) || (a.name || a.email || '').localeCompare(b.name || b.email || ''),
+                status: ([, a], [, b]) => (a.active !== false ? 0 : 1) - (b.active !== false ? 0 : 1) || (a.name || a.email || '').localeCompare(b.name || b.email || ''),
+            };
+            users.sort(SORTERS[sortBy] || SORTERS.name);
             tbody.innerHTML = users.map(([uid, u]) => {
                 const hubName = u.hubId === '_global' ? 'All Hubs' : (hubsCache[u.hubId]?.name || u.hubId || '—');
                 const isSelf = uid === currentUser?.uid || u.email === currentUser?.email;
+                const displayName = (u.name || u.email || uid).replace(/'/g, "\\'");
                 return `
         <tr>
           <td><span class="user-name">${u.name || '—'}</span></td>
@@ -5104,10 +6089,10 @@
                     onclick="toggleUserActive('${uid}',${u.active !== false})"
                     title="${u.active !== false ? 'Deactivate user' : 'Activate user'}">
                    </button>
-                   <div class="ann-action-btn" title="Change password" onclick="openChangePasswordModal('${uid}','${(u.name || u.email).replace(/'/g, "\\'")}')">
+                   <div class="ann-action-btn" title="Change password" onclick="openChangePasswordModal('${uid}','${displayName}')">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                    </div>
-                   <div class="ann-action-btn delete" title="Delete user" onclick="deleteUser('${uid}','${(u.name || u.email).replace(/'/g, "\\'")}')">
+                   <div class="ann-action-btn delete" title="Delete user" onclick="deleteUser('${uid}','${displayName}')">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
                    </div>`
                     }
@@ -5115,7 +6100,7 @@
           </td>
         </tr>`;
             }).join('');
-        }
+        };
 
         // ── ADD HUB ──
         let newHubLogoUrl = '';
@@ -5220,7 +6205,10 @@
                         const canvas = document.createElement('canvas');
                         canvas.width = width; canvas.height = height;
                         canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.85));
+                        // PNG, not JPEG — JPEG has no alpha channel, so any
+                        // transparent (background-removed) logo gets its
+                        // transparent pixels flattened to black on encode.
+                        resolve(canvas.toDataURL('image/png'));
                     };
                     img.src = reader.result;
                 };
@@ -5563,7 +6551,7 @@
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ hubId, title: `📅 ${a.title} is starting now!`, body: [a.hours, a.location].filter(Boolean).join(' · ') || a.description || '', idToken }),
-                        }).catch(() => {});
+                        }).catch(() => { });
                         // Email at event start time
                         const res = await fetch(PUSH_WORKER_URL + 'send-email-resend', {
                             method: 'POST',
@@ -5691,6 +6679,7 @@
             const scheduledAt = !active && scheduledAtVal ? new Date(scheduledAtVal).toISOString() : null;
             if (!title || !message) { showToast('Fill in title and message.', 'error'); return; }
             if (!active && scheduledAt && new Date(scheduledAt) <= new Date()) { showToast('Scheduled time must be in the future.', 'error'); return; }
+            if (expiry && new Date(expiry) <= new Date()) { showToast('Expiry time must be in the future — guests won\'t see a post that already expired.', 'error'); return; }
             try {
                 const annRef = ref(db, `hubs/${hubId}/announcements`);
                 const newRef = push(annRef);
@@ -5765,7 +6754,7 @@
             const panelId = navEl.dataset.panel;
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.getElementById('panel-' + panelId).classList.add('active');
-            const titles = { dashboard: 'Dashboard', announcements: 'Announcements', hubs: 'Hubs', users: 'Users', activities: 'Events', chat: 'Guest Chat', newsletter: 'Newsletter Image', guests: 'Guest Profiles', qrcodes: 'QR Codes' };
+            const titles = { dashboard: 'Dashboard', announcements: 'Announcements', hubs: 'Hubs', users: 'Users', activities: 'Events', chat: 'Guest Chat', newsletter: 'Newsletter Image', monthlyhappenings: 'Monthly Happenings', musicfestival: 'Music Festival', guests: 'Guest Profiles', qrcodes: 'QR Codes' };
             document.getElementById('topbarTitle').textContent = titles[panelId] || panelId;
             document.getElementById('topbarHubFilter').style.display = 'none';
             document.getElementById('topbarPostBtn').style.display = 'none';
@@ -5780,10 +6769,16 @@
 
             if (panelId === 'chat') {
                 const hubSel = document.getElementById('chatHubSelect');
-                if (hubSel && hubSel.value) loadChatConvos(hubSel.value);
+                if (hubSel && hubSel.value) { loadChatConvos(hubSel.value); loadChatGuests(hubSel.value); }
             }
             if (panelId === 'newsletter') {
                 populateNLHubSelect();
+            }
+            if (panelId === 'monthlyhappenings') {
+                populateMHHubSelect();
+            }
+            if (panelId === 'musicfestival') {
+                populateMFHubSelect();
             }
             if (panelId === 'guests') {
                 populateGuestHubSelect();
@@ -5999,6 +6994,248 @@
             }
         };
 
+        // ── Monthly Happenings panel — unlike the single-image Newsletter,
+        // this stores an ORDERED ARRAY of flyer URLs (`hubs/{hubId}/settings/
+        // monthlyHappenings`) so a manager can upload one flyer per month (or
+        // as many as they want) and guests swipe through all of them in the
+        // guest hub, instead of only ever having one image on display. ──
+        function populateMHHubSelect() {
+            const sel = document.getElementById('mhHubSelect');
+            if (!sel) return;
+            // Monthly Happenings is Sanwar-only — restrict the hub picker to that
+            // one hub even for Super Admins, so it can't be used to manage flyers
+            // on any other hub.
+            const hubs = Object.values(hubsCache).filter(h => h.id === SANWAR_HUB_ID);
+            if (hubs.length) {
+                sel.innerHTML = hubs.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
+                loadMonthlyHappenings();
+            } else {
+                get(ref(db, 'hubs_meta')).then(snap => {
+                    const data = snap.val() || {};
+                    const ids = Object.keys(data).filter(k => k === SANWAR_HUB_ID);
+                    sel.innerHTML = ids.map(id => `<option value="${id}">${data[id]?.name || id}</option>`).join('');
+                    if (ids.length) loadMonthlyHappenings();
+                });
+            }
+        }
+
+        window.loadMonthlyHappenings = function () {
+            const hubId = document.getElementById('mhHubSelect')?.value;
+            if (!hubId) return;
+            const grid = document.getElementById('mhGrid');
+            const emptyNote = document.getElementById('mhEmptyNote');
+            get(ref(db, `hubs/${hubId}/settings/monthlyHappenings`)).then(snap => {
+                const flyers = snap.val() || [];
+                if (!flyers.length) {
+                    grid.innerHTML = '';
+                    emptyNote.style.display = '';
+                    return;
+                }
+                emptyNote.style.display = 'none';
+                grid.innerHTML = flyers.map((url, i) => `
+          <div style="position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border2);aspect-ratio:3/4;background:var(--surface2);">
+            <img src="${url}" alt="Flyer ${i + 1}" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <button onclick="removeMHFlyer(${i})" title="Remove"
+              style="position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+            <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);color:#fff;font-size:10px;font-weight:700;padding:3px 6px;">#${i + 1}</div>
+          </div>`).join('');
+            });
+        };
+
+        window.handleMHUpload = async function (input) {
+            const files = Array.from(input.files || []);
+            if (!files.length) return;
+            const hubId = document.getElementById('mhHubSelect')?.value;
+            if (!hubId) return;
+            const btn = document.getElementById('mhUploadBtn');
+            const status = document.getElementById('mhStatus');
+            btn.disabled = true;
+            status.style.color = 'var(--text2)';
+            status.style.display = '';
+
+            const uploadedUrls = [];
+            let failCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                btn.textContent = `Uploading ${i + 1} of ${files.length}…`;
+                status.textContent = `Uploading image ${i + 1} of ${files.length}…`;
+                try {
+                    const base64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(files[i]);
+                    });
+                    const form = new FormData();
+                    form.append('image', base64);
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: form });
+                    const json = await res.json();
+                    if (!json.success) throw new Error(json.error?.message || 'ImgBB upload failed');
+                    uploadedUrls.push(json.data.url);
+                } catch (e) {
+                    failCount++;
+                }
+            }
+
+            try {
+                if (uploadedUrls.length) {
+                    // Single read-then-write for the whole batch (not per-file) so
+                    // uploading several flyers at once can't race and silently drop
+                    // ones whose read/write interleaved with another file's.
+                    const snap = await get(ref(db, `hubs/${hubId}/settings/monthlyHappenings`));
+                    const flyers = snap.val() || [];
+                    flyers.push(...uploadedUrls);
+                    await set(ref(db, `hubs/${hubId}/settings/monthlyHappenings`), flyers);
+                }
+                if (failCount) {
+                    status.textContent = `Added ${uploadedUrls.length} flyer${uploadedUrls.length !== 1 ? 's' : ''}, ${failCount} failed.`;
+                    status.style.color = 'var(--amber)';
+                } else {
+                    status.textContent = `Added ${uploadedUrls.length} flyer${uploadedUrls.length !== 1 ? 's' : ''}!`;
+                    status.style.color = 'var(--green)';
+                }
+                loadMonthlyHappenings();
+            } catch (e) {
+                status.textContent = 'Save failed: ' + e.message;
+                status.style.color = 'var(--red)';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Choose Images to Upload';
+                input.value = '';
+                setTimeout(() => { status.style.display = 'none'; }, 4000);
+            }
+        };
+
+        window.removeMHFlyer = async function (index) {
+            const hubId = document.getElementById('mhHubSelect')?.value;
+            if (!hubId || !confirm('Remove this flyer?')) return;
+            try {
+                const snap = await get(ref(db, `hubs/${hubId}/settings/monthlyHappenings`));
+                const flyers = snap.val() || [];
+                flyers.splice(index, 1);
+                await set(ref(db, `hubs/${hubId}/settings/monthlyHappenings`), flyers);
+                loadMonthlyHappenings();
+            } catch (e) {
+                showToast('Error: ' + e.message, 'error');
+            }
+        };
+
+        // ── Music Festival — same feature as Monthly Happenings, kept on its
+        // own Firebase path (hubs/{hubId}/settings/musicFestival) so the two
+        // flyer sets never mix, still Sanwar-only. ──
+        function populateMFHubSelect() {
+            const sel = document.getElementById('mfHubSelect');
+            if (!sel) return;
+            const hubs = Object.values(hubsCache).filter(h => h.id === SANWAR_HUB_ID);
+            if (hubs.length) {
+                sel.innerHTML = hubs.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
+                loadMusicFestival();
+            } else {
+                get(ref(db, 'hubs_meta')).then(snap => {
+                    const data = snap.val() || {};
+                    const ids = Object.keys(data).filter(k => k === SANWAR_HUB_ID);
+                    sel.innerHTML = ids.map(id => `<option value="${id}">${data[id]?.name || id}</option>`).join('');
+                    if (ids.length) loadMusicFestival();
+                });
+            }
+        }
+
+        window.loadMusicFestival = function () {
+            const hubId = document.getElementById('mfHubSelect')?.value;
+            if (!hubId) return;
+            const grid = document.getElementById('mfGrid');
+            const emptyNote = document.getElementById('mfEmptyNote');
+            get(ref(db, `hubs/${hubId}/settings/musicFestival`)).then(snap => {
+                const flyers = snap.val() || [];
+                if (!flyers.length) {
+                    grid.innerHTML = '';
+                    emptyNote.style.display = '';
+                    return;
+                }
+                emptyNote.style.display = 'none';
+                grid.innerHTML = flyers.map((url, i) => `
+          <div style="position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border2);aspect-ratio:3/4;background:var(--surface2);">
+            <img src="${url}" alt="Flyer ${i + 1}" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <button onclick="removeMFFlyer(${i})" title="Remove"
+              style="position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+            <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);color:#fff;font-size:10px;font-weight:700;padding:3px 6px;">#${i + 1}</div>
+          </div>`).join('');
+            });
+        };
+
+        window.handleMFUpload = async function (input) {
+            const files = Array.from(input.files || []);
+            if (!files.length) return;
+            const hubId = document.getElementById('mfHubSelect')?.value;
+            if (!hubId) return;
+            const btn = document.getElementById('mfUploadBtn');
+            const status = document.getElementById('mfStatus');
+            btn.disabled = true;
+            status.style.color = 'var(--text2)';
+            status.style.display = '';
+
+            const uploadedUrls = [];
+            let failCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                btn.textContent = `Uploading ${i + 1} of ${files.length}…`;
+                status.textContent = `Uploading image ${i + 1} of ${files.length}…`;
+                try {
+                    const base64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(files[i]);
+                    });
+                    const form = new FormData();
+                    form.append('image', base64);
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: form });
+                    const json = await res.json();
+                    if (!json.success) throw new Error(json.error?.message || 'ImgBB upload failed');
+                    uploadedUrls.push(json.data.url);
+                } catch (e) {
+                    failCount++;
+                }
+            }
+
+            try {
+                if (uploadedUrls.length) {
+                    const snap = await get(ref(db, `hubs/${hubId}/settings/musicFestival`));
+                    const flyers = snap.val() || [];
+                    flyers.push(...uploadedUrls);
+                    await set(ref(db, `hubs/${hubId}/settings/musicFestival`), flyers);
+                }
+                if (failCount) {
+                    status.textContent = `Added ${uploadedUrls.length} flyer${uploadedUrls.length !== 1 ? 's' : ''}, ${failCount} failed.`;
+                    status.style.color = 'var(--amber)';
+                } else {
+                    status.textContent = `Added ${uploadedUrls.length} flyer${uploadedUrls.length !== 1 ? 's' : ''}!`;
+                    status.style.color = 'var(--green)';
+                }
+                loadMusicFestival();
+            } catch (e) {
+                status.textContent = 'Save failed: ' + e.message;
+                status.style.color = 'var(--red)';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Choose Images to Upload';
+                input.value = '';
+                setTimeout(() => { status.style.display = 'none'; }, 4000);
+            }
+        };
+
+        window.removeMFFlyer = async function (index) {
+            const hubId = document.getElementById('mfHubSelect')?.value;
+            if (!hubId || !confirm('Remove this flyer?')) return;
+            try {
+                const snap = await get(ref(db, `hubs/${hubId}/settings/musicFestival`));
+                const flyers = snap.val() || [];
+                flyers.splice(index, 1);
+                await set(ref(db, `hubs/${hubId}/settings/musicFestival`), flyers);
+                loadMusicFestival();
+            } catch (e) {
+                showToast('Error: ' + e.message, 'error');
+            }
+        };
+
         // ── Newsletter Modal (dashboard shortcut) ──
         window.openNewsletterModal = function () {
             const sel = document.getElementById('nlModalHubSelect');
@@ -6091,6 +7328,8 @@
             currentUserRole = 'manager';
             document.querySelectorAll('.super-only').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.manager-only').forEach(el => el.style.display = '');
+            updateMonthlyHappeningsNavVisibility();
+            updateMusicFestivalNavVisibility();
             populateHubSelects();
             updateStats(Object.values(allAnnsCache));
             updateActCount();
@@ -6105,6 +7344,8 @@
             currentUserHubId = null;
             document.querySelectorAll('.super-only').forEach(el => el.style.display = '');
             document.querySelectorAll('.manager-only').forEach(el => el.style.display = 'none');
+            updateMonthlyHappeningsNavVisibility();
+            updateMusicFestivalNavVisibility();
             populateHubSelects();
             updateStats(Object.values(allAnnsCache));
             updateActCount();
@@ -6197,8 +7438,35 @@
         let actCalYear = new Date().getFullYear();
         let actCalMonth = new Date().getMonth(); // 0-based
         let actSelDates = new Set(); // ISO strings 'YYYY-MM-DD'
+        // Weekday names ('Tue', 'Sat', ...) the activity should repeat on
+        // forever, with no end date. Mutually exclusive with actSelDates —
+        // picking a specific date clears this, and picking a recurring
+        // weekday clears any specific dates (the guest hub's isOnDate()
+        // checks `dates` first and only falls back to `days` when empty).
+        let actRecurDays = new Set();
 
         const DOW_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        const DOW_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        function actCalDowQuickRender() {
+            const wrap = document.getElementById('actCalDowQuick');
+            if (!wrap) return;
+            wrap.innerHTML = DOW_LABELS.map((label, i) => {
+                const on = actRecurDays.has(DOW_NAMES[i]);
+                return `<div class="date-cal-dow-btn${on ? ' on' : ''}" data-dow="${i}" title="Repeat every ${label} indefinitely (no end date)">${label.toUpperCase()}</div>`;
+            }).join('');
+        }
+
+        window.actCalToggleDow = function (dowIndex) {
+            const name = DOW_NAMES[dowIndex];
+            if (actRecurDays.has(name)) {
+                actRecurDays.delete(name);
+            } else {
+                actRecurDays.add(name);
+                if (actSelDates.size) actSelDates.clear();
+            }
+            actCalRender();
+        };
 
         function actCalRender() {
             const today = new Date();
@@ -6212,17 +7480,25 @@
             for (let i = 0; i < firstDay; i++) html += `<div class="date-cal-day empty"></div>`;
             for (let d = 1; d <= daysInMonth; d++) {
                 const iso = `${actCalYear}-${String(actCalMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                const isSel = actSelDates.has(iso);
+                const dow = new Date(actCalYear, actCalMonth, d).getDay();
+                const isSel = actRecurDays.size ? actRecurDays.has(DOW_NAMES[dow]) : actSelDates.has(iso);
                 const isToday = iso === todayStr;
                 html += `<div class="date-cal-day${isSel ? ' sel' : ''}${isToday ? ' today' : ''}" data-iso="${iso}">${d}</div>`;
             }
             grid.innerHTML = html;
+            actCalDowQuickRender();
             actCalChipsRender();
         }
 
         function actCalChipsRender() {
+            const chipsWrap = document.getElementById('actCalChips');
+            if (actRecurDays.size) {
+                const names = DOW_NAMES.filter(n => actRecurDays.has(n));
+                chipsWrap.innerHTML = `<div class="date-cal-chip">Repeats every ${names.join(', ')} — no end date<span class="date-cal-chip-x" onclick="actCalClearRecur()">×</span></div>`;
+                return;
+            }
             const sorted = [...actSelDates].sort();
-            document.getElementById('actCalChips').innerHTML = sorted.map(iso => {
+            chipsWrap.innerHTML = sorted.map(iso => {
                 const dt = new Date(iso + 'T00:00');
                 const label = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                 return `<div class="date-cal-chip">${label}<span class="date-cal-chip-x" onclick="actCalRemove('${iso}')">×</span></div>`;
@@ -6236,13 +7512,21 @@
         window.actCalPrev = function () { actCalMonth--; if (actCalMonth < 0) { actCalMonth = 11; actCalYear--; } actCalRender(); };
         window.actCalNext = function () { actCalMonth++; if (actCalMonth > 11) { actCalMonth = 0; actCalYear++; } actCalRender(); };
         window.actCalRemove = function (iso) { actSelDates.delete(iso); actCalRender(); };
+        window.actCalClearRecur = function () { actRecurDays.clear(); actCalRender(); };
 
         document.getElementById('actCalGrid').addEventListener('click', function (e) {
             const day = e.target.closest('.date-cal-day');
             if (!day || day.classList.contains('empty')) return;
             const iso = day.dataset.iso;
+            if (actRecurDays.size) actRecurDays.clear();
             if (actSelDates.has(iso)) actSelDates.delete(iso); else actSelDates.add(iso);
             actCalRender();
+        });
+
+        document.getElementById('actCalDowQuick').addEventListener('click', function (e) {
+            const btn = e.target.closest('.date-cal-dow-btn');
+            if (!btn) return;
+            actCalToggleDow(Number(btn.dataset.dow));
         });
 
         // Initialize calendar on page load
@@ -6337,6 +7621,7 @@
         // ── CAMPGROUND STATUS (controls More nav visibility in template) ──
         const MORE_NAV_ITEMS = [
             { id: 'wifi', label: 'WiFi', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9A16 16 0 0 1 22.58 9"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg>' },
+            { id: 'chat', label: 'Chat / Message Us', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>' },
             { id: 'amenities', label: 'Amenities', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' },
             { id: 'rules', label: 'Rules', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>' },
             { id: 'reservations', label: 'Reservations', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' },
@@ -6402,6 +7687,10 @@
         // "Subscribers" = guests who registered on the hub. Sum across every
         // accessible hub so the dashboard stat + sidebar badge are never stuck at 0.
         const _subCounts = {};
+        // Guests with an active push subscription (webPushSub for iOS Web Push,
+        // fcmToken for Android/desktop) — separate from total registered guests,
+        // since registering and turning on notifications are separate steps.
+        const _pushOnCounts = {};
         function loadPushSubscriberCount() {
             const hubs = currentUserRole === 'super'
                 ? Object.keys(hubsCache)
@@ -6409,7 +7698,10 @@
             if (!hubs.length) return;
             hubs.forEach(hubId => {
                 onValue(ref(db, `hubs/${hubId}/guests`), snap => {
-                    _subCounts[hubId] = snap.val() ? Object.keys(snap.val()).length : 0;
+                    const data = snap.val() || {};
+                    const guestList = Object.values(data);
+                    _subCounts[hubId] = guestList.length;
+                    _pushOnCounts[hubId] = guestList.filter(g => g.webPushSub || g.fcmToken).length;
                     const total = Object.values(_subCounts).reduce((a, b) => a + b, 0);
                     const el = document.getElementById('statSubscribers');
                     if (el) el.textContent = total;
@@ -6417,6 +7709,9 @@
                     if (elV2) elV2.textContent = total;
                     const nav = document.getElementById('navGuestCount');
                     if (nav) nav.textContent = total;
+                    const pushTotal = Object.values(_pushOnCounts).reduce((a, b) => a + b, 0);
+                    const pushEl = document.getElementById('statNotifsOnV2');
+                    if (pushEl) pushEl.textContent = pushTotal;
                 });
             });
         }
@@ -6719,6 +8014,7 @@
                 }
                 a.active !== false ? document.getElementById('actActiveToggle').classList.add('on') : document.getElementById('actActiveToggle').classList.remove('on');
                 actSelDates = new Set(a.dates && a.dates.length ? a.dates : []);
+                actRecurDays = new Set(a.days && a.days.length ? a.days.filter(d => DOW_NAMES.includes(d)) : []);
             } else {
                 ['actTitle', 'actDesc', 'actFullDesc', 'actHours', 'actLocation', 'actImage'].forEach(id => document.getElementById(id).value = '');
                 document.getElementById('actImgPreviewWrap').style.display = 'none';
@@ -6726,6 +8022,7 @@
                 document.getElementById('actImgUploadBtn').textContent = 'Choose Image to Upload';
                 document.getElementById('actActiveToggle').classList.add('on');
                 actSelDates = new Set();
+                actRecurDays = new Set();
             }
             actCalYear = new Date().getFullYear();
             actCalMonth = new Date().getMonth();
@@ -6741,19 +8038,20 @@
             const location = document.getElementById('actLocation').value.trim();
             const imageUrl = document.getElementById('actImage').value.trim();
             const active = document.getElementById('actActiveToggle').classList.contains('on');
-            const dates = [...actSelDates].sort();
+            const dates = actRecurDays.size ? [] : [...actSelDates].sort();
+            const days = actRecurDays.size ? [...actRecurDays] : [];
             const hubId = document.getElementById('actModalHub').value;
             const editId = document.getElementById('actEditId').value;
             if (!title) { showToast('Activity title is required.', 'error'); return; }
             if (!hubId) { showToast('Please select a hub.', 'error'); return; }
             try {
                 if (editId) {
-                    await update(ref(db, `hubs/${hubId}/activities/${editId}`), { title, description, fullDesc, hours, location, imageUrl, active, dates, updatedAt: new Date().toISOString(), updatedBy: currentUser.email });
+                    await update(ref(db, `hubs/${hubId}/activities/${editId}`), { title, description, fullDesc, hours, location, imageUrl, active, dates, days, updatedAt: new Date().toISOString(), updatedBy: currentUser.email });
                     showToast('Activity updated!', 'success');
                 } else {
                     const newRef = push(ref(db, `hubs/${hubId}/activities`));
                     const order = Object.keys(activitiesCache[hubId] || {}).length;
-                    await set(newRef, { id: newRef.key, title, description, fullDesc, hours, location, imageUrl, active, dates, order, hubId, createdAt: new Date().toISOString(), createdBy: currentUser.email });
+                    await set(newRef, { id: newRef.key, title, description, fullDesc, hours, location, imageUrl, active, dates, days, order, hubId, createdAt: new Date().toISOString(), createdBy: currentUser.email });
                     showToast('Activity added!', 'success');
                     // Notify guests if event is active
                     if (active) {
@@ -6764,7 +8062,7 @@
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ hubId, title: `📅 New Event: ${title}`, body: notifBody.slice(0, 120), idToken }),
-                            }).catch(() => {});
+                            }).catch(() => { });
                         });
                         getIdToken(currentUser).then(idToken =>
                             fetch(PUSH_WORKER_URL + 'send-email-resend', {
@@ -6777,8 +8075,8 @@
                                 if (data.sent > 0) msg += `${data.sent} email${data.sent !== 1 ? 's' : ''}`;
                                 if (data.smsSent > 0) msg += (msg ? ' + ' : '') + `${data.smsSent} SMS`;
                                 if (msg) showToast(`Guests notified: ${msg}`, 'success');
-                            }).catch(() => {})
-                        ).catch(() => {});
+                            }).catch(() => { })
+                        ).catch(() => { });
                     }
                 }
                 closeModal('activityModal');
@@ -6809,6 +8107,7 @@
         const chatMsgListeners = {};
         let activeChatHubId = null;
         let activeChatSession = null;
+        let activeChatGuestName = null;
 
         function loadChatConvos(hubId) {
             if (!hubId) return;
@@ -6847,43 +8146,75 @@
             return d.toLocaleDateString([], { month: 'short', day: 'numeric' });
         }
 
+        function fmtChatDateSep(iso) {
+            const d = new Date(iso);
+            const now = new Date();
+            const startOf = dt => new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+            const diffDays = Math.round((startOf(now) - startOf(d)) / 86400000);
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            return d.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+        }
+
+        const CHAT_AVATAR_COLORS = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2'];
+        function chatAvatarHTML(name, size, colorOverride) {
+            const clean = (name || '').trim();
+            const initial = clean.charAt(0).toUpperCase() || '?';
+            let hash = 0;
+            for (let i = 0; i < clean.length; i++) hash = (hash * 31 + clean.charCodeAt(i)) >>> 0;
+            const color = colorOverride || CHAT_AVATAR_COLORS[hash % CHAT_AVATAR_COLORS.length];
+            return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color}1f;color:${color};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${Math.round(size * 0.42)}px;flex-shrink:0;">${initial}</div>`;
+        }
+
         function renderChatConvoList(hubId) {
             const el = document.getElementById('chatConvoList');
             if (!el) return;
-            const convos = Object.values(chatConvoCache[hubId] || {})
+            const q = (document.getElementById('chatConvoSearch')?.value || '').trim().toLowerCase();
+            let convos = Object.entries(chatConvoCache[hubId] || {})
+                .map(([sid, c]) => ({ ...c, sessionId: sid }))
                 .sort((a, b) => new Date(b.lastAt || 0) - new Date(a.lastAt || 0));
+            if (q) convos = convos.filter(c => (c.guestName || '').toLowerCase().includes(q));
             if (!convos.length) {
-                el.innerHTML = '<div class="chat-convo-empty">No guest messages yet.</div>';
+                el.innerHTML = `<div class="chat-convo-empty">${q ? 'No matching conversations.' : 'No guest messages yet.'}</div>`;
                 return;
             }
             el.innerHTML = convos.map(c => {
-                const sid = c.sessionId || c.guestId;
+                const sid = c.sessionId;
                 const label = c.guestName || ('Guest #' + sid.slice(-6));
                 const isActive = activeChatSession === sid;
                 return `<div class="chat-convo-item ${isActive ? 'active' : ''}" onclick="openChatThread('${hubId}','${sid}')">
-        <div class="chat-convo-guest">
-          ${c.unreadAdmin ? '<span class="chat-unread-dot"></span>' : ''}
-          ${label}
+        <div style="display:flex;align-items:center;gap:10px;">
+          ${chatAvatarHTML(label, 36)}
+          <div style="flex:1;min-width:0;">
+            <div class="chat-convo-guest">${c.unreadAdmin ? '<span class="chat-unread-dot"></span>' : ''}${label}</div>
+            <div class="chat-convo-preview">${(c.lastMessage || '').slice(0, 60)}</div>
+          </div>
+          <div class="chat-convo-time">${c.lastAt ? fmtChatTime(c.lastAt) : ''}</div>
         </div>
-        <div class="chat-convo-preview">${(c.lastMessage || '').slice(0, 60)}</div>
-        <div class="chat-convo-time">${c.lastAt ? fmtChatTime(c.lastAt) : ''}</div>
       </div>`;
             }).join('');
         }
 
-        window.openChatThread = function (hubId, sessionId) {
+        window.openChatThread = function (hubId, sessionId, knownGuestName) {
             activeChatHubId = hubId;
             activeChatSession = sessionId;
+            // Set when opened via guest search, before any convo node exists yet —
+            // sendAdminReply persists it so the conversation list shows the right
+            // name from the very first admin-initiated message.
+            activeChatGuestName = knownGuestName || null;
             renderChatConvoList(hubId);
 
             document.getElementById('chatNoThread').style.display = 'none';
             const active = document.getElementById('chatThreadActive');
             active.style.display = 'flex';
+            const chatCard = document.getElementById('chatCard');
+            if (chatCard) chatCard.classList.add('thread-open'); // swaps to thread pane on mobile
 
             const convo = (chatConvoCache[hubId] || {})[sessionId] || {};
-            const label = convo.guestName || ('Guest #' + sessionId.slice(-6));
+            const label = knownGuestName || convo.guestName || ('Guest #' + sessionId.slice(-6));
+            document.getElementById('chatThreadAvatar').innerHTML = chatAvatarHTML(label, 40);
             document.getElementById('chatThreadName').textContent = label;
-            document.getElementById('chatThreadTime').textContent = convo.lastAt ? 'Last message ' + fmtChatTime(convo.lastAt) : '';
+            document.getElementById('chatThreadTime').textContent = convo.lastAt ? 'Last message ' + fmtChatTime(convo.lastAt) : 'No messages yet';
 
             const msgsEl = document.getElementById('chatThreadMsgs');
             msgsEl.innerHTML = '<div style="color:var(--text3);font-size:12px;padding:10px;">Loading…</div>';
@@ -6909,14 +8240,32 @@
                 el.innerHTML = '<div style="color:var(--text3);font-size:12px;padding:20px;text-align:center;">No messages yet.</div>';
                 return;
             }
-            el.innerHTML = msgs.map(m => {
-                const cls = m.sender === 'admin' ? 'admin-msg' : 'guest-msg';
-                const name = m.sender === 'admin' ? 'You (Staff)' : (m.senderName || 'Guest');
-                return `<div class="chat-adm-msg ${cls}">
-        <div class="chat-adm-bubble">${(m.text || '').replace(/</g, '&lt;').replace(/\n/g, '<br>')}</div>
-        <div class="chat-adm-ts">${name} · ${fmtChatTime(m.at)}</div>
+            let html = '';
+            let lastDateKey = null;
+            msgs.forEach(m => {
+                const dateKey = new Date(m.at).toDateString();
+                if (dateKey !== lastDateKey) {
+                    html += `<div style="text-align:center;margin:14px 0 10px;">
+          <span style="background:var(--surface2);color:var(--text3);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;">${fmtChatDateSep(m.at)}</span>
+        </div>`;
+                    lastDateKey = dateKey;
+                }
+                const isAdmin = m.sender === 'admin';
+                const name = isAdmin ? 'You (Staff)' : (m.senderName || 'Guest');
+                const avatar = chatAvatarHTML(name, 28, isAdmin ? '#1a56db' : null);
+                html += `<div class="chat-adm-msg ${isAdmin ? 'admin-msg' : 'guest-msg'}">
+        <div style="display:flex;flex-direction:column;max-width:75%;${isAdmin ? 'align-items:flex-end;' : 'align-items:flex-start;'}">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">${name}</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;${isAdmin ? 'flex-direction:row-reverse;' : ''}">
+            ${avatar}
+            <div class="chat-adm-bubble">${(m.text || '').replace(/</g, '&lt;').replace(/\n/g, '<br>')}</div>
+          </div>
+          <div class="chat-adm-ts" style="margin-top:3px;">${fmtChatTime(m.at)}</div>
+        </div>
       </div>`;
-            }).join('') + '<div id="chatAdmBottom"></div>';
+            });
+            html += '<div id="chatAdmBottom"></div>';
+            el.innerHTML = html;
             document.getElementById('chatAdmBottom')?.scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -6928,18 +8277,154 @@
             input.style.height = 'auto';
             const now = new Date().toISOString();
             const msgRef = push(ref(db, `hubs/${activeChatHubId}/chats/${activeChatSession}/messages`));
+            const convoUpdates = { lastMessage: text, lastAt: now, unreadGuest: true, unreadAdmin: false };
+            // Starting a brand-new thread from guest search — no convo node exists
+            // yet, so stamp the guest's name on it now (otherwise the list would
+            // show "Guest #xxxxxx" until the guest ever writes back).
+            if (activeChatGuestName) convoUpdates.guestName = activeChatGuestName;
+            const hubId = activeChatHubId, guestToken = activeChatSession;
+            const hubName = hubsCache[hubId]?.name || hubId;
             await Promise.all([
-                set(msgRef, { id: msgRef.key, text, sender: 'admin', senderName: currentUser?.email || 'Staff', at: now, readByGuest: false }),
-                update(ref(db, `hubs/${activeChatHubId}/chats/${activeChatSession}`), { lastMessage: text, lastAt: now, unreadGuest: true, unreadAdmin: false })
+                set(msgRef, { id: msgRef.key, text, sender: 'admin', senderName: currentUserName || currentUser?.email || 'Staff', at: now, readByGuest: false }),
+                update(ref(db, `hubs/${hubId}/chats/${guestToken}`), convoUpdates)
             ]);
+            // Push to just this one guest — never the hub-wide broadcast endpoint.
+            getIdToken(currentUser).then(idToken => {
+                fetch(PUSH_WORKER_URL + 'chat-guest-push', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ hubId, guestToken, title: `💬 New message from ${hubName}`, body: text, idToken }),
+                }).catch(() => { });
+            }).catch(() => { });
+        };
+
+        window.deleteChatConversation = async function () {
+            if (!activeChatHubId || !activeChatSession) return;
+            if (!confirm('Delete this conversation? This removes the entire message history and cannot be undone.')) return;
+            try {
+                await remove(ref(db, `hubs/${activeChatHubId}/chats/${activeChatSession}`));
+                showToast('Conversation deleted', 'success');
+            } catch (e) { showToast('Error: ' + e.message, 'error'); return; }
+            activeChatSession = null;
+            document.getElementById('chatNoThread').style.display = 'flex';
+            document.getElementById('chatThreadActive').style.display = 'none';
+            const chatCard = document.getElementById('chatCard');
+            if (chatCard) chatCard.classList.remove('thread-open');
         };
 
         window.onChatHubChange = function () {
             const hubId = document.getElementById('chatHubSelect').value;
             activeChatSession = null;
+            document.getElementById('chatConvoSearch').value = '';
+            document.getElementById('chatGuestSearchResults').style.display = 'none';
+            document.getElementById('chatGuestSearchResults').innerHTML = '';
+            document.getElementById('chatGuestSearchResults').dataset.mode = '';
             document.getElementById('chatNoThread').style.display = 'flex';
             document.getElementById('chatThreadActive').style.display = 'none';
-            if (hubId) loadChatConvos(hubId);
+            const chatCard = document.getElementById('chatCard');
+            if (chatCard) chatCard.classList.remove('thread-open');
+            if (hubId) { loadChatConvos(hubId); loadChatGuests(hubId); renderChatConvoList(hubId); }
+        };
+
+        // "+" opens/closes a full list of every registered guest for the
+        // selected hub, so staff can start a conversation without knowing a
+        // name to search for first.
+        window.closeChatThreadMobile = function () {
+            const chatCard = document.getElementById('chatCard');
+            if (chatCard) chatCard.classList.remove('thread-open'); // returns to the conversation list on mobile
+        };
+
+        window.toggleChatNewMsg = function () {
+            const hubId = document.getElementById('chatHubSelect').value;
+            const resultsEl = document.getElementById('chatGuestSearchResults');
+            if (!hubId || !resultsEl) return;
+            if (resultsEl.dataset.mode === 'all' && resultsEl.style.display !== 'none') {
+                resultsEl.style.display = 'none';
+                resultsEl.innerHTML = '';
+                resultsEl.dataset.mode = '';
+                return;
+            }
+            document.getElementById('chatConvoSearch').value = '';
+            renderChatConvoList(hubId);
+            renderAllGuestsForChat(hubId);
+        };
+
+        function chatGuestResultRow(hubId, g) {
+            const label = `${g.firstName || ''} ${g.lastName || ''}`.trim() || 'Guest';
+            return `<div class="chat-guest-result" onclick="startChatWithGuest('${hubId}','${g.key}')">
+        <div style="display:flex;align-items:center;gap:10px;">
+          ${chatAvatarHTML(label, 30)}
+          <div style="min-width:0;">
+            <div style="font-weight:600;color:var(--text);font-size:13px;">${label}</div>
+            <div style="font-size:11px;color:var(--text3);">${g.phone || g.email || ''}</div>
+          </div>
+        </div>
+      </div>`;
+        }
+
+        function renderAllGuestsForChat(hubId) {
+            const resultsEl = document.getElementById('chatGuestSearchResults');
+            if (!resultsEl) return;
+            resultsEl.dataset.mode = 'all';
+            const list = (chatGuestsCache[hubId] || []).slice().sort((a, b) => {
+                const an = `${a.firstName || ''} ${a.lastName || ''}`.trim().toLowerCase();
+                const bn = `${b.firstName || ''} ${b.lastName || ''}`.trim().toLowerCase();
+                return an.localeCompare(bn);
+            });
+            if (!list.length) {
+                resultsEl.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--text3);">No registered guests for this hub yet.</div>';
+                resultsEl.style.display = '';
+                return;
+            }
+            resultsEl.innerHTML = `<div style="padding:8px 12px 4px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);">All guests (${list.length})</div>` +
+                list.map(g => chatGuestResultRow(hubId, g)).join('');
+            resultsEl.style.display = '';
+        }
+
+        // ── Guest search — the same "Search conversations" box also surfaces
+        // registered guests who don't have a thread yet, so staff can start a
+        // brand-new conversation instead of only replying to existing ones.
+        const chatGuestsCache = {};
+        function loadChatGuests(hubId) {
+            if (chatGuestsCache[hubId]) return;
+            onValue(ref(db, `hubs/${hubId}/guests`), snap => {
+                const data = snap.val() || {};
+                chatGuestsCache[hubId] = Object.entries(data).map(([key, g]) => ({ key, ...g }));
+                // Keep an already-open "all guests" list in sync as registrations
+                // load in or change, instead of only reflecting a stale snapshot.
+                const resultsEl = document.getElementById('chatGuestSearchResults');
+                if (resultsEl && resultsEl.dataset.mode === 'all' && document.getElementById('chatHubSelect').value === hubId) {
+                    renderAllGuestsForChat(hubId);
+                }
+            });
+        }
+
+        window.onChatSearchInput = function () {
+            const hubId = document.getElementById('chatHubSelect').value;
+            renderChatConvoList(hubId);
+
+            const q = document.getElementById('chatConvoSearch').value.trim().toLowerCase();
+            const resultsEl = document.getElementById('chatGuestSearchResults');
+            if (!hubId || !q) { resultsEl.style.display = 'none'; resultsEl.innerHTML = ''; resultsEl.dataset.mode = ''; return; }
+            resultsEl.dataset.mode = 'search';
+            const list = (chatGuestsCache[hubId] || []).filter(g => {
+                const name = `${g.firstName || ''} ${g.lastName || ''}`.toLowerCase();
+                return name.includes(q) || (g.phone || '').includes(q) || (g.email || '').toLowerCase().includes(q);
+            }).slice(0, 20);
+            if (!list.length) { resultsEl.style.display = 'none'; resultsEl.innerHTML = ''; return; }
+            resultsEl.innerHTML = `<div style="padding:8px 12px 4px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);">Start new conversation</div>` +
+                list.map(g => chatGuestResultRow(hubId, g)).join('');
+            resultsEl.style.display = '';
+        };
+
+        window.startChatWithGuest = function (hubId, guestKey) {
+            const guest = (chatGuestsCache[hubId] || []).find(g => g.key === guestKey);
+            const label = guest ? (`${guest.firstName || ''} ${guest.lastName || ''}`.trim() || 'Guest') : null;
+            document.getElementById('chatConvoSearch').value = '';
+            document.getElementById('chatGuestSearchResults').style.display = 'none';
+            document.getElementById('chatGuestSearchResults').innerHTML = '';
+            document.getElementById('chatGuestSearchResults').dataset.mode = '';
+            openChatThread(hubId, guestKey, label);
         };
 
         // ── Guest Profiles panel ──
@@ -6953,6 +8438,7 @@
             const hubs = Object.values(hubsCache);
             if (hubs.length) {
                 sel.innerHTML = '<option value="">Select Hub…</option>' +
+                    '<option value="__all__">All Hubs</option>' +
                     hubs.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
             }
             // Managers only have one hub — auto-select and load it
@@ -6961,6 +8447,9 @@
                 loadGuestProfiles();
             }
         }
+
+        let _guestHubUnsubs = [];
+        let _guestsByHub = {};
 
         window.loadGuestProfiles = async function () {
             const _gsel = document.getElementById('guestHubSelect');
@@ -6972,14 +8461,38 @@
             if (!tbody) return;
             tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text3);font-size:13px;">Loading…</td></tr>`;
 
-            onValue(ref(db, `hubs/${hubId}/guests`), snap => {
-                const data = snap.val() || {};
-                allGuests = Object.entries(data).map(([key, g]) => ({ key, ...g }));
+            // Tear down any listeners from a previous selection (single hub or All Hubs)
+            _guestHubUnsubs.forEach(off => { try { off(); } catch (e) { } });
+            _guestHubUnsubs = [];
+            _guestsByHub = {};
+
+            const rebuildAllGuests = () => {
+                allGuests = Object.values(_guestsByHub).flat();
                 document.getElementById('navGuestCount').textContent = allGuests.length;
                 filterGuests();
                 renderDashGuests();
                 renderAllRoleCards();
-            }, { onlyOnce: false });
+            };
+
+            if (hubId === '__all__') {
+                const hubIds = Object.keys(hubsCache);
+                hubIds.forEach(hid => {
+                    const off = onValue(ref(db, `hubs/${hid}/guests`), snap => {
+                        const data = snap.val() || {};
+                        _guestsByHub[hid] = Object.entries(data).map(([key, g]) => ({ key, hubId: hid, ...g }));
+                        rebuildAllGuests();
+                    });
+                    _guestHubUnsubs.push(() => off());
+                });
+                return;
+            }
+
+            const off = onValue(ref(db, `hubs/${hubId}/guests`), snap => {
+                const data = snap.val() || {};
+                _guestsByHub[hubId] = Object.entries(data).map(([key, g]) => ({ key, hubId, ...g }));
+                rebuildAllGuests();
+            });
+            _guestHubUnsubs.push(() => off());
         };
 
         // Show appropriate dashboard layout based on role
@@ -7105,6 +8618,7 @@
             const hub = hubsCache[hubId];
 
             loadHubVisits();
+            loadMgrChatWidget();
 
             // Announcements card — top 3 newest for this hub
             const annEl = document.getElementById('mgrAnnList');
@@ -7157,10 +8671,6 @@
                 }).catch(() => { });
             }
 
-            // Hide WiFi card for Stone Mountain (no WiFi offered)
-            const wifiCard = document.getElementById('v2WifiCard');
-            if (wifiCard) wifiCard.style.display = hubId === 'stone-mountain-park-hub' ? 'none' : '';
-
             // Load visibility toggles
             loadVisToggles(hubId);
 
@@ -7188,6 +8698,143 @@
             } catch (e) { showToast('Error: ' + e.message, 'error'); }
         };
 
+        // ── Guest Chat mini widget (dashboard) — reuses chatConvoCache/chatMsgListeners
+        // from the full Guest Chat panel so both stay in sync for the manager's one hub. ──
+        let mgrChatActiveSession = null;
+
+        function loadMgrChatWidget() {
+            if (currentUserRole === 'super') return;
+            const hubId = currentUserHubId;
+            if (!hubId || !document.getElementById('mgrChatConvoList')) return;
+            if (!chatConvoListeners[hubId]) {
+                chatConvoListeners[hubId] = onValue(ref(db, `hubs/${hubId}/chats`), snap => {
+                    chatConvoCache[hubId] = snap.val() || {};
+                    renderMgrChatList(hubId);
+                    updateMgrChatBadge(hubId);
+                    const cur = document.getElementById('chatHubSelect')?.value;
+                    if (cur === hubId) renderChatConvoList(hubId);
+                    updateChatBadge();
+                });
+            } else {
+                renderMgrChatList(hubId);
+                updateMgrChatBadge(hubId);
+            }
+        }
+
+        function updateMgrChatBadge(hubId) {
+            const badge = document.getElementById('mgrChatBadge');
+            if (!badge) return;
+            const convos = chatConvoCache[hubId] || {};
+            const unread = Object.values(convos).filter(c => c.unreadAdmin).length;
+            badge.textContent = unread;
+            badge.style.display = unread > 0 ? '' : 'none';
+        }
+
+        function renderMgrChatList(hubId) {
+            const el = document.getElementById('mgrChatConvoList');
+            if (!el) return;
+            const convos = Object.entries(chatConvoCache[hubId] || {})
+                .map(([sid, c]) => ({ ...c, sessionId: sid }))
+                .sort((a, b) => new Date(b.lastAt || 0) - new Date(a.lastAt || 0))
+                .slice(0, 8);
+            if (!convos.length) {
+                el.innerHTML = `<div class="chat-convo-empty">No guest messages yet.</div>`;
+                return;
+            }
+            el.innerHTML = convos.map(c => {
+                const label = c.guestName || ('Guest #' + c.sessionId.slice(-6));
+                return `<div class="chat-convo-item" style="padding:8px 6px;" onclick="openMgrChatThread('${hubId}','${c.sessionId}')">
+        <div style="display:flex;align-items:center;gap:8px;">
+          ${chatAvatarHTML(label, 28)}
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:5px;">${c.unreadAdmin ? '<span class="chat-unread-dot"></span>' : ''}${label}</div>
+            <div style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${(c.lastMessage || '').slice(0, 40)}</div>
+          </div>
+          <div style="font-size:10px;color:var(--text3);flex-shrink:0;">${c.lastAt ? fmtChatTime(c.lastAt) : ''}</div>
+        </div>
+      </div>`;
+            }).join('');
+        }
+
+        window.openMgrChatThread = function (hubId, sessionId) {
+            mgrChatActiveSession = sessionId;
+            activeChatHubId = hubId;
+            activeChatSession = sessionId;
+            document.getElementById('mgrChatListView').style.display = 'none';
+            document.getElementById('mgrChatThreadView').style.display = 'flex';
+            document.getElementById('mgrChatCloseBtn').style.display = 'flex';
+            const convo = (chatConvoCache[hubId] || {})[sessionId] || {};
+            document.getElementById('mgrChatThreadName').textContent = convo.guestName || ('Guest #' + sessionId.slice(-6));
+            if (chatMsgListeners[sessionId]) chatMsgListeners[sessionId]();
+            chatMsgListeners[sessionId] = onValue(ref(db, `hubs/${hubId}/chats/${sessionId}/messages`), snap => {
+                const msgs = snap.val()
+                    ? Object.values(snap.val()).sort((a, b) => new Date(a.at) - new Date(b.at))
+                    : [];
+                renderMgrThreadMsgs(msgs);
+                if (convo.unreadAdmin) update(ref(db, `hubs/${hubId}/chats/${sessionId}`), { unreadAdmin: false });
+            });
+        };
+
+        function renderMgrThreadMsgs(msgs) {
+            const el = document.getElementById('mgrChatThreadMsgs');
+            if (!el) return;
+            if (!msgs.length) {
+                el.innerHTML = `<div style="color:var(--text3);font-size:11px;padding:10px;text-align:center;">No messages yet.</div>`;
+                return;
+            }
+            el.innerHTML = msgs.map(m => {
+                const isAdmin = m.sender === 'admin';
+                return `<div class="chat-adm-msg ${isAdmin ? 'admin-msg' : 'guest-msg'}" style="margin-bottom:8px;">
+        <div style="display:flex;flex-direction:column;${isAdmin ? 'align-items:flex-end;' : 'align-items:flex-start;'}">
+          <div class="chat-adm-bubble" style="font-size:12px;padding:8px 12px;">${(m.text || '').replace(/</g, '&lt;').replace(/\n/g, '<br>')}</div>
+          <div class="chat-adm-ts" style="margin-top:2px;font-size:9px;">${fmtChatTime(m.at)}</div>
+        </div>
+      </div>`;
+            }).join('');
+            el.scrollTop = el.scrollHeight;
+        }
+
+        window.closeMgrChatThread = function () {
+            document.getElementById('mgrChatThreadView').style.display = 'none';
+            document.getElementById('mgrChatListView').style.display = 'flex';
+            document.getElementById('mgrChatCloseBtn').style.display = 'none';
+            mgrChatActiveSession = null;
+        };
+
+        window.deleteMgrChatConversation = async function () {
+            const hubId = activeChatHubId;
+            const sessionId = mgrChatActiveSession;
+            if (!hubId || !sessionId) return;
+            if (!confirm('Delete this conversation? This removes the entire message history and cannot be undone.')) return;
+            try {
+                await remove(ref(db, `hubs/${hubId}/chats/${sessionId}`));
+                showToast('Conversation deleted', 'success');
+            } catch (e) { showToast('Error: ' + e.message, 'error'); return; }
+            closeMgrChatThread();
+        };
+
+        window.sendMgrChatReply = async function () {
+            const input = document.getElementById('mgrChatReplyInput');
+            const text = input.value.trim();
+            if (!text || !mgrChatActiveSession) return;
+            const hubId = currentUserHubId;
+            input.value = '';
+            const now = new Date().toISOString();
+            const msgRef = push(ref(db, `hubs/${hubId}/chats/${mgrChatActiveSession}/messages`));
+            const hubName = hubsCache[hubId]?.name || hubId;
+            await Promise.all([
+                set(msgRef, { id: msgRef.key, text, sender: 'admin', senderName: currentUserName || currentUser?.email || 'Staff', at: now, readByGuest: false }),
+                update(ref(db, `hubs/${hubId}/chats/${mgrChatActiveSession}`), { lastMessage: text, lastAt: now, unreadGuest: true, unreadAdmin: false })
+            ]);
+            getIdToken(currentUser).then(idToken => {
+                fetch(PUSH_WORKER_URL + 'chat-guest-push', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ hubId, guestToken: mgrChatActiveSession, title: `💬 New message from ${hubName}`, body: text, idToken }),
+                }).catch(() => { });
+            }).catch(() => { });
+        };
+
         // ── Hub Settings Panel ────────────────────────────────────────────────
         let _settingsLoadedHubId = null;
 
@@ -7211,10 +8858,6 @@
             const hubChanged = hubId !== _settingsLoadedHubId;
             _settingsLoadedHubId = hubId;
 
-            // Hide WiFi card for Stone Mountain
-            const wifiCard = document.getElementById('v2WifiCard2');
-            if (wifiCard) wifiCard.style.display = hubId === 'stone-mountain-park-hub' ? 'none' : '';
-
             // Load WiFi (always reload on hub change)
             const ssidEl = document.getElementById('mgrWifiSsid2');
             const passEl = document.getElementById('mgrWifiPass2');
@@ -7224,20 +8867,50 @@
                     const w = snap.val() || {};
                     ssidEl.value = w.ssid || '';
                     passEl.value = w.password || '';
-                }).catch(() => {});
+                }).catch(() => { });
             }
 
-            // Load visibility toggles (always reload)
-            get(ref(db, `hubs/${hubId}/settings/visibility`)).then(snap => {
-                const vis = snap.val() || {};
-                buildVisToggles('visMoreToggles2', VIS_MORE_ITEMS, vis.more || {}, 'more', hubId);
-            }).catch(() => {});
+            // Load geofence toggle (always reload on hub change)
+            const geofenceToggleEl = document.getElementById('geofenceToggle');
+            if (geofenceToggleEl && hubChanged) {
+                get(ref(db, `hubs/${hubId}/settings/geofenceEnabled`)).then(snap => {
+                    const enabled = snap.exists() ? snap.val() !== false : true;
+                    geofenceToggleEl.classList.toggle('on', enabled);
+                }).catch(() => { });
+            }
+
+            // Load hub visibility groups + toggles (always reload)
+            _visGroupsHubId = hubId;
+            Promise.all([
+                get(ref(db, `hubs/${hubId}/settings/visibility`)),
+                get(ref(db, `hubs/${hubId}/settings/visibilityGroups`)),
+            ]).then(([visSnap, groupsSnap]) => {
+                _visGroupsVisData = (visSnap.val() || {}).more || {};
+                const savedGroups = groupsSnap.val();
+                _visGroupsWorking = (savedGroups && savedGroups.length)
+                    ? savedGroups.map(g => ({ ...g, items: [...(g.items || [])] }))
+                    : DEFAULT_VIS_GROUPS.map(g => ({ ...g, items: [...g.items] }));
+                renderVisGroupsEditor();
+            }).catch(() => { });
 
             // Load color palette
             renderPaletteGrid('blue');
             get(ref(db, `hubs/${hubId}/settings/colorPalette`)).then(snap => {
                 renderPaletteGrid(snap.val() || 'blue');
-            }).catch(() => {});
+            }).catch(() => { });
+
+            // Load password reset notification settings (always reload on hub change)
+            const pwNotifyEmailEl = document.getElementById('pwResetNotifyEmail2');
+            const pwNotifyToggleEl = document.getElementById('pwResetNotifyToggle');
+            if (pwNotifyEmailEl && pwNotifyToggleEl && hubChanged) {
+                pwNotifyEmailEl.value = '';
+                pwNotifyToggleEl.classList.remove('on');
+                get(ref(db, `hubs/${hubId}/settings/passwordResetNotify`)).then(snap => {
+                    const val = snap.val() || {};
+                    pwNotifyEmailEl.value = val.email || '';
+                    pwNotifyToggleEl.classList.toggle('on', !!val.enabled);
+                }).catch(() => { });
+            }
 
             // Populate quick action dropdowns (always reload on hub change)
             const optHtml = QUICK_ACTION_OPTIONS.map(o => `<option value="${o.id}">${o.label}</option>`).join('');
@@ -7245,14 +8918,14 @@
                 const s = document.getElementById('qaSlot' + i);
                 if (s) s.innerHTML = optHtml;
             }
-            const defaults = ['map','events','contact','rules'];
+            const defaults = ['map', 'events', 'contact', 'rules'];
             get(ref(db, `hubs/${hubId}/settings/quickActions`)).then(snap => {
                 const qa = snap.val() || defaults;
                 for (let i = 0; i < 4; i++) {
                     const sel = document.getElementById('qaSlot' + i);
                     if (sel) sel.value = qa[i] || defaults[i];
                 }
-            }).catch(() => {});
+            }).catch(() => { });
         };
 
         window.saveQuickActions = async function () {
@@ -7260,7 +8933,7 @@
                 ? (document.getElementById('hubSettingsSelect')?.value || '')
                 : currentUserHubId;
             if (!hubId) return;
-            const qa = [0,1,2,3].map(i => document.getElementById('qaSlot' + i)?.value || 'map');
+            const qa = [0, 1, 2, 3].map(i => document.getElementById('qaSlot' + i)?.value || 'map');
             try {
                 await set(ref(db, `hubs/${hubId}/settings/quickActions`), qa);
                 showToast('Quick actions updated!', 'success');
@@ -7272,7 +8945,7 @@
                 ? (document.getElementById('hubSettingsSelect')?.value || '')
                 : currentUserHubId;
             if (!hubId) { showToast('No hub selected.', 'error'); return; }
-            const ssid     = document.getElementById('mgrWifiSsid2').value.trim();
+            const ssid = document.getElementById('mgrWifiSsid2').value.trim();
             const password = document.getElementById('mgrWifiPass2').value;
             try {
                 await set(ref(db, `hubs/${hubId}/settings/wifi`), { ssid, password });
@@ -7280,78 +8953,180 @@
             } catch (e) { showToast('Error: ' + e.message, 'error'); }
         };
 
+        // ── Password reset notifications, per hub — a manager (or super admin,
+        // via the hub selector) can set an email that gets a heads-up whenever
+        // a user tied to THIS hub requests a password reset from the login
+        // screen. The reset link itself still only ever goes to the requesting
+        // user's own email (this is a notify-only copy sent by the worker). ──
+        window.toggleHubPwResetNotify = async function (btn) {
+            const hubId = currentUserRole === 'super'
+                ? (document.getElementById('hubSettingsSelect')?.value || '')
+                : currentUserHubId;
+            if (!hubId) { showToast('No hub selected.', 'error'); return; }
+            const enabled = !btn.classList.contains('on');
+            const email = document.getElementById('pwResetNotifyEmail2').value.trim();
+            if (enabled && !email) {
+                showToast('Enter an email address to notify first.', 'error');
+                return;
+            }
+            btn.classList.toggle('on', enabled);
+            try {
+                await set(ref(db, `hubs/${hubId}/settings/passwordResetNotify`), { enabled, email: email || null });
+                showToast(enabled ? 'Password reset notifications turned on.' : 'Password reset notifications turned off.', 'success');
+            } catch (e) {
+                btn.classList.toggle('on', !enabled);
+                showToast('Error: ' + e.message, 'error');
+            }
+        };
+
+        window.saveHubPwResetNotify = async function () {
+            const hubId = currentUserRole === 'super'
+                ? (document.getElementById('hubSettingsSelect')?.value || '')
+                : currentUserHubId;
+            if (!hubId) { showToast('No hub selected.', 'error'); return; }
+            const email = document.getElementById('pwResetNotifyEmail2').value.trim();
+            const enabled = document.getElementById('pwResetNotifyToggle').classList.contains('on');
+            if (enabled && !email) { showToast('Enter an email address to notify.', 'error'); return; }
+            try {
+                await set(ref(db, `hubs/${hubId}/settings/passwordResetNotify`), { enabled, email: email || null });
+                showToast('Password reset notification settings saved!', 'success');
+            } catch (e) { showToast('Error: ' + e.message, 'error'); }
+        };
+
+        window.toggleHubGeofence = async function (btn) {
+            const hubId = currentUserRole === 'super'
+                ? (document.getElementById('hubSettingsSelect')?.value || '')
+                : currentUserHubId;
+            if (!hubId) { showToast('No hub selected.', 'error'); return; }
+            const enabled = !btn.classList.contains('on');
+            btn.classList.toggle('on', enabled);
+            try {
+                await set(ref(db, `hubs/${hubId}/settings/geofenceEnabled`), enabled);
+                showToast(enabled ? '25-mile radius turned on.' : '25-mile radius turned off — alerts now go to all guests.', 'success');
+            } catch (e) {
+                btn.classList.toggle('on', !enabled);
+                showToast('Error: ' + e.message, 'error');
+            }
+        };
+
         // ── Hub Color Palettes ────────────────────────────────────────────────
         // Legacy preset keys (for backward compat when reading old string values)
         const LEGACY_PALETTES = {
-            blue:   { primary: '#1a56db', bg: '#e8e5ef' },
-            green:  { primary: '#16a34a', bg: '#e5efea' },
+            blue: { primary: '#1a56db', bg: '#e8e5ef' },
+            green: { primary: '#16a34a', bg: '#e5efea' },
             orange: { primary: '#ea580c', bg: '#f0ede8' },
-            pink:   { primary: '#db2777', bg: '#f0e8ef' },
-            teal:   { primary: '#0891b2', bg: '#e5f0ef' },
-            slate:  { primary: '#334155', bg: '#e8eaef' },
+            pink: { primary: '#db2777', bg: '#f0e8ef' },
+            teal: { primary: '#0891b2', bg: '#e5f0ef' },
+            slate: { primary: '#334155', bg: '#e8eaef' },
         };
 
         function darkenHexAdmin(hex, amount) {
-            const n = parseInt(hex.replace('#',''), 16);
+            const n = parseInt(hex.replace('#', ''), 16);
             const r = Math.max(0, Math.round(((n >> 16) & 255) * (1 - amount)));
-            const g = Math.max(0, Math.round(((n >> 8)  & 255) * (1 - amount)));
-            const b = Math.max(0, Math.round(((n)       & 255) * (1 - amount)));
-            return '#' + [r, g, b].map(v => v.toString(16).padStart(2,'0')).join('');
+            const g = Math.max(0, Math.round(((n >> 8) & 255) * (1 - amount)));
+            const b = Math.max(0, Math.round(((n) & 255) * (1 - amount)));
+            return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+        }
+
+        // ── Palette color generation ──────────────────────────────────────────
+        function hexToHsl(hex) {
+            const r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h = 0, s = 0; const l = (max + min) / 2;
+            if (max !== min) {
+                const d = max - min; s = l > .5 ? d / (2 - max - min) : d / (max + min);
+                if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                else if (max === g) h = ((b - r) / d + 2) / 6;
+                else h = ((r - g) / d + 4) / 6;
+            }
+            return [h * 360, s * 100, l * 100];
+        }
+        function hslToHex(h, s, l) {
+            h = ((h % 360) + 360) % 360; s = Math.max(0, Math.min(100, s)) / 100; l = Math.max(0, Math.min(100, l)) / 100;
+            const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2;
+            let r, g, b;
+            if (h < 60) { r = c; g = x; b = 0; } else if (h < 120) { r = x; g = c; b = 0; } else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; } else if (h < 300) { r = x; g = 0; b = c; } else { r = c; g = 0; b = x; }
+            return '#' + [r + m, g + m, b + m].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+        }
+        function generateHubPalette(primary) {
+            const [h, s, l] = hexToHsl(primary);
+            const dark = hslToHex(h, s, Math.max(15, l - 18));
+            // "tab" is normally a lighter tint of primary. But when primary is
+            // already light/pastel (l+18 would blow past the 82 cap), there's no
+            // headroom left to lighten — the result lands right back on top of
+            // primary. Fall back to a muted, slightly darker/desaturated tone
+            // instead so tab stays visually distinct from both primary and dark.
+            const canLighten = l + 18 <= 82;
+            const tabLightness = canLighten ? l + 18 : Math.max(l - 10, 55);
+            const tabSat = canLighten ? Math.min(100, s * 1.1) : s * 0.7;
+            const tab = hslToHex(h, tabSat, tabLightness);
+            const tabDark = hslToHex(h, s, Math.max(15, l - 15));
+            const bg = hslToHex(h, Math.max(18, s * 0.50), Math.min(94, 88 + l * 0.06));
+            const secondary = hslToHex(h, Math.max(5, s * 0.3), 52);
+            const textPrimary = l > 60 ? dark : primary;
+            return { primary, dark, tab, tabDark, bg, secondary, textPrimary };
+        }
+        function swatchTextColor(hex) {
+            const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            return (r * 299 + g * 587 + b * 114) / 1000 > 145 ? '#374151' : '#ffffff';
         }
 
         function renderPaletteGrid(val) {
-            // val is either a legacy string key or an object {primary, bg, secondary, textPrimary}
-            let primary = '#1a56db', bg = '#e8e5ef', secondary = '#6b7280', textPrimary = '#1a56db';
-            if (val && typeof val === 'object') {
-                primary = val.primary || primary;
-                bg = val.bg || bg;
-                secondary = val.secondary || secondary;
-                textPrimary = val.textPrimary || primary;
+            let primary = '#1a56db';
+            if (val && typeof val === 'object' && val.primary) {
+                primary = val.primary;
             } else if (val && typeof val === 'string' && LEGACY_PALETTES[val]) {
                 primary = LEGACY_PALETTES[val].primary;
-                bg = LEGACY_PALETTES[val].bg;
-                textPrimary = primary;
             }
-            const c1 = document.getElementById('hubColor1');
-            const c2 = document.getElementById('hubColor2');
-            const c3 = document.getElementById('hubColor3');
-            const c4 = document.getElementById('hubColor4');
-            if (c1) c1.value = primary;
-            if (c2) c2.value = bg;
-            if (c3) c3.value = secondary;
-            if (c4) c4.value = textPrimary;
+            const el = document.getElementById('hubBrandColor');
+            if (el) el.value = primary;
             previewHubPalette();
         }
 
         window.previewHubPalette = function () {
-            const primary     = document.getElementById('hubColor1')?.value || '#1a56db';
-            const bg          = document.getElementById('hubColor2')?.value || '#e8e5ef';
-            const secondary   = document.getElementById('hubColor3')?.value || '#6b7280';
-            const textPrimary = document.getElementById('hubColor4')?.value || '#1a56db';
-            const dark    = darkenHexAdmin(primary, 0.28);
-            const prevBg  = document.getElementById('hubPreviewBg');
-            const prevP   = document.getElementById('hubPreviewPrimary');
-            const prevS   = document.getElementById('hubPreviewSecondary');
-            const prevT   = document.getElementById('hubPreviewTextPrimary');
-            const prevD   = document.getElementById('hubPreviewDark');
-            if (prevBg)  { prevBg.style.background = bg; prevBg.style.color = '#555'; }
-            if (prevP)   { prevP.style.background = primary; }
-            if (prevS)   { prevS.style.background = secondary; }
-            if (prevT)   { prevT.style.background = textPrimary; }
-            if (prevD)   { prevD.style.background = dark; }
+            const primary = document.getElementById('hubBrandColor')?.value || '#1a56db';
+            const p = generateHubPalette(primary);
+            const swatches = [
+                ['hgp-primary', p.primary],
+                ['hgp-dark', p.dark],
+                ['hgp-tab', p.tab],
+                ['hgp-bg', p.bg],
+                ['hgp-secondary', p.secondary],
+            ];
+            swatches.forEach(([id, color]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.style.background = color;
+                const tc = swatchTextColor(color);
+                el.querySelectorAll('span').forEach(s => s.style.color = tc);
+                const hexEl = document.getElementById(id + '-hex');
+                if (hexEl) hexEl.textContent = color;
+            });
+            // Sync large brand color preview
+            const preview = document.getElementById('hubBrandPreview');
+            if (preview) preview.style.background = p.primary;
+            // Sync hex input text (without the #)
+            const hexInput = document.getElementById('hubHexInput');
+            if (hexInput && document.activeElement !== hexInput)
+                hexInput.value = primary.replace('#', '');
         };
 
-        const DEFAULT_HUB_PALETTE = { primary: '#1a56db', bg: '#e8e5ef', secondary: '#6b7280', textPrimary: '#1a56db' };
+        window.syncHexInput = function (input) {
+            const raw = input.value.replace(/[^0-9a-fA-F]/g, '');
+            input.value = raw;
+            if (raw.length === 6) {
+                const hex = '#' + raw;
+                const picker = document.getElementById('hubBrandColor');
+                if (picker) { picker.value = hex; previewHubPalette(); }
+            }
+        };
+
+        const DEFAULT_BRAND_COLOR = '#1a56db';
 
         window.resetHubPalette = async function () {
-            const c1 = document.getElementById('hubColor1');
-            const c2 = document.getElementById('hubColor2');
-            const c3 = document.getElementById('hubColor3');
-            const c4 = document.getElementById('hubColor4');
-            if (c1) c1.value = DEFAULT_HUB_PALETTE.primary;
-            if (c2) c2.value = DEFAULT_HUB_PALETTE.bg;
-            if (c3) c3.value = DEFAULT_HUB_PALETTE.secondary;
-            if (c4) c4.value = DEFAULT_HUB_PALETTE.textPrimary;
+            const el = document.getElementById('hubBrandColor');
+            if (el) el.value = DEFAULT_BRAND_COLOR;
             previewHubPalette();
             await saveHubPalette();
         };
@@ -7361,12 +9136,10 @@
                 ? (document.getElementById('hubSettingsSelect')?.value || '')
                 : currentUserHubId;
             if (!hubId) { showToast('No hub selected.', 'error'); return; }
-            const primary     = document.getElementById('hubColor1')?.value || '#1a56db';
-            const bg          = document.getElementById('hubColor2')?.value || '#e8e5ef';
-            const secondary   = document.getElementById('hubColor3')?.value || '#6b7280';
-            const textPrimary = document.getElementById('hubColor4')?.value || '#1a56db';
+            const primary = document.getElementById('hubBrandColor')?.value || DEFAULT_BRAND_COLOR;
+            const palette = generateHubPalette(primary);
             try {
-                await set(ref(db, `hubs/${hubId}/settings/colorPalette`), { primary, bg, secondary, textPrimary });
+                await set(ref(db, `hubs/${hubId}/settings/colorPalette`), palette);
                 showToast('Color palette applied!', 'success');
             } catch (e) { showToast('Error: ' + e.message, 'error'); }
         };
@@ -7376,38 +9149,280 @@
 
         // ── Hub Visibility Toggles ────────────────────────────────────────────
         const VIS_MORE_ITEMS = [
-            { id: 'bookNow',       label: 'Book Now Button' },
-            { id: 'register',     label: 'Guest Registration' },
-            { id: 'weather',      label: 'Weather Center' },
-            { id: 'wifi',         label: 'WiFi' },
-            { id: 'amenities',    label: 'Amenities' },
-            { id: 'rvsites',      label: 'RV Sites' },
-            { id: 'cabins',       label: 'Cabins' },
-            { id: 'rules',        label: 'Rules' },
+            { id: 'bookNow', label: 'Book Now Button' },
+            { id: 'bookTeeTime', label: 'Book a Tee Time' },
+            { id: 'scorecard', label: 'My Scorecard' },
+            { id: 'register', label: 'Register / My Profile' },
+            { id: 'weather', label: 'Weather Center' },
+            { id: 'wifi', label: 'WiFi' },
+            { id: 'amenities', label: 'Amenities' },
+            { id: 'rvsites', label: 'RV Sites' },
+            { id: 'cabins', label: 'Cabins' },
+            { id: 'rules', label: 'Rules' },
             { id: 'reservations', label: 'Reservations' },
             { id: 'foodshopping', label: 'Food & Shopping' },
-            { id: 'tickets',      label: 'Tickets & Specials' },
-            { id: 'cable',        label: 'Cable Channels' },
-            { id: 'contact',      label: 'Contact Us' },
-            { id: 'newsletter',   label: 'Newsletter' },
-            { id: 'review',       label: 'Leave a Review' },
+            { id: 'thingsToDo', label: 'Things to Do' },
+            { id: 'tickets', label: 'Tickets & Specials' },
+            { id: 'cable', label: 'Cable Channels' },
+            { id: 'contact', label: 'Contact Us' },
+            { id: 'newsletter', label: 'Newsletter' },
+            { id: 'monthlyHappenings', label: 'Monthly Happenings' },
+            { id: 'musicFestival', label: 'Music Festival' },
+            { id: 'review', label: 'Leave a Review' },
+            { id: 'chat', label: 'Send a Message' },
+            { id: 'notifSettings', label: 'Notification Settings' },
+            { id: 'saloon', label: 'Ghosttown Saloon' },
         ];
+
+        // Suggested default grouping for the guest "More" menu — a hub keeps this
+        // locally until the admin actually drags/edits/resets, at which point it's
+        // written to `hubs/{hubId}/settings/visibilityGroups` and takes over from
+        // the flat legacy order on the guest-facing page.
+        const DEFAULT_VIS_GROUPS = [
+            { id: 'mystay', icon: 'person', label: 'My Stay', items: ['register', 'reservations', 'notifSettings', 'newsletter', 'monthlyHappenings', 'musicFestival'] },
+            { id: 'campinfo', icon: 'tent', label: 'Campground Information', items: ['amenities', 'rules', 'weather', 'cable', 'wifi'] },
+            { id: 'duringstay', icon: 'bag', label: 'During Your Stay', items: ['foodshopping', 'thingsToDo', 'tickets', 'rvsites', 'cabins', 'bookNow', 'scorecard'] },
+            { id: 'help', icon: 'chat', label: 'Help & Feedback', items: ['contact', 'chat', 'review'] },
+        ];
+
+        // Icon themes a group's "icon" field can reference — same keys/SVGs/colors
+        // the guest page renders, so the admin preview matches exactly.
+        const ICON_THEMES = {
+            person: { color: '#2563eb', label: 'Person', svg: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
+            tent: { color: '#16a34a', label: 'Tent', svg: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+            bag: { color: '#f97316', label: 'Bag', svg: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>' },
+            chat: { color: '#4f46e5', label: 'Chat', svg: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>' },
+            wifi: { color: '#0891b2', label: 'WiFi', svg: '<path d="M1.5 8.5a15 15 0 0 1 21 0M5 12a11 11 0 0 1 14 0M8.5 15.5a6 6 0 0 1 7 0M12 19h.01"/>' },
+            star: { color: '#ca8a04', label: 'Star', svg: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' },
+        };
+        function iconThemeSvg(key, size) {
+            size = size || 16;
+            const t = ICON_THEMES[key];
+            if (!t) return `<span style="font-size:${size}px;line-height:1;">📁</span>`; // unrecognized/legacy value (e.g. old raw emoji)
+            return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="${t.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.svg}</svg>`;
+        }
+
+        // ── Icon picker overlay — a prompt() can't render SVGs, so group icon
+        // selection uses this small custom overlay instead. Resolves a Promise
+        // with the chosen theme key (or the previous key if dismissed).
+        let _iconPickerResolve = null;
+        let _iconPickerCancelValue = null;
+        window.openIconPickerModal = function (currentKey) {
+            return new Promise(resolve => {
+                _iconPickerResolve = resolve;
+                _iconPickerCancelValue = currentKey || 'person';
+                const grid = document.getElementById('iconThemeGrid');
+                grid.innerHTML = Object.entries(ICON_THEMES).map(([key, t]) => {
+                    const active = key === currentKey;
+                    return `<button onclick="resolveIconPicker('${key}')"
+              style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:10px;cursor:pointer;font-family:var(--font);
+              border:2px solid ${active ? t.color : 'var(--border2)'};background:${active ? t.color + '14' : 'var(--surface2)'};">
+              ${iconThemeSvg(key, 22)}
+              <span style="font-size:11px;font-weight:600;color:var(--text2);">${t.label}</span>
+            </button>`;
+                }).join('');
+                document.getElementById('iconThemeOv').style.display = 'flex';
+            });
+        };
+        window.resolveIconPicker = function (key) {
+            document.getElementById('iconThemeOv').style.display = 'none';
+            if (_iconPickerResolve) { _iconPickerResolve(key); _iconPickerResolve = null; }
+        };
+        window.closeIconPickerModal = function () {
+            document.getElementById('iconThemeOv').style.display = 'none';
+            if (_iconPickerResolve) { _iconPickerResolve(_iconPickerCancelValue); _iconPickerResolve = null; }
+        };
+
+        // ── Hub Visibility grouped drag-and-drop editor ──
+        let _visGroupsHubId = null;
+        let _visGroupsWorking = null;   // [{id,icon,label,items:[itemId,...]}]
+        let _visGroupsVisData = {};     // {itemId: showBool}
+        let _visDragItemId = null;
+        let _visDragFromGroup = null;
+
+        function visGroupsUnassigned(groups) {
+            const placed = new Set();
+            groups.forEach(g => (g.items || []).forEach(id => placed.add(id)));
+            return VIS_MORE_ITEMS.filter(it => !placed.has(it.id)).map(it => it.id);
+        }
+
+        function renderVisGroupsEditor() {
+            const container = document.getElementById('visGroupsEditor');
+            if (!container || !_visGroupsWorking) return;
+            const catalogLabel = id => (VIS_MORE_ITEMS.find(it => it.id === id) || {}).label || id;
+
+            const renderItemRow = (itemId, groupId) => {
+                const isOn = _visGroupsVisData[itemId] !== false;
+                return `<div draggable="true"
+          ondragstart="onVisItemDragStart(event,'${itemId}','${groupId}')"
+          ondragover="event.preventDefault();event.stopPropagation();"
+          ondrop="onVisItemDrop(event,'${itemId}','${groupId}')"
+          style="display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid var(--border);cursor:grab;">
+          <span style="color:var(--text3);font-size:13px;line-height:1;">⠿</span>
+          <span style="flex:1;font-size:.85rem;color:var(--text);">${catalogLabel(itemId)}</span>
+          <button class="ann-toggle${isOn ? ' on' : ''}" onclick="toggleVisGroupItem(event,'${itemId}')" style="flex-shrink:0;"></button>
+        </div>`;
+            };
+
+            const renderGroup = g => `
+        <div data-group-id="${g.id}"
+          ondragover="event.preventDefault();"
+          ondrop="onVisGroupDrop(event,'${g.id}')"
+          style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:8px 10px;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="display:inline-flex;">${iconThemeSvg(g.icon, 15)}</span>
+            <span style="flex:1;font-size:.8rem;font-weight:700;color:var(--text2);">${g.label}</span>
+            <button title="Rename" onclick="editVisGroupMeta('${g.id}')"
+              style="border:none;background:none;color:var(--text3);cursor:pointer;font-size:11px;padding:2px 4px;">✎</button>
+            <button title="Delete group" onclick="deleteVisGroup('${g.id}')"
+              style="border:none;background:none;color:var(--red);cursor:pointer;font-size:11px;padding:2px 4px;">✕</button>
+          </div>
+          <div>${(g.items && g.items.length) ? g.items.map(id => renderItemRow(id, g.id)).join('') : '<div style="font-size:.75rem;color:var(--text3);padding:6px 4px;">Drag items here</div>'}</div>
+        </div>`;
+
+            const unassigned = visGroupsUnassigned(_visGroupsWorking);
+            const unassignedHTML = `
+        <div data-group-id="_unassigned"
+          ondragover="event.preventDefault();"
+          ondrop="onVisGroupDrop(event,'_unassigned')"
+          style="background:var(--surface3);border:1px dashed var(--border2);border-radius:10px;padding:8px 10px;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--text3);margin-bottom:2px;">Unassigned</div>
+          <div>${unassigned.length ? unassigned.map(id => renderItemRow(id, '_unassigned')).join('') : '<div style="font-size:.75rem;color:var(--text3);padding:6px 4px;">Every item is grouped</div>'}</div>
+        </div>`;
+
+            container.innerHTML = _visGroupsWorking.map(renderGroup).join('') + unassignedHTML;
+        }
+
+        window.onVisItemDragStart = function (e, itemId, fromGroupId) {
+            _visDragItemId = itemId;
+            _visDragFromGroup = fromGroupId;
+            e.dataTransfer.effectAllowed = 'move';
+        };
+
+        function visGroupsRemoveFromSource() {
+            if (_visDragFromGroup && _visDragFromGroup !== '_unassigned') {
+                const src = _visGroupsWorking.find(g => g.id === _visDragFromGroup);
+                if (src) src.items = (src.items || []).filter(id => id !== _visDragItemId);
+            }
+        }
+
+        window.onVisGroupDrop = function (e, toGroupId) {
+            e.preventDefault();
+            if (!_visDragItemId) return;
+            visGroupsRemoveFromSource();
+            if (toGroupId !== '_unassigned') {
+                const dest = _visGroupsWorking.find(g => g.id === toGroupId);
+                if (dest) {
+                    dest.items = dest.items || [];
+                    if (!dest.items.includes(_visDragItemId)) dest.items.push(_visDragItemId);
+                }
+            }
+            _visDragItemId = null;
+            _visDragFromGroup = null;
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        window.onVisItemDrop = function (e, targetItemId, groupId) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!_visDragItemId || _visDragItemId === targetItemId) return;
+            visGroupsRemoveFromSource();
+            if (groupId !== '_unassigned') {
+                const dest = _visGroupsWorking.find(g => g.id === groupId);
+                if (dest) {
+                    dest.items = (dest.items || []).filter(id => id !== _visDragItemId);
+                    const insertAt = dest.items.indexOf(targetItemId);
+                    dest.items.splice(insertAt === -1 ? dest.items.length : insertAt, 0, _visDragItemId);
+                }
+            }
+            _visDragItemId = null;
+            _visDragFromGroup = null;
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        window.toggleVisGroupItem = async function (e, itemId) {
+            e.stopPropagation();
+            const hubId = _visGroupsHubId;
+            if (!hubId) return;
+            const wasOn = _visGroupsVisData[itemId] !== false;
+            _visGroupsVisData[itemId] = !wasOn;
+            renderVisGroupsEditor();
+            try {
+                await set(ref(db, `hubs/${hubId}/settings/visibility/more/${itemId}`), !wasOn);
+            } catch (err) {
+                _visGroupsVisData[itemId] = wasOn; // revert
+                showToast('Error saving: ' + err.message, 'error');
+                renderVisGroupsEditor();
+            }
+        };
+
+        window.addVisGroup = async function () {
+            if (!_visGroupsWorking) return;
+            const label = prompt('Group name (e.g. "My Stay"):');
+            if (!label || !label.trim()) return;
+            const icon = await openIconPickerModal('person');
+            _visGroupsWorking.push({ id: 'g' + Date.now().toString(36), icon, label: label.trim(), items: [] });
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        window.editVisGroupMeta = async function (groupId) {
+            const g = _visGroupsWorking.find(x => x.id === groupId);
+            if (!g) return;
+            const label = prompt('Group name:', g.label);
+            if (label === null) return;
+            g.label = label.trim() || g.label;
+            g.icon = await openIconPickerModal(g.icon);
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        window.deleteVisGroup = function (groupId) {
+            const g = _visGroupsWorking.find(x => x.id === groupId);
+            if (!g) return;
+            if (!confirm(`Delete group "${g.label}"? Its items move to Unassigned — they are not hidden.`)) return;
+            _visGroupsWorking = _visGroupsWorking.filter(x => x.id !== groupId);
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        window.resetVisGroupsToDefault = function () {
+            if (!confirm('Reset to the suggested grouping? This replaces your current groups.')) return;
+            _visGroupsWorking = DEFAULT_VIS_GROUPS.map(g => ({ ...g, items: [...g.items] }));
+            renderVisGroupsEditor();
+            saveVisGroups();
+        };
+
+        async function saveVisGroups() {
+            const hubId = _visGroupsHubId;
+            if (!hubId || !_visGroupsWorking) return;
+            try {
+                await set(ref(db, `hubs/${hubId}/settings/visibilityGroups`), _visGroupsWorking);
+            } catch (e) {
+                showToast('Error saving groups: ' + e.message, 'error');
+            }
+        }
+
         const QUICK_ACTION_OPTIONS = [
-            { id: 'map',          label: 'Map' },
-            { id: 'events',       label: 'Events' },
-            { id: 'contact',      label: 'Contact Us' },
-            { id: 'wifi',         label: 'WiFi' },
-            { id: 'rules',        label: 'Rules' },
-            { id: 'amenities',    label: 'Amenities' },
-            { id: 'rvsites',      label: 'RV Sites' },
-            { id: 'cabins',       label: 'Cabins' },
+            { id: 'map', label: 'Map' },
+            { id: 'events', label: 'Events' },
+            { id: 'contact', label: 'Contact Us' },
+            { id: 'wifi', label: 'WiFi' },
+            { id: 'chat', label: 'Chat / Message Us' },
+            { id: 'rules', label: 'Rules' },
+            { id: 'amenities', label: 'Amenities' },
+            { id: 'rvsites', label: 'RV Sites' },
+            { id: 'cabins', label: 'Cabins' },
             { id: 'reservations', label: 'Reservations' },
             { id: 'foodshopping', label: 'Food & Shopping' },
-            { id: 'tickets',      label: 'Tickets & Specials' },
-            { id: 'cable',        label: 'Cable Channels' },
-            { id: 'weather',      label: 'Weather Center' },
-            { id: 'newsletter',   label: 'Newsletter' },
-            { id: 'review',       label: 'Leave a Review' },
+            { id: 'tickets', label: 'Tickets & Specials' },
+            { id: 'cable', label: 'Cable Channels' },
+            { id: 'weather', label: 'Weather Center' },
+            { id: 'newsletter', label: 'Newsletter' },
+            { id: 'musicFestival', label: 'Music Festival' },
+            { id: 'review', label: 'Leave a Review' },
         ];
 
         function buildVisToggles(containerId, items, visData, groupKey, hubId) {
@@ -7436,11 +9451,11 @@
             if (!hubId) return;
             get(ref(db, `hubs/${hubId}/settings/visibility`)).then(snap => {
                 const vis = snap.val() || {};
-                const more  = vis.more  || {};
+                const more = vis.more || {};
                 const quick = vis.quick || {};
-                buildVisToggles('visMoreToggles',  VIS_MORE_ITEMS,  more,  'more',  hubId);
+                buildVisToggles('visMoreToggles', VIS_MORE_ITEMS, more, 'more', hubId);
                 buildVisToggles('visQuickToggles', VIS_QUICK_ITEMS, quick, 'quick', hubId);
-            }).catch(() => {});
+            }).catch(() => { });
         }
 
         window.saveMgrHubName = async function () {
@@ -7533,7 +9548,16 @@
                 return;
             }
 
-            const sorted = [...filtered].sort((a, b) => new Date(b.registeredAt || 0) - new Date(a.registeredAt || 0));
+            const guestName = g => `${g.firstName || ''} ${g.lastName || ''}`.trim();
+            const guestHubName = g => hubsCache[g.hubId || currentGuestHubId]?.name || g.hubId || currentGuestHubId || '';
+            const sortBy = document.getElementById('guestSortSelect')?.value || 'registered';
+            const SORTERS = {
+                registered: (a, b) => new Date(b.registeredAt || 0) - new Date(a.registeredAt || 0),
+                name: (a, b) => guestName(a).localeCompare(guestName(b)),
+                email: (a, b) => (a.email || '').localeCompare(b.email || ''),
+                hub: (a, b) => guestHubName(a).localeCompare(guestHubName(b)) || guestName(a).localeCompare(guestName(b)),
+            };
+            const sorted = [...filtered].sort(SORTERS[sortBy] || SORTERS.registered);
             tbody.innerHTML = sorted.map(g => {
                 const name = `${g.firstName || ''} ${g.lastName || ''}`.trim() || '—';
                 const date = g.registeredAt ? new Date(g.registeredAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
@@ -7550,29 +9574,32 @@
         </td>
         <td style="color:var(--text2);">${g.phone || '—'}</td>
         <td style="color:var(--text2);">${g.email || '—'}</td>
-        <td><span style="background:var(--green-glow);color:var(--green);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;">${g.hubId || currentGuestHubId}</span></td>
+        <td><span style="background:var(--green-glow);color:var(--green);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;">${hubsCache[g.hubId || currentGuestHubId]?.name || g.hubId || currentGuestHubId}</span></td>
         <td style="color:var(--text3);font-size:12px;">${date}</td>
         <td><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px;" onclick="event.stopPropagation();openGuestDetail('${g.key}')">View</button></td>
       </tr>`;
             }).join('');
         };
 
+        let currentGuestDetailHubId = null;
+
         window.openGuestDetail = async function (key) {
             const g = allGuests.find(x => x.key === key);
             if (!g) return;
             currentGuestKey = key;
+            currentGuestDetailHubId = g.hubId || currentGuestHubId;
             const name = `${g.firstName || ''} ${g.lastName || ''}`.trim() || '—';
             document.getElementById('gdName').textContent = name;
             document.getElementById('gdPhone').textContent = g.phone || '—';
             document.getElementById('gdEmail').textContent = g.email || '—';
-            document.getElementById('gdHub').textContent = g.hubId || currentGuestHubId;
+            document.getElementById('gdHub').textContent = hubsCache[currentGuestDetailHubId]?.name || currentGuestDetailHubId;
             document.getElementById('gdDate').textContent = g.registeredAt
                 ? new Date(g.registeredAt).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
                 : '—';
 
             // Load stay details (arrival/departure dates)
             try {
-                const staySnap = await get(ref(db, `hubs/${g.hubId || currentGuestHubId}/guests/${key}/stayDetails`));
+                const staySnap = await get(ref(db, `hubs/${currentGuestDetailHubId}/guests/${key}/stayDetails`));
                 if (staySnap.exists()) {
                     const stay = staySnap.val();
                     const arrivalDate = stay.arrivalDate ? new Date(stay.arrivalDate + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
@@ -7596,12 +9623,29 @@
         };
 
         window.deleteGuestProfile = async function () {
-            if (!currentGuestKey || !currentGuestHubId) return;
+            if (!currentGuestKey || !currentGuestDetailHubId) return;
             const g = allGuests.find(x => x.key === currentGuestKey);
             const name = g ? `${g.firstName} ${g.lastName}` : 'this guest';
             if (!confirm(`Delete profile for ${name}? This cannot be undone.`)) return;
             try {
-                await remove(ref(db, `hubs/${currentGuestHubId}/guests/${currentGuestKey}`));
+                // Chat sessionId IS the guest's token for registered guests, so their
+                // thread lives at the same key — remove it too or it'd be an orphaned
+                // conversation nobody can ever open again (the guest record it points
+                // to no longer exists).
+                await Promise.all([
+                    remove(ref(db, `hubs/${currentGuestDetailHubId}/guests/${currentGuestKey}`)),
+                    remove(ref(db, `hubs/${currentGuestDetailHubId}/chats/${currentGuestKey}`)),
+                ]);
+                // If that guest's thread happened to be open in the Chat panel,
+                // back out of it — it no longer exists to reply into.
+                if (activeChatHubId === currentGuestDetailHubId && activeChatSession === currentGuestKey) {
+                    activeChatSession = null;
+                    activeChatGuestName = null;
+                    document.getElementById('chatNoThread').style.display = 'flex';
+                    document.getElementById('chatThreadActive').style.display = 'none';
+                    const chatCard = document.getElementById('chatCard');
+                    if (chatCard) chatCard.classList.remove('thread-open');
+                }
                 closeModal('guestDetailModal');
                 showToast('Guest profile deleted.', 'success');
             } catch (e) {
