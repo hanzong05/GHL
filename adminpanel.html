@@ -5302,6 +5302,44 @@
         </div>
     </div>
 
+    <!-- EDIT ROLE / HUB MODAL — change an existing user's access level without
+         recreating their account (e.g. promote a Manager to Super Manager) -->
+    <div class="modal-ov" id="editRoleModal">
+        <div class="modal" style="max-width:440px;">
+            <div class="modal-header">
+                <div class="modal-title">Edit Access</div>
+                <div class="modal-close" onclick="closeModal('editRoleModal')"><svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg></div>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="erUid">
+                <div style="font-size:13px;color:var(--text2);line-height:1.5;">
+                    Change role and hub access for <strong id="erUserName" style="color:var(--text);"></strong>. They
+                    keep their same login — no new account needed.
+                </div>
+                <div class="form-field">
+                    <div class="form-label">Role</div>
+                    <select class="form-select" id="erRole" onchange="toggleEditRoleHubField()">
+                        <option value="manager">Hub Manager (restricted to one hub)</option>
+                        <option value="super_manager" id="erRoleSuperManagerOpt">Super Manager (full access, one
+                            hub)</option>
+                        <option value="super" id="erRoleSuperOpt">Super Admin (access to all hubs)</option>
+                    </select>
+                </div>
+                <div class="form-field" id="erHubFieldWrapper">
+                    <div class="form-label">Assign to Hub</div>
+                    <select class="form-select" id="erHub"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('editRoleModal')">Cancel</button>
+                <button class="btn btn-primary" id="erSubmitBtn" onclick="submitEditRole()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ACTIVITY MODAL -->
     <div class="modal-ov" id="activityModal">
         <div class="modal">
@@ -6104,6 +6142,9 @@
                     onclick="toggleUserActive('${uid}',${u.active !== false})"
                     title="${u.active !== false ? 'Deactivate user' : 'Activate user'}">
                    </button>
+                   <div class="ann-action-btn" title="Edit role / hub" onclick="openEditRoleModal('${uid}')">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                   </div>
                    <div class="ann-action-btn" title="Change password" onclick="openChangePasswordModal('${uid}','${displayName}')">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                    </div>
@@ -6432,6 +6473,69 @@
                 showToast('Error: ' + (e?.message || e), 'error');
             } finally {
                 btn.textContent = 'Update Password';
+                btn.disabled = false;
+            }
+        };
+
+        // ── EDIT ROLE / HUB (promote/demote an existing user without recreating
+        // their account) ──
+        window.openEditRoleModal = function (uid) {
+            const u = usersCache[uid];
+            if (!u) { showToast('User not found.', 'error'); return; }
+            if (currentUserRole === 'super_manager' && u.role === 'super') {
+                showToast("Super Managers can't edit a Super Admin's access.", 'error');
+                return;
+            }
+            document.getElementById('erUid').value = uid;
+            document.getElementById('erUserName').textContent = u.name || u.email || uid;
+            // Super Managers can promote/demote between Manager and Super Manager
+            // on their own hub only — never grant platform-wide Super Admin.
+            const superOpt = document.getElementById('erRoleSuperOpt');
+            if (superOpt) superOpt.style.display = currentUserRole === 'super_manager' ? 'none' : '';
+            const allHubOpts = Object.values(hubsCache)
+                .map(h => `<option value="${h.id}">${h.name} (${h.id})</option>`).join('');
+            document.getElementById('erHub').innerHTML = allHubOpts || '<option value="">No hubs available</option>';
+            document.getElementById('erRole').value = (u.role === 'super' && currentUserRole === 'super_manager') ? 'manager' : (u.role || 'manager');
+            if (u.hubId && u.hubId !== '_global') document.getElementById('erHub').value = u.hubId;
+            window.toggleEditRoleHubField();
+            document.getElementById('editRoleModal').classList.add('on');
+        };
+
+        window.toggleEditRoleHubField = function () {
+            const role = document.getElementById('erRole').value;
+            document.getElementById('erHubFieldWrapper').style.display = role === 'super' ? 'none' : '';
+        };
+
+        window.submitEditRole = async function () {
+            const uid = document.getElementById('erUid').value;
+            let role = document.getElementById('erRole').value;
+            let hubId = document.getElementById('erHub').value;
+            if (!uid) return;
+            const target = usersCache[uid];
+
+            if (currentUserRole === 'super_manager') {
+                if (role === 'super') { showToast('Super Managers cannot grant Super Admin access.', 'error'); return; }
+                if (target && target.role === 'super') { showToast("Super Managers can't edit a Super Admin's access.", 'error'); return; }
+                hubId = currentUserHubId;
+            }
+            if (role !== 'super' && !hubId) { showToast('Please select a hub.', 'error'); return; }
+
+            const btn = document.getElementById('erSubmitBtn');
+            btn.textContent = 'Saving…';
+            btn.disabled = true;
+            try {
+                const hubName = hubsCache[hubId]?.name || hubId;
+                await update(ref(db, `users/${uid}`), {
+                    role,
+                    hubId: role === 'super' ? '_global' : hubId,
+                    hubName: role === 'super' ? 'All Hubs' : hubName,
+                });
+                showToast('Access updated!', 'success');
+                closeModal('editRoleModal');
+            } catch (e) {
+                showToast('Error: ' + (e?.message || e), 'error');
+            } finally {
+                btn.textContent = 'Save Changes';
                 btn.disabled = false;
             }
         };

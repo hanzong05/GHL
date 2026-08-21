@@ -390,6 +390,7 @@ COMPLETED TASKS — August 19, 2026
 
 COMPLETED TASKS — August 21, 2026
 ✅ Admin Panel - Added a new "Super Manager" access level. It works the same as Super Admin (Settings and Users management included) but is locked to just that person's one hub — they can't see or touch other hubs, and can't create new hubs or grant Super Admin access to anyone.
+✅ Admin Panel - Added a way to change an existing staff member's role and hub (e.g. promote a Manager to Super Manager) right from the Users list, without having to delete and recreate their account.
 
 TODO
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
@@ -402,6 +403,5 @@ TODO
 ☐ Whoever manages the Cloudflare account needs to redeploy the worker so the new/fixed hub web addresses actually go live (currently: sweetwater-valley-rv-park, stone-mountain-park-hub, little-river-campground, sanwar-rv-resort-hub, splash-rv-resort, and forsyth-station-rv-resort). This isn't something Claude can do — it needs someone with Cloudflare dashboard access.
 ☐ Whoever manages the Cloudflare account also needs to redeploy the password-reset email worker so the new per-hub "Password Reset Notifications" setting actually starts sending emails.
 ☐ Whoever manages the Cloudflare account needs to redeploy the "delete-user" worker (cloudflare-worker/delete-user-worker.js) so the new Super Manager role can actually create/delete/reset-password for staff on their own hub — right now that worker still only allows Super Admin.
-☐ Whoever manages the Firebase console needs to double check the Realtime Database security rules allow a "super_manager" account to read the site-wide /users list (it currently may only allow "super") — otherwise a Super Manager's Users page will show a permission error even though the app UI now supports it.
 
 
