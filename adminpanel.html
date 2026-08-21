@@ -373,6 +373,10 @@
             color: var(--green)
         }
 
+        .sidebar-user-role.supermanager {
+            color: var(--purple)
+        }
+
         .sidebar-user-name {
             font-size: 12px;
             font-weight: 600;
@@ -1553,6 +1557,12 @@
             background: var(--green-glow);
             color: var(--green);
             border: 1px solid rgba(16, 185, 129, .25)
+        }
+
+        .role-badge.supermanager {
+            background: rgba(139, 92, 246, .12);
+            color: var(--purple);
+            border: 1px solid rgba(139, 92, 246, .25)
         }
 
         .user-name {
@@ -3747,7 +3757,7 @@
                     </svg>
                     Music Festival
                 </div>
-                <div class="nav-item super-only" data-panel="hub-settings"
+                <div class="nav-item hub-admin-only" data-panel="hub-settings"
                     onclick="switchPanel(this);loadHubSettingsPanel()">
                     <svg viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="3" />
@@ -3757,8 +3767,8 @@
                     Settings
                 </div>
 
-                <!-- Administration — super admin only -->
-                <div class="nav-section-lbl super-only" style="margin-top:6px;">Administration</div>
+                <!-- Administration — super admin (all hubs) + super manager (own hub) -->
+                <div class="nav-section-lbl hub-admin-only" style="margin-top:6px;">Administration</div>
                 <div class="nav-item super-only" data-panel="hubs" onclick="switchPanel(this)">
                     <svg viewBox="0 0 24 24">
                         <circle cx="18" cy="5" r="3" />
@@ -3770,7 +3780,7 @@
                     iConnectHubs
                     <span class="nav-badge" id="navHubCount">0</span>
                 </div>
-                <div class="nav-item super-only" data-panel="users" onclick="switchPanel(this)">
+                <div class="nav-item hub-admin-only" data-panel="users" onclick="switchPanel(this)">
                     <svg viewBox="0 0 24 24">
                         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                         <circle cx="9" cy="7" r="4" />
@@ -4180,8 +4190,8 @@
                 <div class="panel" id="panel-hub-settings">
                     <div style="display:flex;flex-direction:column;gap:16px;">
 
-                        <!-- Hub Selector -->
-                        <div class="v2-settings-card">
+                        <!-- Hub Selector — super admins only; Super Managers/Managers are locked to their own hub -->
+                        <div class="v2-settings-card super-only" id="hubSettingsSelectWrapper">
                             <div class="v2-field-lbl" style="margin-bottom:6px;">Select Hub</div>
                             <select class="v2-field-input" id="hubSettingsSelect" onchange="loadHubSettingsPanel()">
                                 <option value="">— Choose a hub —</option>
@@ -4635,7 +4645,7 @@
                 </div>
 
                 <!-- USERS -->
-                <div class="panel super-only" id="panel-users">
+                <div class="panel hub-admin-only" id="panel-users">
                     <div class="section-header">
                         <select class="form-select" id="usersSortSelect" onchange="renderUsersTable()"
                             style="font-size:12px;padding:7px 28px 7px 10px;width:auto;">
@@ -5248,7 +5258,8 @@
                     <div class="form-label">Role</div>
                     <select class="form-select" id="newUserRole" onchange="toggleHubField()">
                         <option value="manager">Hub Manager (restricted to one hub)</option>
-                        <option value="super">Super Admin (access to all hubs)</option>
+                        <option value="super_manager" id="newUserRoleSuperManagerOpt">Super Manager (full access, one hub)</option>
+                        <option value="super" id="newUserRoleSuperOpt">Super Admin (access to all hubs)</option>
                     </select>
                 </div>
             </div>
@@ -5806,8 +5817,8 @@
                     currentUserRole = profile.role || 'manager';
                     currentUserHubId = profile.hubId || null;
                     currentUserName = profile.name || null;
-                    document.getElementById('sidebarRole').textContent = currentUserRole === 'super' ? 'Super Admin' : 'Hub Manager';
-                    document.getElementById('sidebarRole').className = 'sidebar-user-role ' + (currentUserRole === 'super' ? 'super' : 'manager');
+                    document.getElementById('sidebarRole').textContent = roleLabel(currentUserRole);
+                    document.getElementById('sidebarRole').className = 'sidebar-user-role ' + roleBadgeClass(currentUserRole);
                     document.getElementById('sidebarName').textContent = profile.name || user.email;
                     document.getElementById('sidebarHubTag').textContent = currentUserRole === 'super' ? 'All Hubs' : (profile.hubName || profile.hubId || '—');
                 } else {
@@ -5819,14 +5830,7 @@
                     document.getElementById('sidebarHubTag').textContent = 'All Hubs';
                 }
 
-                document.querySelectorAll('.super-only').forEach(el =>
-                    el.style.display = currentUserRole === 'super' ? '' : 'none'
-                );
-                document.querySelectorAll('.manager-only').forEach(el =>
-                    el.style.display = currentUserRole === 'manager' ? '' : 'none'
-                );
-                updateMonthlyHappeningsNavVisibility();
-                updateMusicFestivalNavVisibility();
+                applyRoleVisibility();
 
                 // Update sidebar section label
                 const contentLbl = document.getElementById('navSectionContent');
@@ -5834,17 +5838,22 @@
 
                 // Update role banner (elements may be absent — guard)
                 const roleDot = document.getElementById('dashRoleDot');
-                const roleLabel = document.getElementById('dashRoleLabel');
+                const roleLabelEl = document.getElementById('dashRoleLabel');
                 const roleHub = document.getElementById('dashRoleHub');
-                if (roleDot && roleLabel && roleHub) {
+                if (roleDot && roleLabelEl && roleHub) {
                     if (currentUserRole === 'super') {
                         roleDot.style.background = 'var(--purple)';
-                        roleLabel.innerHTML = `<span style="color:var(--purple);">Super Admin</span> — Full platform access`;
+                        roleLabelEl.innerHTML = `<span style="color:var(--purple);">Super Admin</span> — Full platform access`;
                         roleHub.textContent = 'All hubs visible';
+                    } else if (currentUserRole === 'super_manager') {
+                        roleDot.style.background = '#8b5cf6';
+                        const hubName = document.getElementById('sidebarHubTag').textContent || '—';
+                        roleLabelEl.innerHTML = `<span style="color:#8b5cf6;">Super Manager</span> — Full access to your hub`;
+                        roleHub.textContent = hubName;
                     } else {
                         roleDot.style.background = 'var(--blue)';
                         const hubName = document.getElementById('sidebarHubTag').textContent || '—';
-                        roleLabel.innerHTML = `<span style="color:var(--blue);">Hub Manager</span> — Managing your hub`;
+                        roleLabelEl.innerHTML = `<span style="color:var(--blue);">Hub Manager</span> — Managing your hub`;
                         roleHub.textContent = hubName;
                     }
                 }
@@ -5931,9 +5940,15 @@
 
         // ── LOAD USERS ──
         function loadUsers() {
-            if (currentUserRole !== 'super') return;
+            if (currentUserRole !== 'super' && currentUserRole !== 'super_manager') return;
             onValue(ref(db, 'users'), (snap) => {
-                usersCache = snap.val() || {};
+                const all = snap.val() || {};
+                // Super Managers only ever see/manage accounts on their own hub —
+                // filter here so every downstream render (table, dashboard cards,
+                // counts) is automatically scoped without touching each one.
+                usersCache = currentUserRole === 'super_manager'
+                    ? Object.fromEntries(Object.entries(all).filter(([, u]) => u.hubId === currentUserHubId))
+                    : all;
                 { const _uc = document.getElementById('navUserCount'); if (_uc) _uc.textContent = Object.keys(usersCache).length; }
                 renderUsersTable();
                 updateManagerCount();
@@ -5948,7 +5963,7 @@
         }
 
         function updateManagerCount() {
-            const managers = Object.values(usersCache).filter(u => u.role === 'manager').length;
+            const managers = Object.values(usersCache).filter(u => u.role !== 'super').length;
             { const _sm = document.getElementById('statManagers'); if (_sm) _sm.textContent = managers; }
         }
 
@@ -6078,7 +6093,7 @@
         <tr>
           <td><span class="user-name">${u.name || '—'}</span></td>
           <td>${u.email || '—'}</td>
-          <td><span class="role-badge ${u.role === 'super' ? 'super' : 'manager'}">${u.role === 'super' ? 'Super Admin' : 'Manager'}</span></td>
+          <td><span class="role-badge ${roleBadgeClass(u.role)}">${roleLabel(u.role)}</span></td>
           <td><span class="user-hub-tag">${hubName}</span></td>
           <td><span class="chip ${u.active !== false ? 'active' : 'inactive'}">${u.active !== false ? 'Active' : 'Inactive'}</span></td>
           <td>
@@ -6270,8 +6285,12 @@
             document.getElementById('newUserEmail').value = '';
             document.getElementById('newUserPass').value = '';
             document.getElementById('newUserRole').value = 'manager';
-            // Always show all hubs in the hub selector regardless of current view mode,
-            // so the admin can assign any hub when creating an account.
+            // Super Managers can only create accounts for their own hub, and can never
+            // grant platform-wide Super Admin access — hide that option entirely.
+            // hubsCache is already scoped to just their own hub, so the hub selector
+            // below naturally only offers that one hub.
+            const superOpt = document.getElementById('newUserRoleSuperOpt');
+            if (superOpt) superOpt.style.display = currentUserRole === 'super_manager' ? 'none' : '';
             const allHubOpts = Object.values(hubsCache)
                 .map(h => `<option value="${h.id}">${h.name} (${h.id})</option>`).join('');
             document.getElementById('newUserHub').innerHTML = allHubOpts || '<option value="">No hubs available</option>';
@@ -6283,11 +6302,18 @@
             const name = document.getElementById('newUserName').value.trim();
             const email = document.getElementById('newUserEmail').value.trim();
             const pass = document.getElementById('newUserPass').value;
-            const role = document.getElementById('newUserRole').value;
-            const hubId = document.getElementById('newUserHub').value;
+            let role = document.getElementById('newUserRole').value;
+            let hubId = document.getElementById('newUserHub').value;
 
             if (!name || !email || pass.length < 6) {
                 showToast('Name, email, and password (min 6 chars) required.', 'error'); return;
+            }
+
+            // Super Managers are hub-locked admins: they can create Managers/Super
+            // Managers for their own hub only, never a platform-wide Super Admin.
+            if (currentUserRole === 'super_manager') {
+                if (role === 'super') { showToast('Super Managers cannot grant Super Admin access.', 'error'); return; }
+                hubId = currentUserHubId;
             }
 
             const btn = document.getElementById('addUserBtn');
@@ -7326,10 +7352,7 @@
             viewingAsHubId = hubId;
             currentUserHubId = hubId;
             currentUserRole = 'manager';
-            document.querySelectorAll('.super-only').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.manager-only').forEach(el => el.style.display = '');
-            updateMonthlyHappeningsNavVisibility();
-            updateMusicFestivalNavVisibility();
+            applyRoleVisibility();
             populateHubSelects();
             updateStats(Object.values(allAnnsCache));
             updateActCount();
@@ -7342,10 +7365,7 @@
             viewingAsHubId = null;
             currentUserRole = 'super';
             currentUserHubId = null;
-            document.querySelectorAll('.super-only').forEach(el => el.style.display = '');
-            document.querySelectorAll('.manager-only').forEach(el => el.style.display = 'none');
-            updateMonthlyHappeningsNavVisibility();
-            updateMusicFestivalNavVisibility();
+            applyRoleVisibility();
             populateHubSelects();
             updateStats(Object.values(allAnnsCache));
             updateActCount();
@@ -7531,6 +7551,39 @@
 
         // Initialize calendar on page load
         actCalRender();
+
+        // ── Role display helpers — single source of truth for role labels/badges
+        // now that there are three roles instead of two ──
+        function roleLabel(role) {
+            if (role === 'super') return 'Super Admin';
+            if (role === 'super_manager') return 'Super Manager';
+            return 'Manager';
+        }
+        function roleBadgeClass(role) {
+            if (role === 'super') return 'super';
+            if (role === 'super_manager') return 'supermanager';
+            return 'manager';
+        }
+
+        // Shows/hides sidebar nav + panels for the current role. Three tiers:
+        //   .super-only      → true Super Admin only (platform-wide features: creating
+        //                       hubs, the cross-hub dashboard)
+        //   .hub-admin-only  → Super Admin AND Super Manager (admin-level features —
+        //                       Settings, Users — but Super Manager's data stays
+        //                       scoped to their own hub via currentUserHubId everywhere
+        //                       else in the app)
+        //   .manager-only    → Manager AND Super Manager (the day-to-day single-hub
+        //                       content tabs: Announcements, Events, Chat, etc.)
+        function applyRoleVisibility() {
+            const isSuper = currentUserRole === 'super';
+            const isHubAdmin = isSuper || currentUserRole === 'super_manager';
+            const isSingleHubContent = currentUserRole === 'manager' || currentUserRole === 'super_manager';
+            document.querySelectorAll('.super-only').forEach(el => el.style.display = isSuper ? '' : 'none');
+            document.querySelectorAll('.hub-admin-only').forEach(el => el.style.display = isHubAdmin ? '' : 'none');
+            document.querySelectorAll('.manager-only').forEach(el => el.style.display = isSingleHubContent ? '' : 'none');
+            updateMonthlyHappeningsNavVisibility();
+            updateMusicFestivalNavVisibility();
+        }
 
         function getTimeAgo(date) {
             const diff = Math.floor((Date.now() - date) / 1000);
@@ -7764,12 +7817,12 @@
                 const hubName = u.hubId === '_global' ? 'All Hubs' : (hubsCache[u.hubId]?.name || u.hubId || '—');
                 return `
         <div class="ann-item">
-          <div style="background:${u.role === 'super' ? 'var(--purple)' : 'var(--blue)'};width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;"></div>
+          <div style="background:${u.role === 'super' ? 'var(--purple)' : u.role === 'super_manager' ? '#8b5cf6' : 'var(--blue)'};width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;"></div>
           <div class="ann-body">
             <div class="ann-hub-badge">${hubName}</div>
             <div class="ann-title">${u.name || u.email || '—'}</div>
             <div class="ann-meta">
-              <span class="role-badge ${u.role === 'super' ? 'super' : 'manager'}" style="font-size:9px;">${u.role === 'super' ? 'Super Admin' : 'Manager'}</span>
+              <span class="role-badge ${roleBadgeClass(u.role)}" style="font-size:9px;">${roleLabel(u.role)}</span>
             </div>
           </div>
         </div>`;
@@ -9510,7 +9563,6 @@
             }
             el.innerHTML = users.map(([uid, u]) => {
                 const initials = ((u.name || u.email || '')[0] || 'U').toUpperCase();
-                const roleLabel = u.role === 'super' ? 'Super Admin' : 'Manager';
                 const hubName = u.hubId === '_global' ? 'All Hubs' : (hubsCache[u.hubId]?.name || u.hubId);
                 return `
             <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px;">
@@ -9519,7 +9571,7 @@
                 </div>
                 <div style="flex:1;min-width:0;">
                     <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:2px;">${u.name || u.email}</div>
-                    <div style="font-size:11px;color:var(--text3);">${roleLabel}</div>
+                    <div style="font-size:11px;color:var(--text3);">${roleLabel(u.role)}</div>
                 </div>
                 <div style="text-align:right;flex-shrink:0;">
                     <div style="font-size:11px;color:var(--text3);">${hubName}</div>

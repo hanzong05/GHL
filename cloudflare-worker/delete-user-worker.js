@@ -12,7 +12,9 @@
 //   2. Verifies idToken really is a valid, unexpired Firebase ID token for
 //      THIS project (so randos can't call this endpoint).
 //   3. Looks up the calling user's profile in Realtime Database and checks
-//      role === 'super' — only Super Admins may delete other users.
+//      role === 'super' (all hubs) or role === 'super_manager' (their own
+//      hub only, verified against the target user's hubId) — only these two
+//      roles may delete/manage other users.
 //   4. Mints a Google OAuth2 access token from the service account
 //      (JWT signed with the service account's private key via Web Crypto).
 //   5. Uses that access token to delete the target user from Firebase Auth
@@ -79,12 +81,26 @@ export default {
       // 2. Get a Google access token for the service account.
       const accessToken = await getServiceAccountAccessToken(env);
 
-      // 3. Confirm the caller is a Super Admin.
+      // 3. Confirm the caller is allowed to manage users.
       // If no DB profile exists, the UI defaults to 'super' (original owner account).
       const callerProfile = await dbGet(env.DATABASE_URL, `users/${callerUid}`, accessToken);
       const isSuperAdmin = !callerProfile || callerProfile.role === 'super';
-      if (!isSuperAdmin) {
-        return json({ error: 'Only Super Admins can manage users.' }, 403, corsHeaders);
+      // Super Managers get the same user-management ability as a Super Admin,
+      // but strictly scoped to their own hub — verified below against the
+      // TARGET user's profile, not just trusted from the client.
+      const isSuperManager = !isSuperAdmin && callerProfile?.role === 'super_manager';
+      if (!isSuperAdmin && !isSuperManager) {
+        return json({ error: 'Only Super Admins and Super Managers can manage users.' }, 403, corsHeaders);
+      }
+
+      if (isSuperManager) {
+        const targetProfile = await dbGet(env.DATABASE_URL, `users/${uid}`, accessToken);
+        if (!targetProfile) {
+          return json({ error: 'User not found.' }, 404, corsHeaders);
+        }
+        if (targetProfile.role === 'super' || targetProfile.hubId !== callerProfile.hubId) {
+          return json({ error: 'Super Managers can only manage accounts on their own hub.' }, 403, corsHeaders);
+        }
       }
 
       // ── Change password action ──
