@@ -3417,6 +3417,33 @@
 
                 <div class="dash-body">
 
+                    <!-- Setup reminder — shown only to guests who skipped "Set Up My
+                         Stay" during onboarding, hidden permanently once they register.
+                         Never a blocking modal — just a dismissible card. -->
+                    <div id="setupReminderCard" style="display:none;margin-bottom:14px;">
+                        <div
+                            style="background:linear-gradient(135deg,#0d1b4b 0%,#1a2f7a 60%,#0f2060 100%);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;"
+                            onclick="openRegisterModal()">
+                            <div
+                                style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Get More
+                                    From Your Stay</div>
+                                <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.4;">Set up your
+                                    stay to get alerts, event reminders, and updates.</div>
+                            </div>
+                            <button onclick="event.stopPropagation();dismissSetupReminderCard()"
+                                style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:20px;cursor:pointer;flex-shrink:0;white-space:nowrap;">Maybe
+                                Later</button>
+                        </div>
+                    </div>
+
                     <!-- Alerts -->
                     <div class="dash-section">
                         <div class="section-header">
@@ -5013,8 +5040,8 @@
                                 <circle cx="12" cy="7" r="4" />
                             </svg>
                         </div>
-                        <div class="wifi-modal-title">Guest Info</div>
-                        <div class="wifi-modal-sub">Welcome! Please update your information.</div>
+                        <div class="wifi-modal-title">Set Up Your Stay</div>
+                        <div class="wifi-modal-sub">Takes about 30 seconds — get alerts, events, and updates during your visit.</div>
                     </div>
                     <div class="wifi-modal-body" style="padding-top:8px;">
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
@@ -5042,13 +5069,6 @@
                             <input id="regEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
-                        <div class="wifi-field"
-                            style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
-                            <div class="wifi-field-label">Create a Password</div>
-                            <input id="regPassword" type="password" placeholder="At least 4 characters"
-                                autocomplete="new-password"
-                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
-                        </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
                             <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;">
                                 <div class="wifi-field-label">Check-In</div>
@@ -5061,39 +5081,35 @@
                                     style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                             </div>
                         </div>
-                        <div style="font-size:11px;color:#9ca3af;margin:-4px 0 10px;padding:0 2px;">We'll automatically
-                            stop notifications after you leave.</div>
+                        <div style="font-size:11px;color:#9ca3af;margin:-4px 0 10px;padding:0 2px;line-height:1.5;">
+                            We'll use this to send relevant campground updates during your stay. Notifications
+                            automatically stop after your checkout date.</div>
                         <div id="regError"
                             style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
                     </div>
                     <div style="padding:0 20px 12px;">
-                        <button onclick="submitGuestRegistration()" id="regSubmitBtn"
+                        <button onclick="requestGuestCode()" id="regSubmitBtn"
                             style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                                 <path d="M7 11V7a5 5 0 0110 0v4" />
                             </svg>
-                            Save My Info & Authorize Updates
+                            Save My Stay & Continue
                         </button>
                         <button onclick="showRegView('regViewLogin')"
                             style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
-                            Log In
+                            I've Visited Before
                         </button>
                     </div>
                 </div>
 
-                <!-- Login view — phone + password, for returning guests (including
-                     ones whose device lost its saved profile, e.g. a
-                     reinstalled/OS-reset home-screen app on iOS wipes this hub's
-                     local storage) so they can re-link their existing Firebase
-                     guest record. Password is checked against a SHA-256 hash
-                     stored on the guest record at registration time — this is
-                     NOT a real auth server, just enough to keep a casual guest
-                     from pulling up a stranger's profile by guessing a phone
-                     number. Also re-marks push as already-registered locally if
-                     the found profile already has a saved subscription, so the
-                     notification onboarding step doesn't needlessly rerun too. -->
+                <!-- Login view — "Welcome back" passwordless flow: just email.
+                     We look them up by verified email (global guests/ record,
+                     shared across every iConnectHub property) and email a
+                     6-digit code — no password to remember. If the email isn't
+                     recognized, the worker tells us so and we route them back
+                     to regViewForm to give their name once. -->
                 <div id="regViewLogin" style="display:none;">
                     <div class="wifi-modal-header" style="padding-bottom:16px;">
                         <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
@@ -5103,8 +5119,8 @@
                                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
                             </svg>
                         </div>
-                        <div class="wifi-modal-title">Log In</div>
-                        <div class="wifi-modal-sub">Enter your phone number and password to find your profile.</div>
+                        <div class="wifi-modal-title">Welcome Back</div>
+                        <div class="wifi-modal-sub">Enter your email and we'll send you a code — no password needed.</div>
                     </div>
                     <div class="wifi-modal-body" style="padding-top:8px;">
                         <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
@@ -5112,28 +5128,55 @@
                             <input id="regLoginEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
-                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
-                            <div class="wifi-field-label">Password</div>
-                            <input id="regLoginPassword" type="password" placeholder="Your password"
-                                autocomplete="current-password"
-                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
-                        </div>
                         <div id="regLoginError"
                             style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
                     </div>
                     <div style="padding:0 20px 12px;">
-                        <button onclick="loginGuestProfile()" id="regLoginBtn"
+                        <button onclick="requestLoginCode()" id="regLoginBtn"
                             style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
-                            Log In
+                            Send Me a Code
                         </button>
                         <button onclick="showRegView('regViewForm')"
                             style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
                             Back
                         </button>
-                        <div onclick="showRegView('regViewForgot')"
-                            style="text-align:center;margin-top:12px;font-size:12.5px;color:#2563eb;font-weight:600;cursor:pointer;">
-                            Forgot password?
+                    </div>
+                </div>
+
+                <!-- Code entry view — shared by both first-time setup and
+                     "Welcome Back" login, since both end the same way: the
+                     worker already stashed a pendingCode on guests/{guestId}. -->
+                <div id="regViewCode" style="display:none;">
+                    <div class="wifi-modal-header" style="padding-bottom:16px;">
+                        <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#059669,#047857);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="width:26px;height:26px;">
+                                <rect x="3" y="5" width="18" height="14" rx="2" />
+                                <polyline points="3 7 12 13 21 7" />
+                            </svg>
                         </div>
+                        <div class="wifi-modal-title">Enter Your Code</div>
+                        <div class="wifi-modal-sub" id="regCodeSub">We emailed you a 6-digit code.</div>
+                    </div>
+                    <div class="wifi-modal-body" style="padding-top:8px;">
+                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">Verification Code</div>
+                            <input id="regCodeInput" type="text" inputmode="numeric" maxlength="6"
+                                placeholder="123456" autocomplete="one-time-code"
+                                style="border:none;background:transparent;font-size:22px;font-weight:700;letter-spacing:6px;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
+                        <div id="regCodeError"
+                            style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
+                    </div>
+                    <div style="padding:0 20px 12px;">
+                        <button onclick="submitVerifyCode()" id="regCodeSubmitBtn"
+                            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
+                            Verify & Continue
+                        </button>
+                        <button onclick="resendGuestCode()" id="regCodeResendBtn"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            Resend Code
+                        </button>
                     </div>
                 </div>
 
@@ -6369,6 +6412,7 @@
         const LS_PUSH_SUB_CACHE = 'bs_push_sub_cache_' + HUB_ID;
         const LS_NOTIFS_OPTOUT = 'bs_notifs_optout_' + HUB_ID;
         const LS_READ_ANNS = 'park_read_anns_' + HUB_ID;
+        const LS_SETUP_SKIPPED = 'bs_setup_skipped_' + HUB_ID; // guest tapped "Continue Without Setting Up" — show the reminder card until they register
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
@@ -6387,6 +6431,35 @@
             }
         }).catch(() => { });
         const messaging = getMessaging(app);
+
+        // ── Onboarding funnel analytics — lightweight event log so we can
+        // measure the new guest-setup flow (welcome shown, set-up clicked,
+        // skipped, registered, home-screen offered/added, notifs offered/
+        // granted/denied). Fire-and-forget; never blocks the guest's flow. ──
+        function logOnboardEvent(event, extra) {
+            try {
+                const entryRef = push(ref(db, `hubs/${HUB_ID}/onboardingEvents`));
+                set(entryRef, { event, at: new Date().toISOString(), ...(extra || {}) }).catch(() => { });
+            } catch (e) { }
+        }
+
+        // ── Setup reminder card — shown on the Home tab to guests who skipped
+        // "Set Up My Stay" during onboarding. "Maybe Later" only hides it for
+        // this browser tab session (sessionStorage), so it reappears on their
+        // next visit per the brief — it's gone for good only once they
+        // actually register. ──
+        function updateSetupReminderCard() {
+            const card = document.getElementById('setupReminderCard');
+            if (!card) return;
+            let skipped = false, dismissedThisSession = false;
+            try { skipped = localStorage.getItem(LS_SETUP_SKIPPED) === '1'; } catch (e) { }
+            try { dismissedThisSession = sessionStorage.getItem(LS_SETUP_SKIPPED + '_dismissed') === '1'; } catch (e) { }
+            card.style.display = (skipped && !dismissedThisSession) ? '' : 'none';
+        }
+        window.dismissSetupReminderCard = function () {
+            try { sessionStorage.setItem(LS_SETUP_SKIPPED + '_dismissed', '1'); } catch (e) { }
+            updateSetupReminderCard();
+        };
 
         // ── PUSH NOTIFICATIONS ──
         const VAPID_KEY = 'BOz7iTS5YoV_ogTJvZ9149Nx4ViO0qzuC5rijvSFh6ggdyXqGSmqZ5_lOCpsaAVudW3lHCvrfKRUCdm_HsqmYsw';
@@ -7187,7 +7260,7 @@
             register: {
                 bg: '#e7f8f0', onclick: 'openRegisterModal()',
                 icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-                title: 'Register / My Profile', sub: 'Stay connected during your visit', titleId: 'registerMoreLabel', subId: 'registerMoreSub',
+                title: 'My Stay', sub: 'Stay connected during your visit', titleId: 'registerMoreLabel', subId: 'registerMoreSub',
             },
             weather: {
                 bg: '#eff6ff', onclick: 'openWeatherOverlay()',
@@ -7347,9 +7420,9 @@
             const profile = await loadGuestProfile();
             if (profile) {
                 label.textContent = `Hi, ${profile.firstName}!`;
-                sub.textContent = 'View your guest profile';
+                sub.textContent = 'View your stay details';
             } else {
-                label.textContent = 'Register / My Profile';
+                label.textContent = 'Set Up My Stay';
                 sub.textContent = 'Stay connected during your visit';
             }
         }
@@ -8064,7 +8137,7 @@
 
         // Show one view, hide all others
         window.showRegView = function (viewId) {
-            ['regViewForm', 'regViewLogin', 'regViewForgot', 'regViewResetPassword', 'regViewProfile', 'regViewSuccess'].forEach(id => {
+            ['regViewForm', 'regViewLogin', 'regViewCode', 'regViewForgot', 'regViewResetPassword', 'regViewProfile', 'regViewSuccess'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === viewId) ? '' : 'none';
             });
@@ -8256,6 +8329,7 @@
                 showRegisterProfile(profile, false);
             } else {
                 showRegView('regViewForm');
+                logOnboardEvent('registration_started');
             }
         };
 
@@ -8279,25 +8353,40 @@
 
         window.closeRegisterModal = function () {
             document.getElementById('registerModal').classList.remove('active');
+            // Guest opened the form from onboarding (Welcome → Set Up My Stay)
+            // but closed it without finishing — treat like a skip so the
+            // reminder card shows later, and still continue on to the Home
+            // Screen/Notifications steps instead of leaving onboarding stuck.
+            if (typeof window.__afterRegisterContinue === 'function') {
+                const cont = window.__afterRegisterContinue;
+                window.__afterRegisterContinue = null;
+                logOnboardEvent('registration_abandoned');
+                try { localStorage.setItem(LS_SETUP_SKIPPED, '1'); } catch (e) { }
+                updateSetupReminderCard();
+                cont();
+            }
         };
 
-        window.submitGuestRegistration = async function () {
+        // ── Passwordless guest identity — replaces the old direct-write
+        // registration/password-login with a global-guest verification-code
+        // flow (see password-reset-worker.js's /send-guest-code and
+        // /verify-guest-code). Both "Set Up My Stay" and "Welcome Back" land
+        // in the same code-entry view since the worker already knows which
+        // flow it is from the pendingCode it stashed on guests/{guestId}. ──
+        let _pendingCodeGuestId = null;
+        let _pendingCodeContext = null; // { email, propertyId, propertyName, firstName, lastName, phone, arrivalDate, departureDate }
+
+        window.requestGuestCode = async function () {
             const firstName = document.getElementById('regFirstName').value.trim();
             const lastName = document.getElementById('regLastName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
             const arrivalDate = document.getElementById('regArrival').value;
             const departureDate = document.getElementById('regDeparture').value;
             const errEl = document.getElementById('regError');
 
-            if (!firstName || !lastName || !phone || !email || !password) {
+            if (!firstName || !lastName || !phone || !email) {
                 errEl.textContent = 'Please fill in all fields.';
-                errEl.style.display = '';
-                return;
-            }
-            if (password.length < 4) {
-                errEl.textContent = 'Password must be at least 4 characters.';
                 errEl.style.display = '';
                 return;
             }
@@ -8309,130 +8398,175 @@
             errEl.style.display = 'none';
 
             const btn = document.getElementById('regSubmitBtn');
-            btn.textContent = 'Saving…';
+            btn.textContent = 'Sending code…';
             btn.disabled = true;
 
             try {
-                const digits = phone.replace(/\D/g, '');
-                const emailNormalized = email.toLowerCase();
-                const passwordHash = await hashPassword(password);
-
-                // Check for existing guest by email or phone
-                let existingKey = null;
-                const snap = await new Promise(resolve => {
-                    onValue(ref(db, `hubs/${HUB_ID}/guests`), s => resolve(s), { onlyOnce: true });
+                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate };
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(context),
                 });
-                snap.forEach(child => {
-                    const d = child.val();
-                    if (d.email && d.email.toLowerCase() === emailNormalized) {
-                        existingKey = child.key;
-                        return;
-                    }
-                    if (d.phone && d.phone.replace(/\D/g, '') === digits) {
-                        existingKey = child.key;
-                        return;
-                    }
-                });
-
-                const tokenKey = existingKey || ('g_' + digits + '_' + Date.now());
-                const profile = { firstName, lastName, phone: digits, email: emailNormalized, passwordHash, location: HUB_NAME, hubId: HUB_ID, anonymous: false, registeredAt: new Date().toISOString(), arrivalDate: arrivalDate || null, departureDate: departureDate || null };
-                await update(ref(db, `hubs/${HUB_ID}/guests/${tokenKey}`), profile);
-                // Stay details — read by the admin panel guest detail modal
-                await set(ref(db, `hubs/${HUB_ID}/guests/${tokenKey}/stayDetails`), { arrivalDate: arrivalDate || null, departureDate: departureDate || null });
-                setStoredToken(tokenKey);
-                // If push was already set up (e.g. via onboarding) before this
-                // profile existed, silently attach that existing subscription to
-                // the guest record now — no modal, no re-requesting permission.
-                // This never touches location — registration and push/location
-                // setup are separate flows.
-                attachCachedPushSub(HUB_ID, tokenKey);
-                // Chat session id just switched from anonymous to this guest's
-                // registration token — re-point the unread badge listener so it
-                // watches the thread staff will actually be replying to.
-                subscribeChatUnreadBadge();
-                showRegView('regViewSuccess');
-                setTimeout(() => {
-                    showRegisterProfile(profile, false);
-                }, 1400);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not send code.');
+                _pendingCodeGuestId = data.guestId;
+                _pendingCodeContext = context;
+                document.getElementById('regCodeSub').textContent = `We emailed a code to ${email}.`;
+                document.getElementById('regCodeInput').value = '';
+                document.getElementById('regCodeError').style.display = 'none';
+                showRegView('regViewCode');
             } catch (e) {
-                errEl.textContent = 'Could not save. Please try again.';
+                errEl.textContent = e.message || 'Could not send code. Please try again.';
                 errEl.style.display = '';
             } finally {
-                btn.textContent = 'Save My Info';
+                btn.textContent = 'Save My Stay & Continue';
                 btn.disabled = false;
             }
         };
 
-        window.loginGuestProfile = async function () {
+        window.requestLoginCode = async function () {
             const email = document.getElementById('regLoginEmail').value.trim();
-            const password = document.getElementById('regLoginPassword').value;
             const errEl = document.getElementById('regLoginError');
-            const emailNormalized = email.toLowerCase();
-            if (!emailNormalized || !password) {
-                errEl.textContent = 'Enter your email and password.';
+            if (!email) {
+                errEl.textContent = 'Enter your email address.';
                 errEl.style.display = '';
                 return;
             }
             errEl.style.display = 'none';
 
             const btn = document.getElementById('regLoginBtn');
-            btn.textContent = 'Logging in…';
+            btn.textContent = 'Sending code…';
             btn.disabled = true;
 
             try {
-                const snap = await new Promise(resolve => {
-                    onValue(ref(db, `hubs/${HUB_ID}/guests`), s => resolve(s), { onlyOnce: true });
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME }),
                 });
-                let foundKey = null, foundProfile = null;
-                snap.forEach(child => {
-                    const d = child.val();
-                    if (d.email && d.email.toLowerCase() === emailNormalized) {
-                        foundKey = child.key;
-                        foundProfile = d;
-                        return;
-                    }
-                });
-
-                if (!foundKey) {
-                    errEl.textContent = "We couldn't find a profile with that email address. Please register below.";
-                    errEl.style.display = '';
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not send code.');
+                if (data.needsInfo) {
+                    // Email not recognized yet — route to the full setup form,
+                    // pre-filling what we already have.
+                    document.getElementById('regEmail').value = email;
+                    showRegView('regViewForm');
+                    const formErr = document.getElementById('regError');
+                    formErr.textContent = "We don't recognize that email yet — tell us a bit about your stay to get set up.";
+                    formErr.style.display = '';
                     return;
                 }
-                // Guests who registered before the password field existed have
-                // no passwordHash on file — let them in on email alone rather
-                // than locking them out, but require the password for anyone
-                // who does have one set.
-                if (foundProfile.passwordHash) {
-                    const enteredHash = await hashPassword(password);
-                    if (enteredHash !== foundProfile.passwordHash) {
-                        errEl.textContent = 'Incorrect password.';
-                        errEl.style.display = '';
-                        return;
-                    }
-                }
-
-                setStoredToken(foundKey);
-                // Re-attach any push subscription this device already holds (e.g.
-                // notifications were just re-granted this session) to the restored
-                // profile, same as a fresh registration would.
-                attachCachedPushSub(HUB_ID, foundKey);
-                // The reverse direction: if the restored Firebase record already has
-                // a saved subscription from before this device's storage got wiped,
-                // mark push as already-registered locally so the onboarding flow
-                // doesn't re-run the location-confirm + permission dance for nothing.
-                if (foundProfile.webPushSub || foundProfile.fcmToken) {
-                    try { localStorage.setItem(LS_PUSH_REGISTERED, '1'); } catch (e) { }
-                }
-                // Same as fresh registration — the chat session id just switched
-                // to this restored guest's token, so re-point the badge listener.
-                subscribeChatUnreadBadge();
-                refreshRegisterMoreLabel();
-                showRegisterProfile(foundProfile, true);
+                _pendingCodeGuestId = data.guestId;
+                _pendingCodeContext = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME };
+                document.getElementById('regCodeSub').textContent = `We emailed a code to ${email}.`;
+                document.getElementById('regCodeInput').value = '';
+                document.getElementById('regCodeError').style.display = 'none';
+                showRegView('regViewCode');
             } catch (e) {
-                errEl.textContent = 'Could not log you in. Please try again.';
+                errEl.textContent = e.message || 'Could not send code. Please try again.';
                 errEl.style.display = '';
             } finally {
-                btn.textContent = 'Log In';
+                btn.textContent = 'Send Me a Code';
+                btn.disabled = false;
+            }
+        };
+
+        window.resendGuestCode = async function () {
+            if (!_pendingCodeContext) { showRegView('regViewForm'); return; }
+            const btn = document.getElementById('regCodeResendBtn');
+            btn.textContent = 'Sending…';
+            btn.disabled = true;
+            try {
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(_pendingCodeContext),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not resend code.');
+                _pendingCodeGuestId = data.guestId;
+                document.getElementById('regCodeError').style.display = 'none';
+            } catch (e) {
+                const errEl = document.getElementById('regCodeError');
+                errEl.textContent = e.message || 'Could not resend code.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Resend Code';
+                btn.disabled = false;
+            }
+        };
+
+        window.submitVerifyCode = async function () {
+            const code = document.getElementById('regCodeInput').value.trim();
+            const errEl = document.getElementById('regCodeError');
+            if (!_pendingCodeGuestId) { showRegView('regViewForm'); return; }
+            if (!code || code.length !== 6) {
+                errEl.textContent = 'Enter the 6-digit code from your email.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regCodeSubmitBtn');
+            btn.textContent = 'Verifying…';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/verify-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guestId: _pendingCodeGuestId, code }),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Incorrect code.');
+
+                setStoredToken(data.guestId);
+                // If push was already set up (e.g. via onboarding) before this
+                // profile existed, silently attach that existing subscription to
+                // the guest record now — no modal, no re-requesting permission.
+                attachCachedPushSub(HUB_ID, data.guestId);
+                // Chat session id just switched to this guest's real token — re-point
+                // the unread badge listener so it watches the thread staff use.
+                subscribeChatUnreadBadge();
+                refreshRegisterMoreLabel();
+
+                const isNewGuest = data.isNewGuest;
+                const context = _pendingCodeContext || {};
+                _pendingCodeGuestId = null;
+                _pendingCodeContext = null;
+
+                if (isNewGuest) {
+                    logOnboardEvent('registration_completed');
+                    try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { }
+                    updateSetupReminderCard();
+                }
+
+                // The worker already wrote hubs/{HUB_ID}/guests/{guestId} — read it
+                // back so the profile card shows the exact saved shape (including
+                // stayDetails) instead of reconstructing it client-side.
+                const profile = await loadGuestProfile();
+                showRegView('regViewSuccess');
+                setTimeout(() => {
+                    showRegisterProfile(profile || {
+                        firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone,
+                        location: HUB_NAME, arrivalDate: context.arrivalDate, departureDate: context.departureDate,
+                    }, !isNewGuest);
+                    // If reached via onboarding (Welcome → Set Up My Stay), continue
+                    // on to the Home Screen step instead of leaving the guest to
+                    // close the modal themselves.
+                    if (typeof window.__afterRegisterContinue === 'function') {
+                        const cont = window.__afterRegisterContinue;
+                        window.__afterRegisterContinue = null;
+                        closeRegisterModal();
+                        cont();
+                    }
+                }, 1400);
+            } catch (e) {
+                errEl.textContent = e.message || 'Incorrect code. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Verify & Continue';
                 btn.disabled = false;
             }
         };
@@ -8448,7 +8582,7 @@
             document.getElementById('regDeparture').value = '';
             const label = document.getElementById('registerMoreLabel');
             const sub = document.getElementById('registerMoreSub');
-            if (label) label.textContent = 'Register / My Profile';
+            if (label) label.textContent = 'Set Up My Stay';
             if (sub) sub.textContent = 'Stay connected during your visit';
             showRegView('regViewForm');
         };
@@ -8646,8 +8780,51 @@
         const ICON_HOME = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
         const ICON_BELL = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>';
 
+        // ── Welcome / "Set Up Your Stay" — the very first thing a new guest
+        // sees, before Home Screen or Notifications. Registration now comes
+        // FIRST in the funnel (Welcome → Set Up My Stay → Home Screen →
+        // Notifications), matching the guest-onboarding brief: guests who
+        // already registered skip straight to the Home Screen step, and
+        // guests who tap "Continue Without Setting Up" still get offered
+        // Home Screen/Notifications, just with a reminder card left behind
+        // on the Home tab. ──
+        async function runOnboardWelcome() {
+            const profile = await loadGuestProfile();
+            if (profile && profile.firstName) { runOnboardA2HS(); return; }
+            logOnboardEvent('welcome_shown');
+            openOnboardStep({
+                icon: ICON_HOME,
+                title: `Welcome to ${HUB_NAME}!`,
+                sub: `<div style="text-align:left;">
+                    <div style="font-weight:700;color:#111827;margin-bottom:6px;">Make the Most of Your Stay</div>
+                    <div style="margin-bottom:12px;">Set up your stay in about 30 seconds to get the most from this Hub — your campground's no-download app.</div>
+                    <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#374151;">
+                        <div>🔔 Campground alerts</div>
+                        <div>📅 Event reminders &amp; newsletters</div>
+                        <div>📶 WiFi information</div>
+                        <div>📍 Easy access throughout your stay</div>
+                    </div>
+                </div>`,
+                yesLabel: 'Set Up My Stay',
+                noLabel: 'Continue Without Setting Up',
+                onYes: () => {
+                    logOnboardEvent('setup_my_stay_clicked');
+                    document.getElementById('onboardStepModal').classList.remove('active');
+                    window.__afterRegisterContinue = () => runOnboardA2HS();
+                    if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
+                },
+                onNo: () => {
+                    logOnboardEvent('continue_without_setup_clicked');
+                    try { localStorage.setItem(LS_SETUP_SKIPPED, '1'); } catch (e) { }
+                    updateSetupReminderCard();
+                    runOnboardA2HS();
+                }
+            });
+        }
+
         function runOnboardA2HS() {
             if (isAppInstalled()) { runOnboardNotif(); return; }
+            logOnboardEvent('home_screen_offered');
 
             // "View Instructions" instead of a bare "Install App" button — tapping
             // Install/Add directly used to make guests think one tap saved it
@@ -8680,7 +8857,8 @@
         }
 
         function runOnboardNotif() {
-            if (!('Notification' in window) || Notification.permission !== 'default') { runOnboardRegister(); return; }
+            if (!('Notification' in window) || Notification.permission !== 'default') return;
+            logOnboardEvent('notifications_offered');
 
             openOnboardStep({
                 icon: ICON_BELL,
@@ -8708,30 +8886,26 @@
                             } else {
                                 await minSpin;
                             }
-                            showOnboardCheck('You’re all set for alerts!', runOnboardRegister);
+                            logOnboardEvent('notifications_enabled');
+                            showOnboardCheck('You’re all set for alerts!');
                             return;
                         }
+                        logOnboardEvent('notifications_declined');
                     } catch (e) { }
                     document.getElementById('onboardStepModal').classList.remove('active');
-                    runOnboardRegister();
                 },
-                onNo: () => { runOnboardRegister(); }
+                onNo: () => { logOnboardEvent('notifications_declined'); }
             });
-        }
-
-        async function runOnboardRegister() {
-            const profile = await loadGuestProfile();
-            if (profile && profile.firstName) return; // already fully registered
-            if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
         }
 
         function startOnboarding() {
             // Don't stack the install/A2HS prompt on top of the "set a new
             // password" view a guest lands on straight from the reset email.
             if (_pendingResetToken) return;
-            setTimeout(runOnboardA2HS, 1200);
+            setTimeout(runOnboardWelcome, 1200);
         }
         startOnboarding();
+        updateSetupReminderCard();
         // ──────────────────────────────────────────────────────────────────
 
     </script>

@@ -393,6 +393,18 @@ COMPLETED TASKS — August 20, 2026
 ✅ Forsyth Station RV Resort - Redesigned the Activities & Recreation icons (target, fish, gem, golf flag) to match, and fixed the uneven card heights caused by descriptions of very different lengths in a 2-column grid by switching that section to a single-column list.
 ✅ Forsyth Station RV Resort - Fixed all 5 Things to Do cards' "Learn More" buttons, which were fake example.com placeholder links, to point to the real official sites (Georgia State Parks for High Falls and Jarrell Plantation, Visit Forsyth GA for downtown/Lake Juliette, EchoPark Speedway's own site for Atlanta Motor Speedway).
 
+COMPLETED TASKS — August 21, 2026
+✅ Admin Panel - Added a new "Super Manager" access level. It works the same as Super Admin (Settings and Users management included) but is locked to just that person's one hub — they can't see or touch other hubs, and can't create new hubs or grant Super Admin access to anyone.
+✅ Admin Panel - Added a way to change an existing staff member's role and hub (e.g. promote a Manager to Super Manager) right from the Users list, without having to delete and recreate their account.
+✅ Stone Mountain Park Hub - NEW FEATURE Rebuilt the first-time guest onboarding flow per the guest-onboarding brief: a new "Welcome to Stone Mountain Park!" screen now comes first (with a quick benefits list and "Set Up My Stay" / "Continue Without Setting Up" choice), followed by the stay-setup form, then Add to Home Screen, then Notifications — registration now happens before those instead of after.
+✅ Stone Mountain Park Hub - Removed the password field from the initial "Set Up My Stay" form — guests can save their info in a few taps instead of creating a password up front.
+✅ Stone Mountain Park Hub - Renamed "Register / My Profile" to "Set Up My Stay" / "My Stay" throughout the More menu and guest-facing text.
+✅ Stone Mountain Park Hub - Added a dismissible "Get More From Your Stay" reminder card on the Home tab for guests who skip setup, so they're not locked out but are still gently reminded to set up their stay later.
+✅ Stone Mountain Park Hub - Added basic funnel tracking (welcome shown, setup started/completed/skipped, home screen offered, notifications offered/enabled/declined) saved to Firebase so we can measure how well the new onboarding is converting.
+✅ Guest Accounts - NEW FEATURE Built the foundation for a real cross-property guest account system, piloted on Stone Mountain Park Hub: every guest now gets one permanent BlueSpot ID that can eventually recognize them at any iConnectHub property, instead of a separate disconnected profile per campground.
+✅ Guest Accounts - Replaced the password field with a "no password needed" 6-digit email code for both first-time setup and returning-guest login — guests confirm a code from their email instead of creating/remembering a password.
+✅ Guest Accounts - Set up the Cloudflare worker endpoints (send-guest-code / verify-guest-code) that generate, email, and verify these codes, and write both the new global guest record and the existing per-campground guest record together so nothing already built (guest chat, notifications, the admin panel's guest list) had to change.
+
 TODO
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
 ☐ Big Meadow Family Campground - Add the real Book Now link, park map photo, and Local Guide link (still placeholders).
@@ -403,5 +415,9 @@ TODO
 ☐ Splash RV Resort - Still needs: logo (currently borrowed from Stone Mountain) and WiFi info. Photos for the Water Features, Food & Drink Menus, and Mini Golf pages are now done.
 ☐ Whoever manages the Cloudflare account needs to redeploy the worker so the new/fixed hub web addresses actually go live (currently: sweetwater-valley-rv-park, stone-mountain-park-hub, little-river-campground, sanwar-rv-resort-hub, splash-rv-resort, and forsyth-station-rv-resort). This isn't something Claude can do — it needs someone with Cloudflare dashboard access.
 ☐ Whoever manages the Cloudflare account also needs to redeploy the password-reset email worker so the new per-hub "Password Reset Notifications" setting actually starts sending emails.
+☐ Whoever manages the Cloudflare account needs to redeploy the "delete-user" worker (cloudflare-worker/delete-user-worker.js) so the new Super Manager role can actually create/delete/reset-password for staff on their own hub — right now that worker still only allows Super Admin.
+☐ Whoever manages the Cloudflare account needs to redeploy the password-reset worker (cloudflare-worker/password-reset-worker.js) so the new "no password" email-code guest login on Stone Mountain actually works live — right now it's only in the code, not yet deployed.
+☐ Guest Accounts - Existing guests who registered on Stone Mountain (or any hub) before today won't be found by the new "Welcome Back" email login yet, since they only exist in that campground's old guest list, not the new shared account system. They'd need to set up their stay again once, which links their old info to a real account going forward. A one-time backfill script could avoid that if it matters.
+☐ Guest Accounts - Still needs: SMS code as an alternative to email, guest tags/notes for staff, "message specific guests" targeting, and the same passwordless login rolled out to every other hub (currently Stone Mountain only).
 
 

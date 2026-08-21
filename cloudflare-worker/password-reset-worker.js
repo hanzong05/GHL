@@ -42,6 +42,12 @@ export default {
       if (url.pathname === '/verify-guest-reset') {
         return await handleVerifyGuestReset(request, env, corsHeaders);
       }
+      if (url.pathname === '/send-guest-code') {
+        return await handleSendGuestCode(request, env, corsHeaders);
+      }
+      if (url.pathname === '/verify-guest-code') {
+        return await handleVerifyGuestCode(request, env, corsHeaders);
+      }
       return json({ error: 'Not found' }, 404, corsHeaders);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500, corsHeaders);
@@ -333,6 +339,220 @@ async function handleVerifyGuestReset(request, env, corsHeaders) {
   await dbDelete(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken).catch(() => {});
 
   return json({ ok: true }, 200, corsHeaders);
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// PASSWORDLESS GUEST IDENTITY — global guests/{guestId}, one record per
+// PERSON (not per property). A property visit becomes a guestStays/{propertyId}/
+// {guestId} record, and hubs/{propertyId}/guests/{guestId} is still written
+// as before (same key) so the existing admin panel, guest chat, and push
+// subscription code — all keyed on that per-hub guest doc — keep working
+// completely unchanged. This endpoint pair replaces the password field in
+// the guest hub's registration/login flow with a 6-digit emailed code:
+//
+//   POST /send-guest-code   { email, propertyId, propertyName,
+//                              firstName?, lastName?, phone?,
+//                              arrivalDate?, departureDate? }
+//     - Unknown email + no name fields  → { ok:true, needsInfo:true }
+//       (client should show the name/phone fields, then call this again)
+//     - Otherwise                       → emails a 6-digit code, returns
+//                                          { ok:true, guestId, isNewGuest }
+//
+//   POST /verify-guest-code { guestId, code }
+//     - Confirms the code, creates/updates guests/{guestId}, the email/phone
+//       lookup indexes, guestStays/{propertyId}/{guestId}, and the legacy
+//       hubs/{propertyId}/guests/{guestId} doc. Returns the guest profile.
+// ─────────────────────────────────────────────────────────────────────────
+
+function emailKeyOf(email) {
+  // RTDB keys can't contain '.', '#', '$', '[', ']', '/'
+  return String(email).toLowerCase().trim().replace(/[.#$\[\]\/]/g, ',');
+}
+
+function generateGuestId() {
+  return 'guest_' + crypto.randomUUID().replace(/-/g, '');
+}
+
+async function sha256Hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function generateSixDigitCode() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+async function sendGuestCodeEmail(env, email, code, propertyName) {
+  const senderName = env.RESEND_SENDER_NAME || 'BlueSpot Hub';
+  const emailBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1117;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:480px;background:#1a1d27;border-radius:12px;padding:40px;border:1px solid #2a2d3a;">
+        <tr><td align="center" style="padding-bottom:28px;">
+          <div style="font-size:28px;font-weight:800;color:#4fa3e8;letter-spacing:-0.5px;">${senderName}</div>
+        </td></tr>
+        <tr><td>
+          <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#f0f2f8;">Your verification code</p>
+          <p style="margin:0 0 24px;font-size:15px;color:#8b90a8;line-height:1.6;">
+            ${propertyName ? `Confirm your stay at <strong style="color:#c0c4d8;">${propertyName}</strong> with this code. ` : ''}It expires in <strong style="color:#c0c4d8;">10 minutes</strong>.
+          </p>
+          <div style="font-size:36px;font-weight:800;letter-spacing:8px;color:#4fa3e8;text-align:center;padding:20px 0;background:#0f1117;border-radius:8px;margin-bottom:24px;">${code}</div>
+          <hr style="border:none;border-top:1px solid #2a2d3a;margin:0 0 20px;">
+          <p style="margin:0;font-size:12px;color:#5a5f75;line-height:1.6;">
+            If you didn't request this, you can safely ignore this email.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: `${senderName} <${env.RESEND_FROM_EMAIL}>`,
+      to: [email],
+      subject: `Your verification code: ${code}`,
+      html: emailBody,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error('Failed to send email: ' + (err?.message || res.status));
+  }
+}
+
+// ── POST /send-guest-code ─────────────────────────────────────────────────
+async function handleSendGuestCode(request, env, corsHeaders) {
+  const { email, propertyId, propertyName, firstName, lastName, phone, arrivalDate, departureDate } = await request.json();
+  if (!email || !propertyId) return json({ error: 'Missing email or propertyId.' }, 400, corsHeaders);
+  if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL) {
+    return json({ error: 'Email service not configured.' }, 500, corsHeaders);
+  }
+
+  const accessToken = await getServiceAccountAccessToken(env);
+  const emailNormalized = String(email).toLowerCase().trim();
+  const eKey = emailKeyOf(emailNormalized);
+
+  let guestId = await dbGet(env.DATABASE_URL, `guestsByEmail/${eKey}`, accessToken);
+  const isNewGuest = !guestId;
+
+  // Unknown email with no name supplied — this is a "Welcome back" login
+  // attempt for an email we don't recognize. Tell the client to collect
+  // name/phone and resubmit as a registration, instead of silently emailing
+  // a code tied to no usable profile.
+  if (isNewGuest && (!firstName || !lastName)) {
+    return json({ ok: true, needsInfo: true }, 200, corsHeaders);
+  }
+
+  if (!guestId) guestId = generateGuestId();
+
+  const code = generateSixDigitCode();
+  const codeHash = await sha256Hex(code);
+  const expires = Math.floor(Date.now() / 1000) + 600; // 10 minutes
+
+  await dbSet(env.DATABASE_URL, `guests/${guestId}/pendingCode`, {
+    codeHash, expires,
+    email: emailNormalized,
+    firstName: firstName || null,
+    lastName: lastName || null,
+    phone: phone || null,
+    propertyId, propertyName: propertyName || propertyId,
+    arrivalDate: arrivalDate || null,
+    departureDate: departureDate || null,
+    isNewGuest,
+  }, accessToken);
+
+  await sendGuestCodeEmail(env, emailNormalized, code, propertyName);
+
+  return json({ ok: true, guestId, isNewGuest }, 200, corsHeaders);
+}
+
+// ── POST /verify-guest-code ───────────────────────────────────────────────
+async function handleVerifyGuestCode(request, env, corsHeaders) {
+  const { guestId, code } = await request.json();
+  if (!guestId || !code) return json({ error: 'Missing guestId or code.' }, 400, corsHeaders);
+
+  const accessToken = await getServiceAccountAccessToken(env);
+  const pending = await dbGet(env.DATABASE_URL, `guests/${guestId}/pendingCode`, accessToken);
+  if (!pending) return json({ error: 'Code expired or already used. Please request a new one.' }, 400, corsHeaders);
+
+  const now = Math.floor(Date.now() / 1000);
+  if (pending.expires < now) {
+    await dbDelete(env.DATABASE_URL, `guests/${guestId}/pendingCode`, accessToken).catch(() => {});
+    return json({ error: 'Code has expired. Please request a new one.' }, 400, corsHeaders);
+  }
+  const codeHash = await sha256Hex(String(code).trim());
+  if (codeHash !== pending.codeHash) return json({ error: 'Incorrect code.' }, 400, corsHeaders);
+
+  const nowIso = new Date().toISOString();
+  const existingGuest = await dbGet(env.DATABASE_URL, `guests/${guestId}`, accessToken) || {};
+  const mergedGuest = {
+    firstName: pending.firstName || existingGuest.firstName || '',
+    lastName: pending.lastName || existingGuest.lastName || '',
+    email: pending.email,
+    phone: pending.phone || existingGuest.phone || '',
+    emailVerified: true,
+    createdAt: existingGuest.createdAt || nowIso,
+    lastLoginAt: nowIso,
+  };
+  // Strip the transient pendingCode before persisting the merged profile —
+  // dbSet is a PUT (full overwrite) so it must never be echoed back in.
+  await dbSet(env.DATABASE_URL, `guests/${guestId}`, mergedGuest, accessToken);
+  await dbSet(env.DATABASE_URL, `guestsByEmail/${emailKeyOf(mergedGuest.email)}`, guestId, accessToken);
+  if (mergedGuest.phone) {
+    const phoneDigits = mergedGuest.phone.replace(/\D/g, '');
+    if (phoneDigits) await dbSet(env.DATABASE_URL, `guestsByPhone/${phoneDigits}`, guestId, accessToken);
+  }
+
+  if (pending.propertyId) {
+    const stayDetails = { arrivalDate: pending.arrivalDate || null, departureDate: pending.departureDate || null };
+    await dbSet(env.DATABASE_URL, `guestStays/${pending.propertyId}/${guestId}`, {
+      ...stayDetails,
+      registeredAt: nowIso,
+      source: 'onboarding',
+    }, accessToken);
+
+    // Dual-write into the legacy per-hub shape, keyed by the SAME guestId,
+    // so the admin panel's guest list, guest chat (sessionId === guest key),
+    // and push-subscription attach code all keep working with zero changes.
+    const existingLegacy = await dbGet(env.DATABASE_URL, `hubs/${pending.propertyId}/guests/${guestId}`, accessToken) || {};
+    await dbSet(env.DATABASE_URL, `hubs/${pending.propertyId}/guests/${guestId}`, {
+      ...existingLegacy,
+      firstName: mergedGuest.firstName,
+      lastName: mergedGuest.lastName,
+      phone: mergedGuest.phone.replace(/\D/g, ''),
+      email: mergedGuest.email,
+      location: pending.propertyName || pending.propertyId,
+      hubId: pending.propertyId,
+      anonymous: false,
+      registeredAt: existingLegacy.registeredAt || nowIso,
+      arrivalDate: stayDetails.arrivalDate,
+      departureDate: stayDetails.departureDate,
+    }, accessToken);
+    await dbSet(env.DATABASE_URL, `hubs/${pending.propertyId}/guests/${guestId}/stayDetails`, stayDetails, accessToken);
+  }
+
+  await dbDelete(env.DATABASE_URL, `guests/${guestId}/pendingCode`, accessToken).catch(() => {});
+
+  return json({
+    ok: true,
+    guestId,
+    firstName: mergedGuest.firstName,
+    lastName: mergedGuest.lastName,
+    email: mergedGuest.email,
+    phone: mergedGuest.phone,
+    isNewGuest: !!pending.isNewGuest,
+  }, 200, corsHeaders);
 }
 
 // ── Identity Toolkit: look up UID by email ────────────────────────────────
