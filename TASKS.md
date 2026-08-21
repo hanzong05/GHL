@@ -388,6 +388,11 @@ COMPLETED TASKS — August 19, 2026
 ✅ Splash RV Resort - Removed the "Download Our App" section from the Contact page.
 ✅ Forsyth Station RV Resort - Added real photos to all 5 Things to Do cards (High Falls State Park, Historic Downtown Forsyth, Lake Juliette & Rum Creek WMA, Atlanta Motor Speedway, and Jarrell Plantation Historic Site), replacing the gray placeholder boxes.
 
+COMPLETED TASKS — August 20, 2026
+✅ Forsyth Station RV Resort - Redesigned the Amenities overlay cards with clean SVG icon badges (plug, Wi-Fi, pool waves, washing machine, playground slide, paw, showerhead, briefcase) in place of the old mismatched hand-drawn icons.
+✅ Forsyth Station RV Resort - Redesigned the Activities & Recreation icons (target, fish, gem, golf flag) to match, and fixed the uneven card heights caused by descriptions of very different lengths in a 2-column grid by switching that section to a single-column list.
+✅ Forsyth Station RV Resort - Fixed all 5 Things to Do cards' "Learn More" buttons, which were fake example.com placeholder links, to point to the real official sites (Georgia State Parks for High Falls and Jarrell Plantation, Visit Forsyth GA for downtown/Lake Juliette, EchoPark Speedway's own site for Atlanta Motor Speedway).
+
 TODO
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
 ☐ Big Meadow Family Campground - Add the real Book Now link, park map photo, and Local Guide link (still placeholders).
