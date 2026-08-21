@@ -711,6 +711,29 @@
             overflow: visible;
         }
 
+        /* Same fix again for Announcements, Newsletter, Monthly Happenings,
+           Music Festival, and Hubs — each is a plain stacked-.card panel with
+           no scroll container of its own, so the same flex:1/min-height:0 +
+           .card's overflow:hidden combination clips any content taller than
+           the visible area instead of making it reachable. */
+        #panel-announcements.active,
+        #panel-newsletter.active,
+        #panel-monthlyhappenings.active,
+        #panel-musicfestival.active,
+        #panel-hubs.active {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+        }
+
+        #panel-announcements .card,
+        #panel-newsletter .card,
+        #panel-monthlyhappenings .card,
+        #panel-musicfestival .card,
+        #panel-hubs .card {
+            overflow: visible;
+        }
+
         #panel-dashboard.active {
             gap: 10px
         }

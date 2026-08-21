@@ -431,6 +431,131 @@
             line-height: 1.45;
         }
 
+        /* ── Things to Do cards ── */
+        .attraction-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+        }
+
+        .attraction-card {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 3px 14px rgba(15, 23, 42, .1);
+            cursor: pointer;
+            transition: transform .15s ease;
+        }
+
+        .attraction-card:active {
+            transform: scale(.98);
+        }
+
+        .attraction-photo {
+            position: relative;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .attraction-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .attraction-body {
+            padding: 14px 16px 16px;
+        }
+
+        .attraction-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 5px;
+            line-height: 1.25;
+        }
+
+        .attraction-desc {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.55;
+            margin-bottom: 14px;
+        }
+
+        .attraction-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .attraction-distance {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #6b7280;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .attraction-distance .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .attraction-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .02em;
+            white-space: nowrap;
+        }
+
+        .attraction-cta svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* ── Ways to Stay detail hero ── */
+        #stayDetailImg {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .stay-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
         .contact-section {
             background: #fff;
             border-radius: 16px;
@@ -4214,72 +4339,79 @@
                 <p>Explore the area around Forsyth Station RV Resort</p>
             </div>
             <div class="contact-body" style="padding:0;">
+                <div class="attraction-grid">
 
-                <div onclick="window.open('https://example.com/PLACEHOLDER-HIGH-FALLS','_blank','noopener,noreferrer')" style="cursor:pointer;">
-                    <div style="height:200px;background:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65e6501a95187405e2.png') center/cover;"></div>
-                    <div style="padding:16px 16px 20px;border-bottom:1px solid #e5e7eb;">
-                        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0891b2;margin-bottom:6px;">Nature &amp; Outdoors</div>
-                        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">High Falls State Park</div>
-                        <div style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px;">A cascading waterfall on the Towaliga River with miles of hiking trails, fishing, and picnic areas &mdash; one of Georgia&rsquo;s most photographed state parks.</div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;font-weight:600;"><span style="width:7px;height:7px;border-radius:50%;background:#0891b2;display:inline-block;"></span>15 min drive</span>
-                            <span style="font-size:12px;font-weight:700;color:#1a56db;">LEARN MORE &rarr;</span>
+                    <div class="attraction-card" onclick="window.open('https://gastateparks.org/HighFalls','_blank','noopener,noreferrer')">
+                        <div class="attraction-photo" style="background-image:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65e6501a95187405e2.png');">
+                            <div class="attraction-badge" style="background:rgba(8,145,178,.88);">Nature &amp; Outdoors</div>
+                        </div>
+                        <div class="attraction-body">
+                            <div class="attraction-title">High Falls State Park</div>
+                            <div class="attraction-desc">A cascading waterfall on the Towaliga River with miles of hiking trails, fishing, and picnic areas &mdash; one of Georgia&rsquo;s most photographed state parks.</div>
+                            <div class="attraction-footer">
+                                <span class="attraction-distance"><span class="dot" style="background:#0891b2;"></span>15 min drive</span>
+                                <span class="attraction-cta" style="background:#e0f7fa;color:#0891b2;">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div onclick="window.open('https://example.com/PLACEHOLDER-DOWNTOWN-FORSYTH','_blank','noopener,noreferrer')" style="cursor:pointer;">
-                    <div style="height:200px;background:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65cdd4b797a3aed41d.png') center/cover;"></div>
-                    <div style="padding:16px 16px 20px;border-bottom:1px solid #e5e7eb;">
-                        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0891b2;margin-bottom:6px;">Towns &amp; Communities</div>
-                        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">Historic Downtown Forsyth</div>
-                        <div style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px;">Local shops, restaurants, and seasonal events around the historic town square.</div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;font-weight:600;"><span style="width:7px;height:7px;border-radius:50%;background:#0891b2;display:inline-block;"></span>12 min drive</span>
-                            <span style="font-size:12px;font-weight:700;color:#1a56db;">LEARN MORE &rarr;</span>
+                    <div class="attraction-card" onclick="window.open('https://visitforsythga.com/things-to-do/','_blank','noopener,noreferrer')">
+                        <div class="attraction-photo" style="background-image:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65cdd4b797a3aed41d.png');">
+                            <div class="attraction-badge" style="background:rgba(37,99,235,.88);">Towns &amp; Communities</div>
+                        </div>
+                        <div class="attraction-body">
+                            <div class="attraction-title">Historic Downtown Forsyth</div>
+                            <div class="attraction-desc">Local shops, restaurants, and seasonal events around the historic town square.</div>
+                            <div class="attraction-footer">
+                                <span class="attraction-distance"><span class="dot" style="background:#2563eb;"></span>12 min drive</span>
+                                <span class="attraction-cta" style="background:#eff6ff;color:#2563eb;">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div onclick="window.open('https://example.com/PLACEHOLDER-LAKE-JULIETTE','_blank','noopener,noreferrer')" style="cursor:pointer;">
-                    <div style="height:200px;background:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65e6501a95187405e7.png') center/cover;"></div>
-                    <div style="padding:16px 16px 20px;border-bottom:1px solid #e5e7eb;">
-                        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0891b2;margin-bottom:6px;">Fishing &amp; Wildlife</div>
-                        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">Lake Juliette &amp; Rum Creek WMA</div>
-                        <div style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px;">Boating, fishing, and wildlife viewing in a peaceful setting.</div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;font-weight:600;"><span style="width:7px;height:7px;border-radius:50%;background:#0891b2;display:inline-block;"></span>25 min drive</span>
-                            <span style="font-size:12px;font-weight:700;color:#1a56db;">LEARN MORE &rarr;</span>
+                    <div class="attraction-card" onclick="window.open('https://visitforsythga.com/lake-juliette/','_blank','noopener,noreferrer')">
+                        <div class="attraction-photo" style="background-image:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a8867ea41b717fa1083b3a9.jpg');">
+                            <div class="attraction-badge" style="background:rgba(14,116,144,.88);">Fishing &amp; Wildlife</div>
+                        </div>
+                        <div class="attraction-body">
+                            <div class="attraction-title">Lake Juliette &amp; Rum Creek WMA</div>
+                            <div class="attraction-desc">Boating, fishing, and wildlife viewing in a peaceful setting.</div>
+                            <div class="attraction-footer">
+                                <span class="attraction-distance"><span class="dot" style="background:#0e7490;"></span>25 min drive</span>
+                                <span class="attraction-cta" style="background:#ecfeff;color:#0e7490;">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div onclick="window.open('https://example.com/PLACEHOLDER-ATLANTA-MOTOR-SPEEDWAY','_blank','noopener,noreferrer')" style="cursor:pointer;">
-                    <div style="height:200px;background:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea658f3f0ab510631b84.png') center/cover;"></div>
-                    <div style="padding:16px 16px 20px;border-bottom:1px solid #e5e7eb;">
-                        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0891b2;margin-bottom:6px;">Sports &amp; Entertainment</div>
-                        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">Atlanta Motor Speedway</div>
-                        <div style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px;">Catch a race or event about an hour up the road &mdash; NASCAR racing, concerts, and fan experiences at EchoPark Speedway.</div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;font-weight:600;"><span style="width:7px;height:7px;border-radius:50%;background:#0891b2;display:inline-block;"></span>~1 hr drive</span>
-                            <span style="font-size:12px;font-weight:700;color:#1a56db;">LEARN MORE &rarr;</span>
+                    <div class="attraction-card" onclick="window.open('https://www.echoparkspeedway.com/','_blank','noopener,noreferrer')">
+                        <div class="attraction-photo" style="background-image:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea658f3f0ab510631b84.png');">
+                            <div class="attraction-badge" style="background:rgba(234,88,12,.88);">Sports &amp; Entertainment</div>
+                        </div>
+                        <div class="attraction-body">
+                            <div class="attraction-title">Atlanta Motor Speedway</div>
+                            <div class="attraction-desc">Catch a race or event about an hour up the road &mdash; NASCAR racing, concerts, and fan experiences at EchoPark Speedway.</div>
+                            <div class="attraction-footer">
+                                <span class="attraction-distance"><span class="dot" style="background:#ea580c;"></span>~1 hr drive</span>
+                                <span class="attraction-cta" style="background:#fff7ed;color:#ea580c;">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div onclick="window.open('https://example.com/PLACEHOLDER-JARRELL-PLANTATION','_blank','noopener,noreferrer')" style="cursor:pointer;">
-                    <div style="height:200px;background:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65cdd4b797a3aed383.png') center/cover;"></div>
-                    <div style="padding:16px 16px 20px;">
-                        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#78350f;margin-bottom:6px;">History &amp; Heritage</div>
-                        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">Jarrell Plantation Historic Site</div>
-                        <div style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px;">Step back in time at this preserved 1800s cotton plantation, one of Georgia&rsquo;s best-kept historic sites.</div>
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;font-weight:600;"><span style="width:7px;height:7px;border-radius:50%;background:#0891b2;display:inline-block;"></span>~30 min drive</span>
-                            <span style="font-size:12px;font-weight:700;color:#1a56db;">LEARN MORE &rarr;</span>
+                    <div class="attraction-card" onclick="window.open('https://gastateparks.org/JarrellPlantation','_blank','noopener,noreferrer')">
+                        <div class="attraction-photo" style="background-image:url('https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86ea65cdd4b797a3aed383.png');">
+                            <div class="attraction-badge" style="background:rgba(146,64,14,.88);">History &amp; Heritage</div>
+                        </div>
+                        <div class="attraction-body">
+                            <div class="attraction-title">Jarrell Plantation Historic Site</div>
+                            <div class="attraction-desc">Step back in time at this preserved 1800s cotton plantation, one of Georgia&rsquo;s best-kept historic sites.</div>
+                            <div class="attraction-footer">
+                                <span class="attraction-distance"><span class="dot" style="background:#92400e;"></span>~30 min drive</span>
+                                <span class="attraction-cta" style="background:#fffbeb;color:#92400e;">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
 
@@ -5943,28 +6075,28 @@ function openReservePicker() { const el = document.getElementById('tab-reservati
         const STAY_TYPE_DATA = {
             rv: {
                 title: 'RV Camping', subtitle: 'Comfortable RV Sites Just Off I-75',
-                img: 'linear-gradient(135deg,#0891b2,#0e7490)',
+                img: 'linear-gradient(135deg,#0891b2,#0e7490)', photo: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a887726e6501a9518fa9547.jpeg',
                 features: ['Full-hookup RV sites', 'Sites for a variety of RV sizes', 'Pet-friendly stays', 'Access to amenities', 'Easy online reservations'],
                 desc: 'Our RV sites sit just off I-75, making Forsyth Station RV Resort an easy overnight stop or an extended home base for exploring Middle Georgia. Every site offers full hookups (water, electric, and sewer) sized to comfortably fit everything from a small camper van to a large Class A motorhome or fifth wheel. Pull-through and back-in sites are both available, with level, gravel pads and plenty of room to park a tow vehicle or trailer alongside. Guests staying in an RV also get full access to the resort\'s amenities — the pool, laundry facilities, Wi-Fi, restrooms and showers, playground, and on-site activities — and pets are welcome throughout the campground on a leash. Reserve online in just a few minutes, or call the Welcome Center if you\'d like help picking the right site for your rig.',
                 color: '#0891b2',
             },
             tent: {
                 title: 'Tent Camping', subtitle: 'Peaceful Tent Sites with Convenient Features',
-                img: 'linear-gradient(135deg,#16a34a,#14532d)',
+                img: 'linear-gradient(135deg,#16a34a,#14532d)', photo: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a8877261d5c9656560b9933.webp',
                 features: ['Electric hookups', 'Picnic areas & grills', 'Restroom & shower facilities', 'Wooded, relaxing setting'],
                 desc: 'Tucked among the trees away from the RV loops, our tent sites give you a quieter, more traditional camping experience without giving up the conveniences of a full-service resort. Each site includes electric hookup, a picnic table, and a fire ring or grill for cooking out under the stars. Clean restroom and shower facilities are just a short walk away, and the wooded setting keeps sites shaded and private. Tent camping is a great fit for weekend getaways, family trips, and anyone who wants to fall asleep to the sound of the woods rather than a generator. Bring your own gear or ask the Welcome Center about nearby outfitters if you need to rent equipment.',
                 color: '#16a34a',
             },
             cabin: {
                 title: 'Cabin Camping', subtitle: 'Enjoy the Outdoors with a Few More Comforts',
-                img: 'linear-gradient(135deg,#f97316,#b45309)',
+                img: 'linear-gradient(135deg,#f97316,#b45309)', photo: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a8877264979d29d49516fc5.jpg',
                 features: ['2 Deluxe Cabin Lodges — private bathroom & kitchen', '10 Rustic Cabins — fridge, microwave, coffee pot & TV', 'Near the lake & bathhouse', 'Reserve by phone'],
                 desc: 'If you love the outdoors but want a real bed and a roof over your head, our cabins are the perfect middle ground. The two Deluxe Cabin Lodges are fully equipped with a private bathroom and kitchen, making them ideal for families or longer stays. Our ten Rustic Cabins are more compact and budget-friendly, each stocked with a mini-fridge, microwave, coffee pot, and TV, with the campground\'s shared bathhouse just steps away. All cabins sit close to the lake, so mornings start with a view and evenings end with a short walk to the water. Because availability and cabin type vary by season, cabins are reserved by phone rather than online — call the Welcome Center and our staff will help match you with the right cabin for your group.',
                 color: '#f97316',
             },
             extended: {
                 title: 'Extended Stay & Seasonal Camping', subtitle: 'Stay Longer at Forsyth Station',
-                img: 'linear-gradient(135deg,#1e3a8a,#0d1b4b)',
+                img: 'linear-gradient(135deg,#1e3a8a,#0d1b4b)', photo: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a8877264979d29d49516fca.jpg',
                 features: ['Great for snowbirds, seasonal guests & more', 'Individually metered electricity', 'Access to laundry, Wi-Fi, hot showers & more', 'Monthly & long-term options'],
                 desc: 'For guests who want to settle in for a while — snowbirds passing the winter, seasonal workers, or anyone who simply loves it here enough to stay — Forsyth Station offers extended and seasonal camping on our RV sites. Electricity is individually metered so you only pay for what you use, and long-term guests get the same full access to laundry, Wi-Fi, hot showers, and all other resort amenities as our nightly guests. Monthly and long-term rate options are available, and our team can help put together a plan that fits how long you\'re planning to stay. Reach out to our office to check current availability and pricing for extended stays.',
                 color: '#1e3a8a',
@@ -5975,7 +6107,15 @@ function openReservePicker() { const el = document.getElementById('tab-reservati
             if (!d) return;
             document.getElementById('stayDetailTitle').textContent = d.title;
             document.getElementById('stayDetailSubtitle').textContent = d.subtitle;
-            document.getElementById('stayDetailImg').style.background = d.img;
+            const imgEl = document.getElementById('stayDetailImg');
+            if (d.photo) {
+                imgEl.style.background = '';
+                imgEl.style.backgroundImage = `url('${d.photo}')`;
+            } else {
+                imgEl.style.backgroundImage = '';
+                imgEl.style.background = d.img;
+            }
+            imgEl.innerHTML = `<div class="stay-badge" style="background:${d.color}e6;">${d.title}</div>`;
             document.getElementById('stayDetailFeatures').innerHTML = d.features.map(f => `
                 <div style="display:flex;align-items:flex-start;gap:10px;">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="${d.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12" /></svg>

@@ -392,6 +392,9 @@ COMPLETED TASKS — August 20, 2026
 ✅ Forsyth Station RV Resort - Redesigned the Amenities overlay cards with clean SVG icon badges (plug, Wi-Fi, pool waves, washing machine, playground slide, paw, showerhead, briefcase) in place of the old mismatched hand-drawn icons.
 ✅ Forsyth Station RV Resort - Redesigned the Activities & Recreation icons (target, fish, gem, golf flag) to match, and fixed the uneven card heights caused by descriptions of very different lengths in a 2-column grid by switching that section to a single-column list.
 ✅ Forsyth Station RV Resort - Fixed all 5 Things to Do cards' "Learn More" buttons, which were fake example.com placeholder links, to point to the real official sites (Georgia State Parks for High Falls and Jarrell Plantation, Visit Forsyth GA for downtown/Lake Juliette, EchoPark Speedway's own site for Atlanta Motor Speedway).
+✅ Forsyth Station RV Resort - Replaced the mismatched Lake Juliette photo (generic stock ducks-over-water image) with a real sunset fishing photo of Lake Juliette.
+✅ Forsyth Station RV Resort - Redesigned the Things to Do cards into floating rounded panels with drop shadows, color-coded category badges on each photo, and matching colored "Learn More" pill buttons, keeping the same tap-to-open-official-site interaction.
+✅ Forsyth Station RV Resort - Redesigned the Ways to Stay detail pages (RV/Tent/Cabin/Extended Stay) with a category badge over the hero photo, replacing the old solid-color placeholder blocks with real photos of the actual RV sites, tent site, cabin row, and extended-stay pads.
 
 COMPLETED TASKS — August 21, 2026
 ✅ Admin Panel - Added a new "Super Manager" access level. It works the same as Super Admin (Settings and Users management included) but is locked to just that person's one hub — they can't see or touch other hubs, and can't create new hubs or grant Super Admin access to anyone.
@@ -404,6 +407,7 @@ COMPLETED TASKS — August 21, 2026
 ✅ Guest Accounts - NEW FEATURE Built the foundation for a real cross-property guest account system, piloted on Stone Mountain Park Hub: every guest now gets one permanent BlueSpot ID that can eventually recognize them at any iConnectHub property, instead of a separate disconnected profile per campground.
 ✅ Guest Accounts - Replaced the password field with a "no password needed" 6-digit email code for both first-time setup and returning-guest login — guests confirm a code from their email instead of creating/remembering a password.
 ✅ Guest Accounts - Set up the Cloudflare worker endpoints (send-guest-code / verify-guest-code) that generate, email, and verify these codes, and write both the new global guest record and the existing per-campground guest record together so nothing already built (guest chat, notifications, the admin panel's guest list) had to change.
+✅ Admin Panel - Fixed the Newsletter, Announcements, Monthly Happenings, Music Festival, and Hubs tabs, which had no way to scroll down to content that ran taller than the visible window — same layout bug already fixed for Events/Subscribers/Users, just extended to the remaining tabs.
 
 TODO
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
