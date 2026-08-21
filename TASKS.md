@@ -391,6 +391,11 @@ COMPLETED TASKS — August 19, 2026
 COMPLETED TASKS — August 21, 2026
 ✅ Admin Panel - Added a new "Super Manager" access level. It works the same as Super Admin (Settings and Users management included) but is locked to just that person's one hub — they can't see or touch other hubs, and can't create new hubs or grant Super Admin access to anyone.
 ✅ Admin Panel - Added a way to change an existing staff member's role and hub (e.g. promote a Manager to Super Manager) right from the Users list, without having to delete and recreate their account.
+✅ Stone Mountain Park Hub - NEW FEATURE Rebuilt the first-time guest onboarding flow per the guest-onboarding brief: a new "Welcome to Stone Mountain Park!" screen now comes first (with a quick benefits list and "Set Up My Stay" / "Continue Without Setting Up" choice), followed by the stay-setup form, then Add to Home Screen, then Notifications — registration now happens before those instead of after.
+✅ Stone Mountain Park Hub - Removed the password field from the initial "Set Up My Stay" form — guests can save their info in a few taps instead of creating a password up front.
+✅ Stone Mountain Park Hub - Renamed "Register / My Profile" to "Set Up My Stay" / "My Stay" throughout the More menu and guest-facing text.
+✅ Stone Mountain Park Hub - Added a dismissible "Get More From Your Stay" reminder card on the Home tab for guests who skip setup, so they're not locked out but are still gently reminded to set up their stay later.
+✅ Stone Mountain Park Hub - Added basic funnel tracking (welcome shown, setup started/completed/skipped, home screen offered, notifications offered/enabled/declined) saved to Firebase so we can measure how well the new onboarding is converting.
 
 TODO
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
