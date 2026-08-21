@@ -5017,7 +5017,7 @@
         </div>
 
         <!-- REGISTER / PROFILE MODAL -->
-        <div class="wifi-modal-ov" id="registerModal" onclick="if(event.target===this)closeRegisterModal()">
+        <div class="wifi-modal-ov" id="registerModal">
             <div class="wifi-modal"
                 style="padding-bottom:calc(env(safe-area-inset-bottom,0px)+40px);max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;">
                 <div class="wifi-modal-pill"></div>
@@ -6413,6 +6413,32 @@
         const LS_NOTIFS_OPTOUT = 'bs_notifs_optout_' + HUB_ID;
         const LS_READ_ANNS = 'park_read_anns_' + HUB_ID;
         const LS_SETUP_SKIPPED = 'bs_setup_skipped_' + HUB_ID; // guest tapped "Continue Without Setting Up" — show the reminder card until they register
+
+        // ── Carry a logged-in guest's account into an installed home-screen
+        // app ── iOS Safari's "Add to Home Screen" captures whatever URL is
+        // in the address bar at that moment as the installed icon's launch
+        // URL, and a standalone home-screen web app has its OWN localStorage
+        // separate from the Safari tab it was installed from — so a guest
+        // who registers in the browser then installs the app used to land on
+        // a blank, logged-out copy and had to set up their stay again. We
+        // briefly stamp the guest token into the URL right before the
+        // install guide is shown (see onboardShowGuideClick below) so the
+        // installed icon's launch URL carries it; this reads it back out on
+        // first load and strips it from the address bar immediately so it
+        // doesn't linger in normal browsing/history.
+        (function adoptGuestTokenFromInstallUrl() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const tokenFromUrl = params.get('guestToken');
+                if (!tokenFromUrl) return;
+                if (!localStorage.getItem(LS_GUEST_TOKEN)) {
+                    localStorage.setItem(LS_GUEST_TOKEN, tokenFromUrl);
+                }
+                params.delete('guestToken');
+                const qs = params.toString();
+                history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+            } catch (e) { }
+        })();
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
@@ -8367,6 +8393,15 @@
             }
         };
 
+        // Tapping the backdrop (outside the modal card) should just dismiss
+        // it — not silently skip the rest of setup and jump to the next
+        // onboarding step. That "abandon and continue" behavior is reserved
+        // for the explicit X close button; an accidental outside tap while
+        // filling the form shouldn't lose their place in onboarding.
+        window.dismissRegisterModal = function () {
+            document.getElementById('registerModal').classList.remove('active');
+        };
+
         // ── Passwordless guest identity — replaces the old direct-write
         // registration/password-login with a global-guest verification-code
         // flow (see password-reset-worker.js's /send-guest-code and
@@ -8751,9 +8786,33 @@
         window.onboardShowGuideClick = function () {
             document.getElementById('onboardAskView').style.display = 'none';
             document.getElementById('onboardGuideView').style.display = '';
+            // Stamp the guest token into the address bar now, right before
+            // the guest follows the Share > Add to Home Screen steps, so the
+            // installed icon's launch URL carries their account with it.
+            const token = getStoredToken();
+            if (token) {
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    if (params.get('guestToken') !== token) {
+                        params.set('guestToken', token);
+                        history.replaceState(null, '', window.location.pathname + '?' + params.toString());
+                    }
+                } catch (e) { }
+            }
         };
         window.onboardGuideDoneClick = function () {
             document.getElementById('onboardStepModal').classList.remove('active');
+            // By now the guest has (hopefully) already gone through Share >
+            // Add to Home Screen with the token still in the URL — clean it
+            // off the address bar so it doesn't linger in this tab's history.
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('guestToken')) {
+                    params.delete('guestToken');
+                    const qs = params.toString();
+                    history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+                }
+            } catch (e) { }
             if (window.__onboardGuideDone) window.__onboardGuideDone();
         };
         function showOnboardCheck(message, next) {
