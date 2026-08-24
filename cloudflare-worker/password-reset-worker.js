@@ -433,7 +433,7 @@ async function sendGuestCodeEmail(env, email, code, propertyName) {
 
 // ── POST /send-guest-code ─────────────────────────────────────────────────
 async function handleSendGuestCode(request, env, corsHeaders) {
-  const { email, propertyId, propertyName, firstName, lastName, phone, arrivalDate, departureDate } = await request.json();
+  const { email, propertyId, propertyName, firstName, lastName, phone, arrivalDate, departureDate, siteNumber } = await request.json();
   if (!email || !propertyId) return json({ error: 'Missing email or propertyId.' }, 400, corsHeaders);
   if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL) {
     return json({ error: 'Email service not configured.' }, 500, corsHeaders);
@@ -469,6 +469,7 @@ async function handleSendGuestCode(request, env, corsHeaders) {
     propertyId, propertyName: propertyName || propertyId,
     arrivalDate: arrivalDate || null,
     departureDate: departureDate || null,
+    siteNumber: siteNumber || null,
     isNewGuest,
   }, accessToken);
 
@@ -515,7 +516,7 @@ async function handleVerifyGuestCode(request, env, corsHeaders) {
   }
 
   if (pending.propertyId) {
-    const stayDetails = { arrivalDate: pending.arrivalDate || null, departureDate: pending.departureDate || null };
+    const stayDetails = { arrivalDate: pending.arrivalDate || null, departureDate: pending.departureDate || null, siteNumber: pending.siteNumber || null };
     await dbSet(env.DATABASE_URL, `guestStays/${pending.propertyId}/${guestId}`, {
       ...stayDetails,
       registeredAt: nowIso,
@@ -538,6 +539,7 @@ async function handleVerifyGuestCode(request, env, corsHeaders) {
       registeredAt: existingLegacy.registeredAt || nowIso,
       arrivalDate: stayDetails.arrivalDate,
       departureDate: stayDetails.departureDate,
+      siteNumber: stayDetails.siteNumber,
     }, accessToken);
     await dbSet(env.DATABASE_URL, `hubs/${pending.propertyId}/guests/${guestId}/stayDetails`, stayDetails, accessToken);
   }

@@ -407,9 +407,17 @@ COMPLETED TASKS — August 21, 2026
 ✅ Guest Accounts - NEW FEATURE Built the foundation for a real cross-property guest account system, piloted on Stone Mountain Park Hub: every guest now gets one permanent BlueSpot ID that can eventually recognize them at any iConnectHub property, instead of a separate disconnected profile per campground.
 ✅ Guest Accounts - Replaced the password field with a "no password needed" 6-digit email code for both first-time setup and returning-guest login — guests confirm a code from their email instead of creating/remembering a password.
 ✅ Guest Accounts - Set up the Cloudflare worker endpoints (send-guest-code / verify-guest-code) that generate, email, and verify these codes, and write both the new global guest record and the existing per-campground guest record together so nothing already built (guest chat, notifications, the admin panel's guest list) had to change.
+✅ Stone Mountain Park Hub - Fixed the installed home-screen app landing on a blank registration form for guests who already signed up in the browser tab. iOS gives the installed app its own separate storage from Safari, so opening it fresh now defaults to the quick "Welcome Back" email-code screen instead of the full name/phone/email form — an already-registered guest picks back up in one field + one code, and their push notifications get tied to their identity as soon as they do.
 ✅ Admin Panel - Fixed the Newsletter, Announcements, Monthly Happenings, Music Festival, and Hubs tabs, which had no way to scroll down to content that ran taller than the visible window — same layout bug already fixed for Events/Subscribers/Users, just extended to the remaining tabs.
 
+COMPLETED TASKS — August 24, 2026
+✅ Stone Mountain Park Hub - Added an optional Site/Lot Number field to the "Set Up My Stay" form, wired through the password-reset worker into the guest's stay record — lets managers match a digital guest profile to a physical site and, eventually, target notifications by site range.
+✅ Stone Mountain Park Hub - The Add to Home Screen instructions now detect the guest's device and show only the matching steps (iPhone/iPad or Android), instead of showing both every time.
+✅ Stone Mountain Park Hub - Renamed the Add to Home Screen step to consistent "iConnectHub" branding ("Keep iConnectHub One Tap Away," "Add iConnectHub to My Home Screen") and added a small "Powered by BlueSpot iConnectHub" line, so the product name sticks instead of the generic "this Hub."
+✅ Stone Mountain Park Hub - The "Get More From Your Stay" dashboard reminder card now has a real, visible "Set Up My Stay" button next to "Maybe Later" — previously the only visible button was the dismiss action even though the whole card was clickable.
+
 TODO
+☐ Guest Accounts - Boss floated a cross-property guest identity: one account a guest reuses at ANY BlueSpot/iConnectHub property (not just returning to the same one), plus using GoHighLevel as the actual CRM data store. Neither exists yet — current guest identity is global-ID-but-per-property-stay only (see guestStays/{propertyId}/{guestId}), and there's no GHL integration anywhere in this codebase. Noted for future scoping, not started.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
 ☐ Big Meadow Family Campground - Add the real Book Now link, park map photo, and Local Guide link (still placeholders).
 ☐ Big Meadow Family Campground - Swap out the borrowed Blue Ridge logo/photos for Big Meadow's own branding.

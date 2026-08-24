@@ -3422,25 +3422,31 @@
                          Never a blocking modal — just a dismissible card. -->
                     <div id="setupReminderCard" style="display:none;margin-bottom:14px;">
                         <div
-                            style="background:linear-gradient(135deg,#0d1b4b 0%,#1a2f7a 60%,#0f2060 100%);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;"
-                            onclick="openRegisterModal()">
-                            <div
-                                style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                    <circle cx="12" cy="7" r="4" />
-                                </svg>
+                            style="background:linear-gradient(135deg,#0d1b4b 0%,#1a2f7a 60%,#0f2060 100%);border-radius:16px;padding:16px;">
+                            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                                <div
+                                    style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                                <div style="flex:1;min-width:0;">
+                                    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Get More
+                                        From Your Stay</div>
+                                    <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.4;">Get
+                                        alerts, event reminders and updates during your visit.</div>
+                                </div>
                             </div>
-                            <div style="flex:1;min-width:0;">
-                                <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Get More
-                                    From Your Stay</div>
-                                <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.4;">Set up your
-                                    stay to get alerts, event reminders, and updates.</div>
+                            <div style="display:flex;gap:8px;">
+                                <button onclick="openRegisterModal()"
+                                    style="flex:1;background:#fff;border:none;color:#0d1b4b;font-size:12px;font-weight:700;padding:9px 10px;border-radius:20px;cursor:pointer;">Set
+                                    Up My Stay</button>
+                                <button onclick="dismissSetupReminderCard()"
+                                    style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12px;font-weight:600;padding:9px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;">Maybe
+                                    Later</button>
                             </div>
-                            <button onclick="event.stopPropagation();dismissSetupReminderCard()"
-                                style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:20px;cursor:pointer;flex-shrink:0;white-space:nowrap;">Maybe
-                                Later</button>
                         </div>
                     </div>
 
@@ -5069,6 +5075,12 @@
                             <input id="regEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
+                        <div class="wifi-field"
+                            style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">Site / Lot Number (Optional)</div>
+                            <input id="regSiteNumber" type="text" placeholder="e.g. 118" inputmode="numeric"
+                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
                             <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;">
                                 <div class="wifi-field-label">Check-In</div>
@@ -5436,7 +5448,7 @@
                 </div>
                 <div id="onboardGuideView" style="display:none;">
                     <div class="onb-guide-title">How to add to your home screen</div>
-                    <div class="onb-guide-platform">
+                    <div class="onb-guide-platform" id="onbGuideIOS">
                         <div class="onb-guide-platform-lbl">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;">
                                 <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
@@ -5453,7 +5465,7 @@
                             <p>Tap <strong>Add</strong> in the top corner to finish</p>
                         </div>
                     </div>
-                    <div class="onb-guide-platform">
+                    <div class="onb-guide-platform" id="onbGuideAndroid">
                         <div class="onb-guide-platform-lbl">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;">
                                 <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.43 11.43 0 0 0-9.34 0L5.25 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L5.99 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
@@ -5474,6 +5486,8 @@
                         Thanks!</button>
                     <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Need more help?
                         Visit the front desk staff for support.</div>
+                    <div style="text-align:center;font-size:10px;color:var(--muted);opacity:.6;margin-top:8px;">Powered
+                        by BlueSpot iConnectHub</div>
                 </div>
                 <div id="onboardCheckView" style="display:none;padding:16px 0 4px;">
                     <div class="onb-check-circle">
@@ -8353,6 +8367,20 @@
             const profile = await loadGuestProfile();
             if (profile) {
                 showRegisterProfile(profile, false);
+            } else if (isAppInstalled()) {
+                // Installed home-screen app with no locally-carried guest token.
+                // iOS gives a standalone PWA its own separate localStorage from
+                // the Safari tab it was installed from, and whether the guestToken
+                // stamped into the install URL (see onboardShowGuideClick) actually
+                // survives varies by iOS version — so empty storage here doesn't
+                // reliably mean "never registered." Default to email recognition
+                // instead of a blank form: an already-registered guest picks up
+                // in one field + one code instead of redoing everything, and a
+                // genuinely new guest gets routed to the full form automatically
+                // once the server doesn't recognize their email (needsInfo:true
+                // in requestLoginCode).
+                showRegView('regViewLogin');
+                logOnboardEvent('registration_started');
             } else {
                 showRegView('regViewForm');
                 logOnboardEvent('registration_started');
@@ -8418,6 +8446,7 @@
             const email = document.getElementById('regEmail').value.trim();
             const arrivalDate = document.getElementById('regArrival').value;
             const departureDate = document.getElementById('regDeparture').value;
+            const siteNumber = document.getElementById('regSiteNumber').value.trim();
             const errEl = document.getElementById('regError');
 
             if (!firstName || !lastName || !phone || !email) {
@@ -8437,7 +8466,7 @@
             btn.disabled = true;
 
             try {
-                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate };
+                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate, siteNumber };
                 const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -8786,6 +8815,23 @@
         window.onboardShowGuideClick = function () {
             document.getElementById('onboardAskView').style.display = 'none';
             document.getElementById('onboardGuideView').style.display = '';
+            // Show only the guide that matches this device — a guest reading
+            // Android steps on an iPhone (or vice versa) is exactly the kind
+            // of pointless friction this modal is supposed to remove.
+            const ua = navigator.userAgent || '';
+            const isIOS = /iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1);
+            const isAndroid = /Android/.test(ua);
+            const iosBlock = document.getElementById('onbGuideIOS');
+            const androidBlock = document.getElementById('onbGuideAndroid');
+            if (isAndroid && !isIOS) {
+                if (iosBlock) iosBlock.style.display = 'none';
+                if (androidBlock) androidBlock.style.display = '';
+            } else {
+                // Default to iOS instructions for iPhone/iPad and anything
+                // unrecognized (desktop testing, etc.) rather than guessing wrong.
+                if (iosBlock) iosBlock.style.display = '';
+                if (androidBlock) androidBlock.style.display = 'none';
+            }
             // Stamp the guest token into the address bar now, right before
             // the guest follows the Share > Add to Home Screen steps, so the
             // installed icon's launch URL carries their account with it.
@@ -8856,7 +8902,7 @@
                 title: `Welcome to ${HUB_NAME}!`,
                 sub: `<div style="text-align:left;">
                     <div style="font-weight:700;color:#111827;margin-bottom:6px;">Make the Most of Your Stay</div>
-                    <div style="margin-bottom:12px;">Set up your stay in about 30 seconds to get the most from this Hub — your campground's no-download app.</div>
+                    <div style="margin-bottom:12px;">Set up your stay in about 30 seconds to get the most from iConnectHub — your campground's No Download App.</div>
                     <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#374151;">
                         <div>🔔 Campground alerts</div>
                         <div>📅 Event reminders &amp; newsletters</div>
@@ -8905,10 +8951,10 @@
 
             openOnboardStep({
                 icon: ICON_HOME,
-                title: 'Add This Hub to Your Home Screen',
-                sub: 'Get one-tap access without scanning the QR code again.',
-                tip: 'Your browser requires a few quick steps. Tap below to view instructions for adding this Hub to your home screen.',
-                yesLabel: 'View Instructions',
+                title: 'Keep iConnectHub One Tap Away',
+                sub: `iConnectHub is your campground's No Download App. Add it to your Home Screen for quick access throughout your stay — no App Store required.`,
+                tip: 'Your browser requires a few quick steps. Tap below to view instructions for adding iConnectHub to your home screen.',
+                yesLabel: 'Add iConnectHub to My Home Screen',
                 noLabel: 'Maybe Later',
                 onYes: () => onboardShowGuideClick(),
                 onNo: () => { if (isAppInstalled()) runOnboardNotif(); }
