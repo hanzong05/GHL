@@ -14,11 +14,6 @@ const HUBS = {
         short_name: 'Stone Mountain Park Campground',
         icon: 'https://i.ibb.co/tw3TD0bX/5d88370f0ac4.jpg',
     },
-    'stone-mountain-park-hub': {
-        name: 'Stone Mountain Park',
-        short_name: 'Stone Mountain Park',
-        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
-    },
     'little-river-campground': {
         name: 'Little River Campground',
         short_name: 'Little River Campground',
