@@ -7985,8 +7985,25 @@
         const GUEST_TOKEN_KEY = LS_GUEST_TOKEN;
 
         function getStoredToken() { try { return localStorage.getItem(GUEST_TOKEN_KEY); } catch (e) { return null; } }
-        function setStoredToken(t) { try { localStorage.setItem(GUEST_TOKEN_KEY, t); } catch (e) { } }
+        function setStoredToken(t) { try { localStorage.setItem(GUEST_TOKEN_KEY, t); } catch (e) { } syncGuestTokenToUrl(); }
         function clearStoredToken() { try { localStorage.removeItem(GUEST_TOKEN_KEY); } catch (e) { } }
+
+        // Keeps a logged-in guest's token sitting in the address bar at all
+        // times (not just right before the in-app install guide), so that
+        // however they actually trigger "Add to Home Screen" — the app's own
+        // guide button, or their phone's built-in Share/menu button — iOS
+        // captures a URL that already carries the account. Safe to call
+        // repeatedly; it's a no-op once the URL already matches.
+        function syncGuestTokenToUrl() {
+            const token = getStoredToken();
+            if (!token) return;
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('guestToken') === token) return;
+                params.set('guestToken', token);
+                history.replaceState(null, '', window.location.pathname + '?' + params.toString());
+            } catch (e) { }
+        }
 
         async function loadGuestProfile() {
             const token = getStoredToken();
@@ -8779,8 +8796,10 @@
         }
         // ──────────────────────────────────────────────────────────────────
 
-        // On load: if token exists, update the More tab label
+        // On load: if token exists, update the More tab label and keep the
+        // address bar carrying it (see syncGuestTokenToUrl above).
         refreshRegisterMoreLabel();
+        syncGuestTokenToUrl();
 
         // ── Guided Onboarding (A2HS → Notifications → Registration) ────────
         // Three-step, opt-in-at-every-step flow shown on a guest's first visit.
@@ -8832,19 +8851,9 @@
                 if (iosBlock) iosBlock.style.display = '';
                 if (androidBlock) androidBlock.style.display = 'none';
             }
-            // Stamp the guest token into the address bar now, right before
-            // the guest follows the Share > Add to Home Screen steps, so the
-            // installed icon's launch URL carries their account with it.
-            const token = getStoredToken();
-            if (token) {
-                try {
-                    const params = new URLSearchParams(window.location.search);
-                    if (params.get('guestToken') !== token) {
-                        params.set('guestToken', token);
-                        history.replaceState(null, '', window.location.pathname + '?' + params.toString());
-                    }
-                } catch (e) { }
-            }
+            // Make sure the token is in the address bar right before the
+            // guest follows the Share > Add to Home Screen steps.
+            syncGuestTokenToUrl();
         };
         window.onboardGuideDoneClick = function () {
             document.getElementById('onboardStepModal').classList.remove('active');
