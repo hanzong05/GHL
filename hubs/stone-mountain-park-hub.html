@@ -8905,6 +8905,18 @@
         async function runOnboardWelcome() {
             const profile = await loadGuestProfile();
             if (profile && profile.firstName) { runOnboardA2HS(); return; }
+            // Installed home-screen app with no locally-carried token — most
+            // likely a guest who already set up their stay in the browser
+            // before installing (see the account-carry-over logic above),
+            // not someone brand new. Skip the "new guest" welcome pitch and
+            // go straight to the lightweight "Welcome Back" login instead of
+            // asking them to set up their stay again.
+            if (isAppInstalled()) {
+                logOnboardEvent('welcome_back_prompt_shown');
+                window.__afterRegisterContinue = () => runOnboardA2HS();
+                if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
+                return;
+            }
             logOnboardEvent('welcome_shown');
             openOnboardStep({
                 icon: ICON_HOME,
