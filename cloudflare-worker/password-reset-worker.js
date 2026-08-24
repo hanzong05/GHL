@@ -516,11 +516,21 @@ async function handleVerifyGuestCode(request, env, corsHeaders) {
   }
 
   if (pending.propertyId) {
-    const stayDetails = { arrivalDate: pending.arrivalDate || null, departureDate: pending.departureDate || null, siteNumber: pending.siteNumber || null };
+    // A later "Welcome Back" login never collects stay dates — without this
+    // fallback to the existing stay, that later verify would blindly
+    // overwrite (dbSet is a full PUT) whatever dates were saved during the
+    // guest's original "Set Up My Stay" registration with nulls, silently
+    // wiping data every time the guest just logs back in.
+    const existingStay = await dbGet(env.DATABASE_URL, `guestStays/${pending.propertyId}/${guestId}`, accessToken) || {};
+    const stayDetails = {
+      arrivalDate: pending.arrivalDate || existingStay.arrivalDate || null,
+      departureDate: pending.departureDate || existingStay.departureDate || null,
+      siteNumber: pending.siteNumber || existingStay.siteNumber || null,
+    };
     await dbSet(env.DATABASE_URL, `guestStays/${pending.propertyId}/${guestId}`, {
       ...stayDetails,
-      registeredAt: nowIso,
-      source: 'onboarding',
+      registeredAt: existingStay.registeredAt || nowIso,
+      source: existingStay.source || 'onboarding',
     }, accessToken);
 
     // Dual-write into the legacy per-hub shape, keyed by the SAME guestId,
