@@ -2685,6 +2685,11 @@
             max-height: 85vh;
             border-radius: 24px;
             animation: popIn .3s cubic-bezier(.34, 1.2, .64, 1);
+            scrollbar-width: none;
+        }
+
+        #registerModal .wifi-modal::-webkit-scrollbar {
+            display: none;
         }
 
         #onboardStepModal {
@@ -6334,7 +6339,7 @@
                 </div>
                 <div id="onboardGuideView" style="display:none;">
                     <div class="onb-guide-title">How to add to your home screen</div>
-                    <div class="onb-guide-platform">
+                    <div class="onb-guide-platform" id="onbGuideIOS">
                         <div class="onb-guide-platform-lbl">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;">
                                 <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
@@ -6351,7 +6356,7 @@
                             <p>Tap <strong>Add</strong> in the top corner to finish</p>
                         </div>
                     </div>
-                    <div class="onb-guide-platform">
+                    <div class="onb-guide-platform" id="onbGuideAndroid">
                         <div class="onb-guide-platform-lbl">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;">
                                 <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.43 11.43 0 0 0-9.34 0L5.25 5.67a.637.637 0 0 0-.83-.22c-.3.16-.42.54-.26.85L5.99 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
@@ -6372,6 +6377,8 @@
                         Thanks!</button>
                     <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px;">Need more help?
                         Visit the front desk staff for support.</div>
+                    <div style="text-align:center;font-size:10px;color:var(--muted);opacity:.6;margin-top:8px;">Powered
+                        by BlueSpot iConnectHub</div>
                 </div>
                 <div id="onboardCheckView" style="display:none;padding:16px 0 4px;">
                     <div class="onb-check-circle">
@@ -9755,6 +9762,23 @@
         window.onboardShowGuideClick = function () {
             document.getElementById('onboardAskView').style.display = 'none';
             document.getElementById('onboardGuideView').style.display = '';
+            // Show only the guide that matches this device — a guest reading
+            // Android steps on an iPhone (or vice versa) is exactly the kind
+            // of pointless friction this modal is supposed to remove.
+            const ua = navigator.userAgent || '';
+            const isIOS = /iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1);
+            const isAndroid = /Android/.test(ua);
+            const iosBlock = document.getElementById('onbGuideIOS');
+            const androidBlock = document.getElementById('onbGuideAndroid');
+            if (isAndroid && !isIOS) {
+                if (iosBlock) iosBlock.style.display = 'none';
+                if (androidBlock) androidBlock.style.display = '';
+            } else {
+                // Default to iOS instructions for iPhone/iPad and anything
+                // unrecognized (desktop testing, etc.) rather than guessing wrong.
+                if (iosBlock) iosBlock.style.display = '';
+                if (androidBlock) androidBlock.style.display = 'none';
+            }
         };
         window.onboardGuideDoneClick = function () {
             document.getElementById('onboardStepModal').classList.remove('active');
@@ -9807,10 +9831,10 @@
 
             openOnboardStep({
                 icon: ICON_HOME,
-                title: 'Add This Hub to Your Home Screen',
-                sub: 'Get one-tap access without scanning the QR code again.',
-                tip: 'Your browser requires a few quick steps. Tap below to view instructions for adding this Hub to your home screen.',
-                yesLabel: 'View Instructions',
+                title: 'Keep iConnectHub One Tap Away',
+                sub: `iConnectHub is your campground's No Download App. Add it to your Home Screen for quick access throughout your stay — no App Store required.`,
+                tip: 'Your browser requires a few quick steps. Tap below to view instructions for adding iConnectHub to your home screen.',
+                yesLabel: 'Add iConnectHub to My Home Screen',
                 noLabel: 'Maybe Later',
                 onYes: () => onboardShowGuideClick(),
                 onNo: () => { if (isAppInstalled()) runOnboardNotif(); }

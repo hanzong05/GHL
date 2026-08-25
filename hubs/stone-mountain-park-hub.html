@@ -2685,6 +2685,11 @@
             max-height: 85vh;
             border-radius: 24px;
             animation: popIn .3s cubic-bezier(.34, 1.2, .64, 1);
+            scrollbar-width: none;
+        }
+
+        #registerModal .wifi-modal::-webkit-scrollbar {
+            display: none;
         }
 
         #onboardStepModal {
@@ -8921,14 +8926,46 @@
             openOnboardStep({
                 icon: ICON_HOME,
                 title: `Welcome to ${HUB_NAME}!`,
-                sub: `<div style="text-align:left;">
+                sub: `<div style="text-align:center;">
                     <div style="font-weight:700;color:#111827;margin-bottom:6px;">Make the Most of Your Stay</div>
-                    <div style="margin-bottom:12px;">Set up your stay in about 30 seconds to get the most from iConnectHub — your campground's No Download App.</div>
-                    <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#374151;">
-                        <div>🔔 Campground alerts</div>
-                        <div>📅 Event reminders &amp; newsletters</div>
-                        <div>📶 WiFi information</div>
-                        <div>📍 Easy access throughout your stay</div>
+                    <div style="margin-bottom:14px;">Set up your stay in about 30 seconds to get the most from iConnectHub — your campground's No Download App.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div style="display:flex;align-items:flex-start;gap:8px;background:#f9fafb;border-radius:12px;padding:10px;text-align:left;">
+                            <div style="width:26px;height:26px;border-radius:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-size:11.5px;font-weight:700;color:#111827;line-height:1.3;">Alerts</div>
+                                <div style="font-size:10px;color:#6b7280;line-height:1.3;margin-top:1px;">Campground updates</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:8px;background:#f9fafb;border-radius:12px;padding:10px;text-align:left;">
+                            <div style="width:26px;height:26px;border-radius:8px;background:#eff6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#1a56db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-size:11.5px;font-weight:700;color:#111827;line-height:1.3;">Events &amp; News</div>
+                                <div style="font-size:10px;color:#6b7280;line-height:1.3;margin-top:1px;">Reminders &amp; newsletters</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:8px;background:#f9fafb;border-radius:12px;padding:10px;text-align:left;">
+                            <div style="width:26px;height:26px;border-radius:8px;background:#f0f9ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-size:11.5px;font-weight:700;color:#111827;line-height:1.3;">WiFi Info</div>
+                                <div style="font-size:10px;color:#6b7280;line-height:1.3;margin-top:1px;">Network &amp; password</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:8px;background:#f9fafb;border-radius:12px;padding:10px;text-align:left;">
+                            <div style="width:26px;height:26px;border-radius:8px;background:#fff1f2;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-size:11.5px;font-weight:700;color:#111827;line-height:1.3;">Easy Access</div>
+                                <div style="font-size:10px;color:#6b7280;line-height:1.3;margin-top:1px;">Throughout your stay</div>
+                            </div>
+                        </div>
                     </div>
                 </div>`,
                 yesLabel: 'Set Up My Stay',
