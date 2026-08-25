@@ -4834,13 +4834,6 @@
                             <input id="regEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
-                        <div class="wifi-field"
-                            style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
-                            <div class="wifi-field-label">Create a Password</div>
-                            <input id="regPassword" type="password" placeholder="At least 4 characters"
-                                autocomplete="new-password"
-                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
-                        </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
                             <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;">
                                 <div class="wifi-field-label">Check-In</div>
@@ -4859,7 +4852,7 @@
                             style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
                     </div>
                     <div style="padding:0 20px 12px;">
-                        <button onclick="submitGuestRegistration()" id="regSubmitBtn"
+                        <button onclick="requestGuestCode()" id="regSubmitBtn"
                             style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4875,6 +4868,8 @@
                     </div>
                 </div>
 
+                <!-- Login view — email + password (global account, works on any hub), with a
+                     fallback link to the emailed 6-digit code for guests without a password yet. -->
                 <div id="regViewLogin" style="display:none;">
                     <div class="wifi-modal-header" style="padding-bottom:16px;">
                         <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
@@ -4884,8 +4879,9 @@
                                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
                             </svg>
                         </div>
-                        <div class="wifi-modal-title">Log In</div>
-                        <div class="wifi-modal-sub">Enter your phone number and password to find your profile.</div>
+                        <div class="wifi-modal-title">Welcome</div>
+                        <div class="wifi-modal-sub" id="regLoginSub">Log in with your email and password — the same
+                            account works on any of our properties.</div>
                     </div>
                     <div class="wifi-modal-body" style="padding-top:8px;">
                         <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
@@ -4893,7 +4889,7 @@
                             <input id="regLoginEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
-                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                        <div id="regLoginPasswordField" class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
                             <div class="wifi-field-label">Password</div>
                             <input id="regLoginPassword" type="password" placeholder="Your password"
                                 autocomplete="current-password"
@@ -4903,18 +4899,94 @@
                             style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
                     </div>
                     <div style="padding:0 20px 12px;">
-                        <button onclick="loginGuestProfile()" id="regLoginBtn"
+                        <button onclick="submitGuestLogin()" id="regLoginBtn"
                             style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
                             Log In
                         </button>
+                        <button onclick="requestLoginCode()" id="regUseCodeBtn"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;">
+                            Use an Emailed Code Instead
+                        </button>
                         <button onclick="showRegView('regViewForm')"
-                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            style="display:block;width:100%;padding:13px;background:none;color:#6b7280;border:none;font-size:13px;font-weight:600;cursor:pointer;">
                             Back
                         </button>
                         <div onclick="showRegView('regViewForgot')"
                             style="text-align:center;margin-top:12px;font-size:12.5px;color:#2563eb;font-weight:600;cursor:pointer;">
                             Forgot password?
                         </div>
+                    </div>
+                </div>
+
+                <!-- Code entry view — shared by both first-time setup and "Welcome" login. -->
+                <div id="regViewCode" style="display:none;">
+                    <div class="wifi-modal-header" style="padding-bottom:16px;">
+                        <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#059669,#047857);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="width:26px;height:26px;">
+                                <rect x="3" y="5" width="18" height="14" rx="2" />
+                                <polyline points="3 7 12 13 21 7" />
+                            </svg>
+                        </div>
+                        <div class="wifi-modal-title">Enter Your Code</div>
+                        <div class="wifi-modal-sub" id="regCodeSub">We emailed you a 6-digit code.</div>
+                    </div>
+                    <div class="wifi-modal-body" style="padding-top:8px;">
+                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">Verification Code</div>
+                            <input id="regCodeInput" type="text" inputmode="numeric" maxlength="6"
+                                placeholder="123456" autocomplete="one-time-code"
+                                style="border:none;background:transparent;font-size:22px;font-weight:700;letter-spacing:6px;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
+                        <div id="regCodeError"
+                            style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
+                    </div>
+                    <div style="padding:0 20px 12px;">
+                        <button onclick="submitVerifyCode()" id="regCodeSubmitBtn"
+                            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
+                            Verify & Continue
+                        </button>
+                        <button onclick="resendGuestCode()" id="regCodeResendBtn"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            Resend Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Set-password view — shown once, right after a code verification succeeds for
+                     a guest with no password on file yet. -->
+                <div id="regViewSetPassword" style="display:none;">
+                    <div class="wifi-modal-header" style="padding-bottom:16px;">
+                        <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="width:26px;height:26px;">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                            </svg>
+                        </div>
+                        <div class="wifi-modal-title">Create a Password</div>
+                        <div class="wifi-modal-sub">So you can log back in on any of our properties with just your
+                            email and password — no more codes.</div>
+                    </div>
+                    <div class="wifi-modal-body" style="padding-top:8px;">
+                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">New Password</div>
+                            <input id="regSetPasswordInput" type="password" placeholder="At least 4 characters"
+                                autocomplete="new-password"
+                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
+                        <div id="regSetPasswordError"
+                            style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
+                    </div>
+                    <div style="padding:0 20px 12px;">
+                        <button onclick="submitSetGuestPassword()" id="regSetPasswordBtn"
+                            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
+                            Save Password
+                        </button>
+                        <button onclick="skipSetGuestPassword()"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            Skip for Now
+                        </button>
                     </div>
                 </div>
 
@@ -7883,7 +7955,7 @@
 
         // Show one view, hide all others
         window.showRegView = function (viewId) {
-            ['regViewForm', 'regViewLogin', 'regViewForgot', 'regViewResetPassword', 'regViewProfile'].forEach(id => {
+            ['regViewForm', 'regViewLogin', 'regViewCode', 'regViewSetPassword', 'regViewForgot', 'regViewResetPassword', 'regViewProfile'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === viewId) ? '' : 'none';
             });
@@ -8100,23 +8172,17 @@
             document.getElementById('registerModal').classList.remove('active');
         };
 
-        window.submitGuestRegistration = async function () {
+        window.requestGuestCode = async function () {
             const firstName = document.getElementById('regFirstName').value.trim();
             const lastName = document.getElementById('regLastName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
             const arrivalDate = document.getElementById('regArrival').value;
             const departureDate = document.getElementById('regDeparture').value;
             const errEl = document.getElementById('regError');
 
-            if (!firstName || !lastName || !phone || !email || !password) {
+            if (!firstName || !lastName || !phone || !email) {
                 errEl.textContent = 'Please fill in all fields.';
-                errEl.style.display = '';
-                return;
-            }
-            if (password.length < 4) {
-                errEl.textContent = 'Password must be at least 4 characters.';
                 errEl.style.display = '';
                 return;
             }
@@ -8128,63 +8194,235 @@
             errEl.style.display = 'none';
 
             const btn = document.getElementById('regSubmitBtn');
-            btn.textContent = 'Saving…';
+            btn.textContent = 'Sending code…';
             btn.disabled = true;
 
             try {
-                const digits = phone.replace(/\D/g, '');
-                const emailNormalized = email.toLowerCase();
-                const passwordHash = await hashPassword(password);
-
-                // Check for existing guest by email or phone
-                let existingKey = null;
-                const snap = await new Promise(resolve => {
-                    onValue(ref(db, `hubs/${HUB_ID}/guests`), s => resolve(s), { onlyOnce: true });
+                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate };
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(context),
                 });
-                snap.forEach(child => {
-                    const d = child.val();
-                    if (d.email && d.email.toLowerCase() === emailNormalized) {
-                        existingKey = child.key;
-                        return;
-                    }
-                    if (d.phone && d.phone.replace(/\D/g, '') === digits) {
-                        existingKey = child.key;
-                        return;
-                    }
-                });
-
-                const tokenKey = existingKey || ('g_' + digits + '_' + Date.now());
-                const profile = { firstName, lastName, phone: digits, email: emailNormalized, passwordHash, location: HUB_NAME, hubId: HUB_ID, anonymous: false, registeredAt: new Date().toISOString(), arrivalDate: arrivalDate || null, departureDate: departureDate || null };
-                await update(ref(db, `hubs/${HUB_ID}/guests/${tokenKey}`), profile);
-                // Stay details — read by the admin panel guest detail modal
-                await set(ref(db, `hubs/${HUB_ID}/guests/${tokenKey}/stayDetails`), { arrivalDate: arrivalDate || null, departureDate: departureDate || null });
-                setStoredToken(tokenKey);
-                // If push was already set up (e.g. via onboarding) before this
-                // profile existed, silently attach that existing subscription to
-                // the guest record now — no modal, no re-requesting permission.
-                // This never touches location — registration and push/location
-                // setup are separate flows.
-                attachCachedPushSub(HUB_ID, tokenKey);
-                // Chat session id just switched from anonymous to this guest's
-                // registration token — re-point the unread badge listener so it
-                // watches the thread staff will actually be replying to.
-                subscribeChatUnreadBadge();
-                showRegisterProfile(profile, false);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not send code.');
+                _pendingCodeGuestId = data.guestId;
+                _pendingCodeContext = context;
+                document.getElementById('regCodeSub').textContent = `We emailed a code to ${email}.`;
+                document.getElementById('regCodeInput').value = '';
+                document.getElementById('regCodeError').style.display = 'none';
+                showRegView('regViewCode');
             } catch (e) {
-                errEl.textContent = 'Could not save. Please try again.';
+                errEl.textContent = e.message || 'Could not send code. Please try again.';
                 errEl.style.display = '';
             } finally {
-                btn.textContent = 'Save My Info';
+                btn.textContent = 'Save My Info & Authorize Updates';
                 btn.disabled = false;
             }
         };
 
-        window.loginGuestProfile = async function () {
+        let _pendingCodeGuestId = null;
+        let _pendingCodeContext = null;
+
+        window.requestLoginCode = async function () {
+            const email = document.getElementById('regLoginEmail').value.trim();
+            const errEl = document.getElementById('regLoginError');
+            if (!email) {
+                errEl.textContent = 'Enter your email address.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regUseCodeBtn');
+            const btnLabel = btn ? btn.textContent : null;
+            if (btn) { btn.textContent = 'Sending code…'; btn.disabled = true; }
+
+            try {
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME }),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not send code.');
+                if (data.needsInfo) {
+                    document.getElementById('regEmail').value = email;
+                    showRegView('regViewForm');
+                    const formErr = document.getElementById('regError');
+                    formErr.textContent = "We don't recognize that email yet — tell us a bit about your stay to get set up.";
+                    formErr.style.display = '';
+                    return;
+                }
+                _pendingCodeGuestId = data.guestId;
+                _pendingCodeContext = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME };
+                document.getElementById('regCodeSub').textContent = `We emailed a code to ${email}.`;
+                document.getElementById('regCodeInput').value = '';
+                document.getElementById('regCodeError').style.display = 'none';
+                showRegView('regViewCode');
+            } catch (e) {
+                errEl.textContent = e.message || 'Could not send code. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                if (btn) { btn.textContent = btnLabel; btn.disabled = false; }
+            }
+        };
+
+        window.resendGuestCode = async function () {
+            if (!_pendingCodeContext) { showRegView('regViewForm'); return; }
+            const btn = document.getElementById('regCodeResendBtn');
+            btn.textContent = 'Sending…';
+            btn.disabled = true;
+            try {
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(_pendingCodeContext),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Could not resend code.');
+                _pendingCodeGuestId = data.guestId;
+                document.getElementById('regCodeError').style.display = 'none';
+            } catch (e) {
+                const errEl = document.getElementById('regCodeError');
+                errEl.textContent = e.message || 'Could not resend code.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Resend Code';
+                btn.disabled = false;
+            }
+        };
+
+        // Shared tail end of every successful login path (code, password, or
+        // set-password). This hub has no regViewSuccess screen, so we skip
+        // straight to showRegisterProfile like the old submitGuestRegistration
+        // used to.
+        async function finishGuestLogin(data, context) {
+            setStoredToken(data.guestId);
+            attachCachedPushSub(HUB_ID, data.guestId);
+            subscribeChatUnreadBadge();
+            refreshRegisterMoreLabel();
+
+            const isNewGuest = data.isNewGuest;
+            if (isNewGuest) {
+                if (typeof logOnboardEvent === 'function') logOnboardEvent('registration_completed');
+                if (typeof LS_SETUP_SKIPPED !== 'undefined') { try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { } }
+                if (typeof updateSetupReminderCard === 'function') updateSetupReminderCard();
+            }
+
+            const profile = await loadGuestProfile();
+            showRegisterProfile(profile || {
+                firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone,
+                location: HUB_NAME, arrivalDate: context.arrivalDate, departureDate: context.departureDate,
+            }, !isNewGuest);
+            if (typeof window.__afterRegisterContinue === 'function') {
+                const cont = window.__afterRegisterContinue;
+                window.__afterRegisterContinue = null;
+                closeRegisterModal();
+                cont();
+            }
+        }
+
+        let _pendingSetPasswordData = null;
+        let _pendingSetPasswordContext = null;
+
+        window.submitVerifyCode = async function () {
+            const code = document.getElementById('regCodeInput').value.trim();
+            const errEl = document.getElementById('regCodeError');
+            if (!_pendingCodeGuestId) { showRegView('regViewForm'); return; }
+            if (!code || code.length !== 6) {
+                errEl.textContent = 'Enter the 6-digit code from your email.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regCodeSubmitBtn');
+            btn.textContent = 'Verifying…';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/verify-guest-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guestId: _pendingCodeGuestId, code }),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Incorrect code.');
+
+                const context = _pendingCodeContext || {};
+                _pendingCodeGuestId = null;
+                _pendingCodeContext = null;
+
+                if (!data.hasPassword) {
+                    _pendingSetPasswordData = data;
+                    _pendingSetPasswordContext = context;
+                    document.getElementById('regSetPasswordInput').value = '';
+                    document.getElementById('regSetPasswordError').style.display = 'none';
+                    showRegView('regViewSetPassword');
+                    return;
+                }
+
+                await finishGuestLogin(data, context);
+            } catch (e) {
+                errEl.textContent = e.message || 'Incorrect code. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Verify & Continue';
+                btn.disabled = false;
+            }
+        };
+
+        window.submitSetGuestPassword = async function () {
+            const password = document.getElementById('regSetPasswordInput').value;
+            const errEl = document.getElementById('regSetPasswordError');
+            if (!_pendingSetPasswordData) { showRegView('regViewForm'); return; }
+            if (password.length < 4) {
+                errEl.textContent = 'Password must be at least 4 characters.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regSetPasswordBtn');
+            btn.textContent = 'Saving…';
+            btn.disabled = true;
+            try {
+                const passwordHash = await hashPassword(password);
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/set-guest-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guestId: _pendingSetPasswordData.guestId, passwordHash }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || 'Could not save password.');
+
+                const loginData = _pendingSetPasswordData, context = _pendingSetPasswordContext || {};
+                _pendingSetPasswordData = null;
+                _pendingSetPasswordContext = null;
+                await finishGuestLogin(loginData, context);
+            } catch (e) {
+                errEl.textContent = e.message || 'Could not save password. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Save Password';
+                btn.disabled = false;
+            }
+        };
+
+        window.skipSetGuestPassword = async function () {
+            if (!_pendingSetPasswordData) { showRegView('regViewForm'); return; }
+            const loginData = _pendingSetPasswordData, context = _pendingSetPasswordContext || {};
+            _pendingSetPasswordData = null;
+            _pendingSetPasswordContext = null;
+            await finishGuestLogin(loginData, context);
+        };
+
+        window.submitGuestLogin = async function () {
             const email = document.getElementById('regLoginEmail').value.trim();
             const password = document.getElementById('regLoginPassword').value;
             const errEl = document.getElementById('regLoginError');
-            const emailNormalized = email.toLowerCase();
-            if (!emailNormalized || !password) {
+            if (!email || !password) {
                 errEl.textContent = 'Enter your email and password.';
                 errEl.style.display = '';
                 return;
@@ -8196,47 +8434,23 @@
             btn.disabled = true;
 
             try {
-                const snap = await new Promise(resolve => {
-                    onValue(ref(db, `hubs/${HUB_ID}/guests`), s => resolve(s), { onlyOnce: true });
+                const passwordHash = await hashPassword(password);
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/guest-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase(), passwordHash, propertyId: HUB_ID, propertyName: HUB_NAME }),
                 });
-                let foundKey = null, foundProfile = null;
-                snap.forEach(child => {
-                    const d = child.val();
-                    if (d.email && d.email.toLowerCase() === emailNormalized) {
-                        foundKey = child.key;
-                        foundProfile = d;
+                const data = await res.json();
+                if (!res.ok) {
+                    if (data.needsCode) {
+                        await requestLoginCode();
                         return;
                     }
-                });
-
-                if (!foundKey) {
-                    errEl.textContent = "We couldn't find a profile with that email address. Please register below.";
-                    errEl.style.display = '';
-                    return;
+                    throw new Error(data.error || 'Incorrect email or password.');
                 }
-                // Guests who registered before the password field existed have
-                // no passwordHash on file — let them in on email alone rather
-                // than locking them out, but require the password for anyone
-                // who does have one set.
-                if (foundProfile.passwordHash) {
-                    const enteredHash = await hashPassword(password);
-                    if (enteredHash !== foundProfile.passwordHash) {
-                        errEl.textContent = 'Incorrect password.';
-                        errEl.style.display = '';
-                        return;
-                    }
-                }
-
-                setStoredToken(foundKey);
-                attachCachedPushSub(HUB_ID, foundKey);
-                if (foundProfile.webPushSub || foundProfile.fcmToken) {
-                    try { localStorage.setItem(LS_PUSH_REGISTERED, '1'); } catch (e) { }
-                }
-                subscribeChatUnreadBadge();
-                refreshRegisterMoreLabel();
-                showRegisterProfile(foundProfile, true);
+                await finishGuestLogin(data, {});
             } catch (e) {
-                errEl.textContent = 'Could not log you in. Please try again.';
+                errEl.textContent = e.message || 'Incorrect email or password. Please try again.';
                 errEl.style.display = '';
             } finally {
                 btn.textContent = 'Log In';

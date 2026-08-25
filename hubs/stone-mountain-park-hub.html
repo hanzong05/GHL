@@ -3405,7 +3405,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Stone Mountain Park</div>
+                            <div class="hero-title">Stone Mountain Park Campground</div>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>
@@ -5132,7 +5132,8 @@
                             </svg>
                         </div>
                         <div class="wifi-modal-title">Welcome</div>
-                        <div class="wifi-modal-sub">Enter your email and we'll send you a code — no password needed.</div>
+                        <div class="wifi-modal-sub" id="regLoginSub">Log in with your email and password — the same
+                            account works on any of our properties.</div>
                     </div>
                     <div class="wifi-modal-body" style="padding-top:8px;">
                         <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
@@ -5140,16 +5141,25 @@
                             <input id="regLoginEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
+                        <div id="regLoginPasswordField" class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">Password</div>
+                            <input id="regLoginPassword" type="password" placeholder="Your password" autocomplete="current-password"
+                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
                         <div id="regLoginError"
                             style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
                     </div>
                     <div style="padding:0 20px 12px;">
-                        <button onclick="requestLoginCode()" id="regLoginBtn"
+                        <button onclick="submitGuestLogin()" id="regLoginBtn"
                             style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
-                            Send Me a Code
+                            Log In
+                        </button>
+                        <button onclick="requestLoginCode()" id="regUseCodeBtn"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;">
+                            Use an Emailed Code Instead
                         </button>
                         <button onclick="showRegView('regViewForm')"
-                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            style="display:block;width:100%;padding:13px;background:none;color:#6b7280;border:none;font-size:13px;font-weight:600;cursor:pointer;">
                             Back
                         </button>
                     </div>
@@ -5188,6 +5198,46 @@
                         <button onclick="resendGuestCode()" id="regCodeResendBtn"
                             style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
                             Resend Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Set-password view — shown once, right after a code
+                     verification succeeds for a guest with no password on
+                     file yet (first-ever setup, or a pre-password legacy
+                     guest logging back in). After this, email+password logs
+                     them in on ANY hub without another emailed code. -->
+                <div id="regViewSetPassword" style="display:none;">
+                    <div class="wifi-modal-header" style="padding-bottom:16px;">
+                        <div class="wifi-modal-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="width:26px;height:26px;">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                            </svg>
+                        </div>
+                        <div class="wifi-modal-title">Create a Password</div>
+                        <div class="wifi-modal-sub">So you can log back in on any of our properties with just your
+                            email and password — no more codes.</div>
+                    </div>
+                    <div class="wifi-modal-body" style="padding-top:8px;">
+                        <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">New Password</div>
+                            <input id="regSetPasswordInput" type="password" placeholder="At least 4 characters"
+                                autocomplete="new-password"
+                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
+                        <div id="regSetPasswordError"
+                            style="display:none;color:#ef4444;font-size:12px;padding:6px 0 2px;font-weight:600;"></div>
+                    </div>
+                    <div style="padding:0 20px 12px;">
+                        <button onclick="submitSetGuestPassword()" id="regSetPasswordBtn"
+                            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">
+                            Save Password
+                        </button>
+                        <button onclick="skipSetGuestPassword()"
+                            style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;">
+                            Skip for Now
                         </button>
                     </div>
                 </div>
@@ -8194,7 +8244,7 @@
 
         // Show one view, hide all others
         window.showRegView = function (viewId) {
-            ['regViewForm', 'regViewLogin', 'regViewCode', 'regViewForgot', 'regViewResetPassword', 'regViewProfile', 'regViewSuccess'].forEach(id => {
+            ['regViewForm', 'regViewLogin', 'regViewCode', 'regViewSetPassword', 'regViewForgot', 'regViewResetPassword', 'regViewProfile', 'regViewSuccess'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = (id === viewId) ? '' : 'none';
             });
@@ -8516,9 +8566,12 @@
             }
             errEl.style.display = 'none';
 
-            const btn = document.getElementById('regLoginBtn');
-            btn.textContent = 'Sending code…';
-            btn.disabled = true;
+            // Called both from its own "Use an Emailed Code Instead" button and
+            // as a silent fallback from submitGuestLogin — only the former has a
+            // button to disable/relabel.
+            const btn = document.getElementById('regUseCodeBtn');
+            const btnLabel = btn ? btn.textContent : null;
+            if (btn) { btn.textContent = 'Sending code…'; btn.disabled = true; }
 
             try {
                 const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
@@ -8548,8 +8601,7 @@
                 errEl.textContent = e.message || 'Could not send code. Please try again.';
                 errEl.style.display = '';
             } finally {
-                btn.textContent = 'Send Me a Code';
-                btn.disabled = false;
+                if (btn) { btn.textContent = btnLabel; btn.disabled = false; }
             }
         };
 
@@ -8578,6 +8630,55 @@
             }
         };
 
+        // Shared tail end of every successful login path (code, password, or
+        // set-password) — stores the token, wires push/chat back up, and
+        // shows the profile card. Factored out so all three entry points end
+        // up in exactly the same state.
+        async function finishGuestLogin(data, context) {
+            setStoredToken(data.guestId);
+            // If push was already set up (e.g. via onboarding) before this
+            // profile existed, silently attach that existing subscription to
+            // the guest record now — no modal, no re-requesting permission.
+            attachCachedPushSub(HUB_ID, data.guestId);
+            // Chat session id just switched to this guest's real token — re-point
+            // the unread badge listener so it watches the thread staff use.
+            subscribeChatUnreadBadge();
+            refreshRegisterMoreLabel();
+
+            const isNewGuest = data.isNewGuest;
+            if (isNewGuest) {
+                logOnboardEvent('registration_completed');
+                try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { }
+                updateSetupReminderCard();
+            }
+
+            // The worker already wrote hubs/{HUB_ID}/guests/{guestId} — read it
+            // back so the profile card shows the exact saved shape (including
+            // stayDetails) instead of reconstructing it client-side.
+            const profile = await loadGuestProfile();
+            showRegView('regViewSuccess');
+            setTimeout(() => {
+                showRegisterProfile(profile || {
+                    firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone,
+                    location: HUB_NAME, arrivalDate: context.arrivalDate, departureDate: context.departureDate,
+                }, !isNewGuest);
+                // If reached via onboarding (Welcome → Set Up My Stay), continue
+                // on to the Home Screen step instead of leaving the guest to
+                // close the modal themselves.
+                if (typeof window.__afterRegisterContinue === 'function') {
+                    const cont = window.__afterRegisterContinue;
+                    window.__afterRegisterContinue = null;
+                    closeRegisterModal();
+                    cont();
+                }
+            }, 1400);
+        }
+
+        // Stashed between a successful code verification with no password on
+        // file yet and the "Create a Password" step that follows it.
+        let _pendingSetPasswordData = null;
+        let _pendingSetPasswordContext = null;
+
         window.submitVerifyCode = async function () {
             const code = document.getElementById('regCodeInput').value.trim();
             const errEl = document.getElementById('regCodeError');
@@ -8602,52 +8703,119 @@
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Incorrect code.');
 
-                setStoredToken(data.guestId);
-                // If push was already set up (e.g. via onboarding) before this
-                // profile existed, silently attach that existing subscription to
-                // the guest record now — no modal, no re-requesting permission.
-                attachCachedPushSub(HUB_ID, data.guestId);
-                // Chat session id just switched to this guest's real token — re-point
-                // the unread badge listener so it watches the thread staff use.
-                subscribeChatUnreadBadge();
-                refreshRegisterMoreLabel();
-
-                const isNewGuest = data.isNewGuest;
                 const context = _pendingCodeContext || {};
                 _pendingCodeGuestId = null;
                 _pendingCodeContext = null;
 
-                if (isNewGuest) {
-                    logOnboardEvent('registration_completed');
-                    try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { }
-                    updateSetupReminderCard();
+                if (!data.hasPassword) {
+                    // First time this guest has ever verified a code (or they
+                    // registered before password login existed) — have them set
+                    // one now so every later login, on any property, is just
+                    // email + password.
+                    _pendingSetPasswordData = data;
+                    _pendingSetPasswordContext = context;
+                    document.getElementById('regSetPasswordInput').value = '';
+                    document.getElementById('regSetPasswordError').style.display = 'none';
+                    showRegView('regViewSetPassword');
+                    return;
                 }
 
-                // The worker already wrote hubs/{HUB_ID}/guests/{guestId} — read it
-                // back so the profile card shows the exact saved shape (including
-                // stayDetails) instead of reconstructing it client-side.
-                const profile = await loadGuestProfile();
-                showRegView('regViewSuccess');
-                setTimeout(() => {
-                    showRegisterProfile(profile || {
-                        firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone,
-                        location: HUB_NAME, arrivalDate: context.arrivalDate, departureDate: context.departureDate,
-                    }, !isNewGuest);
-                    // If reached via onboarding (Welcome → Set Up My Stay), continue
-                    // on to the Home Screen step instead of leaving the guest to
-                    // close the modal themselves.
-                    if (typeof window.__afterRegisterContinue === 'function') {
-                        const cont = window.__afterRegisterContinue;
-                        window.__afterRegisterContinue = null;
-                        closeRegisterModal();
-                        cont();
-                    }
-                }, 1400);
+                await finishGuestLogin(data, context);
             } catch (e) {
                 errEl.textContent = e.message || 'Incorrect code. Please try again.';
                 errEl.style.display = '';
             } finally {
                 btn.textContent = 'Verify & Continue';
+                btn.disabled = false;
+            }
+        };
+
+        window.submitSetGuestPassword = async function () {
+            const password = document.getElementById('regSetPasswordInput').value;
+            const errEl = document.getElementById('regSetPasswordError');
+            if (!_pendingSetPasswordData) { showRegView('regViewForm'); return; }
+            if (password.length < 4) {
+                errEl.textContent = 'Password must be at least 4 characters.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regSetPasswordBtn');
+            btn.textContent = 'Saving…';
+            btn.disabled = true;
+            try {
+                const passwordHash = await hashPassword(password);
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/set-guest-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guestId: _pendingSetPasswordData.guestId, passwordHash }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || 'Could not save password.');
+
+                const loginData = _pendingSetPasswordData, context = _pendingSetPasswordContext || {};
+                _pendingSetPasswordData = null;
+                _pendingSetPasswordContext = null;
+                await finishGuestLogin(loginData, context);
+            } catch (e) {
+                errEl.textContent = e.message || 'Could not save password. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Save Password';
+                btn.disabled = false;
+            }
+        };
+
+        window.skipSetGuestPassword = async function () {
+            if (!_pendingSetPasswordData) { showRegView('regViewForm'); return; }
+            const loginData = _pendingSetPasswordData, context = _pendingSetPasswordContext || {};
+            _pendingSetPasswordData = null;
+            _pendingSetPasswordContext = null;
+            await finishGuestLogin(loginData, context);
+        };
+
+        // Primary "Welcome Back" path — email + password, works on any hub
+        // once a password has been set (see submitSetGuestPassword above).
+        // Falls back to the emailed-code flow for guests who never set one.
+        window.submitGuestLogin = async function () {
+            const email = document.getElementById('regLoginEmail').value.trim();
+            const password = document.getElementById('regLoginPassword').value;
+            const errEl = document.getElementById('regLoginError');
+            if (!email || !password) {
+                errEl.textContent = 'Enter your email and password.';
+                errEl.style.display = '';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const btn = document.getElementById('regLoginBtn');
+            btn.textContent = 'Logging in…';
+            btn.disabled = true;
+
+            try {
+                const passwordHash = await hashPassword(password);
+                const res = await fetch(PASSWORD_RESET_WORKER_URL + '/guest-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email.toLowerCase(), passwordHash, propertyId: HUB_ID, propertyName: HUB_NAME }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    if (data.needsCode) {
+                        // Unknown email, or a guest who hasn't set a password yet —
+                        // fall back to the emailed code automatically.
+                        await requestLoginCode();
+                        return;
+                    }
+                    throw new Error(data.error || 'Incorrect email or password.');
+                }
+                await finishGuestLogin(data, {});
+            } catch (e) {
+                errEl.textContent = e.message || 'Incorrect email or password. Please try again.';
+                errEl.style.display = '';
+            } finally {
+                btn.textContent = 'Log In';
                 btn.disabled = false;
             }
         };
