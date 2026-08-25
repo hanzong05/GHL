@@ -48,6 +48,12 @@ export default {
       if (url.pathname === '/verify-guest-code') {
         return await handleVerifyGuestCode(request, env, corsHeaders);
       }
+      if (url.pathname === '/set-guest-password') {
+        return await handleSetGuestPassword(request, env, corsHeaders);
+      }
+      if (url.pathname === '/guest-login') {
+        return await handleGuestLogin(request, env, corsHeaders);
+      }
       return json({ error: 'Not found' }, 404, corsHeaders);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500, corsHeaders);
@@ -505,6 +511,10 @@ async function handleVerifyGuestCode(request, env, corsHeaders) {
     emailVerified: true,
     createdAt: existingGuest.createdAt || nowIso,
     lastLoginAt: nowIso,
+    // dbSet below is a full PUT — omitting this would silently delete a
+    // password the guest already set (via /set-guest-password) every time
+    // they log back in with an emailed code instead.
+    passwordHash: existingGuest.passwordHash || null,
   };
   // Strip the transient pendingCode before persisting the merged profile —
   // dbSet is a PUT (full overwrite) so it must never be echoed back in.
@@ -564,6 +574,87 @@ async function handleVerifyGuestCode(request, env, corsHeaders) {
     email: mergedGuest.email,
     phone: mergedGuest.phone,
     isNewGuest: !!pending.isNewGuest,
+    hasPassword: !!mergedGuest.passwordHash,
+  }, 200, corsHeaders);
+}
+
+// ── POST /set-guest-password ──────────────────────────────────────────────
+// Called once, right after a guest verifies their emailed code for the
+// FIRST time — lets every later login on ANY property use email+password
+// instead of another emailed code. guestId itself is the proof of identity
+// here (same trust level the rest of this flow already gives it — it's the
+// same value stored as the guest's session token client-side), so no
+// separate re-auth step is needed beyond having just completed the code
+// verification that produced it.
+async function handleSetGuestPassword(request, env, corsHeaders) {
+  const { guestId, passwordHash } = await request.json();
+  if (!guestId || !passwordHash) return json({ error: 'Missing guestId or passwordHash.' }, 400, corsHeaders);
+
+  const accessToken = await getServiceAccountAccessToken(env);
+  const guest = await dbGet(env.DATABASE_URL, `guests/${guestId}`, accessToken);
+  if (!guest) return json({ error: 'Guest not found.' }, 404, corsHeaders);
+
+  await dbSet(env.DATABASE_URL, `guests/${guestId}/passwordHash`, passwordHash, accessToken);
+  return json({ ok: true }, 200, corsHeaders);
+}
+
+// ── POST /guest-login ─────────────────────────────────────────────────────
+// Password login for a guest who already set a password (see
+// /set-guest-password above) — works on ANY property since guests/{guestId}
+// is global. Guests who registered before this feature existed have no
+// passwordHash yet; the client falls back to the emailed-code flow in that
+// case (signaled here via needsCode:true) and prompts them to set one.
+async function handleGuestLogin(request, env, corsHeaders) {
+  const { email, passwordHash, propertyId, propertyName } = await request.json();
+  if (!email || !passwordHash || !propertyId) {
+    return json({ error: 'Missing email, passwordHash, or propertyId.' }, 400, corsHeaders);
+  }
+
+  const accessToken = await getServiceAccountAccessToken(env);
+  const emailNormalized = String(email).toLowerCase().trim();
+  const guestId = await dbGet(env.DATABASE_URL, `guestsByEmail/${emailKeyOf(emailNormalized)}`, accessToken);
+  if (!guestId) return json({ error: 'No account found for that email.', needsCode: true }, 400, corsHeaders);
+
+  const guest = await dbGet(env.DATABASE_URL, `guests/${guestId}`, accessToken);
+  if (!guest || !guest.passwordHash) {
+    return json({ error: 'No password set for this account yet.', needsCode: true }, 400, corsHeaders);
+  }
+  if (passwordHash !== guest.passwordHash) return json({ error: 'Incorrect password.' }, 400, corsHeaders);
+
+  const nowIso = new Date().toISOString();
+  await dbSet(env.DATABASE_URL, `guests/${guestId}/lastLoginAt`, nowIso, accessToken);
+
+  // Same dual-write /verify-guest-code does, so a password login is
+  // indistinguishable from a code login to the admin panel, guest chat, and
+  // push-subscription code — all still keyed on hubs/{propertyId}/guests/{guestId}.
+  const existingStay = await dbGet(env.DATABASE_URL, `guestStays/${propertyId}/${guestId}`, accessToken) || {};
+  await dbSet(env.DATABASE_URL, `guestStays/${propertyId}/${guestId}`, {
+    ...existingStay,
+    registeredAt: existingStay.registeredAt || nowIso,
+    source: existingStay.source || 'login',
+  }, accessToken);
+
+  const existingLegacy = await dbGet(env.DATABASE_URL, `hubs/${propertyId}/guests/${guestId}`, accessToken) || {};
+  await dbSet(env.DATABASE_URL, `hubs/${propertyId}/guests/${guestId}`, {
+    ...existingLegacy,
+    firstName: guest.firstName,
+    lastName: guest.lastName,
+    phone: guest.phone,
+    email: guest.email,
+    location: propertyName || propertyId,
+    hubId: propertyId,
+    anonymous: false,
+    registeredAt: existingLegacy.registeredAt || nowIso,
+  }, accessToken);
+
+  return json({
+    ok: true,
+    guestId,
+    firstName: guest.firstName,
+    lastName: guest.lastName,
+    email: guest.email,
+    phone: guest.phone,
+    isNewGuest: false,
   }, 200, corsHeaders);
 }
 
