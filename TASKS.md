@@ -425,7 +425,6 @@ COMPLETED TASKS — August 25, 2026
 ✅ Stone Mountain Park Hub - Changed the welcome banner on the Home tab to say "Welcome to Stone Mountain Park Campground" (was just "Stone Mountain Park").
 ✅ Firebase - Migrated the Firebase project over to the new owner/login email address, connect@bluespotconnect.com.
 ✅ Guest Accounts - NEW FEATURE Guests can now set a password after their first-ever email code, so they can log back in on any BlueSpot property with just their email and password instead of waiting for another emailed code every time. Piloted on Stone Mountain Park Hub. Anyone who registered before this and hasn't set a password yet still gets the emailed code as normal, and is offered the chance to set one right after.
-
 ✅ Carolina Camp Cedar - Replaced the old phone+password guest login with the same shared email+password account system as Stone Mountain, so a guest's account works on any property instead of being locked to just this one.
 ✅ Allatoona Landing Marine Resort - Replaced the old phone+password guest login with the same shared email+password account system as Stone Mountain, so a guest's account works on any property instead of being locked to just this one.
 ✅ Big Meadow Family Campground - Replaced the old phone+password guest login with the same shared email+password account system as Stone Mountain, so a guest's account works on any property instead of being locked to just this one.
@@ -440,6 +439,17 @@ COMPLETED TASKS — August 25, 2026
 ✅ Winding Waters RV Resort - Replaced the old phone+password guest login with the same shared email+password account system as Stone Mountain, so a guest's account works on any property instead of being locked to just this one.
 ✅ Forsyth Station RV Resort - Replaced the old phone+password guest login with the same shared email+password account system as Stone Mountain, so a guest's account works on any property instead of being locked to just this one.
 
+
+
+
+
+✅ Forsyth Station RV Resort - Updated the Contact page's "Book Online" row to link to the new booking site (forsythstationrv.com/book-now) instead of the old Campspot link.
+✅ Forsyth Station RV Resort - Updated the Contact page's "Apply Now" long-term/monthly-stay button to link to the new booking site instead of the old Campspot link.
+✅ Forsyth Station RV Resort - Updated the Services page's "Book Online" row to link to the new booking site instead of the old Campspot link, and renamed its subtitle from "Campspot Reservations" to "Online Reservations".
+✅ Forsyth Station RV Resort - Updated the shared Book Now button used across the Ways to Stay detail pages (RV Camping, Tent Camping, Cabin Camping, Extended Stay) to open the new booking site instead of the old Campspot link.
+✅ Forsyth Station RV Resort - Updated the Premium Sites, Waterfront, and Buddy Sites "Book Now" buttons to open the new booking site instead of the old Campspot link.
+✅ Forsyth Station RV Resort - Updated the Big Cabin and Small Cabins "Book Now" buttons to open the new booking site instead of the old Campspot link.
+DDDDDD
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
