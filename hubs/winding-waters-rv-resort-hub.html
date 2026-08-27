@@ -8597,13 +8597,18 @@
             const profile = await loadGuestProfile();
             if (profile) {
                 showRegisterProfile(profile, false);
-            } else {
-                // Default to the login screen rather than a blank signup form —
-                // guest accounts are shared across every property, so an existing
-                // guest just logs in with email+password; a genuinely new guest
-                // gets routed to the full form automatically once the server
-                // doesn't recognize their email (needsInfo:true in requestLoginCode).
+            } else if (isAppInstalled()) {
+                // Installed home-screen app with no locally-carried guest token —
+                // most likely a returning guest whose account already exists
+                // (guest accounts are shared across every property), just on a
+                // device/hub combo without a saved token yet. Default to login
+                // instead of a blank form; a genuinely new guest still gets
+                // routed to the full form automatically once the server doesn't
+                // recognize their email (needsInfo:true in requestLoginCode).
                 showRegView('regViewLogin');
+            } else {
+                // Plain browser tab — always start at the full signup form.
+                showRegView('regViewForm');
             }
         };
 
