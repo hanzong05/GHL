@@ -470,6 +470,9 @@ COMPLETED TASKS — August 25, 2026
 ✅ Forsyth Station RV Resort - Replaced the placeholder Rules & Regulations page with the real "Guidelines for a Great Stay" content (check-in/out, cancellation & refund policy, RV requirements, quiet hours, speed limit, parking, gate code, visitors, site care, firewood/fire ring rules, pets, pool rules, prohibited activities, mail/delivery/EV policy, conduct agreement, and release of liability).
 ✅ Guest Accounts - Adjusted yesterday's login-default change on all 14 hubs: a plain browser tab now always opens the full "Set Up My Stay" form first (not the login screen) when tapping Set Up My Stay / Register. Only the installed home-screen app — which is far more likely to be a returning guest re-opening their icon — still defaults to the Log In screen.
 
+COMPLETED TASKS — August 27, 2026
+✅ Password Reset - Investigated a Talking Rock Motorcoach Resort support case (manager unable to reset her password, a test showing an unrelated email). Traced it to the per-hub "Password Reset Notifications" setting working as designed — it sends the manager a copy of a DIFFERENT account's reset link, but the email's subject/wording made it look like it was about her own account. Reworded the notify-copy email's subject and body (cloudflare-worker/password-reset-worker.js, notifyPasswordResetRequested) to make clear it's a copy for another account, not the recipient's own reset. Not yet deployed — still needs to be pasted into the Cloudflare Worker dashboard like the other pending password-reset-worker changes already listed below.
+
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).

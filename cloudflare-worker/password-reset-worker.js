@@ -170,7 +170,11 @@ async function notifyPasswordResetRequested(env, hubId, requestedForEmail, sende
     <tr><td align="center">
       <table width="100%" style="max-width:480px;background:#1a1d27;border-radius:12px;padding:40px;border:1px solid #2a2d3a;">
         <tr><td>
-          <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#f0f2f8;">Password reset requested</p>
+          <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#f0f2f8;">Password reset requested for another account</p>
+          <p style="margin:0 0 16px;font-size:13px;color:#e8a33d;line-height:1.6;">
+            This is not a reset link for your own login — you're receiving a copy because you're the configured
+            notification contact for this property.
+          </p>
           <p style="margin:0 0 24px;font-size:15px;color:#8b90a8;line-height:1.6;">
             <strong style="color:#c0c4d8;">${requestedForEmail}</strong> requested a password reset on the admin panel
             at ${when}. Use the button below to set a new password for that account. This link expires in
@@ -199,7 +203,7 @@ async function notifyPasswordResetRequested(env, hubId, requestedForEmail, sende
     body: JSON.stringify({
       from: `${senderName} <${env.RESEND_FROM_EMAIL}>`,
       to: [settings.email],
-      subject: `Password reset requested — ${requestedForEmail}`,
+      subject: `Copy: password reset for ${requestedForEmail} (not your account)`,
       html: notifyBody,
     }),
   });
