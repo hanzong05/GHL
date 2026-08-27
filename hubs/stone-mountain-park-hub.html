@@ -5163,10 +5163,10 @@
                             style="display:block;width:100%;padding:13px;background:#f3f4f6;color:#374151;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;">
                             Use an Emailed Code Instead
                         </button>
-                        <button onclick="showRegView('regViewForm')"
-                            style="display:block;width:100%;padding:13px;background:none;color:#6b7280;border:none;font-size:13px;font-weight:600;cursor:pointer;">
-                            Back
-                        </button>
+                        <div style="display:flex;justify-content:space-between;padding:2px 2px 4px;">
+                            <span onclick="showRegView('regViewForgot')" style="font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;">Forgot password?</span>
+                            <span onclick="showRegView('regViewForm')" style="font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;">Back</span>
+                        </div>
                     </div>
                 </div>
 
@@ -8442,18 +8442,17 @@
             } else if (isAppInstalled()) {
                 // Installed home-screen app with no locally-carried guest token.
                 // iOS gives a standalone PWA its own separate localStorage from
-                // the Safari tab it was installed from, and whether the guestToken
-                // stamped into the install URL (see onboardShowGuideClick) actually
-                // survives varies by iOS version — so empty storage here doesn't
-                // reliably mean "never registered." Default to email recognition
-                // instead of a blank form: an already-registered guest picks up
-                // in one field + one code instead of redoing everything, and a
-                // genuinely new guest gets routed to the full form automatically
-                // once the server doesn't recognize their email (needsInfo:true
-                // in requestLoginCode).
+                // the Safari tab it was installed from, so empty storage here
+                // doesn't reliably mean "never registered." Default to email
+                // recognition instead of a blank form: an already-registered
+                // guest picks up in one field + a password (or emailed code)
+                // instead of redoing everything, and a genuinely new guest gets
+                // routed to the full form automatically once the server doesn't
+                // recognize their email (needsInfo:true in requestLoginCode).
                 showRegView('regViewLogin');
                 logOnboardEvent('registration_started');
             } else {
+                // Plain browser tab — always start at the full signup form.
                 showRegView('regViewForm');
                 logOnboardEvent('registration_started');
             }

@@ -234,10 +234,11 @@ async function handleVerifyReset(request, env, corsHeaders) {
 }
 
 // ── POST /send-guest-reset ────────────────────────────────────────────────
-// Guests aren't Firebase Auth users — they're plain records under
-// hubs/{hubId}/guests/{guestKey} with a client-hashed `passwordHash` field
-// (see the guest hub's registration flow). This resets THAT field directly
-// via the Realtime Database REST API — no Identity Toolkit calls needed.
+// Resets the PASSWORD ON THE GLOBAL GUEST RECORD (guests/{guestId}/passwordHash)
+// — the same field /guest-login checks — so a completed reset actually fixes
+// the guest's real cross-property login. hubId is only used to build the
+// email's reset link back to the hub the guest requested from; the lookup
+// itself is global via guestsByEmail, same as /send-guest-code.
 async function handleSendGuestReset(request, env, corsHeaders) {
   const { hubId, email, hubUrl } = await request.json();
   if (!hubId || !email || !hubUrl) return json({ error: 'Missing hubId, email, or hubUrl.' }, 400, corsHeaders);
@@ -247,21 +248,15 @@ async function handleSendGuestReset(request, env, corsHeaders) {
   }
 
   const accessToken = await getServiceAccountAccessToken(env);
-  const emailNormalized = String(email).toLowerCase();
+  const emailNormalized = String(email).toLowerCase().trim();
 
-  const guests = await dbGet(env.DATABASE_URL, `hubs/${hubId}/guests`, accessToken);
-  let guestKey = null;
-  if (guests) {
-    for (const [key, g] of Object.entries(guests)) {
-      if (g && g.email && String(g.email).toLowerCase() === emailNormalized) { guestKey = key; break; }
-    }
-  }
+  const guestId = await dbGet(env.DATABASE_URL, `guestsByEmail/${emailKeyOf(emailNormalized)}`, accessToken);
   // Always return success to prevent email enumeration.
-  if (!guestKey) return json({ ok: true }, 200, corsHeaders);
+  if (!guestId) return json({ ok: true }, 200, corsHeaders);
 
   const token = crypto.randomUUID();
   const expires = Math.floor(Date.now() / 1000) + 3600; // 1 hour
-  await dbSet(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, { guestKey, email: emailNormalized, expires }, accessToken);
+  await dbSet(env.DATABASE_URL, `guestPasswordResets/${token}`, { guestId, email: emailNormalized, expires }, accessToken);
 
   const resetUrl = `${hubUrl}${hubUrl.includes('?') ? '&' : '?'}resetToken=${token}`;
   const senderName = env.RESEND_SENDER_NAME || 'BlueSpot Hub';
@@ -325,24 +320,25 @@ async function handleSendGuestReset(request, env, corsHeaders) {
 
 // ── POST /verify-guest-reset ──────────────────────────────────────────────
 async function handleVerifyGuestReset(request, env, corsHeaders) {
-  const { hubId, token, passwordHash } = await request.json();
-  if (!hubId || !token || !passwordHash) return json({ error: 'Missing hubId, token, or passwordHash.' }, 400, corsHeaders);
+  const { token, passwordHash } = await request.json();
+  if (!token || !passwordHash) return json({ error: 'Missing token or passwordHash.' }, 400, corsHeaders);
 
   const accessToken = await getServiceAccountAccessToken(env);
 
-  const record = await dbGet(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken);
+  const record = await dbGet(env.DATABASE_URL, `guestPasswordResets/${token}`, accessToken);
   if (!record) return json({ error: 'Reset link is invalid or has already been used.' }, 400, corsHeaders);
 
   const now = Math.floor(Date.now() / 1000);
   if (record.expires < now) {
-    await dbDelete(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken).catch(() => {});
+    await dbDelete(env.DATABASE_URL, `guestPasswordResets/${token}`, accessToken).catch(() => {});
     return json({ error: 'Reset link has expired. Please request a new one.' }, 400, corsHeaders);
   }
 
   // The password itself is never sent to the worker — the guest hub hashes it
   // client-side the same way it does at registration, we just store the hash.
-  await dbSet(env.DATABASE_URL, `hubs/${hubId}/guests/${record.guestKey}/passwordHash`, passwordHash, accessToken);
-  await dbDelete(env.DATABASE_URL, `hubs/${hubId}/guestPasswordResets/${token}`, accessToken).catch(() => {});
+  // Same field /guest-login checks, so this fixes login on every property.
+  await dbSet(env.DATABASE_URL, `guests/${record.guestId}/passwordHash`, passwordHash, accessToken);
+  await dbDelete(env.DATABASE_URL, `guestPasswordResets/${token}`, accessToken).catch(() => {});
 
   return json({ ok: true }, 200, corsHeaders);
 }
