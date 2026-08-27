@@ -449,7 +449,8 @@ COMPLETED TASKS — August 25, 2026
 ✅ Forsyth Station RV Resort - Updated the shared Book Now button used across the Ways to Stay detail pages (RV Camping, Tent Camping, Cabin Camping, Extended Stay) to open the new booking site instead of the old Campspot link.
 ✅ Forsyth Station RV Resort - Updated the Premium Sites, Waterfront, and Buddy Sites "Book Now" buttons to open the new booking site instead of the old Campspot link.
 ✅ Forsyth Station RV Resort - Updated the Big Cabin and Small Cabins "Book Now" buttons to open the new booking site instead of the old Campspot link.
-DDDDDD
+✅ Guest Accounts - Fixed the "Forgot Password?" flow, which was disconnected from the new login system: it now looks up and resets a guest's real global password (the one email+password login on any hub actually checks) instead of the old, no-longer-used per-hub password field, and it's reachable again from the Welcome/login screen on all 14 hubs (a "Forgot password?" link next to "Back").
+
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
