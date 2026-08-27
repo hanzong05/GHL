@@ -9349,7 +9349,12 @@
             if (profile) {
                 showRegisterProfile(profile, false);
             } else {
-                showRegView('regViewForm');
+                // Default to the login screen rather than a blank signup form —
+                // guest accounts are shared across every property, so an existing
+                // guest just logs in with email+password; a genuinely new guest
+                // gets routed to the full form automatically once the server
+                // doesn't recognize their email (needsInfo:true in requestLoginCode).
+                showRegView('regViewLogin');
             }
         };
 

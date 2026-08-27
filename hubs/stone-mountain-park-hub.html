@@ -8434,22 +8434,16 @@
             const profile = await loadGuestProfile();
             if (profile) {
                 showRegisterProfile(profile, false);
-            } else if (isAppInstalled()) {
-                // Installed home-screen app with no locally-carried guest token.
-                // iOS gives a standalone PWA its own separate localStorage from
-                // the Safari tab it was installed from, and whether the guestToken
-                // stamped into the install URL (see onboardShowGuideClick) actually
-                // survives varies by iOS version — so empty storage here doesn't
-                // reliably mean "never registered." Default to email recognition
-                // instead of a blank form: an already-registered guest picks up
-                // in one field + one code instead of redoing everything, and a
-                // genuinely new guest gets routed to the full form automatically
-                // once the server doesn't recognize their email (needsInfo:true
-                // in requestLoginCode).
-                showRegView('regViewLogin');
-                logOnboardEvent('registration_started');
             } else {
-                showRegView('regViewForm');
+                // Default to email recognition instead of a blank signup form —
+                // guest accounts are shared across every property (and an installed
+                // PWA's own localStorage may not carry a token even for a returning
+                // guest — see onboardShowGuideClick), so an already-registered guest
+                // just logs in with email+password (or an emailed code) instead of
+                // redoing everything, and a genuinely new guest gets routed to the
+                // full form automatically once the server doesn't recognize their
+                // email (needsInfo:true in requestLoginCode).
+                showRegView('regViewLogin');
                 logOnboardEvent('registration_started');
             }
         };

@@ -463,6 +463,7 @@ COMPLETED TASKS — August 25, 2026
 ✅ Talona Ridge RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
 ✅ Winding Waters RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
 ✅ Forsyth Station RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Guest Accounts - Fixed all 14 hubs so tapping "Set Up My Stay" (or the Welcome screen's first-visit prompt) opens the Log In screen by default instead of a blank signup form. Since guest accounts are shared across every property, a guest who already has an account elsewhere just logs in with their email + password; a genuinely new guest still gets routed to the full signup form automatically the moment the system doesn't recognize their email. Fixes the confusing case where a guest with an existing account kept being asked to re-enter all their info on a hub they hadn't visited before.
 
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
