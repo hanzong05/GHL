@@ -3398,6 +3398,39 @@
 
                 <div class="dash-body">
 
+                    <!-- Setup reminder — shown only to guests who skipped "Set Up My
+                         Stay" during onboarding, hidden permanently once they register.
+                         Never a blocking modal — just a dismissible card. -->
+                    <div id="setupReminderCard" style="display:none;margin-bottom:14px;">
+                        <div
+                            style="background:linear-gradient(135deg,#0d1b4b 0%,#1a2f7a 60%,#0f2060 100%);border-radius:16px;padding:16px;">
+                            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                                <div
+                                    style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                                <div style="flex:1;min-width:0;">
+                                    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Get More
+                                        From Your Stay</div>
+                                    <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.4;">Get
+                                        alerts, event reminders and updates during your visit.</div>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;">
+                                <button onclick="openRegisterModal()"
+                                    style="flex:1;background:#fff;border:none;color:#0d1b4b;font-size:12px;font-weight:700;padding:9px 10px;border-radius:20px;cursor:pointer;">Set
+                                    Up My Stay</button>
+                                <button onclick="dismissSetupReminderCard()"
+                                    style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12px;font-weight:600;padding:9px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;">Maybe
+                                    Later</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Alerts -->
                     <div class="dash-section">
                         <div class="section-header">
@@ -5267,6 +5300,12 @@
                             <input id="regEmail" type="email" placeholder="john@email.com" autocomplete="email"
                                 style="border:none;background:transparent;font-size:15px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
                         </div>
+                        <div class="wifi-field"
+                            style="flex-direction:column;align-items:stretch;gap:4px;margin-bottom:10px;">
+                            <div class="wifi-field-label">Site / Lot Number (Optional)</div>
+                            <input id="regSiteNumber" type="text" placeholder="e.g. 118" inputmode="numeric"
+                                style="border:none;background:transparent;font-size:16px;font-weight:600;color:#111827;outline:none;width:100%;font-family:inherit;">
+                        </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
                             <div class="wifi-field" style="flex-direction:column;align-items:stretch;gap:4px;">
                                 <div class="wifi-field-label">Check-In</div>
@@ -6642,12 +6681,42 @@
         const LS_PUSH_SUB_CACHE = 'bs_push_sub_cache_' + HUB_ID;
         const LS_NOTIFS_OPTOUT = 'bs_notifs_optout_' + HUB_ID;
         const LS_READ_ANNS = 'park_read_anns_' + HUB_ID;
+        const LS_SETUP_SKIPPED = 'bs_setup_skipped_' + HUB_ID; // guest tapped "Continue Without Setting Up" — show the reminder card until they register
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         window.db = db; // expose for access tracking
         window.HUB_ID = HUB_ID; // expose for per-hub access tracking
         let HUB_NAME = HUB_ID; // fallback to slug; overwritten once hubs_meta loads
+
+        // ── Onboarding funnel analytics — lightweight event log so we can
+        // measure the new guest-setup flow (welcome shown, set-up clicked,
+        // skipped, registered, home-screen offered/added, notifs offered/
+        // granted/denied). Fire-and-forget; never blocks the guest's flow. ──
+        function logOnboardEvent(event, extra) {
+            try {
+                const entryRef = push(ref(db, `hubs/${HUB_ID}/onboardingEvents`));
+                set(entryRef, { event, at: new Date().toISOString(), ...(extra || {}) }).catch(() => { });
+            } catch (e) { }
+        }
+
+        // ── Setup reminder card — shown on the Home tab to guests who skipped
+        // "Set Up My Stay" during onboarding. "Maybe Later" only hides it for
+        // this browser tab session (sessionStorage), so it reappears on their
+        // next visit per the brief — it's gone for good only once they
+        // actually register. ──
+        function updateSetupReminderCard() {
+            const card = document.getElementById('setupReminderCard');
+            if (!card) return;
+            let skipped = false, dismissedThisSession = false;
+            try { skipped = localStorage.getItem(LS_SETUP_SKIPPED) === '1'; } catch (e) { }
+            try { dismissedThisSession = sessionStorage.getItem(LS_SETUP_SKIPPED + '_dismissed') === '1'; } catch (e) { }
+            card.style.display = (skipped && !dismissedThisSession) ? '' : 'none';
+        }
+        window.dismissSetupReminderCard = function () {
+            try { sessionStorage.setItem(LS_SETUP_SKIPPED + '_dismissed', '1'); } catch (e) { }
+            updateSetupReminderCard();
+        };
         get(ref(db, `hubs_meta/${HUB_ID}`)).then(s => {
             if (!s.exists()) return;
             const meta = s.val();
@@ -8667,6 +8736,7 @@
             const email = document.getElementById('regEmail').value.trim();
             const arrivalDate = document.getElementById('regArrival').value;
             const departureDate = document.getElementById('regDeparture').value;
+            const siteNumber = document.getElementById('regSiteNumber').value.trim();
             const errEl = document.getElementById('regError');
 
             if (!firstName || !lastName || !phone || !email) {
@@ -8686,7 +8756,7 @@
             btn.disabled = true;
 
             try {
-                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate };
+                const context = { email: email.toLowerCase(), propertyId: HUB_ID, propertyName: HUB_NAME, firstName, lastName, phone, arrivalDate, departureDate, siteNumber };
                 const res = await fetch(PASSWORD_RESET_WORKER_URL + '/send-guest-code', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -8782,8 +8852,7 @@
         };
 
         // Shared tail end of every successful login path (code, password, or
-        // set-password). Guards the onboarding-funnel calls — this hub does not
-        // define logOnboardEvent / updateSetupReminderCard / LS_SETUP_SKIPPED.
+        // set-password).
         async function finishGuestLogin(data, context) {
             setStoredToken(data.guestId);
             attachCachedPushSub(HUB_ID, data.guestId);
@@ -8792,9 +8861,9 @@
 
             const isNewGuest = data.isNewGuest;
             if (isNewGuest) {
-                if (typeof logOnboardEvent === 'function') logOnboardEvent('registration_completed');
-                if (typeof LS_SETUP_SKIPPED !== 'undefined') { try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { } }
-                if (typeof updateSetupReminderCard === 'function') updateSetupReminderCard();
+                logOnboardEvent('registration_completed');
+                try { localStorage.removeItem(LS_SETUP_SKIPPED); } catch (e) { }
+                updateSetupReminderCard();
             }
 
             const profile = await loadGuestProfile();
@@ -9133,8 +9202,63 @@
         const ICON_HOME = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
         const ICON_BELL = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>';
 
+        // ── Welcome / "Set Up Your Stay" — the very first thing a new guest
+        // sees, before Home Screen or Notifications. Registration now comes
+        // FIRST in the funnel (Welcome → Set Up My Stay → Home Screen →
+        // Notifications), matching the guest-onboarding brief: guests who
+        // already registered skip straight to the Home Screen step, and
+        // guests who tap "Continue Without Setting Up" still get offered
+        // Home Screen/Notifications, just with a reminder card left behind
+        // on the Home tab. ──
+        async function runOnboardWelcome() {
+            const profile = await loadGuestProfile();
+            if (profile && profile.firstName) { runOnboardA2HS(); return; }
+            // Installed home-screen app with no locally-carried token — most
+            // likely a guest who already set up their stay in the browser
+            // before installing (see the account-carry-over logic above),
+            // not someone brand new. Skip the "new guest" welcome pitch and
+            // go straight to the lightweight "Welcome Back" login instead of
+            // asking them to set up their stay again.
+            if (isAppInstalled()) {
+                logOnboardEvent('welcome_back_prompt_shown');
+                window.__afterRegisterContinue = () => runOnboardA2HS();
+                if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
+                return;
+            }
+            logOnboardEvent('welcome_shown');
+            openOnboardStep({
+                icon: ICON_HOME,
+                title: `Welcome to ${HUB_NAME}!`,
+                sub: `<div style="text-align:left;">
+                    <div style="font-weight:700;color:#111827;margin-bottom:6px;">Make the Most of Your Stay</div>
+                    <div style="margin-bottom:12px;">Set up your stay in about 30 seconds to get the most from this Hub.</div>
+                    <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#374151;">
+                        <div>🔔 Campground alerts</div>
+                        <div>📅 Event reminders &amp; newsletters</div>
+                        <div>📶 WiFi information</div>
+                        <div>📍 Easy access throughout your stay</div>
+                    </div>
+                </div>`,
+                yesLabel: 'Set Up My Stay',
+                noLabel: 'Continue Without Setting Up',
+                onYes: () => {
+                    logOnboardEvent('setup_my_stay_clicked');
+                    document.getElementById('onboardStepModal').classList.remove('active');
+                    window.__afterRegisterContinue = () => runOnboardA2HS();
+                    if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
+                },
+                onNo: () => {
+                    logOnboardEvent('continue_without_setup_clicked');
+                    try { localStorage.setItem(LS_SETUP_SKIPPED, '1'); } catch (e) { }
+                    updateSetupReminderCard();
+                    runOnboardA2HS();
+                }
+            });
+        }
+
         function runOnboardA2HS() {
             if (isAppInstalled()) { runOnboardNotif(); return; }
+            logOnboardEvent('home_screen_offered');
 
             // "Show Me How" instead of a bare "Install App" button — tapping
             // Install/Add directly used to make guests think one tap saved it
@@ -9167,7 +9291,8 @@
         }
 
         function runOnboardNotif() {
-            if (!('Notification' in window) || Notification.permission !== 'default') { runOnboardRegister(); return; }
+            if (!('Notification' in window) || Notification.permission !== 'default') return;
+            logOnboardEvent('notifications_offered');
 
             openOnboardStep({
                 icon: ICON_BELL,
@@ -9195,30 +9320,26 @@
                             } else {
                                 await minSpin;
                             }
-                            showOnboardCheck('You’re all set for alerts!', runOnboardRegister);
+                            logOnboardEvent('notifications_enabled');
+                            showOnboardCheck('You’re all set for alerts!');
                             return;
                         }
+                        logOnboardEvent('notifications_declined');
                     } catch (e) { }
                     document.getElementById('onboardStepModal').classList.remove('active');
-                    runOnboardRegister();
                 },
-                onNo: () => { runOnboardRegister(); }
+                onNo: () => { logOnboardEvent('notifications_declined'); }
             });
-        }
-
-        async function runOnboardRegister() {
-            const profile = await loadGuestProfile();
-            if (profile && profile.firstName) return; // already fully registered
-            if (typeof window.openRegisterModal === 'function') window.openRegisterModal();
         }
 
         function startOnboarding() {
             // Don't stack the install/A2HS prompt on top of the "set a new
             // password" view a guest lands on straight from the reset email.
             if (_pendingResetToken) return;
-            setTimeout(runOnboardA2HS, 1200);
+            setTimeout(runOnboardWelcome, 1200);
         }
         startOnboarding();
+        updateSetupReminderCard();
         // ──────────────────────────────────────────────────────────────────
 
     </script>

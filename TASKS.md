@@ -450,6 +450,19 @@ COMPLETED TASKS — August 25, 2026
 ✅ Forsyth Station RV Resort - Updated the Premium Sites, Waterfront, and Buddy Sites "Book Now" buttons to open the new booking site instead of the old Campspot link.
 ✅ Forsyth Station RV Resort - Updated the Big Cabin and Small Cabins "Book Now" buttons to open the new booking site instead of the old Campspot link.
 ✅ Guest Accounts - Fixed the "Forgot Password?" flow, which was disconnected from the new login system: it now looks up and resets a guest's real global password (the one email+password login on any hub actually checks) instead of the old, no-longer-used per-hub password field, and it's reachable again from the Welcome/login screen on all 14 hubs (a "Forgot password?" link next to "Back").
+✅ Carolina Camp Cedar - Cloned Stone Mountain's full first-visit onboarding: a "Welcome to [Park]!" intro screen before the setup form, a dismissible "Get More From Your Stay" reminder card on the Home tab for guests who skip setup, an optional Site/Lot Number field on the signup form, and basic funnel tracking (welcome shown, setup started/skipped, etc.) saved to Firebase.
+✅ Allatoona Landing Marine Resort - Cloned Stone Mountain's full first-visit onboarding (Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, funnel tracking) — worded as "resort" instead of "campground" to match this property.
+✅ Big Meadow Family Campground - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Blue Ridge River Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Little River Campground - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Sweetwater Valley Park - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking. This hub was missing a piece the tracking needs (the `push` Firebase import), so that was added too; its extra "Communication Authorization" consent checkbox at signup was left in place.
+✅ Sanwar RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Splash RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Stay Wilder Campground - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Talking Rock Motorcoach Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking, including the "iConnectHub" branding on the Add to Home Screen step.
+✅ Talona Ridge RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Winding Waters RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
+✅ Forsyth Station RV Resort - Cloned Stone Mountain's full first-visit onboarding: Welcome intro screen, "Get More From Your Stay" reminder card, Site/Lot Number field, and funnel tracking.
 
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
