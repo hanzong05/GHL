@@ -507,6 +507,20 @@ COMPLETED TASKS — August 28, 2026
 ✅ Talona Ridge RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
 ✅ Winding Waters RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
 ✅ Forsyth Station RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Winding Waters RV Resort - Made the "Welcome" popup wider so its content has more breathing room.
+✅ Stone Mountain Park Hub - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Carolina Camp Cedar - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Allatoona Landing Marine Resort - Made the "Welcome" popup wider, and made the "Get More From Your Stay" reminder card's color match the hub's own theme color instead of a fixed navy (spacing above it was already fixed).
+✅ Big Meadow Family Campground - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Blue Ridge River Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Little River Campground - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Sweetwater Valley Park - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Sanwar RV Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Splash RV Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Stay Wilder Campground - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Talking Rock Motorcoach Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Talona Ridge RV Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
+✅ Forsyth Station RV Resort - Made the "Welcome" popup wider, and added a little space above the "Get More From Your Stay" reminder card plus made its color match the hub's own theme color instead of a fixed navy.
 
 TODO
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
