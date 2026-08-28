@@ -477,8 +477,6 @@ COMPLETED TASKS — August 27, 2026
 
 COMPLETED TASKS — August 28, 2026
 ✅ Forsyth Station RV Resort - Updated the browser-tab favicon to a new icon image.
-
-COMPLETED TASKS — August 28, 2026
 ✅ Stone Mountain Park Hub - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Sanwar RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Stay Wilder Campground - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
@@ -494,6 +492,21 @@ COMPLETED TASKS — August 28, 2026
 ✅ Forsyth Station RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Winding Waters RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Guest Hub Logos - Undid yesterday's CSS trick for hiding the white box behind hero logos on all 14 hubs — it also washed out/faded the logo's own colors, which wasn't the goal. Logos are back to showing normally (crisp, full color) with their white background box still visible for now. A clean fix needs the actual logo image files to have a transparent background, not a CSS workaround.
+✅ All Hubs - Checked all 14 hubs against the latest shared updates (login/password system, forgot-password link, browser-vs-installed-app registration behavior, onboarding rebuild, logo fix) and caught up any hub that had fallen behind.
+✅ Stone Mountain Park Hub - Redesigned the "Welcome" popup guests see on their first visit: added a teal "— Make the Most of Your Stay —" label, a 2x2 grid of colored cards showing what the app offers (Alerts, Events & News, WiFi Info, Easy Access), an arrow on the "Set Up My Stay" button, and a small "Powered by BlueSpot iConnectHub" branding line at the bottom.
+✅ Carolina Camp Cedar - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Allatoona Landing Marine Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Big Meadow Family Campground - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Blue Ridge River Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Little River Campground - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Sweetwater Valley Park - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Sanwar RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Splash RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Stay Wilder Campground - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Talking Rock Motorcoach Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Talona Ridge RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Winding Waters RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
+✅ Forsyth Station RV Resort - Rolled out the same redesigned "Welcome" popup (colored feature cards, teal label, arrow button, BlueSpot branding footer) that Stone Mountain got first.
 
 TODO
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
