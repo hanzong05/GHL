@@ -535,6 +535,12 @@ COMPLETED TASKS — August 28, 2026
 ✅ Talona Ridge RV Resort - Gave the "Get More From Your Stay" reminder card more breathing room (more space above it, more padding inside) and made the "Set Up My Stay" button's text color follow the hub's own theme color instead of a fixed navy.
 ✅ Forsyth Station RV Resort - Gave the "Get More From Your Stay" reminder card more breathing room (more space above it, more padding inside) and made the "Set Up My Stay" button's text color follow the hub's own theme color instead of a fixed navy.
 ✅ Winding Waters RV Resort - Gave the "Get More From Your Stay" reminder card more breathing room (more space above it, more padding inside) and made the "Set Up My Stay" button's text color follow the hub's own theme color instead of a fixed navy.
+✅ All 14 Hubs - Rebranded the Welcome popup's footer text from "Powered by BlueSpot iConnectHub" to "iConnectHub Powered by BlueSpot" (with BlueSpot bolded).
+✅ All 14 Hubs - Recolored the Welcome popup footer's small shield icon from a gray outline to a solid color, then made that color dynamic so it always follows whatever primary/theme color the admin sets in the admin panel's color palette (reuses the existing --blue CSS variable that already updates live from Firebase), instead of a fixed hex value.
+✅ All 14 Hubs - Fixed the Welcome popup's 2x2 benefit-icon grid (Alerts, Events & News, WiFi Info, Easy Access) so each card's icon is vertically centered against its title+description text instead of sitting top-aligned.
+✅ All 14 Hubs - Fixed the Home tab's "Get More From Your Stay" reminder card so its top spacing matches its left/right side spacing (was noticeably larger on top before).
+✅ All 14 Hubs - Balanced the Welcome popup's footer spacing so the gap below the "Continue Without Setting Up" button now matches the gap above it, instead of being much larger.
+✅ All 14 Hubs - Replaced the Welcome popup footer's thin outline shield icon (which read as an unclear blob at its small size) with a solid shield badge containing a white checkmark, sized slightly larger for legibility — still using the dynamic theme color from above.
 
 TODO
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
