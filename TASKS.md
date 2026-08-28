@@ -472,6 +472,10 @@ COMPLETED TASKS — August 25, 2026
 
 COMPLETED TASKS — August 27, 2026
 ✅ Password Reset - Investigated a Talking Rock Motorcoach Resort support case (manager unable to reset her password, a test showing an unrelated email). Traced it to the per-hub "Password Reset Notifications" setting working as designed — it sends the manager a copy of a DIFFERENT account's reset link, but the email's subject/wording made it look like it was about her own account. Reworded the notify-copy email's subject and body (cloudflare-worker/password-reset-worker.js, notifyPasswordResetRequested) to make clear it's a copy for another account, not the recipient's own reset. Not yet deployed — still needs to be pasted into the Cloudflare Worker dashboard like the other pending password-reset-worker changes already listed below.
+✅ Forsyth Station RV Resort - Re-verified the "Guidelines for a Great Stay" Rules page against the property's official policy text: content matches almost word-for-word (no factual errors or missing rules found), and the Rules tab's open/close wiring (openRules()/closeRules(), the .active overlay CSS, the Quick Actions and More-menu entry points) all check out correctly. No changes needed — this confirms the August 25, 2026 replacement is still accurate and functioning.
+
+COMPLETED TASKS — August 28, 2026
+✅ Forsyth Station RV Resort - Updated the browser-tab favicon to a new icon image.
 
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
