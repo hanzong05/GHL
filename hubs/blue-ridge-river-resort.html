@@ -32,7 +32,7 @@
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png">
     <link rel="apple-touch-icon" type="image/png" sizes="120x120" id="pwaAppleTouchIcon120"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png">
-    <link rel="manifest" href="https://hub.bluespotguide.com/blue-ridge-river-resort/manifest.json">
+    <link rel="manifest" href="https://hub.bluespotguide.com/blue-ridge-rv-resort/manifest.json">
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
@@ -7270,6 +7270,7 @@
         };
 
         const HUB_ID = 'blue-ridge-river-resort'; // change to match your hub ID in Firebase
+        const HUB_URL_SLUG = 'blue-ridge-rv-resort'; // public web address for this hub — kept separate from HUB_ID so the Firebase data path never changes
 
         // Per-hub localStorage keys. Guests can visit multiple hubs on the same
         // device/browser — these must NOT be plain shared keys, or registering /
@@ -7339,7 +7340,7 @@
         const VAPID_KEY = 'BOz7iTS5YoV_ogTJvZ9149Nx4ViO0qzuC5rijvSFh6ggdyXqGSmqZ5_lOCpsaAVudW3lHCvrfKRUCdm_HsqmYsw';
         // Cloudflare Worker that serves the Firebase SW with Service-Worker-Allowed: / header.
         // Deploy cloudflare-worker/sw-host-worker.js and paste its URL here:
-        const SW_HOST_URL = 'https://hub.bluespotguide.com/blue-ridge-river-resort/sw.js';
+        const SW_HOST_URL = 'https://hub.bluespotguide.com/' + HUB_URL_SLUG + '/sw.js';
         const PUSH_WORKER_URL = 'https://bluespot-push.christian-51e.workers.dev/';
 
         // Register the service worker immediately on load, independent of push
@@ -7353,7 +7354,7 @@
         // here, this early, doesn't require any permission and gives Chrome a
         // head start well before the guest ever reaches the install step.
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(SW_HOST_URL, { scope: '/' + HUB_ID }).catch(() => { });
+            navigator.serviceWorker.register(SW_HOST_URL, { scope: '/' + HUB_URL_SLUG }).catch(() => { });
         }
 
         // Fire-and-forget transactional email for a geofence exit / stay-end event.
@@ -7605,7 +7606,7 @@
             pushRegistrationInFlight = true;
 
             try {
-                await navigator.serviceWorker.register(SW_HOST_URL, { scope: '/' + HUB_ID });
+                await navigator.serviceWorker.register(SW_HOST_URL, { scope: '/' + HUB_URL_SLUG });
                 const reg = await navigator.serviceWorker.ready;
 
                 const permission = Notification.permission === 'granted'

@@ -89,6 +89,11 @@ const HUBS = {
         short_name: 'Blue Ridge River Resort',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png',
     },
+    'blue-ridge-rv-resort': {
+        name: 'Blue Ridge River Resort',
+        short_name: 'Blue Ridge River Resort',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png',
+    },
     'big-meadow-family-campground': {
         name: 'Big Meadow Family Campground',
         short_name: 'Big Meadow',
