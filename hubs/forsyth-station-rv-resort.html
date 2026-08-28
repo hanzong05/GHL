@@ -3704,9 +3704,9 @@
                     <!-- Setup reminder — shown only to guests who skipped "Set Up My
                          Stay" during onboarding, hidden permanently once they register.
                          Never a blocking modal — just a dismissible card. -->
-                    <div id="setupReminderCard" style="display:none;margin-top:16px;margin-bottom:14px;">
+                    <div id="setupReminderCard" style="display:none;margin-top:24px;margin-bottom:14px;">
                         <div
-                            style="background:linear-gradient(135deg,var(--blue),color-mix(in srgb,var(--blue) 60%, #000));border-radius:16px;padding:16px;">
+                            style="background:linear-gradient(135deg,var(--blue),color-mix(in srgb,var(--blue) 60%, #000));border-radius:16px;padding:20px;">
                             <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
                                 <div
                                     style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -3725,7 +3725,7 @@
                             </div>
                             <div style="display:flex;gap:8px;">
                                 <button onclick="openRegisterModal()"
-                                    style="flex:1;background:#fff;border:none;color:#0d1b4b;font-size:12px;font-weight:700;padding:9px 10px;border-radius:20px;cursor:pointer;">Set
+                                    style="flex:1;background:#fff;border:none;color:var(--blue);font-size:12px;font-weight:700;padding:9px 10px;border-radius:20px;cursor:pointer;">Set
                                     Up My Stay</button>
                                 <button onclick="dismissSetupReminderCard()"
                                     style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12px;font-weight:600;padding:9px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;">Maybe
