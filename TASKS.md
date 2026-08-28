@@ -541,6 +541,9 @@ COMPLETED TASKS — August 28, 2026
 ✅ All 14 Hubs - Fixed the Home tab's "Get More From Your Stay" reminder card so its top spacing matches its left/right side spacing (was noticeably larger on top before).
 ✅ All 14 Hubs - Balanced the Welcome popup's footer spacing so the gap below the "Continue Without Setting Up" button now matches the gap above it, instead of being much larger.
 ✅ All 14 Hubs - Replaced the Welcome popup footer's thin outline shield icon (which read as an unclear blob at its small size) with a solid shield badge containing a white checkmark, sized slightly larger for legibility — still using the dynamic theme color from above.
+✅ All 14 Hubs - Made the Welcome popup's "Make the Most of Your Stay" eyebrow label (text + decorative side lines) and the "Guest Hub" highlight follow each hub's admin-set theme color instead of hardcoded teal.
+✅ All 14 Hubs - Restructured the Welcome popup's intro paragraph: capped its width (340px, 350px on Stone Mountain) and centered it, and moved "No Download App." onto its own line so the phrase never wraps mid-sentence.
+✅ All 14 Hubs - Simplified the Welcome popup's intro sentence to end at "...easy access to your Guest Hub." (dropped the trailing "— your campground's") and set the line to a fixed 13px font size so it renders consistently across devices.
 
 TODO
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
