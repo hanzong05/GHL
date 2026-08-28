@@ -474,6 +474,22 @@ COMPLETED TASKS — August 25, 2026
 COMPLETED TASKS — August 27, 2026
 ✅ Password Reset - Investigated a Talking Rock Motorcoach Resort support case (manager unable to reset her password, a test showing an unrelated email). Traced it to the per-hub "Password Reset Notifications" setting working as designed — it sends the manager a copy of a DIFFERENT account's reset link, but the email's subject/wording made it look like it was about her own account. Reworded the notify-copy email's subject and body (cloudflare-worker/password-reset-worker.js, notifyPasswordResetRequested) to make clear it's a copy for another account, not the recipient's own reset. Not yet deployed — still needs to be pasted into the Cloudflare Worker dashboard like the other pending password-reset-worker changes already listed below.
 
+COMPLETED TASKS — August 28, 2026
+✅ Stone Mountain Park Hub - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Sanwar RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Stay Wilder Campground - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Talking Rock Motorcoach Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Carolina Camp Cedar - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Little River Campground - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Sweetwater Valley Park - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Allatoona Landing Marine Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Blue Ridge River Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Splash RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Talona Ridge RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Big Meadow Family Campground - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Forsyth Station RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Winding Waters RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+
 TODO
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
