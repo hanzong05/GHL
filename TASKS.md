@@ -493,8 +493,10 @@ COMPLETED TASKS — August 28, 2026
 ✅ Big Meadow Family Campground - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Forsyth Station RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
 ✅ Winding Waters RV Resort - Removed the white background box behind the logo in the Home tab's top banner, so it blends into the photo behind it like the rest of the branding.
+✅ Guest Hub Logos - Undid yesterday's CSS trick for hiding the white box behind hero logos on all 14 hubs — it also washed out/faded the logo's own colors, which wasn't the goal. Logos are back to showing normally (crisp, full color) with their white background box still visible for now. A clean fix needs the actual logo image files to have a transparent background, not a CSS workaround.
 
 TODO
+☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
 ☐ Big Meadow Family Campground - Add the real Book Now link, park map photo, and Local Guide link (still placeholders).
