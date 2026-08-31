@@ -8616,14 +8616,24 @@
             const sel = document.getElementById('guestHubSelect');
             if (!sel) return;
             const hubs = Object.values(hubsCache);
+            const prev = sel.value;
             if (hubs.length) {
                 sel.innerHTML = '<option value="">Select Hub…</option>' +
                     '<option value="__all__">All Hubs</option>' +
                     hubs.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
             }
+            // Restore whatever was previously selected (e.g. hubsCache refreshing
+            // shouldn't silently reset a manually-picked hub back to the default).
+            if (prev && sel.querySelector(`option[value="${prev}"]`)) sel.value = prev;
+
             // Managers only have one hub — auto-select and load it
             if (currentUserRole !== 'super' && currentUserHubId) {
                 sel.value = currentUserHubId;
+                loadGuestProfiles();
+            } else if (currentUserRole === 'super' && hubs.length && !prev) {
+                // Super admin, no prior selection — default to "All Hubs" instead
+                // of leaving the Subscribers tab on an empty "Select Hub…" placeholder.
+                sel.value = '__all__';
                 loadGuestProfiles();
             }
         }
