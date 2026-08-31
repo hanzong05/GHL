@@ -451,14 +451,14 @@
                         <input type="text" id="bizName" required placeholder="e.g. Iron Mountain Resort">
                     </div>
                     <div class="field">
-                        <label>Location (City, State)</label>
-                        <input type="text" id="bizLocation" placeholder="e.g. Dahlonega, GA">
+                        <label>Location (City, State) *</label>
+                        <input type="text" id="bizLocation" required placeholder="e.g. Dahlonega, GA">
                     </div>
                     <div class="field">
-                        <label>Your Name &amp; Email (so we can follow up)</label>
+                        <label>Your Name &amp; Email (so we can follow up) *</label>
                         <div class="field-row">
-                            <input type="text" id="submitterName" placeholder="Your name">
-                            <input type="email" id="submitterEmail" placeholder="you@example.com">
+                            <input type="text" id="submitterName" required placeholder="Your name">
+                            <input type="email" id="submitterEmail" required placeholder="you@example.com">
                         </div>
                     </div>
                 </div>
@@ -477,7 +477,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <label style="margin-bottom:-4px;">Phone Numbers</label>
+                    <label style="margin-bottom:-4px;">Phone Numbers * <span style="text-transform:none;font-weight:500;color:var(--text3);">(at least one, with a number)</span></label>
                     <div id="phonesList" style="display:flex;flex-direction:column;gap:10px;"></div>
                     <button type="button" class="add-btn" onclick="addPhone()">+ Add Another Phone Number</button>
 
@@ -564,6 +564,7 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <label style="margin-bottom:-4px;">At least one link is required — this powers every "Book Now" button on your Hub.</label>
                     <div id="bookingLinksList" style="display:flex;flex-direction:column;gap:10px;"></div>
                     <button type="button" class="add-btn" onclick="addBookingLink()">+ Add Another Booking
                         Link</button>
@@ -881,10 +882,40 @@
             const btn = document.getElementById('submitBtn');
             const status = document.getElementById('submitStatus');
             const bizName = document.getElementById('bizName').value.trim();
-            if (!bizName) {
-                status.textContent = 'Please enter your property name.';
+            const bizLocation = document.getElementById('bizLocation').value.trim();
+            const submitterName = document.getElementById('submitterName').value.trim();
+            const submitterEmail = document.getElementById('submitterEmail').value.trim();
+            const hasPhone = [...document.querySelectorAll('#phonesList .phone-number')].some(el => el.value.trim());
+            const hasBookingLink = [...document.querySelectorAll('#bookingLinksList .booking-url')].some(el => el.value.trim());
+
+            // Checked in order so the guest sees one problem at a time, and the
+            // page scrolls to whichever field needs fixing first.
+            const checks = [
+                [bizName, 'bizName', 'Please enter your property name.'],
+                [bizLocation, 'bizLocation', 'Please enter your property\'s city and state.'],
+                [submitterName, 'submitterName', 'Please enter your name so we know who to follow up with.'],
+                [submitterEmail, 'submitterEmail', 'Please enter your email so we can follow up.'],
+            ];
+            for (const [value, id, msg] of checks) {
+                if (!value) {
+                    status.textContent = msg;
+                    status.className = 'submit-status error';
+                    const field = document.getElementById(id);
+                    field.focus();
+                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+            }
+            if (!hasPhone) {
+                status.textContent = 'Please add at least one phone number.';
                 status.className = 'submit-status error';
-                document.getElementById('bizName').focus();
+                document.getElementById('phonesList').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            if (!hasBookingLink) {
+                status.textContent = 'Please add at least one booking link — this is what "Book Now" buttons will point to.';
+                status.className = 'submit-status error';
+                document.getElementById('bookingLinksList').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
