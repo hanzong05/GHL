@@ -545,6 +545,9 @@ COMPLETED TASKS — August 28, 2026
 ✅ All 14 Hubs - Restructured the Welcome popup's intro paragraph: capped its width (340px, 350px on Stone Mountain) and centered it, and moved "No Download App." onto its own line so the phrase never wraps mid-sentence.
 ✅ All 14 Hubs - Simplified the Welcome popup's intro sentence to end at "...easy access to your Guest Hub." (dropped the trailing "— your campground's") and set the line to a fixed 13px font size so it renders consistently across devices.
 
+COMPLETED TASKS — August 31, 2026
+✅ Admin Panel - Fixed the Subscribers tab showing empty for super admins — the guest-hub dropdown only auto-loaded for hub managers, so a super admin landed on a blank "Select Hub…" placeholder until manually picking a hub. Now it defaults to "All Hubs" automatically, while still remembering a manually-picked hub if one was already chosen.
+
 TODO
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
