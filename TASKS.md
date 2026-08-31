@@ -547,8 +547,10 @@ COMPLETED TASKS — August 28, 2026
 
 COMPLETED TASKS — August 31, 2026
 ✅ Admin Panel - Fixed the Subscribers tab showing empty for super admins — the guest-hub dropdown only auto-loaded for hub managers, so a super admin landed on a blank "Select Hub…" placeholder until manually picking a hub. Now it defaults to "All Hubs" automatically, while still remembering a manually-picked hub if one was already chosen.
+✅ New Hubs - Created starter guest hub pages for Buckeye Lake KOA Holiday, Blue Water RV Resort, and Iron Mountain Resort, based on the Stone Mountain page. Each has its own hub ID and page title set up, but still needs its real address, photos, booking link, and amenities info filled in before it's ready to use.
 
 TODO
+☐ New Hubs - Buckeye Lake KOA Holiday, Blue Water RV Resort, and Iron Mountain Resort still need their real address, phone, photos, booking link, map, and amenities info added (currently placeholder content copied from Stone Mountain). Each also needs to be added to Firebase under its hub ID (buckeye-lake-koa-holiday-hub, blue-water-rv-resort-hub, iron-mountain-resort-hub) and have its manifest/notification setup created before it can go live.
 ☐ Guest Hub Logos - All 14 hubs still need real transparent-background logo image files to fully remove the white box behind the hero logo without fading the logo's colors — a CSS-only fix can't do both at once. Someone needs to supply (or re-export) each hub's logo with a transparent PNG background.
 ☐ Guest Accounts - Still need to hook up GoHighLevel as the real CRM data store — no GHL integration exists anywhere in this codebase yet. Noted for future scoping.
 ☐ Big Meadow Family Campground - Add the real WiFi network name & password (still a placeholder).
