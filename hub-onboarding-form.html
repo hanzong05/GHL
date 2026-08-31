@@ -477,25 +477,17 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="field">
-                        <label>Main Line Phone Number</label>
-                        <input type="tel" id="contactPhone" placeholder="e.g. (706) 216-7275">
-                    </div>
-                    <div class="field-row">
-                        <div class="field">
-                            <label>Instagram Link</label>
-                            <input type="url" id="contactInstagram" placeholder="https://instagram.com/...">
-                        </div>
-                        <div class="field">
-                            <label>Facebook Link</label>
-                            <input type="url" id="contactFacebook" placeholder="https://facebook.com/...">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Mailing Address</label>
-                        <textarea id="contactAddress"
-                            placeholder="e.g.&#10;116 Iron Mountain Pkwy&#10;Dahlonega, GA 30533"></textarea>
-                    </div>
+                    <label style="margin-bottom:-4px;">Phone Numbers</label>
+                    <div id="phonesList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn" onclick="addPhone()">+ Add Another Phone Number</button>
+
+                    <label style="margin-top:6px;margin-bottom:-4px;">Social Links</label>
+                    <div id="socialsList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn" onclick="addSocial()">+ Add Another Social Link</button>
+
+                    <label style="margin-top:6px;margin-bottom:-4px;">Mailing Address(es)</label>
+                    <div id="addressesList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn" onclick="addAddress()">+ Add Another Address</button>
                 </div>
             </div>
 
@@ -514,16 +506,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="field-row">
-                        <div class="field">
-                            <label>Network Name (SSID)</label>
-                            <input type="text" id="wifiSsid" placeholder="e.g. IronMountain_Guest">
-                        </div>
-                        <div class="field">
-                            <label>Password</label>
-                            <input type="text" id="wifiPass" placeholder="WiFi password">
-                        </div>
-                    </div>
+                    <div id="wifiList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn" onclick="addWifi()">+ Add Another Network</button>
                 </div>
             </div>
 
@@ -575,15 +559,14 @@
                             <line x1="3" y1="10" x2="21" y2="10" />
                         </svg></div>
                     <div>
-                        <h2>Booking Link</h2>
+                        <h2>Booking Links</h2>
                         <p>Where "Book Now" should send guests</p>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="field">
-                        <label>Booking / Reservation URL</label>
-                        <input type="url" id="bookingLink" placeholder="https://yourbookingsite.com/...">
-                    </div>
+                    <div id="bookingLinksList" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn" onclick="addBookingLink()">+ Add Another Booking
+                        Link</button>
                 </div>
             </div>
 
@@ -658,6 +641,113 @@
             if (!json.success) throw new Error(json.error?.message || 'Image upload failed');
             return json.data.url;
         }
+
+        // ── Repeatable Phone Numbers ──
+        let phoneCount = 0;
+        window.addPhone = function () {
+            phoneCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Label</label>
+                        <input type="text" class="phone-label" placeholder="e.g. Guest Services">
+                    </div>
+                    <div class="field">
+                        <label>Phone Number</label>
+                        <input type="tel" class="phone-number" placeholder="e.g. (706) 216-7275">
+                    </div>
+                </div>`;
+            document.getElementById('phonesList').appendChild(wrap);
+        };
+
+        // ── Repeatable Social Links ──
+        let socialCount = 0;
+        window.addSocial = function () {
+            socialCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Platform</label>
+                        <input type="text" class="social-label" placeholder="e.g. Instagram">
+                    </div>
+                    <div class="field">
+                        <label>Link</label>
+                        <input type="url" class="social-url" placeholder="https://...">
+                    </div>
+                </div>`;
+            document.getElementById('socialsList').appendChild(wrap);
+        };
+
+        // ── Repeatable Addresses ──
+        let addressCount = 0;
+        window.addAddress = function () {
+            addressCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
+                <div class="field">
+                    <label>Label (optional)</label>
+                    <input type="text" class="address-label" placeholder="e.g. Mailing Address">
+                </div>
+                <div class="field">
+                    <label>Address</label>
+                    <textarea class="address-text" placeholder="e.g.&#10;116 Iron Mountain Pkwy&#10;Dahlonega, GA 30533"></textarea>
+                </div>`;
+            document.getElementById('addressesList').appendChild(wrap);
+        };
+
+        // ── Repeatable WiFi Networks ──
+        let wifiCount = 0;
+        window.addWifi = function () {
+            wifiCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
+                <div class="field">
+                    <label>Label (optional)</label>
+                    <input type="text" class="wifi-label" placeholder="e.g. Guest WiFi">
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Network Name (SSID)</label>
+                        <input type="text" class="wifi-ssid" placeholder="e.g. IronMountain_Guest">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="text" class="wifi-pass" placeholder="WiFi password">
+                    </div>
+                </div>`;
+            document.getElementById('wifiList').appendChild(wrap);
+        };
+
+        // ── Repeatable Booking Links ──
+        let bookingLinkCount = 0;
+        window.addBookingLink = function () {
+            bookingLinkCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Label (optional)</label>
+                        <input type="text" class="booking-label" placeholder="e.g. RV Sites">
+                    </div>
+                    <div class="field">
+                        <label>URL</label>
+                        <input type="url" class="booking-url" placeholder="https://yourbookingsite.com/...">
+                    </div>
+                </div>`;
+            document.getElementById('bookingLinksList').appendChild(wrap);
+        };
 
         // ── Repeatable Rules ──
         let ruleCount = 0;
@@ -776,6 +866,11 @@
         }
 
         // Start each repeatable section with one blank row so the form doesn't look empty
+        addPhone();
+        addSocial();
+        addAddress();
+        addWifi();
+        addBookingLink();
         addRule();
         addAmenity();
         addNavGroup();
@@ -798,6 +893,37 @@
             status.textContent = 'Uploading photos and saving…';
 
             try {
+                // Phone numbers
+                const phones = [...document.querySelectorAll('#phonesList .item-card')].map(el => ({
+                    label: el.querySelector('.phone-label').value.trim(),
+                    number: el.querySelector('.phone-number').value.trim(),
+                })).filter(p => p.label || p.number);
+
+                // Social links
+                const socials = [...document.querySelectorAll('#socialsList .item-card')].map(el => ({
+                    label: el.querySelector('.social-label').value.trim(),
+                    url: el.querySelector('.social-url').value.trim(),
+                })).filter(s => s.label || s.url);
+
+                // Addresses
+                const addresses = [...document.querySelectorAll('#addressesList .item-card')].map(el => ({
+                    label: el.querySelector('.address-label').value.trim(),
+                    text: el.querySelector('.address-text').value.trim(),
+                })).filter(a => a.label || a.text);
+
+                // WiFi networks
+                const wifiNetworks = [...document.querySelectorAll('#wifiList .item-card')].map(el => ({
+                    label: el.querySelector('.wifi-label').value.trim(),
+                    ssid: el.querySelector('.wifi-ssid').value.trim(),
+                    password: el.querySelector('.wifi-pass').value.trim(),
+                })).filter(w => w.label || w.ssid || w.password);
+
+                // Booking links
+                const bookingLinks = [...document.querySelectorAll('#bookingLinksList .item-card')].map(el => ({
+                    label: el.querySelector('.booking-label').value.trim(),
+                    url: el.querySelector('.booking-url').value.trim(),
+                })).filter(b => b.label || b.url);
+
                 // Rules
                 const rules = [...document.querySelectorAll('#rulesList .item-card')].map(el => ({
                     title: el.querySelector('.rule-title').value.trim(),
@@ -839,18 +965,14 @@
                     submitterName: document.getElementById('submitterName').value.trim(),
                     submitterEmail: document.getElementById('submitterEmail').value.trim(),
                     contact: {
-                        phone: document.getElementById('contactPhone').value.trim(),
-                        instagram: document.getElementById('contactInstagram').value.trim(),
-                        facebook: document.getElementById('contactFacebook').value.trim(),
-                        address: document.getElementById('contactAddress').value.trim(),
+                        phones,
+                        socials,
+                        addresses,
                     },
-                    wifi: {
-                        ssid: document.getElementById('wifiSsid').value.trim(),
-                        password: document.getElementById('wifiPass').value.trim(),
-                    },
+                    wifiNetworks,
                     rules,
                     amenities,
-                    bookingLink: document.getElementById('bookingLink').value.trim(),
+                    bookingLinks,
                     navGroups,
                     submittedAt: new Date().toISOString(),
                 };
