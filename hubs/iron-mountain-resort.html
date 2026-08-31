@@ -3893,7 +3893,7 @@
                         </div>
                         <div class="contact-row-arrow">›</div>
                     </div>
-                    <div class="contact-row" id="ticketsSpecialsRow" onclick="openTicketsSpecialsLink()"
+                    <div class="contact-row" id="ticketsSpecialsRow" onclick="openTicketsSpecials()"
                         style="cursor:pointer;">
                         <div class="contact-row-icon" style="background:#fdf4ff"><svg viewBox="0 0 24 24" fill="none"
                                 stroke="#9333ea" stroke-width="2" stroke-linecap="round">
@@ -3904,8 +3904,8 @@
                                 <line x1="15" y1="12" x2="15.01" y2="12" />
                             </svg></div>
                         <div class="contact-row-text">
-                            <div class="contact-row-label">Tickets &amp; Specials</div>
-                            <div class="contact-row-value" id="ticketsSpecialsSubtitle">Buy Tickets</div>
+                            <div class="contact-row-label">Passes</div>
+                            <div class="contact-row-value" id="ticketsSpecialsSubtitle">Buy a Parking Pass</div>
                         </div>
                         <div class="contact-row-arrow">›</div>
                     </div>
@@ -6371,10 +6371,77 @@
     <div class="notif-overlay" id="ticketsSpecialsOverlay" onclick="if(event.target===this)closeTicketsSpecials()">
         <div class="notif-sheet">
             <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Tickets &amp; Specials</div>
+                <div class="notif-sheet-title">Passes</div>
                 <button class="notif-close-btn" onclick="closeTicketsSpecials()">✕</button>
             </div>
-            <div id="ticketsSpecialsItems" style="padding:8px 0 4px;"></div>
+            <div style="padding:8px 0 4px;">
+                <div onclick="closeTicketsSpecials();openBookingWebview();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <path
+                                d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Child Day Parking Pass (4 to 8
+                            years old)</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="closeTicketsSpecials();openBookingWebview();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <path
+                                d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Day Parking Pass</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="closeTicketsSpecials();openBookingWebview();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <path
+                                d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Child Day Parking Pass (3 and
+                            Under)</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="closeTicketsSpecials();openBookingWebview();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
+                    <div
+                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
+                            stroke-linecap="round">
+                            <path
+                                d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Annual Parking Pass</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -7273,11 +7340,6 @@
             set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff54f0a683b64fe41c1df.png');
         })();
 
-        // ── Tickets & Specials — static URL ──
-        window.openTicketsSpecialsLink = function () {
-            window.open('https://stonemountainpark.com/tickets-specials/', '_blank', 'noopener,noreferrer');
-        };
-
         // ── Activities ──
         onValue(ref(db, `hubs/${HUB_ID}/activities`), snap => {
             const data = snap.val() || {};
@@ -7336,9 +7398,9 @@
                 title: 'On Park Food &amp; Shopping', sub: 'Stores · Shops · Restaurants',
             },
             tickets: {
-                bg: '#fdf4ff', onclick: 'openTicketsSpecialsLink()',
+                bg: '#fdf4ff', onclick: 'openTicketsSpecials()',
                 icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round"><path d="M2 9a3 3 0 010 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 010-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2v2z"/><line x1="9" y1="12" x2="9.01" y2="12"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="15" y1="12" x2="15.01" y2="12"/></svg>',
-                title: 'Tickets &amp; Specials', sub: 'Buy Tickets & View Offers',
+                title: 'Passes', sub: 'Buy a Parking Pass',
             },
             cable: {
                 bg: '#f0fdf4', onclick: 'openCableChannels()',
@@ -7496,7 +7558,7 @@
             cabins: { label: 'Camping & Cabins', color: '#f97316', onclick: 'openCabinsPicker()', icon: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>' },
             reservations: { label: 'Reservations', color: '#f97316', onclick: 'openReservePicker()', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
             foodshopping: { label: 'Food', color: '#16a34a', onclick: 'openFoodShop()', icon: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
-            tickets: { label: 'Tickets', color: '#db2777', onclick: 'openTicketsSpecialsLink()', icon: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>' },
+            tickets: { label: 'Passes', color: '#db2777', onclick: 'openTicketsSpecials()', icon: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>' },
             cable: { label: 'Cable', color: '#6366f1', onclick: 'openCableChannels()', icon: '<rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/>' },
             weather: { label: 'Weather', color: '#2563eb', onclick: 'openWeatherOverlay()', icon: '<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>' },
             newsletter: { label: 'Newsletter', color: '#7c3aed', onclick: 'openNewsletter()', icon: '<path d="M4 3h16a1 1 0 011 1v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4a1 1 0 011-1z"/><path d="M8 7h8M8 11h8M8 15h4"/>' },
