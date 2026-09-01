@@ -36,13 +36,15 @@
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
+    <!-- Shared hub logic (map pinch-zoom/pan, visit analytics) — cached across
+         every hub instead of re-downloaded inline on each page load. -->
+    <script src="https://hub.bluespotguide.com/hub-corev1.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a58bfb51a0f0480509c9e8a.png">
-    <link rel="preload" as="image"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff442998928ce1fa88448.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *,
@@ -3564,7 +3566,7 @@
                                 </div>
                             </div>
                             <div class="discover-imgs">
-                                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff95d0a683b64fe421314.png"
+                                <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a2ff95d0a683b64fe421314.png&w=700&q=80&output=webp"
                                     alt="" style="width:120px;height:auto;display:block;border-radius:10px;"
                                     loading="lazy" decoding="async">
                             </div>
@@ -3607,125 +3609,6 @@
                         loading="lazy" decoding="async" draggable="false">
                 </div>
             </div>
-            <script>
-                (function () {
-                    const container = document.getElementById('mapContainer');
-                    const img = document.getElementById('mapImg');
-                    let scale = 1, minScale = 1, maxScale = 5;
-                    let panX = 0, panY = 0;
-                    let lastDist = 0;
-                    let wasPinch = false;
-
-                    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-                    // How far the image may be panned before its edge reaches the
-                    // container edge. A padding value keeps a buffer of space at each
-                    // edge so panning never feels pinned right to the border.
-                    const PAN_PADDING = 28;
-                    function bounds() {
-                        const cw = container.clientWidth, ch = container.clientHeight;
-                        const iw = img.offsetWidth * scale, ih = img.offsetHeight * scale;
-                        return {
-                            x: Math.max(0, (iw - cw) / 2 + PAN_PADDING),
-                            y: Math.max(0, (ih - ch) / 2 + PAN_PADDING)
-                        };
-                    }
-
-                    function applyTransform() {
-                        if (scale <= minScale) { panX = 0; panY = 0; }
-                        const b = bounds();
-                        panX = clamp(panX, -b.x, b.x);
-                        panY = clamp(panY, -b.y, b.y);
-                        img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    }
-
-                    function dist(t) { return Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY); }
-
-                    let touches = [];
-                    let panStart = null;   // set only while zoomed in
-                    let didPan = false;
-
-                    container.addEventListener('touchstart', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            lastDist = dist(touches);
-                            wasPinch = true;
-                            panStart = null;
-                        } else if (touches.length === 1 && scale > minScale) {
-                            // drag enabled only when zoomed in
-                            panStart = { x: touches[0].clientX, y: touches[0].clientY, panX, panY };
-                            didPan = false;
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    container.addEventListener('touchmove', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            const d = dist(touches);
-                            const rawDelta = d / lastDist;
-                            const delta = 1 + (rawDelta - 1) * 0.4;
-                            scale = clamp(scale * delta, minScale, maxScale);
-                            lastDist = d;
-                            applyTransform();
-                        } else if (touches.length === 1 && panStart && scale > minScale) {
-                            panX = panStart.panX + (touches[0].clientX - panStart.x);
-                            panY = panStart.panY + (touches[0].clientY - panStart.y);
-                            didPan = true;
-                            applyTransform();
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    let lastTap = 0;
-                    container.addEventListener('touchend', e => {
-                        touches = Array.from(e.touches);
-                        if (scale <= minScale) { scale = minScale; applyTransform(); }
-                        if (touches.length === 0) panStart = null;
-                        if (wasPinch && touches.length === 0) { wasPinch = false; lastTap = 0; return; }
-                        // ignore double-tap if the finger was dragging the map
-                        if (e.changedTouches.length === 1 && !wasPinch && !didPan) {
-                            const now = Date.now();
-                            if (now - lastTap < 300) {
-                                if (scale > minScale) { scale = minScale; panX = 0; panY = 0; }
-                                else { scale = 2.5; }
-                                applyTransform();
-                            }
-                            lastTap = now;
-                        }
-                    });
-
-                    // ── Desktop: wheel to zoom, drag to pan when zoomed ──
-                    container.addEventListener('wheel', e => {
-                        e.preventDefault();
-                        scale = clamp(scale * (e.deltaY < 0 ? 1.1 : 0.9), minScale, maxScale);
-                        applyTransform();
-                    }, { passive: false });
-
-                    let mouseStart = null;
-                    container.addEventListener('mousedown', e => {
-                        if (scale <= minScale) return;   // drag only when zoomed
-                        mouseStart = { x: e.clientX, y: e.clientY, panX, panY };
-                        container.style.cursor = 'grabbing';
-                        e.preventDefault();
-                    });
-                    window.addEventListener('mousemove', e => {
-                        if (!mouseStart) return;
-                        panX = mouseStart.panX + (e.clientX - mouseStart.x);
-                        panY = mouseStart.panY + (e.clientY - mouseStart.y);
-                        applyTransform();
-                    });
-                    window.addEventListener('mouseup', () => {
-                        mouseStart = null;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    });
-
-                    // keep panning within bounds if the viewport size changes
-                    window.addEventListener('resize', applyTransform);
-                })();
-            </script>
-
             <!-- ACTIVITIES TAB -->
             <div class="tab-panel" id="tab-activities">
                 <div class="act-hero" id="actHero">
@@ -4116,17 +3999,17 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="poolImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a10379c9b37b5fd7e171f.png" alt="Grandview Quiet Pool"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a10379c9b37b5fd7e171f.png&w=700&q=80&output=webp" alt="Grandview Quiet Pool" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a1037baf5f6da40ffc9c2.png" alt="Grandview Hot Tub"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a1037baf5f6da40ffc9c2.png&w=700&q=80&output=webp" alt="Grandview Hot Tub" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a1035baf5f6da40ffc98f.png" alt="Owl Landing Family Pool"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a1035baf5f6da40ffc98f.png&w=700&q=80&output=webp" alt="Owl Landing Family Pool" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a1035baf5f6da40ffc993.png" alt="Talona Ridge Pool"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a1035baf5f6da40ffc993.png&w=700&q=80&output=webp" alt="Talona Ridge Pool" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a1035baf5f6da40ffc98a.png" alt="Talona Ridge Pool"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a1035baf5f6da40ffc98a.png&w=700&q=80&output=webp" alt="Talona Ridge Pool" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a10355ec524ede7802608.png" alt="Talona Ridge Pool"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a10355ec524ede7802608.png&w=700&q=80&output=webp" alt="Talona Ridge Pool" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4176,11 +4059,9 @@
             <div class="contact-body">
                 <div class="contact-section"
                     style="padding:12px;display:flex;flex-direction:column;gap:10px;background:transparent;box-shadow:none;">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a11199c9b37b5fd7e2db9.jpg"
-                        alt="Talons Grille Menu"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a11199c9b37b5fd7e2db9.jpg&w=900&q=80&output=webp" alt="Talons Grille Menu" loading="lazy" decoding="async"
                         style="width:100%;border-radius:14px;display:block;object-fit:contain;background:#f3f4f6;box-shadow:0 1px 6px rgba(0,0,0,.07);">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a1119baf5f6da40ffe317.jpg"
-                        alt="Talons Grille Menu"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a1119baf5f6da40ffe317.jpg&w=900&q=80&output=webp" alt="Talons Grille Menu" loading="lazy" decoding="async"
                         style="width:100%;border-radius:14px;display:block;object-fit:contain;background:#f3f4f6;box-shadow:0 1px 6px rgba(0,0,0,.07);">
                 </div>
             </div>
@@ -4216,15 +4097,15 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="owlLandingImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4759baf5f6da4011c070.png" alt="Owl Landing"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4759baf5f6da4011c070.png&w=700&q=80&output=webp" alt="Owl Landing" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4759baf5f6da4011c06a.png" alt="Owl Landing"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4759baf5f6da4011c06a.png&w=700&q=80&output=webp" alt="Owl Landing" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a475915ea18e07f564c87.png" alt="Owl Landing"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a475915ea18e07f564c87.png&w=700&q=80&output=webp" alt="Owl Landing" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a47595537f2ece6aa3b55.png" alt="Owl Landing"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a47595537f2ece6aa3b55.png&w=700&q=80&output=webp" alt="Owl Landing" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a475995834614f422e832.png" alt="Owl Landing"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a475995834614f422e832.png&w=700&q=80&output=webp" alt="Owl Landing" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4262,15 +4143,15 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="grandviewHallImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a494ad2f7adf8c019e1a1.png" alt="Grandview Hall"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a494ad2f7adf8c019e1a1.png&w=700&q=80&output=webp" alt="Grandview Hall" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a494a04ef0de80138282e.png" alt="Grandview Hall"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a494a04ef0de80138282e.png&w=700&q=80&output=webp" alt="Grandview Hall" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a494a1097b81195d6afdc.png" alt="Grandview Hall"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a494a1097b81195d6afdc.png&w=700&q=80&output=webp" alt="Grandview Hall" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a494a95834614f4234450.png" alt="Grandview Hall"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a494a95834614f4234450.png&w=700&q=80&output=webp" alt="Grandview Hall" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a494a5537f2ece6aa8de0.png" alt="Grandview Hall"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a494a5537f2ece6aa8de0.png&w=700&q=80&output=webp" alt="Grandview Hall" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4307,15 +4188,15 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="grandviewBarImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4bfa5537f2ece6ab1d0f.png" alt="Grandview Bar"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4bfa5537f2ece6ab1d0f.png&w=700&q=80&output=webp" alt="Grandview Bar" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4bfabaf5f6da4012ec1c.png" alt="Grandview Bar"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4bfabaf5f6da4012ec1c.png&w=700&q=80&output=webp" alt="Grandview Bar" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4bfa1097b81195d73bab.png" alt="Grandview Bar"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4bfa1097b81195d73bab.png&w=700&q=80&output=webp" alt="Grandview Bar" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4bfa9c9b37b5fd8e6f94.png" alt="Grandview Bar"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4bfa9c9b37b5fd8e6f94.png&w=700&q=80&output=webp" alt="Grandview Bar" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4bfa04ef0de80138ab42.png" alt="Grandview Bar"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4bfa04ef0de80138ab42.png&w=700&q=80&output=webp" alt="Grandview Bar" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4397,11 +4278,9 @@
             <div class="contact-body">
                 <div class="contact-section"
                     style="padding:12px;display:flex;flex-direction:column;gap:10px;background:transparent;box-shadow:none;">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316e29c87bd94b1221ebbe.png"
-                        alt="Campground Store"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a316e29c87bd94b1221ebbe.png&w=900&q=80&output=webp" alt="Campground Store" loading="lazy" decoding="async"
                         style="width:100%;border-radius:14px;display:block;object-fit:contain;background:#f3f4f6;box-shadow:0 1px 6px rgba(0,0,0,.07);">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316b4d602476018d545d4f.png"
-                        alt="Campground Store"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a316b4d602476018d545d4f.png&w=900&q=80&output=webp" alt="Campground Store" loading="lazy" decoding="async"
                         style="width:100%;border-radius:14px;display:block;object-fit:contain;background:#f3f4f6;box-shadow:0 1px 6px rgba(0,0,0,.07);">
                 </div>
             </div>
@@ -4520,15 +4399,15 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="dogParkImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6bbaf5f6da4013e8aa.png" alt="The Bear Den Dog Park"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6bbaf5f6da4013e8aa.png&w=700&q=80&output=webp" alt="The Bear Den Dog Park" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b1a0f0480501764e2.png" alt="The Bear Den Dog Park"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b1a0f0480501764e2.png&w=700&q=80&output=webp" alt="The Bear Den Dog Park" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b1a0f0480501764de.png" alt="The Bear Den Dog Park"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b1a0f0480501764de.png&w=700&q=80&output=webp" alt="The Bear Den Dog Park" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b95834614f424e99a.png" alt="The Bear Den Dog Park"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b95834614f424e99a.png&w=700&q=80&output=webp" alt="The Bear Den Dog Park" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6baef6925d342597ce.png" alt="The Bear Den Dog Park"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6baef6925d342597ce.png&w=700&q=80&output=webp" alt="The Bear Den Dog Park" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4576,13 +4455,13 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="dogWashImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6baef6925d342597ce.png" alt="Dog Washing Station"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6baef6925d342597ce.png&w=700&q=80&output=webp" alt="Dog Washing Station" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b95834614f424e99a.png" alt="Dog Washing Station"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b95834614f424e99a.png&w=700&q=80&output=webp" alt="Dog Washing Station" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b1a0f0480501764de.png" alt="Dog Washing Station"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b1a0f0480501764de.png&w=700&q=80&output=webp" alt="Dog Washing Station" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a4e6b1a0f0480501764e2.png" alt="Dog Washing Station"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a4e6b1a0f0480501764e2.png&w=700&q=80&output=webp" alt="Dog Washing Station" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4624,15 +4503,15 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="fitnessImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a456d9c9b37b5fd8cded2.png" alt="Fitness Center"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a456d9c9b37b5fd8cded2.png&w=700&q=80&output=webp" alt="Fitness Center" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a456dd2f7adf8c018d6e5.png" alt="Fitness Center"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a456dd2f7adf8c018d6e5.png&w=700&q=80&output=webp" alt="Fitness Center" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a456d04ef0de801372b3a.png" alt="Fitness Center"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a456d04ef0de801372b3a.png&w=700&q=80&output=webp" alt="Fitness Center" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a456d9c9b37b5fd8cdecd.png" alt="Fitness Center"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a456d9c9b37b5fd8cdecd.png&w=700&q=80&output=webp" alt="Fitness Center" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a456d1a0f04805014ce3b.png" alt="Fitness Center"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a456d1a0f04805014ce3b.png&w=700&q=80&output=webp" alt="Fitness Center" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -4670,11 +4549,11 @@
                     <div class="contact-section-label" style="padding-left:0;">Photos</div>
                     <div id="timberGapImgSlider"
                         style="display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a50bd1097b81195d96559.png" alt="Timber Gap Nature Scape"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a50bd1097b81195d96559.png&w=700&q=80&output=webp" alt="Timber Gap Nature Scape" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a50bcd2f7adf8c01bda9a.png" alt="Timber Gap Nature Scape"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a50bcd2f7adf8c01bda9a.png&w=700&q=80&output=webp" alt="Timber Gap Nature Scape" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a50bc95834614f4255daf.png" alt="Timber Gap Nature Scape"
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a50bc95834614f4255daf.png&w=700&q=80&output=webp" alt="Timber Gap Nature Scape" loading="lazy" decoding="async"
                             style="scroll-snap-align:center;flex:0 0 100%;height:180px;border-radius:16px;object-fit:cover;background:#f3f4f6;box-shadow:0 2px 10px rgba(0,0,0,.08);">
                     </div>
                 </div>
@@ -6604,7 +6483,7 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a62f7d2f7adf8c0211c88.jpg" alt="Weekly Package"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a62f7d2f7adf8c0211c88.jpg&w=900&q=80&output=webp" alt="Weekly Package" loading="lazy" decoding="async"
                         style="width:100%;height:180px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div class="contact-section-label">From $825/week</div>
                     <div style="padding:0 16px 16px;font-size:13px;color:var(--text);line-height:1.7;">
@@ -6640,7 +6519,7 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a62cf5537f2ece6b22d57.jpg" alt="Monthly Package"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a62cf5537f2ece6b22d57.jpg&w=900&q=80&output=webp" alt="Monthly Package" loading="lazy" decoding="async"
                         style="width:100%;height:180px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div class="contact-section-label">From $2,360/30 days</div>
                     <div style="padding:0 16px 16px;font-size:13px;color:var(--text);line-height:1.7;">
@@ -6676,7 +6555,7 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a62f795834614f42b53fa.jpg" alt="Military & First Responders"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a5a62f795834614f42b53fa.jpg&w=900&q=80&output=webp" alt="Military & First Responders" loading="lazy" decoding="async"
                         style="width:100%;height:180px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div class="contact-section-label">Thank You!</div>
                     <div style="padding:0 16px 16px;font-size:13px;color:var(--text);line-height:1.7;">
@@ -8145,13 +8024,34 @@
             container.querySelectorAll('img[data-src]').forEach(img => lazyImgObserver.observe(img));
         }
 
+        // Quietly fetches the resized versions of every activity image in the background so the
+        // wsrv.nl cache is already warm by the time a guest scrolls to or opens one — avoids the
+        // "first viewer pays the slow cold-resize cost" problem for freshly-uploaded flyers.
+        const warmedImageUrls = new Set();
+        function warmActivityImages(acts) {
+            const run = () => {
+                acts.forEach(a => {
+                    if (!a.imageUrl) return;
+                    [resizeImg(a.imageUrl, 140), resizeImg(a.imageUrl, 128), resizeImg(a.imageUrl, 800, 80)].forEach(url => {
+                        if (warmedImageUrls.has(url)) return;
+                        warmedImageUrls.add(url);
+                        const img = new Image();
+                        img.decoding = 'async';
+                        img.src = url;
+                    });
+                });
+            };
+            if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 4000 });
+            else setTimeout(run, 300);
+        }
+
         function actThumb(a) {
-            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="act-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
         function eventThumb(a) {
-            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="event-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
@@ -8331,6 +8231,7 @@
             window.__allActsForFilter = acts;
             if (!selectedActDate) selectedActDate = toIsoDate(new Date());
             buildActDateTabs();
+            warmActivityImages(acts);
 
             const today = acts.filter(isToday).sort((a, b) => (a.order || 0) - (b.order || 0) || (a.title || '').localeCompare(b.title || ''));
             cachedTodayActs = today;
@@ -8475,7 +8376,7 @@
 
         // ── Static hero images ──
         (function () {
-            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${url}')`; };
+            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${resizeImg(url, 900, 80)}')`; };
             set('heroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a63baaef6925d342cc254.png');
             set('actHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a581804ef0de8013dd9c6.png');
             set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5a5818aef6925d3428993d.png');
@@ -9064,7 +8965,8 @@
 
             // Hero background
             if (a.imageUrl) {
-                heroBg.innerHTML = `<div class="act-modal-hero-bg" style="background-image:url('${a.imageUrl}');"></div><img class="act-modal-hero-img" src="${a.imageUrl}" onerror="this.style.display='none';this.parentElement.style.background='${DEFAULT_COLOR}';">`;
+                const heroImg = resizeImg(a.imageUrl, 800, 80);
+                heroBg.innerHTML = `<div class="act-modal-hero-bg" style="background-image:url('${heroImg}');"></div><img class="act-modal-hero-img" src="${heroImg}" decoding="async" onerror="this.style.display='none';this.parentElement.style.background='${DEFAULT_COLOR}';">`;
                 heroBg.style.background = '';
             } else {
                 heroBg.innerHTML = '';
@@ -10294,57 +10196,6 @@
         updateSetupReminderCard();
         // ──────────────────────────────────────────────────────────────────
 
-    </script>
-
-    <!-- Track parkhub access (stored in Firebase) -->
-    <script>
-        window.trackParkhubAccess = async function () {
-            if (typeof window.db === 'undefined') {
-                console.log('Firebase not yet initialized');
-                return;
-            }
-
-            const { ref, update, get } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
-            const timestamp = new Date().toISOString();
-
-            // Per-hub visit counter — read by the hub manager's dashboard.
-            // Done FIRST and in its own try so a blocked _global write can't abort it.
-            try {
-                if (window.HUB_ID) {
-                    const hubAnalyticsRef = ref(window.db, `hubs/${window.HUB_ID}/analytics`);
-                    const hubSnap = await get(hubAnalyticsRef);
-                    const hubData = hubSnap.val() || { count: 0 };
-                    hubData.count = (hubData.count || 0) + 1;
-                    hubData.lastAccess = timestamp;
-                    await update(hubAnalyticsRef, hubData);
-                }
-            } catch (e) {
-                console.log('Per-hub access tracking (non-critical):', e.message);
-            }
-
-            // Global park counter (legacy / super-admin overview)
-            try {
-                const analyticsRef = ref(window.db, '_global/parkhub_analytics');
-                const snap = await get(analyticsRef);
-                const data = snap.val() || { count: 0, accessTimes: [] };
-
-                data.count = (data.count || 0) + 1;
-                data.lastAccess = timestamp;
-
-                if (!data.accessTimes) data.accessTimes = [];
-                data.accessTimes.push({ timestamp });
-                if (data.accessTimes.length > 100) {
-                    data.accessTimes = data.accessTimes.slice(-100);
-                }
-
-                await update(analyticsRef, data);
-            } catch (e) {
-                console.log('Global access tracking (non-critical):', e.message);
-            }
-        };
-
-        // Call after page loads
-        window.addEventListener('load', () => window.trackParkhubAccess());
     </script>
 
     <!-- LOCATION PERMISSION MODAL — shown after notification permission is granted -->

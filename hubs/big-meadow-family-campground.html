@@ -36,13 +36,15 @@
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
+    <!-- Shared hub logic (map pinch-zoom/pan, visit analytics) — cached across
+         every hub instead of re-downloaded inline on each page load. -->
+    <script src="https://hub.bluespotguide.com/hub-corev1.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9c4b1eb55bdfc397104f.png">
-    <link rel="preload" as="image"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff442998928ce1fa88448.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *,
@@ -3643,125 +3645,6 @@
                         loading="lazy" decoding="async" draggable="false">
                 </div>
             </div>
-            <script>
-                (function () {
-                    const container = document.getElementById('mapContainer');
-                    const img = document.getElementById('mapImg');
-                    let scale = 1, minScale = 1, maxScale = 5;
-                    let panX = 0, panY = 0;
-                    let lastDist = 0;
-                    let wasPinch = false;
-
-                    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-                    // How far the image may be panned before its edge reaches the
-                    // container edge. A padding value keeps a buffer of space at each
-                    // edge so panning never feels pinned right to the border.
-                    const PAN_PADDING = 28;
-                    function bounds() {
-                        const cw = container.clientWidth, ch = container.clientHeight;
-                        const iw = img.offsetWidth * scale, ih = img.offsetHeight * scale;
-                        return {
-                            x: Math.max(0, (iw - cw) / 2 + PAN_PADDING),
-                            y: Math.max(0, (ih - ch) / 2 + PAN_PADDING)
-                        };
-                    }
-
-                    function applyTransform() {
-                        if (scale <= minScale) { panX = 0; panY = 0; }
-                        const b = bounds();
-                        panX = clamp(panX, -b.x, b.x);
-                        panY = clamp(panY, -b.y, b.y);
-                        img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    }
-
-                    function dist(t) { return Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY); }
-
-                    let touches = [];
-                    let panStart = null;   // set only while zoomed in
-                    let didPan = false;
-
-                    container.addEventListener('touchstart', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            lastDist = dist(touches);
-                            wasPinch = true;
-                            panStart = null;
-                        } else if (touches.length === 1 && scale > minScale) {
-                            // drag enabled only when zoomed in
-                            panStart = { x: touches[0].clientX, y: touches[0].clientY, panX, panY };
-                            didPan = false;
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    container.addEventListener('touchmove', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            const d = dist(touches);
-                            const rawDelta = d / lastDist;
-                            const delta = 1 + (rawDelta - 1) * 0.4;
-                            scale = clamp(scale * delta, minScale, maxScale);
-                            lastDist = d;
-                            applyTransform();
-                        } else if (touches.length === 1 && panStart && scale > minScale) {
-                            panX = panStart.panX + (touches[0].clientX - panStart.x);
-                            panY = panStart.panY + (touches[0].clientY - panStart.y);
-                            didPan = true;
-                            applyTransform();
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    let lastTap = 0;
-                    container.addEventListener('touchend', e => {
-                        touches = Array.from(e.touches);
-                        if (scale <= minScale) { scale = minScale; applyTransform(); }
-                        if (touches.length === 0) panStart = null;
-                        if (wasPinch && touches.length === 0) { wasPinch = false; lastTap = 0; return; }
-                        // ignore double-tap if the finger was dragging the map
-                        if (e.changedTouches.length === 1 && !wasPinch && !didPan) {
-                            const now = Date.now();
-                            if (now - lastTap < 300) {
-                                if (scale > minScale) { scale = minScale; panX = 0; panY = 0; }
-                                else { scale = 2.5; }
-                                applyTransform();
-                            }
-                            lastTap = now;
-                        }
-                    });
-
-                    // ── Desktop: wheel to zoom, drag to pan when zoomed ──
-                    container.addEventListener('wheel', e => {
-                        e.preventDefault();
-                        scale = clamp(scale * (e.deltaY < 0 ? 1.1 : 0.9), minScale, maxScale);
-                        applyTransform();
-                    }, { passive: false });
-
-                    let mouseStart = null;
-                    container.addEventListener('mousedown', e => {
-                        if (scale <= minScale) return;   // drag only when zoomed
-                        mouseStart = { x: e.clientX, y: e.clientY, panX, panY };
-                        container.style.cursor = 'grabbing';
-                        e.preventDefault();
-                    });
-                    window.addEventListener('mousemove', e => {
-                        if (!mouseStart) return;
-                        panX = mouseStart.panX + (e.clientX - mouseStart.x);
-                        panY = mouseStart.panY + (e.clientY - mouseStart.y);
-                        applyTransform();
-                    });
-                    window.addEventListener('mouseup', () => {
-                        mouseStart = null;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    });
-
-                    // keep panning within bounds if the viewport size changes
-                    window.addEventListener('resize', applyTransform);
-                })();
-            </script>
-
             <!-- ACTIVITIES TAB -->
             <div class="tab-panel" id="tab-activities">
                 <div class="act-hero" id="actHero">
@@ -4240,8 +4123,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67cdf7a089644cf8b50a.png" alt="Camp Store"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67cdf7a089644cf8b50a.png&w=700&q=80&output=webp" alt="Camp Store"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#9333ea1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
@@ -4269,8 +4152,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b68ce778556a6687d1804.png" alt="Splash Pad"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b68ce778556a6687d1804.png&w=700&q=80&output=webp" alt="Splash Pad"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#0891b21a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8M8 6l4 4 4-4"/><path d="M4 14c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M4 19c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/></svg>
@@ -4298,8 +4181,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c9cf81b06f057d096c.png" alt="Basketball Court"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c9cf81b06f057d096c.png&w=700&q=80&output=webp" alt="Basketball Court"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#16a34a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 8v8M16 8v8M8 12h8"/></svg>
@@ -4327,8 +4210,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c9778556a6687cb604.png" alt="Climate-Controlled Laundry Room"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c9778556a6687cb604.png&w=700&q=80&output=webp" alt="Climate-Controlled Laundry Room"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#2563eb1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><line x1="8" y1="6" x2="8.01" y2="6"/><line x1="11" y1="6" x2="11.01" y2="6"/></svg>
@@ -4356,8 +4239,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67cd4cb07d8c3fb3772e.png" alt="Propane"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67cd4cb07d8c3fb3772e.png&w=700&q=80&output=webp" alt="Propane"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#9333ea1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 3 4 5 4 8a4 4 0 01-8 0c0-3 2-5 4-8z"/></svg>
@@ -4385,8 +4268,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c9ecb6db2520258bfb.png" alt="Climate-Controlled Bathhouse"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c9ecb6db2520258bfb.png&w=700&q=80&output=webp" alt="Climate-Controlled Bathhouse"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#0891b21a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 12a4 4 0 004 4h8a4 4 0 004-4M7 12V6a2 2 0 012-2h1M9 4a2 2 0 012 2"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
@@ -4414,8 +4297,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b2349ac158696982643be.png" alt="Dog Park"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b2349ac158696982643be.png&w=700&q=80&output=webp" alt="Dog Park"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#f973161a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.5a2 2 0 11-4 0 2 2 0 014 0zM18 5.5a2 2 0 11-4 0 2 2 0 014 0zM6.5 10a2 2 0 11-4 0 2 2 0 014 0zM21.5 10a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M9 14c-2 1-2 3-1 4.5 1 1.5 3 1.5 4-.5 1 2 3 2 4 .5 1-1.5 1-3.5-1-4.5-1-3-5-3-6 0z"/></svg>
@@ -4443,8 +4326,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c9ecb6db2520258bf7.png" alt="Security Gates"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c9ecb6db2520258bf7.png&w=700&q=80&output=webp" alt="Security Gates"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#2563eb1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.5 7-12A7 7 0 105 10c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2"/></svg>
@@ -4472,8 +4355,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c94cb07d8c3fb37695.png" alt="Corn Hole"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c94cb07d8c3fb37695.png&w=700&q=80&output=webp" alt="Corn Hole"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#f973161a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
@@ -4501,8 +4384,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67cc778556a6687cb666.png" alt="Gazebo with Fire Pit"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67cc778556a6687cb666.png&w=700&q=80&output=webp" alt="Gazebo with Fire Pit"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#dc26261a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
@@ -4530,8 +4413,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67c94cb07d8c3fb3769a.png" alt="Pavilion"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67c94cb07d8c3fb3769a.png&w=700&q=80&output=webp" alt="Pavilion"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#16a34a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
@@ -4559,8 +4442,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a6b67cd4cb07d8c3fb37724.png" alt="Missing Something?"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a6b67cd4cb07d8c3fb37724.png&w=700&q=80&output=webp" alt="Missing Something?"
+                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                     <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 0;">
                         <div style="width:36px;height:36px;border-radius:10px;background:#2563eb1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
@@ -4590,7 +4473,7 @@
             <div class="contact-body">
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div class="contact-section" style="margin-bottom:0;border-top:3px solid #0891b2;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9b219ccc6ec6ccf28a1e.webp" alt="Fishing" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;">
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a7c9b219ccc6ec6ccf28a1e.webp&w=700&q=80&output=webp" alt="Fishing" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                         <div style="display:flex;align-items:center;gap:6px;padding:10px 12px 0;">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0891b2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
                             <div style="font-size:13px;font-weight:800;color:var(--text);">Fishing</div>
@@ -4598,7 +4481,7 @@
                         <div style="padding:4px 12px 12px;font-size:12px;color:var(--muted);line-height:1.5;">Bring your fishing pole, wet a line and catch a trout!</div>
                     </div>
                     <div class="contact-section" style="margin-bottom:0;border-top:3px solid #2563eb;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9b2149a432c9162ee2fe.webp" alt="Swimming" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;">
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a7c9b2149a432c9162ee2fe.webp&w=700&q=80&output=webp" alt="Swimming" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                         <div style="display:flex;align-items:center;gap:6px;padding:10px 12px 0;">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M4 19c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/></svg>
                             <div style="font-size:13px;font-weight:800;color:var(--text);">Swimming</div>
@@ -4606,7 +4489,7 @@
                         <div style="padding:4px 12px 12px;font-size:12px;color:var(--muted);line-height:1.5;">Sun, splashing and relaxing. Don't forget the sunscreen!</div>
                     </div>
                     <div class="contact-section" style="margin-bottom:0;border-top:3px solid #f97316;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9b21f6ac3438f81cb9fc.webp" alt="Playground" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;">
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a7c9b21f6ac3438f81cb9fc.webp&w=700&q=80&output=webp" alt="Playground" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                         <div style="display:flex;align-items:center;gap:6px;padding:10px 12px 0;">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f97316" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.5 7-12A7 7 0 105 10c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2"/></svg>
                             <div style="font-size:13px;font-weight:800;color:var(--text);">Playground</div>
@@ -4614,7 +4497,7 @@
                         <div style="padding:4px 12px 12px;font-size:12px;color:var(--muted);line-height:1.5;">Looking for something for the little ones to do? Swing, slide and jump your hearts out.</div>
                     </div>
                     <div class="contact-section" style="margin-bottom:0;border-top:3px solid #f97316;">
-                        <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9b21a6a03cda062d7eb6.webp" alt="Corn Hole" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;">
+                        <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a7c9b21a6a03cda062d7eb6.webp&w=700&q=80&output=webp" alt="Corn Hole" style="width:100%;height:120px;display:block;object-fit:cover;background:#f3f4f6;" loading="lazy" decoding="async">
                         <div style="display:flex;align-items:center;gap:6px;padding:10px 12px 0;">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f97316" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
                             <div style="font-size:13px;font-weight:800;color:var(--text);">Corn Hole</div>
@@ -7372,13 +7255,34 @@
             container.querySelectorAll('img[data-src]').forEach(img => lazyImgObserver.observe(img));
         }
 
+        // Quietly fetches the resized versions of every activity image in the background so the
+        // wsrv.nl cache is already warm by the time a guest scrolls to or opens one — avoids the
+        // "first viewer pays the slow cold-resize cost" problem for freshly-uploaded flyers.
+        const warmedImageUrls = new Set();
+        function warmActivityImages(acts) {
+            const run = () => {
+                acts.forEach(a => {
+                    if (!a.imageUrl) return;
+                    [resizeImg(a.imageUrl, 140), resizeImg(a.imageUrl, 128), resizeImg(a.imageUrl, 800, 80)].forEach(url => {
+                        if (warmedImageUrls.has(url)) return;
+                        warmedImageUrls.add(url);
+                        const img = new Image();
+                        img.decoding = 'async';
+                        img.src = url;
+                    });
+                });
+            };
+            if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 4000 });
+            else setTimeout(run, 300);
+        }
+
         function actThumb(a) {
-            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="act-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
         function eventThumb(a) {
-            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="event-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
@@ -7558,6 +7462,7 @@
             window.__allActsForFilter = acts;
             if (!selectedActDate) selectedActDate = toIsoDate(new Date());
             buildActDateTabs();
+            warmActivityImages(acts);
 
             const today = acts.filter(isToday).sort((a, b) => (a.order || 0) - (b.order || 0) || (a.title || '').localeCompare(b.title || ''));
             cachedTodayActs = today;
@@ -7702,7 +7607,7 @@
 
         // ── Static hero images ──
         (function () {
-            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${url}')`; };
+            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${resizeImg(url, 900, 80)}')`; };
             set('heroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7b06174e002388f463428c.png');
             set('actHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7b0617d71c202e5a76849d.png');
             set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7b06179115899f031ad05b.png');
@@ -8291,7 +8196,8 @@
 
             // Hero background
             if (a.imageUrl) {
-                heroBg.innerHTML = `<div class="act-modal-hero-bg" style="background-image:url('${a.imageUrl}');"></div><img class="act-modal-hero-img" src="${a.imageUrl}" onerror="this.style.display='none';this.parentElement.style.background='${DEFAULT_COLOR}';">`;
+                const heroImg = resizeImg(a.imageUrl, 800, 80);
+                heroBg.innerHTML = `<div class="act-modal-hero-bg" style="background-image:url('${heroImg}');"></div><img class="act-modal-hero-img" src="${heroImg}" decoding="async" onerror="this.style.display='none';this.parentElement.style.background='${DEFAULT_COLOR}';">`;
                 heroBg.style.background = '';
             } else {
                 heroBg.innerHTML = '';
@@ -9505,57 +9411,6 @@
         updateSetupReminderCard();
         // ──────────────────────────────────────────────────────────────────
 
-    </script>
-
-    <!-- Track parkhub access (stored in Firebase) -->
-    <script>
-        window.trackParkhubAccess = async function () {
-            if (typeof window.db === 'undefined') {
-                console.log('Firebase not yet initialized');
-                return;
-            }
-
-            const { ref, update, get } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
-            const timestamp = new Date().toISOString();
-
-            // Per-hub visit counter — read by the hub manager's dashboard.
-            // Done FIRST and in its own try so a blocked _global write can't abort it.
-            try {
-                if (window.HUB_ID) {
-                    const hubAnalyticsRef = ref(window.db, `hubs/${window.HUB_ID}/analytics`);
-                    const hubSnap = await get(hubAnalyticsRef);
-                    const hubData = hubSnap.val() || { count: 0 };
-                    hubData.count = (hubData.count || 0) + 1;
-                    hubData.lastAccess = timestamp;
-                    await update(hubAnalyticsRef, hubData);
-                }
-            } catch (e) {
-                console.log('Per-hub access tracking (non-critical):', e.message);
-            }
-
-            // Global park counter (legacy / super-admin overview)
-            try {
-                const analyticsRef = ref(window.db, '_global/parkhub_analytics');
-                const snap = await get(analyticsRef);
-                const data = snap.val() || { count: 0, accessTimes: [] };
-
-                data.count = (data.count || 0) + 1;
-                data.lastAccess = timestamp;
-
-                if (!data.accessTimes) data.accessTimes = [];
-                data.accessTimes.push({ timestamp });
-                if (data.accessTimes.length > 100) {
-                    data.accessTimes = data.accessTimes.slice(-100);
-                }
-
-                await update(analyticsRef, data);
-            } catch (e) {
-                console.log('Global access tracking (non-critical):', e.message);
-            }
-        };
-
-        // Call after page loads
-        window.addEventListener('load', () => window.trackParkhubAccess());
     </script>
 
     <!-- LOCATION PERMISSION MODAL — shown after notification permission is granted -->

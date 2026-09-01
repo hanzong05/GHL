@@ -32,13 +32,15 @@
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
+    <!-- Shared hub logic (map pinch-zoom/pan, visit analytics) — cached across
+         every hub instead of re-downloaded inline on each page load. -->
+    <script src="https://hub.bluespotguide.com/hub-corev1.js" defer></script>
     <link rel="preconnect" href="https://i.ibb.co" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image" href="https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg">
-    <link rel="preload" as="image"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff442998928ce1fa88448.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *,
@@ -3599,125 +3601,6 @@
                         loading="lazy" decoding="async" draggable="false">
                 </div>
             </div>
-            <script>
-                (function () {
-                    const container = document.getElementById('mapContainer');
-                    const img = document.getElementById('mapImg');
-                    let scale = 1, minScale = 1, maxScale = 5;
-                    let panX = 0, panY = 0;
-                    let lastDist = 0;
-                    let wasPinch = false;
-
-                    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-                    // How far the image may be panned before its edge reaches the
-                    // container edge. A padding value keeps a buffer of space at each
-                    // edge so panning never feels pinned right to the border.
-                    const PAN_PADDING = 28;
-                    function bounds() {
-                        const cw = container.clientWidth, ch = container.clientHeight;
-                        const iw = img.offsetWidth * scale, ih = img.offsetHeight * scale;
-                        return {
-                            x: Math.max(0, (iw - cw) / 2 + PAN_PADDING),
-                            y: Math.max(0, (ih - ch) / 2 + PAN_PADDING)
-                        };
-                    }
-
-                    function applyTransform() {
-                        if (scale <= minScale) { panX = 0; panY = 0; }
-                        const b = bounds();
-                        panX = clamp(panX, -b.x, b.x);
-                        panY = clamp(panY, -b.y, b.y);
-                        img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    }
-
-                    function dist(t) { return Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY); }
-
-                    let touches = [];
-                    let panStart = null;   // set only while zoomed in
-                    let didPan = false;
-
-                    container.addEventListener('touchstart', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            lastDist = dist(touches);
-                            wasPinch = true;
-                            panStart = null;
-                        } else if (touches.length === 1 && scale > minScale) {
-                            // drag enabled only when zoomed in
-                            panStart = { x: touches[0].clientX, y: touches[0].clientY, panX, panY };
-                            didPan = false;
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    container.addEventListener('touchmove', e => {
-                        touches = Array.from(e.touches);
-                        if (touches.length === 2) {
-                            const d = dist(touches);
-                            const rawDelta = d / lastDist;
-                            const delta = 1 + (rawDelta - 1) * 0.4;
-                            scale = clamp(scale * delta, minScale, maxScale);
-                            lastDist = d;
-                            applyTransform();
-                        } else if (touches.length === 1 && panStart && scale > minScale) {
-                            panX = panStart.panX + (touches[0].clientX - panStart.x);
-                            panY = panStart.panY + (touches[0].clientY - panStart.y);
-                            didPan = true;
-                            applyTransform();
-                        }
-                        e.preventDefault();
-                    }, { passive: false });
-
-                    let lastTap = 0;
-                    container.addEventListener('touchend', e => {
-                        touches = Array.from(e.touches);
-                        if (scale <= minScale) { scale = minScale; applyTransform(); }
-                        if (touches.length === 0) panStart = null;
-                        if (wasPinch && touches.length === 0) { wasPinch = false; lastTap = 0; return; }
-                        // ignore double-tap if the finger was dragging the map
-                        if (e.changedTouches.length === 1 && !wasPinch && !didPan) {
-                            const now = Date.now();
-                            if (now - lastTap < 300) {
-                                if (scale > minScale) { scale = minScale; panX = 0; panY = 0; }
-                                else { scale = 2.5; }
-                                applyTransform();
-                            }
-                            lastTap = now;
-                        }
-                    });
-
-                    // ── Desktop: wheel to zoom, drag to pan when zoomed ──
-                    container.addEventListener('wheel', e => {
-                        e.preventDefault();
-                        scale = clamp(scale * (e.deltaY < 0 ? 1.1 : 0.9), minScale, maxScale);
-                        applyTransform();
-                    }, { passive: false });
-
-                    let mouseStart = null;
-                    container.addEventListener('mousedown', e => {
-                        if (scale <= minScale) return;   // drag only when zoomed
-                        mouseStart = { x: e.clientX, y: e.clientY, panX, panY };
-                        container.style.cursor = 'grabbing';
-                        e.preventDefault();
-                    });
-                    window.addEventListener('mousemove', e => {
-                        if (!mouseStart) return;
-                        panX = mouseStart.panX + (e.clientX - mouseStart.x);
-                        panY = mouseStart.panY + (e.clientY - mouseStart.y);
-                        applyTransform();
-                    });
-                    window.addEventListener('mouseup', () => {
-                        mouseStart = null;
-                        container.style.cursor = scale > minScale ? 'grab' : 'default';
-                    });
-
-                    // keep panning within bounds if the viewport size changes
-                    window.addEventListener('resize', applyTransform);
-                })();
-            </script>
-
             <!-- ACTIVITIES TAB -->
             <div class="tab-panel" id="tab-activities">
                 <div class="act-hero" id="actHero">
@@ -4357,8 +4240,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a46589762d435fa9529853f.jpg"
-                        alt="Premium Sites"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a46589762d435fa9529853f.jpg&w=700&q=80&output=webp"
+                        alt="Premium Sites" loading="lazy" decoding="async"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
                         Close to all of the amenities and easy to access, our premium sites come with their very own
@@ -4386,8 +4269,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465897e098dfac37aa3d43.jpg"
-                        alt="Waterfront"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a465897e098dfac37aa3d43.jpg&w=700&q=80&output=webp"
+                        alt="Waterfront" loading="lazy" decoding="async"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
                         By the pools or by the ponds, our waterfront sites are designed to help you reconnect with
@@ -4415,8 +4298,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465897ac41ea59b0db2fb8.jpg"
-                        alt="Buddy Sites"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a465897ac41ea59b0db2fb8.jpg&w=700&q=80&output=webp"
+                        alt="Buddy Sites" loading="lazy" decoding="async"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
                         Traveling with a group just got a whole lot easier. Buddy sites face each other and share
@@ -4444,8 +4327,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465cd5d0f48753964aa797.png"
-                        alt="The Big Cabin"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a465cd5d0f48753964aa797.png&w=700&q=80&output=webp"
+                        alt="The Big Cabin" loading="lazy" decoding="async"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
                         With a queen sized bed on the bottom floor and a full sized bed on the loft, The Big Cabin has
@@ -4479,8 +4362,8 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a465cd562d435fa952a1b07.png"
-                        alt="Small Cabins"
+                    <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a465cd562d435fa952a1b07.png&w=700&q=80&output=webp"
+                        alt="Small Cabins" loading="lazy" decoding="async"
                         style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
                     <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
                         Our three small cabins are all you need, and nothing you don't. With a queen bed on the main
@@ -6571,11 +6454,11 @@
                 <button class="notif-close-btn" onclick="closeStoreGallery()">✕</button>
             </div>
             <div style="padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
-                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316e29c87bd94b1221ebbe.png"
-                    alt="Campground Store"
+                <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a316e29c87bd94b1221ebbe.png&w=700&q=80&output=webp"
+                    alt="Campground Store" loading="lazy" decoding="async"
                     style="width:100%;height:460px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
-                <img src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a316b4d602476018d545d4f.png"
-                    alt="Campground Store"
+                <img src="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a316b4d602476018d545d4f.png&w=700&q=80&output=webp"
+                    alt="Campground Store" loading="lazy" decoding="async"
                     style="width:100%;height:420px;border-radius:12px;display:block;object-fit:contain;background:#f3f4f6;">
             </div>
         </div>
@@ -7202,13 +7085,34 @@
             container.querySelectorAll('img[data-src]').forEach(img => lazyImgObserver.observe(img));
         }
 
+        // Quietly fetches the resized versions of every activity image in the background so the
+        // wsrv.nl cache is already warm by the time a guest scrolls to or opens one — avoids the
+        // "first viewer pays the slow cold-resize cost" problem for freshly-uploaded flyers.
+        const warmedImageUrls = new Set();
+        function warmActivityImages(acts) {
+            const run = () => {
+                acts.forEach(a => {
+                    if (!a.imageUrl) return;
+                    [resizeImg(a.imageUrl, 140), resizeImg(a.imageUrl, 128), resizeImg(a.imageUrl, 800, 80)].forEach(url => {
+                        if (warmedImageUrls.has(url)) return;
+                        warmedImageUrls.add(url);
+                        const img = new Image();
+                        img.decoding = 'async';
+                        img.src = url;
+                    });
+                });
+            };
+            if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 4000 });
+            else setTimeout(run, 300);
+        }
+
         function actThumb(a) {
-            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" width="70" height="56" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="act-img" data-src="${resizeImg(a.imageUrl, 140)}" alt="${a.title}" width="70" height="56" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="act-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
         function eventThumb(a) {
-            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" width="64" height="64" decoding="async" fetchpriority="low" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
+            if (a.imageUrl) return `<img class="event-img" data-src="${resizeImg(a.imageUrl, 128)}" alt="${a.title}" width="64" height="64" decoding="async" style="object-fit:cover;background:${DEFAULT_COLOR};" onerror="this.style.background='${DEFAULT_COLOR}';this.src='';">`;
             return `<div class="event-img" style="background:${DEFAULT_COLOR};"></div>`;
         }
 
@@ -7388,6 +7292,7 @@
             window.__allActsForFilter = acts;
             if (!selectedActDate) selectedActDate = toIsoDate(new Date());
             buildActDateTabs();
+            warmActivityImages(acts);
 
             const today = acts.filter(isToday).sort((a, b) => (a.order || 0) - (b.order || 0) || (a.title || '').localeCompare(b.title || ''));
             cachedTodayActs = today;
@@ -7532,7 +7437,7 @@
 
         // ── Static hero images ──
         (function () {
-            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${url}')`; };
+            const set = (id, url) => { const el = document.getElementById(id); if (el) el.style.backgroundImage = `url('${resizeImg(url, 900, 80)}')`; };
             set('heroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f2f130cb119f6ff4bc.png');
             set('actHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f236fd67b89e62c5fb.png');
             set('moreHeroBg', 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a47c0f23d21db4e6982ff8c.png');
@@ -9429,57 +9334,6 @@
         updateSetupReminderCard();
         // ──────────────────────────────────────────────────────────────────
 
-    </script>
-
-    <!-- Track parkhub access (stored in Firebase) -->
-    <script>
-        window.trackParkhubAccess = async function () {
-            if (typeof window.db === 'undefined') {
-                console.log('Firebase not yet initialized');
-                return;
-            }
-
-            const { ref, update, get } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
-            const timestamp = new Date().toISOString();
-
-            // Per-hub visit counter — read by the hub manager's dashboard.
-            // Done FIRST and in its own try so a blocked _global write can't abort it.
-            try {
-                if (window.HUB_ID) {
-                    const hubAnalyticsRef = ref(window.db, `hubs/${window.HUB_ID}/analytics`);
-                    const hubSnap = await get(hubAnalyticsRef);
-                    const hubData = hubSnap.val() || { count: 0 };
-                    hubData.count = (hubData.count || 0) + 1;
-                    hubData.lastAccess = timestamp;
-                    await update(hubAnalyticsRef, hubData);
-                }
-            } catch (e) {
-                console.log('Per-hub access tracking (non-critical):', e.message);
-            }
-
-            // Global park counter (legacy / super-admin overview)
-            try {
-                const analyticsRef = ref(window.db, '_global/parkhub_analytics');
-                const snap = await get(analyticsRef);
-                const data = snap.val() || { count: 0, accessTimes: [] };
-
-                data.count = (data.count || 0) + 1;
-                data.lastAccess = timestamp;
-
-                if (!data.accessTimes) data.accessTimes = [];
-                data.accessTimes.push({ timestamp });
-                if (data.accessTimes.length > 100) {
-                    data.accessTimes = data.accessTimes.slice(-100);
-                }
-
-                await update(analyticsRef, data);
-            } catch (e) {
-                console.log('Global access tracking (non-critical):', e.message);
-            }
-        };
-
-        // Call after page loads
-        window.addEventListener('load', () => window.trackParkhubAccess());
     </script>
 
     <!-- A2HS Install Prompt Modal -->
