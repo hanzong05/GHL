@@ -582,4 +582,28 @@ TODO
 ☐ Guest Accounts - Existing guests who registered on Stone Mountain (or any hub) before today won't be found by the new "Welcome Back" email login yet, since they only exist in that campground's old guest list, not the new shared account system. They'd need to set up their stay again once, which links their old info to a real account going forward. A one-time backfill script could avoid that if it matters.
 ☐ Guest Accounts - Still needs: SMS code as an alternative to email, guest tags/notes for staff, "message specific guests" targeting, and the same passwordless login rolled out to every other hub (currently Stone Mountain only).
 
+COMPLETED TASKS — September 1, 2026
+✅ Allatoona Landing Marine Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Big Meadow Family Campground - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Blue Ridge River Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Blue Water RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Buckeye Lake KOA Holiday - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Carolina Camp Cedar - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Forsyth Station RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Iron Mountain Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Little River Campground - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Sanwar RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Splash RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Stay Wilder Campground - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Stone Mountain Park Hub - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Sweetwater Valley Park - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Talking Rock Motorcoach Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Talona Ridge RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Winding Waters RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Admin Panel - Added a pre-shrinking step for event, monthly happenings, and newsletter photos the moment staff upload them, so the first guest to view a photo doesn't wait on it.
+
+TODO
+☐ Shared Code Cleanup - Still need to pull the shared page styling (colors, layout) and the rest of the shared app logic (Firebase setup, chat, push notifications, login, weather) into the same kind of shared Cloudflare file as today's map/tracking code, so hubs load even faster. Also needs a real fix (not just extraction) for 4 hubs — Blue Water RV Resort, Buckeye Lake KOA Holiday, Iron Mountain Resort, and Stone Mountain Park Hub — that are currently showing Stone Mountain's weather and local guide info instead of their own.
+☐ Home Panel - A specific event photo ("Water Fitness Classes!" at Pickens Golf Club on Carolina Camp Cedar) was reported not showing up on the Home tab even though the same photo shows fine in other places. Cause is suspected but not yet confirmed — needs a follow-up look.
+
 
