@@ -104,6 +104,11 @@ const HUBS = {
         short_name: 'Iron Mountain',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
     },
+    'blue-water-rv-resort': {
+        name: 'Blue Water RV Resort',
+        short_name: 'Blue Water RV',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7471e695133c52554c13d8.jpg',
+    },
     'iconnecthub': {
         name: 'iConnectHub Admin',
         short_name: 'iConnectHub',

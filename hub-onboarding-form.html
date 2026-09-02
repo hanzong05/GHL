@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iConnectHub — Guest Hub Content Form</title>
+    <title>iConnectHub Onboarding</title>
+    <link rel="icon" href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5634ab46ff6bf8017aab21.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -16,61 +19,226 @@
         }
 
         :root {
-            --bg: #f0f4ff;
-            --surface: #ffffff;
-            --surface2: #f4f7fd;
-            --border: #dde5f5;
-            --border2: #cdd9ef;
-            --blue: #1a56db;
-            --blue-dim: #1240a8;
-            --blue-glow: rgba(26, 86, 219, .10);
-            --red: #dc2626;
-            --red-glow: rgba(220, 38, 38, .10);
-            --green: #059669;
-            --text: #0f1f4a;
-            --text2: #3d5580;
-            --text3: #7890b8;
-            --radius: 12px;
-            --radius-lg: 18px;
+            --bg: #0a0f1a;
+            --panel: #111a2e;
+            --panel2: #0c1424;
+            --border: #1f2b42;
+            --border2: #2c3c5a;
+            --blue: #2563eb;
+            --blue-dim: #1d4ed8;
+            --blue-glow: rgba(37, 99, 235, .16);
+            --green: #22c55e;
+            --green-glow: rgba(34, 197, 94, .12);
+            --orange: #f59e0b;
+            --orange-glow: rgba(245, 158, 11, .12);
+            --red: #ef4444;
+            --red-glow: rgba(239, 68, 68, .12);
+            --text: #e7ecf5;
+            --text2: #9fb0cc;
+            --text3: #64748b;
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
-            padding: 24px 16px 80px;
+            padding: 0 0 60px;
             -webkit-font-smoothing: antialiased;
         }
 
         .wrap {
-            max-width: 720px;
+            max-width: 860px;
             margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Top app bar */
+        .appbar {
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            margin-bottom: 28px;
+        }
+
+        .appbar-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .appbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .appbar-ic {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: var(--blue-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .appbar-ic svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .appbar-left b {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .appbar-right {
+            font-size: 12px;
+            color: var(--text3);
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .page-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .page-header h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .page-header p {
             font-size: 13.5px;
             color: var(--text2);
             line-height: 1.6;
-            max-width: 520px;
+            max-width: 560px;
             margin: 0 auto;
         }
 
-        .card {
-            background: var(--surface);
+        /* Step nav mini-cards */
+        .step-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        @media(max-width:560px) {
+            .step-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--panel);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            margin-bottom: 18px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color .15s, background .15s;
+        }
+
+        .step-nav a:hover {
+            border-color: var(--border2);
+            background: #0e1830;
+        }
+
+        .step-badge {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-nav-title {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+
+        .step-nav-sub {
+            font-size: 11.5px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+
+        /* Step section */
+        .step-section {
+            margin-bottom: 34px;
+            scroll-margin-top: 20px;
+        }
+
+        .step-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 4px 16px;
+        }
+
+        .step-head-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-head h2 {
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .step-head p {
+            font-size: 12.5px;
+            color: var(--text2);
+            margin-top: 2px;
+        }
+
+        .step-flag {
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: var(--blue);
+            white-space: nowrap;
+            padding-top: 3px;
+        }
+
+        /* Card */
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
             overflow: hidden;
         }
 
@@ -79,13 +247,20 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card-head-left {
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
 
         .card-head .ic {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             background: var(--blue-glow);
             display: flex;
             align-items: center;
@@ -95,8 +270,8 @@
         }
 
         .card-head .ic svg {
-            width: 17px;
-            height: 17px;
+            width: 15px;
+            height: 15px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2;
@@ -104,8 +279,8 @@
             stroke-linejoin: round;
         }
 
-        .card-head h2 {
-            font-size: 15px;
+        .card-head h3 {
+            font-size: 14.5px;
             font-weight: 700;
         }
 
@@ -113,6 +288,13 @@
             font-size: 11.5px;
             color: var(--text3);
             margin-top: 1px;
+        }
+
+        .card-head-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--blue);
+            flex-shrink: 0;
         }
 
         .card-body {
@@ -125,7 +307,7 @@
         .field {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
         .field-row {
@@ -141,10 +323,10 @@
         }
 
         label {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--text2);
-            letter-spacing: .03em;
+            letter-spacing: .04em;
             text-transform: uppercase;
         }
 
@@ -152,8 +334,10 @@
         input[type="tel"],
         input[type="url"],
         input[type="email"],
+        input[type="date"],
+        select,
         textarea {
-            background: var(--surface2);
+            background: var(--panel2);
             border: 1px solid var(--border2);
             border-radius: var(--radius);
             padding: 11px 14px;
@@ -165,7 +349,21 @@
             transition: border-color .15s;
         }
 
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239fb0cc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 34px;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text3);
+        }
+
         input:focus,
+        select:focus,
         textarea:focus {
             border-color: var(--blue);
             box-shadow: 0 0 0 3px var(--blue-glow);
@@ -182,10 +380,247 @@
             color: var(--text3);
         }
 
-        /* Repeatable item card (rules / amenities / additional sub-items) */
+        hr.sep {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2px 0;
+        }
+
+        /* File upload */
+        .img-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .img-upload-preview {
+            width: 56px;
+            height: 56px;
+            border-radius: 9px;
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            flex-shrink: 0;
+            object-fit: cover;
+            display: none;
+        }
+
+        .img-upload-btn {
+            padding: 10px 14px;
+            border-radius: 9px;
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text2);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .img-upload-btn:hover {
+            background: var(--blue-glow);
+            border-color: var(--blue);
+            color: #cfe0ff;
+        }
+
+        .img-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            font-size: 11.5px;
+            color: var(--text3);
+        }
+
+        /* Checkbox pill / feature card */
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .check-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .check-row span {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        @media(max-width:520px) {
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feat-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: var(--panel2);
+            border: 1.5px solid var(--border2);
+            border-radius: var(--radius);
+            padding: 11px 12px;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+
+        .feat-card:hover {
+            border-color: var(--blue);
+        }
+
+        .feat-card.checked {
+            border-color: var(--blue);
+            background: var(--blue-glow);
+        }
+
+        .feat-card input[type="checkbox"] {
+            margin-top: 2px;
+            width: 15px;
+            height: 15px;
+            accent-color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .feat-card-title {
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+
+        .feat-card-sub {
+            font-size: 10.5px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+
+        .feat-cat-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .feat-cat-head b {
+            font-size: 13.5px;
+        }
+
+        .feat-cat-sub {
+            font-size: 11px;
+            color: var(--text3);
+            margin-bottom: 10px;
+        }
+
+        .recommend-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            background: var(--blue-glow);
+            border: 1px solid var(--blue);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+        }
+
+        .recommend-banner b {
+            font-size: 13px;
+        }
+
+        .recommend-banner p {
+            font-size: 11.5px;
+            color: var(--text2);
+            margin-top: 1px;
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 9px;
+            padding: 10px 16px;
+            font-size: 12.5px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-blue:hover {
+            background: var(--blue-dim);
+        }
+
+        .feat-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            background: var(--panel2);
+            flex-wrap: wrap;
+        }
+
+        .feat-summary b {
+            font-size: 13px;
+            color: var(--blue);
+        }
+
+        .feat-summary span {
+            font-size: 11.5px;
+            color: var(--text3);
+        }
+
+        /* Reference checklist */
+        .ref-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ref-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .ref-item .ok {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--green-glow);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ref-item .ok svg {
+            width: 11px;
+            height: 11px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Repeatable item card */
         .item-card {
-            background: var(--surface2);
-            border: 1px solid var(--border);
+            background: var(--panel2);
+            border: 1px solid var(--border2);
             border-radius: var(--radius);
             padding: 14px;
             display: flex;
@@ -196,20 +631,21 @@
 
         .item-card-remove {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-            background: var(--surface);
+            top: 8px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: var(--panel);
             border: 1px solid var(--border2);
             color: var(--text3);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             line-height: 1;
+            z-index: 1;
         }
 
         .item-card-remove:hover {
@@ -227,7 +663,7 @@
             border: 1.5px dashed var(--border2);
             border-radius: var(--radius);
             background: transparent;
-            color: var(--blue);
+            color: #7ea6ff;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
@@ -240,107 +676,300 @@
             border-color: var(--blue);
         }
 
-        /* File upload */
-        .img-upload {
+        .empty-note {
+            font-size: 12px;
+            color: var(--text3);
+            text-align: center;
+            padding: 6px 0;
+        }
+
+        /* Accordion */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--panel);
+            margin-bottom: 10px;
+        }
+
+        .accordion-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 15px 18px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .accordion-head-left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .img-upload-preview {
-            width: 56px;
-            height: 56px;
-            border-radius: 9px;
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            flex-shrink: 0;
-            object-fit: cover;
-            display: none;
-        }
-
-        .img-upload-btn {
-            padding: 9px 14px;
-            border-radius: 9px;
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text2);
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .img-upload-btn:hover {
+        .accordion-head .ic {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
             background: var(--blue-glow);
-            border-color: var(--blue);
-            color: var(--blue);
-        }
-
-        .img-upload input[type="file"] {
-            display: none;
-        }
-
-        /* Nav group (Additional section) */
-        .nav-group {
-            background: var(--surface);
-            border: 1.5px solid var(--border2);
-            border-radius: var(--radius);
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-        }
-
-        .nav-group-title-row {
             display: flex;
             align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .accordion-head .ic svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .accordion-head b {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+
+        .accordion-chev {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: var(--text3);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform .18s;
+            flex-shrink: 0;
+        }
+
+        .accordion.open .accordion-chev {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 4px 18px 18px;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .accordion.open .accordion-body {
+            display: flex;
+        }
+
+        .accordion-count {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+        }
+
+        /* Quick action pills */
+        .qa-pill-grid {
+            display: flex;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
-        .nav-group-badge {
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: var(--blue);
-            background: var(--blue-glow);
-            border-radius: 20px;
-            padding: 3px 10px;
+        .qa-pill {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--panel2);
+            border: 1.5px solid var(--border2);
+            border-radius: 9px;
+            padding: 9px 13px;
+            cursor: pointer;
+            font-size: 12.5px;
+            font-weight: 700;
         }
 
-        .nav-group-items {
+        .qa-pill.checked {
+            border-color: var(--blue);
+            background: var(--blue-glow);
+        }
+
+        .qa-pill input {
+            accent-color: var(--blue);
+            width: 14px;
+            height: 14px;
+        }
+
+        .qa-pill.disabled {
+            opacity: .4;
+            cursor: default;
+        }
+
+        /* More-menu group cards */
+        .menu-group-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media(max-width:560px) {
+            .menu-group-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .menu-group-card {
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .menu-group-card b {
+            font-size: 13px;
+        }
+
+        .menu-group-card p {
+            font-size: 11px;
+            color: var(--text3);
+            margin: 2px 0 10px;
+        }
+
+        .menu-group-card .check-row {
+            margin-bottom: 8px;
+        }
+
+        /* Review summary pills */
+        .summary-cat {
+            margin-bottom: 12px;
+        }
+
+        .summary-cat b {
+            display: block;
+            font-size: 12.5px;
+            margin-bottom: 6px;
+        }
+
+        .pill-wrap {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .pill {
+            background: var(--blue-glow);
+            border: 1px solid var(--blue);
+            color: #cfe0ff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 20px;
+        }
+
+        @media(max-width:560px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Checklist with status */
+        .checklist-item {
+            display: flex;
+            align-items: center;
             gap: 10px;
-            padding-left: 4px;
-            border-left: 2px solid var(--border);
-            margin-left: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .checklist-item .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .checklist-item .dot svg {
+            width: 11px;
+            height: 11px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .checklist-item.ok .dot {
+            background: var(--green-glow);
+            color: var(--green);
+        }
+
+        .checklist-item.warn .dot {
+            background: var(--orange-glow);
+            color: var(--orange);
+        }
+
+        .confirm-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--text2);
+            line-height: 1.5;
+        }
+
+        .confirm-row input {
+            margin-top: 2px;
+            width: 15px;
+            height: 15px;
+            accent-color: var(--blue);
+            flex-shrink: 0;
         }
 
         .submit-bar {
-            position: sticky;
-            bottom: 0;
-            background: linear-gradient(to top, var(--bg) 60%, transparent);
-            padding: 20px 0 4px;
+            padding: 10px 0 4px;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            padding: 13px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--border2);
+            background: var(--panel2);
         }
 
         .submit-btn {
-            width: 100%;
-            padding: 15px;
+            padding: 13px 22px;
             background: var(--blue);
             color: #fff;
             border: none;
             border-radius: var(--radius);
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(26, 86, 219, .3);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, .3);
             transition: background .15s;
         }
 
@@ -356,8 +985,9 @@
         .submit-status {
             font-size: 12.5px;
             color: var(--text3);
-            text-align: center;
+            text-align: right;
             min-height: 16px;
+            width: 100%;
         }
 
         .submit-status.error {
@@ -373,7 +1003,7 @@
         .success-screen {
             display: none;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
 
         .success-screen.show {
@@ -384,7 +1014,7 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: rgba(5, 150, 105, .12);
+            background: var(--green-glow);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -423,175 +1053,564 @@
 </head>
 
 <body>
+    <div class="appbar">
+        <div class="appbar-inner">
+            <div class="appbar-left">
+                <div class="appbar-ic"><svg viewBox="0 0 24 24">
+                        <rect x="5" y="2" width="14" height="20" rx="2" />
+                        <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg></div>
+                <b>iConnectHub Onboarding</b>
+            </div>
+            <div class="appbar-right">All four steps shown</div>
+        </div>
+    </div>
+
     <div class="wrap">
         <div class="page-header">
-            <h1>Tell Us About Your Property</h1>
-            <p>Fill this out with your property's real details — contact info, WiFi, rules, amenities, and booking
-                link — and we'll build your guest hub from it. You can leave anything blank if it doesn't apply, and
-                add as many amenities or extra sections as you need.</p>
+            <h1>Build Your Campground Guest App</h1>
+            <p>Complete the four sections below. Select only what you want guests to see, then provide the details
+                needed to build each item.</p>
+        </div>
+
+        <div class="step-nav">
+            <a href="#step1"><span class="step-badge">1</span>
+                <div>
+                    <div class="step-nav-title">Property Basics</div>
+                    <div class="step-nav-sub">Brand, contacts and links</div>
+                </div>
+            </a>
+            <a href="#step2"><span class="step-badge">2</span>
+                <div>
+                    <div class="step-nav-title">Choose Features</div>
+                    <div class="step-nav-sub">What guests can access</div>
+                </div>
+            </a>
+            <a href="#step3"><span class="step-badge">3</span>
+                <div>
+                    <div class="step-nav-title">Add Details</div>
+                    <div class="step-nav-sub">Content and organization</div>
+                </div>
+            </a>
+            <a href="#step4"><span class="step-badge">4</span>
+                <div>
+                    <div class="step-nav-title">Review &amp; Approve</div>
+                    <div class="step-nav-sub">Final build sheet</div>
+                </div>
+            </a>
         </div>
 
         <form id="intakeForm" class="form-root">
 
-            <!-- BUSINESS INFO -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                            <polyline points="9 22 9 12 15 12 15 22" />
-                        </svg></div>
-                    <div>
-                        <h2>Property Info</h2>
-                        <p>The basics — who you are</p>
+            <!-- ══════════════════ STEP 1 ══════════════════ -->
+            <div class="step-section" id="step1">
+                <div class="step-head">
+                    <div class="step-head-left">
+                        <span class="step-badge">1</span>
+                        <div>
+                            <h2>Property Basics</h2>
+                            <p>Information used throughout the iConnectHub.</p>
+                        </div>
+                    </div>
+                    <div class="step-flag">Required</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                    <polyline points="9 22 9 12 15 12 15 22" />
+                                </svg></div>
+                            <div>
+                                <h3>Property information</h3>
+                                <p>Identify the property, account contact and location.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Property / Business Name *</label>
+                                <input type="text" id="p1Name" required placeholder="e.g. Blue Water RV Resort">
+                            </div>
+                            <div class="field">
+                                <label>Property Type *</label>
+                                <select id="p1Type">
+                                    <option>RV Resort</option>
+                                    <option>RV Park</option>
+                                    <option>Campground</option>
+                                    <option>Cabin Resort</option>
+                                    <option>Marina &amp; RV Resort</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Physical Address *</label>
+                            <input type="text" id="p1Address" required placeholder="Street, city, state and ZIP">
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Time Zone *</label>
+                                <select id="p1TimeZone">
+                                    <option>Eastern Time</option>
+                                    <option>Central Time</option>
+                                    <option>Mountain Time</option>
+                                    <option>Pacific Time</option>
+                                    <option>Alaska Time</option>
+                                    <option>Hawaii Time</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Primary Onboarding Contact *</label>
+                                <input type="text" id="p1Contact" required placeholder="Name and job title">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Contact Email *</label>
+                                <input type="email" id="p1Email" required placeholder="manager@campground.com">
+                            </div>
+                            <div class="field">
+                                <label>Contact Phone *</label>
+                                <input type="tel" id="p1Phone" required placeholder="(000) 000-0000">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="field">
-                        <label>Property / Business Name *</label>
-                        <input type="text" id="bizName" required placeholder="e.g. Iron Mountain Resort">
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+                                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+                                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+                                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+                                    <path
+                                        d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C22 6.012 17.461 2 12 2z" />
+                                </svg></div>
+                            <div>
+                                <h3>Brand and app appearance</h3>
+                                <p>Use high-quality files. BlueSpot can adjust image sizing during setup.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label>Location (City, State) *</label>
-                        <input type="text" id="bizLocation" required placeholder="e.g. Dahlonega, GA">
-                    </div>
-                    <div class="field">
-                        <label>Your Name &amp; Email (so we can follow up) *</label>
+                    <div class="card-body">
                         <div class="field-row">
-                            <input type="text" id="submitterName" required placeholder="Your name">
-                            <input type="email" id="submitterEmail" required placeholder="you@example.com">
+                            <div class="field">
+                                <label>Property Logo *</label>
+                                <div class="img-upload">
+                                    <img class="img-upload-preview" id="p1LogoPreview">
+                                    <button type="button" class="img-upload-btn"
+                                        onclick="document.getElementById('p1Logo').click()">Upload PNG, JPG or
+                                        SVG</button>
+                                    <input type="file" id="p1Logo" accept="image/*" onchange="previewImg(this)">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>App Cover / Hero Photo *</label>
+                                <div class="img-upload">
+                                    <img class="img-upload-preview" id="p1HeroPreview">
+                                    <button type="button" class="img-upload-btn"
+                                        onclick="document.getElementById('p1Hero').click()">Upload a wide property
+                                        photo</button>
+                                    <input type="file" id="p1Hero" accept="image/*" onchange="previewImg(this)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Primary Brand Color</label>
+                                <input type="text" id="p1Color1" placeholder="#1a56db">
+                            </div>
+                            <div class="field">
+                                <label>Secondary Brand Color</label>
+                                <input type="text" id="p1Color2" placeholder="#12395a">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Short Property Welcome Message</label>
+                            <textarea id="p1Welcome" placeholder="A brief welcome guests see when opening the hub."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                                </svg></div>
+                            <div>
+                                <h3>Contacts, links and communication routing</h3>
+                                <p>Provide separate destinations when reservations, after-hours needs or guest
+                                    messages go to different teams.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Main Office Phone *</label>
+                                <input type="tel" id="p1MainPhone" required placeholder="(000) 000-0000">
+                            </div>
+                            <div class="field">
+                                <label>After-Hours Phone</label>
+                                <input type="tel" id="p1AfterHoursPhone" placeholder="(000) 000-0000">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Guest Services Email</label>
+                                <input type="email" id="p1GuestEmail" placeholder="guestservices@campground.com">
+                            </div>
+                            <div class="field">
+                                <label>Message / Text Destination</label>
+                                <input type="text" id="p1MsgDest" placeholder="Phone, email or form URL">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Website</label>
+                                <input type="url" id="p1Website" placeholder="https://">
+                            </div>
+                            <div class="field">
+                                <label>Booking or Reservation URL *</label>
+                                <input type="url" id="p1BookingUrl" required placeholder="https://">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Google Review Link</label>
+                                <input type="url" id="p1ReviewUrl" placeholder="https://">
+                            </div>
+                            <div class="field">
+                                <label>Directions / Map Link</label>
+                                <input type="url" id="p1DirectionsUrl" placeholder="https://maps.google.com/...">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Social Media</label>
+                            <div id="socialList" style="display:flex;flex-direction:column;gap:8px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CONTACTS -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <path
-                                d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                        </svg></div>
-                    <div>
-                        <h2>Contacts</h2>
-                        <p>Main line, socials, and mailing address</p>
+            <!-- ══════════════════ STEP 2 ══════════════════ -->
+            <div class="step-section" id="step2">
+                <div class="step-head">
+                    <div class="step-head-left">
+                        <span class="step-badge">2</span>
+                        <div>
+                            <h2>Choose App Features</h2>
+                            <p>Select the items guests should be able to access.</p>
+                        </div>
                     </div>
+                    <div class="step-flag" id="featCountFlag">0 selected</div>
                 </div>
-                <div class="card-body">
-                    <label style="margin-bottom:-4px;">Phone Numbers * <span style="text-transform:none;font-weight:500;color:var(--text3);">(at least one, with a number)</span></label>
-                    <div id="phonesList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addPhone()">+ Add Another Phone Number</button>
 
-                    <label style="margin-top:6px;margin-bottom:-4px;">Social Links</label>
-                    <div id="socialsList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addSocial()">+ Add Another Social Link</button>
-
-                    <label style="margin-top:6px;margin-bottom:-4px;">Mailing Address(es)</label>
-                    <div id="addressesList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addAddress()">+ Add Another Address</button>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="recommend-banner">
+                            <div>
+                                <b>Recommended campground setup</b>
+                                <p>Includes arrival, stay essentials, activities, support and safety.</p>
+                            </div>
+                            <button type="button" class="btn-blue" onclick="applyRecommended()">Apply
+                                recommended</button>
+                        </div>
+                        <div id="featureCategories"></div>
+                    </div>
+                    <div class="feat-summary">
+                        <b id="featCountLabel">0 app features selected</b>
+                        <span>Home, Local Guide and Notification Settings are included automatically.</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- WIFI -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <path d="M5 12.55a11 11 0 0114.08 0" />
-                            <path d="M1.42 9A16 16 0 0122.58 9" />
-                            <path d="M8.53 16.11a6 6 0 016.95 0" />
-                            <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none" />
-                        </svg></div>
-                    <div>
-                        <h2>WiFi</h2>
-                        <p>Guest network name and password</p>
+            <!-- ══════════════════ STEP 3 ══════════════════ -->
+            <div class="step-section" id="step3">
+                <div class="step-head">
+                    <div class="step-head-left">
+                        <span class="step-badge">3</span>
+                        <div>
+                            <h2>Add Content &amp; Organize the Hub</h2>
+                            <p>Complete only the panels that apply to the selected features.</p>
+                        </div>
+                    </div>
+                    <div class="step-flag">Conditional</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <b style="font-size:13px;">Each selected item should include</b>
+                        <p class="hint" style="margin-top:-8px;">Use the same structure so guests know what to expect
+                            on every screen.</p>
+                        <div class="ref-list">
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Clear button title</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Guest instructions</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Hours or availability</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Phone, link or action</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Location or directions</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Photo or document</div>
+                            <div class="ref-item"><span class="ok"><svg viewBox="0 0 24 24">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg></span> Seasonal dates</div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div id="wifiList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addWifi()">+ Add Another Network</button>
+
+                <div id="contentAccordions"></div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                                </svg></div>
+                            <div>
+                                <h3>Home screen quick actions</h3>
+                                <p>Choose up to four items guests need most often. Recommended: Map, Events, Contact
+                                    and Rules.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="qa-pill-grid" id="qaPillGrid"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <line x1="8" y1="6" x2="21" y2="6" />
+                                    <line x1="8" y1="12" x2="21" y2="12" />
+                                    <line x1="8" y1="18" x2="21" y2="18" />
+                                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                                </svg></div>
+                            <div>
+                                <h3>"More" menu organization</h3>
+                                <p>BlueSpot starts with these guest-friendly groups. The campground can rename,
+                                    reorder or hide any group.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-group-grid" id="menuGroupGrid"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                    <path d="M13.73 21a2 2 0 01-3.46 0" />
+                                </svg></div>
+                            <div>
+                                <h3>Notifications and guest messaging</h3>
+                                <p>Define what the property plans to send and who manages incoming replies.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="field">
+                            <label>Notification Types</label>
+                            <div class="feat-grid" id="notifTypeGrid"></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Notification Range</label>
+                                <select id="notifRange">
+                                    <option>Guests currently staying at the property</option>
+                                    <option>Guests within 25 miles</option>
+                                    <option>All hub guests regardless of distance</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Quiet Hours</label>
+                                <input type="text" id="notifQuiet" placeholder="e.g. 10 PM–8 AM; emergencies excluded">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Who Can Send Alerts?</label>
+                                <input type="text" id="notifWho" placeholder="Roles or staff names">
+                            </div>
+                            <div class="field">
+                                <label>Reply / Escalation Destination</label>
+                                <input type="text" id="notifEscalation" placeholder="Email, phone or team">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- RULES -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <path d="M9 11l3 3L22 4" />
-                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
-                        </svg></div>
-                    <div>
-                        <h2>Rules</h2>
-                        <p>Park policies guests should know</p>
+            <!-- ══════════════════ STEP 4 ══════════════════ -->
+            <div class="step-section" id="step4">
+                <div class="step-head">
+                    <div class="step-head-left">
+                        <span class="step-badge">4</span>
+                        <div>
+                            <h2>Review, Ownership &amp; Approval</h2>
+                            <p>Confirm the final build sheet and who keeps it accurate.</p>
+                        </div>
+                    </div>
+                    <div class="step-flag">Final step</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                                </svg></div>
+                            <div>
+                                <h3>Hub content summary</h3>
+                                <p>Selections from Step 2 are grouped automatically below.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="summary-grid" id="reviewSummaryGrid"></div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div id="rulesList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addRule()">+ Add a Rule</button>
-                </div>
-            </div>
 
-            <!-- AMENITIES -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="7" height="7" rx="1" />
-                            <rect x="14" y="3" width="7" height="7" rx="1" />
-                            <rect x="3" y="14" width="7" height="7" rx="1" />
-                            <rect x="14" y="14" width="7" height="7" rx="1" />
-                        </svg></div>
-                    <div>
-                        <h2>Amenities</h2>
-                        <p>Each button in your Amenities list — one per item</p>
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 010 7.75" />
+                                </svg></div>
+                            <div>
+                                <h3>Content ownership and future updates</h3>
+                                <p>This prevents outdated hours, phone numbers and emergency instructions after
+                                    launch.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Primary Content Owner *</label>
+                                <input type="text" id="s4PrimaryOwner" required placeholder="Name, title and email">
+                            </div>
+                            <div class="field">
+                                <label>Backup Content Owner</label>
+                                <input type="text" id="s4BackupOwner" placeholder="Name, title and email">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Who Will Maintain Events?</label>
+                                <input type="text" id="s4EventsMaintainer" placeholder="Property staff or BlueSpot">
+                            </div>
+                            <div class="field">
+                                <label>Preferred Update Method</label>
+                                <select id="s4UpdateMethod">
+                                    <option>iConnectHub Admin</option>
+                                    <option>Property Staff</option>
+                                    <option>BlueSpot Support</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>How Often Should Content Be Reviewed?</label>
+                                <select id="s4ReviewFreq">
+                                    <option>Weekly</option>
+                                    <option selected>Monthly</option>
+                                    <option>Quarterly</option>
+                                    <option>Seasonally</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Final Approver *</label>
+                                <input type="text" id="s4FinalApprover" required placeholder="Name and job title">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div id="amenitiesList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addAmenity()">+ Add an Amenity</button>
-                </div>
-            </div>
 
-            <!-- BOOKING -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg></div>
-                    <div>
-                        <h2>Booking Links</h2>
-                        <p>Where "Book Now" should send guests</p>
+                <div class="card">
+                    <div class="card-head">
+                        <div class="card-head-left">
+                            <div class="ic"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+                                    <rect x="9" y="3" width="6" height="4" rx="1" />
+                                    <polyline points="9 14 11 16 15 12" />
+                                </svg></div>
+                            <div>
+                                <h3>Pre-launch checklist</h3>
+                                <p>The form can flag incomplete items before it is submitted to BlueSpot.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="checklistItems" style="display:flex;flex-direction:column;gap:10px;"></div>
+                        <hr class="sep">
+                        <label class="confirm-row" style="text-transform:none;font-weight:400;">
+                            <input type="checkbox" id="confirmAccurate">
+                            <span>I confirm that the information is accurate and approved for guest use. BlueSpot may
+                                contact me to clarify missing or conflicting details.</span>
+                        </label>
+                        <label class="confirm-row" style="text-transform:none;font-weight:400;">
+                            <input type="checkbox" id="confirmMediaRights">
+                            <span>I confirm that uploaded images, maps, menus and documents may be displayed in this
+                                property's iConnectHub.</span>
+                        </label>
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Approver Name *</label>
+                                <input type="text" id="s4ApproverName" required placeholder="Full name">
+                            </div>
+                            <div class="field">
+                                <label>Approval Date *</label>
+                                <input type="date" id="s4ApprovalDate" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Final Notes for BlueSpot</label>
+                            <textarea id="s4Notes" placeholder="Anything we should verify, build differently or follow up on?"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <label style="margin-bottom:-4px;">At least one link is required — this powers every "Book Now" button on your Hub.</label>
-                    <div id="bookingLinksList" style="display:flex;flex-direction:column;gap:10px;"></div>
-                    <button type="button" class="add-btn" onclick="addBookingLink()">+ Add Another Booking
-                        Link</button>
-                </div>
-            </div>
 
-            <!-- ADDITIONAL NAV BUTTONS -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="ic"><svg viewBox="0 0 24 24">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg></div>
-                    <div>
-                        <h2>Additional Buttons</h2>
-                        <p>Anything else guests should see — its own button, with items inside it</p>
-                    </div>
+                <div class="submit-bar">
+                    <div class="submit-status" id="submitStatus"></div>
+                    <button type="button" class="btn-ghost" id="saveLaterBtn" onclick="saveForLater()">Save and
+                        finish later</button>
+                    <button type="submit" class="submit-btn" id="submitBtn">Submit to BlueSpot</button>
                 </div>
-                <div class="card-body">
-                    <div id="navGroupsList" style="display:flex;flex-direction:column;gap:14px;"></div>
-                    <button type="button" class="add-btn" onclick="addNavGroup()">+ Add a New Button</button>
-                </div>
-            </div>
-
-            <div class="submit-bar">
-                <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
-                <div class="submit-status" id="submitStatus"></div>
             </div>
         </form>
 
@@ -599,9 +1618,9 @@
             <div class="ic"><svg viewBox="0 0 24 24">
                     <polyline points="20 6 9 17 4 12" />
                 </svg></div>
-            <h2>Thanks — we've got it!</h2>
-            <p>Your property details were submitted successfully. Our team will use this to build out your guest
-                hub and follow up if we need anything else.</p>
+            <h2 id="successTitle">Thanks — we've got it!</h2>
+            <p id="successBody">Your property details were submitted successfully. Our team will use this to build
+                out your guest hub and follow up if we need anything else.</p>
         </div>
     </div>
 
@@ -643,168 +1662,6 @@
             return json.data.url;
         }
 
-        // ── Repeatable Phone Numbers ──
-        let phoneCount = 0;
-        window.addPhone = function () {
-            phoneCount++;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field-row">
-                    <div class="field">
-                        <label>Label</label>
-                        <input type="text" class="phone-label" placeholder="e.g. Guest Services">
-                    </div>
-                    <div class="field">
-                        <label>Phone Number</label>
-                        <input type="tel" class="phone-number" placeholder="e.g. (706) 216-7275">
-                    </div>
-                </div>`;
-            document.getElementById('phonesList').appendChild(wrap);
-        };
-
-        // ── Repeatable Social Links ──
-        let socialCount = 0;
-        window.addSocial = function () {
-            socialCount++;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field-row">
-                    <div class="field">
-                        <label>Platform</label>
-                        <input type="text" class="social-label" placeholder="e.g. Instagram">
-                    </div>
-                    <div class="field">
-                        <label>Link</label>
-                        <input type="url" class="social-url" placeholder="https://...">
-                    </div>
-                </div>`;
-            document.getElementById('socialsList').appendChild(wrap);
-        };
-
-        // ── Repeatable Addresses ──
-        let addressCount = 0;
-        window.addAddress = function () {
-            addressCount++;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field">
-                    <label>Label (optional)</label>
-                    <input type="text" class="address-label" placeholder="e.g. Mailing Address">
-                </div>
-                <div class="field">
-                    <label>Address</label>
-                    <textarea class="address-text" placeholder="e.g.&#10;116 Iron Mountain Pkwy&#10;Dahlonega, GA 30533"></textarea>
-                </div>`;
-            document.getElementById('addressesList').appendChild(wrap);
-        };
-
-        // ── Repeatable WiFi Networks ──
-        let wifiCount = 0;
-        window.addWifi = function () {
-            wifiCount++;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field">
-                    <label>Label (optional)</label>
-                    <input type="text" class="wifi-label" placeholder="e.g. Guest WiFi">
-                </div>
-                <div class="field-row">
-                    <div class="field">
-                        <label>Network Name (SSID)</label>
-                        <input type="text" class="wifi-ssid" placeholder="e.g. IronMountain_Guest">
-                    </div>
-                    <div class="field">
-                        <label>Password</label>
-                        <input type="text" class="wifi-pass" placeholder="WiFi password">
-                    </div>
-                </div>`;
-            document.getElementById('wifiList').appendChild(wrap);
-        };
-
-        // ── Repeatable Booking Links ──
-        let bookingLinkCount = 0;
-        window.addBookingLink = function () {
-            bookingLinkCount++;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field-row">
-                    <div class="field">
-                        <label>Label (optional)</label>
-                        <input type="text" class="booking-label" placeholder="e.g. RV Sites">
-                    </div>
-                    <div class="field">
-                        <label>URL</label>
-                        <input type="url" class="booking-url" placeholder="https://yourbookingsite.com/...">
-                    </div>
-                </div>`;
-            document.getElementById('bookingLinksList').appendChild(wrap);
-        };
-
-        // ── Repeatable Rules ──
-        let ruleCount = 0;
-        window.addRule = function () {
-            ruleCount++;
-            const id = 'rule' + ruleCount;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.dataset.id = id;
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field">
-                    <label>Rule Title</label>
-                    <input type="text" class="rule-title" placeholder="e.g. Quiet Hours">
-                </div>
-                <div class="field">
-                    <label>Details</label>
-                    <textarea class="rule-body" placeholder="e.g. 10 PM to 8 AM, please keep noise down."></textarea>
-                </div>`;
-            document.getElementById('rulesList').appendChild(wrap);
-        };
-
-        // ── Repeatable Amenities ──
-        let amenityCount = 0;
-        window.addAmenity = function () {
-            amenityCount++;
-            const id = 'amenity' + amenityCount;
-            const wrap = document.createElement('div');
-            wrap.className = 'item-card';
-            wrap.dataset.id = id;
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field">
-                    <label>Amenity Name</label>
-                    <input type="text" class="amenity-title" placeholder="e.g. Trails">
-                </div>
-                <div class="field">
-                    <label>Short Subtitle (shown on the button)</label>
-                    <input type="text" class="amenity-sub" placeholder="e.g. 4,300 Acres · 200+ Routes">
-                </div>
-                <div class="field">
-                    <label>Details</label>
-                    <textarea class="amenity-desc" placeholder="Full description guests will see"></textarea>
-                </div>
-                <div class="field">
-                    <label>Photo</label>
-                    <div class="img-upload">
-                        <img class="img-upload-preview">
-                        <button type="button" class="img-upload-btn" onclick="this.nextElementSibling.click()">Choose
-                            Photo</button>
-                        <input type="file" class="amenity-img" accept="image/*" onchange="previewImg(this)">
-                    </div>
-                </div>`;
-            document.getElementById('amenitiesList').appendChild(wrap);
-        };
-
         window.previewImg = function (input) {
             const file = input.files[0];
             if (!file) return;
@@ -814,108 +1671,553 @@
             reader.readAsDataURL(file);
         };
 
-        // ── Additional Nav Groups (each with its own repeatable items) ──
-        let navGroupCount = 0;
-        window.addNavGroup = function () {
-            navGroupCount++;
-            const gid = 'navgroup' + navGroupCount;
-            const wrap = document.createElement('div');
-            wrap.className = 'nav-group';
-            wrap.dataset.id = gid;
-            wrap.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.nav-group').remove()">✕</button>
-                <div class="nav-group-title-row">
-                    <span class="nav-group-badge">New Button</span>
-                </div>
-                <div class="field">
-                    <label>Button Label</label>
-                    <input type="text" class="navgroup-label" placeholder="e.g. Rescue &amp; Recovery">
-                </div>
-                <div class="nav-group-items" data-items></div>
-                <button type="button" class="add-btn navgroup-add-item">+ Add an Item to This Button</button>`;
-            wrap.querySelector('.navgroup-add-item').addEventListener('click', () => addNavGroupItem(wrap));
-            document.getElementById('navGroupsList').appendChild(wrap);
-            addNavGroupItem(wrap);
+        // ── Social links (Step 1) ──
+        const SOCIALS = [
+            { key: 'facebook', label: 'Facebook' },
+            { key: 'instagram', label: 'Instagram' },
+            { key: 'tiktok', label: 'TikTok' },
+            { key: 'youtube', label: 'YouTube' },
+            { key: 'other', label: 'Other' },
+        ];
+        const socialList = document.getElementById('socialList');
+        SOCIALS.forEach(s => {
+            const row = document.createElement('div');
+            row.innerHTML = `
+                <label class="check-row" style="text-transform:none;font-weight:400;">
+                    <input type="checkbox" class="social-check" data-key="${s.key}">
+                    <span>${s.label}</span>
+                </label>
+                <input type="url" class="social-url" data-key="${s.key}" placeholder="https://" style="display:none;margin-top:6px;">
+            `;
+            socialList.appendChild(row);
+            const cb = row.querySelector('.social-check');
+            const urlInput = row.querySelector('.social-url');
+            cb.addEventListener('change', () => { urlInput.style.display = cb.checked ? '' : 'none'; });
+        });
+
+        // ── Step 2: feature categories ──
+        const FEATURE_CATEGORIES = [
+            {
+                key: 'arrival', title: 'Arrival & My Stay', sub: 'Before arrival, check-in and departure.',
+                items: [
+                    { key: 'bookReservation', title: 'Book / Manage Reservation', sub: 'Booking and changes', def: true },
+                    { key: 'directionsEntrance', title: 'Directions & Entrance', sub: 'Preferred route and gate', def: true },
+                    { key: 'checkInInstructions', title: 'Check-In Instructions', sub: 'Hours and late arrival', def: true },
+                    { key: 'campgroundMap', title: 'Campground Map', sub: 'Digital or uploaded map', def: true },
+                    { key: 'gateCodes', title: 'Gate Codes & Access', sub: 'Gate and facility codes', def: false },
+                    { key: 'registerProfile', title: 'Register / My Profile', sub: 'Guest registration', def: false },
+                    { key: 'checkoutInstructions', title: 'Checkout Instructions', sub: 'Departure steps', def: true },
+                    { key: 'extendStay', title: 'Extend Your Stay', sub: 'Stay extension action', def: false },
+                ]
+            },
+            {
+                key: 'campInfo', title: 'Campground Information', sub: 'Essentials that reduce office calls.',
+                items: [
+                    { key: 'wifi', title: 'Wi-Fi', sub: 'Network and support', def: true },
+                    { key: 'rulesQuietHours', title: 'Rules & Quiet Hours', sub: 'Policies and reminders', def: true },
+                    { key: 'amenitiesHours', title: 'Amenities & Hours', sub: 'Facilities and availability', def: true },
+                    { key: 'bathhousesLaundry', title: 'Bathhouses & Laundry', sub: 'Locations, cost and access', def: false },
+                    { key: 'trashRecycling', title: 'Trash & Recycling', sub: 'Pickup and disposal', def: false },
+                    { key: 'campStore', title: 'Camp Store', sub: 'Hours and products', def: false },
+                    { key: 'propaneFirewood', title: 'Propane & Firewood', sub: 'Availability and ordering', def: false },
+                    { key: 'petInfo', title: 'Pet Information', sub: 'Rules and dog park', def: false },
+                    { key: 'accessibility', title: 'Accessibility', sub: 'Accessible facilities', def: false },
+                    { key: 'weatherCenter', title: 'Weather Center', sub: 'Forecast and procedures', def: true },
+                ]
+            },
+            {
+                key: 'activities', title: 'Activities & On-Property Experiences', sub: 'Events, recreation and purchases.',
+                items: [
+                    { key: 'eventsCalendar', title: 'Events Calendar', sub: 'Dated activities', def: true },
+                    { key: 'recreationActivities', title: 'Recreation & Activities', sub: 'Pools, trails and courts', def: true },
+                    { key: 'ticketsSpecials', title: 'Tickets & Specials', sub: 'Paid activities and offers', def: false },
+                    { key: 'foodShopping', title: 'Food & Shopping', sub: 'Dining and retail', def: false },
+                    { key: 'rentals', title: 'Rentals', sub: 'Golf carts, boats or bikes', def: false },
+                    { key: 'golfTeeTimes', title: 'Golf / Tee Times / Scorecard', sub: 'Course tools', def: false },
+                    { key: 'seasonalHappenings', title: 'Seasonal Happenings', sub: 'Festivals and calendars', def: false },
+                    { key: 'customVenue', title: 'Custom Venue or Attraction', sub: 'Property-specific feature', def: false },
+                ]
+            },
+            {
+                key: 'support', title: 'Guest Services & Support', sub: 'Questions, requests and repairs.',
+                items: [
+                    { key: 'contactUs', title: 'Contact Us', sub: 'Office and departments', def: true },
+                    { key: 'sendMessage', title: 'Send a Message', sub: 'Email, text or form', def: true },
+                    { key: 'reportProblem', title: 'Report a Problem', sub: 'Maintenance request', def: true },
+                    { key: 'rvCampingServices', title: 'RV & Camping Services', sub: 'Repair, towing and supplies', def: false },
+                    { key: 'lostFound', title: 'Lost & Found', sub: 'Report or claim items', def: false },
+                    { key: 'faq', title: 'Frequently Asked Questions', sub: 'Common answers', def: false },
+                ]
+            },
+            {
+                key: 'safety', title: 'Safety & Emergency', sub: 'Urgent and location-specific guidance.',
+                items: [
+                    { key: 'emergencyContacts', title: 'Emergency Contacts', sub: '911, office and security', def: true },
+                    { key: 'severeWeatherShelter', title: 'Severe Weather & Shelter', sub: 'Shelter instructions', def: true },
+                    { key: 'evacuationRoutes', title: 'Evacuation Routes', sub: 'Map and gathering areas', def: false },
+                    { key: 'fireSafety', title: 'Fire Safety & Burn Status', sub: 'Rules and active bans', def: false },
+                    { key: 'firstAid', title: 'First Aid, AED & Medical Care', sub: 'Equipment and nearby care', def: false },
+                    { key: 'wildlifeSafety', title: 'Wildlife & Outdoor Safety', sub: 'Local safety guidance', def: false },
+                ]
+            },
+            {
+                key: 'updates', title: 'Updates, Feedback & Return Visits', sub: 'Communication and post-stay actions.',
+                items: [
+                    { key: 'alertsNotifications', title: 'Alerts & Notifications', sub: 'Guest updates', def: true },
+                    { key: 'newsletterSignup', title: 'Newsletter Signup', sub: 'Marketing opt-in', def: false },
+                    { key: 'leaveReview', title: 'Leave a Review', sub: 'Preferred review link', def: true },
+                    { key: 'privateFeedback', title: 'Private Guest Feedback', sub: 'Management feedback', def: false },
+                    { key: 'socialMedia', title: 'Social Media', sub: 'Social channels', def: false },
+                    { key: 'bookNextStay', title: 'Book Your Next Stay', sub: 'Return visit action', def: false },
+                ]
+            },
+        ];
+
+        const featureCatEl = document.getElementById('featureCategories');
+        FEATURE_CATEGORIES.forEach(cat => {
+            const catWrap = document.createElement('div');
+            catWrap.style.marginBottom = '18px';
+            catWrap.innerHTML = `
+                <div class="feat-cat-head"><b>${cat.title}</b></div>
+                <div class="feat-cat-sub">${cat.sub}</div>
+                <div class="feat-grid" data-cat="${cat.key}"></div>
+            `;
+            const grid = catWrap.querySelector('.feat-grid');
+            cat.items.forEach(item => {
+                const card = document.createElement('label');
+                card.className = 'feat-card';
+                card.dataset.cat = cat.key;
+                card.dataset.item = item.key;
+                card.innerHTML = `
+                    <input type="checkbox" class="feat-check" ${item.def ? 'checked' : ''}>
+                    <div>
+                        <div class="feat-card-title">${item.title}</div>
+                        <div class="feat-card-sub">${item.sub}</div>
+                    </div>`;
+                if (item.def) card.classList.add('checked');
+                const cb = card.querySelector('.feat-check');
+                cb.addEventListener('change', () => {
+                    card.classList.toggle('checked', cb.checked);
+                    refreshFeatureCount();
+                });
+                grid.appendChild(card);
+            });
+            featureCatEl.appendChild(catWrap);
+        });
+        refreshFeatureCount();
+
+        window.applyRecommended = function () {
+            document.querySelectorAll('.feat-card').forEach(card => {
+                const cat = FEATURE_CATEGORIES.find(c => c.key === card.dataset.cat);
+                const item = cat.items.find(i => i.key === card.dataset.item);
+                const cb = card.querySelector('.feat-check');
+                cb.checked = !!item.def;
+                card.classList.toggle('checked', cb.checked);
+            });
+            refreshFeatureCount();
         };
 
-        let navItemCount = 0;
-        function addNavGroupItem(groupEl) {
-            navItemCount++;
-            const itemsWrap = groupEl.querySelector('[data-items]');
-            const item = document.createElement('div');
-            item.className = 'item-card';
-            item.innerHTML = `
-                <button type="button" class="item-card-remove" onclick="this.closest('.item-card').remove()">✕</button>
-                <div class="field">
-                    <label>Item Title</label>
-                    <input type="text" class="navitem-title" placeholder="e.g. Ricky Stegall">
-                </div>
-                <div class="field">
-                    <label>Details</label>
-                    <textarea class="navitem-desc" placeholder="e.g. (678) 858-1637"></textarea>
-                </div>
-                <div class="field">
-                    <label>Photo (optional)</label>
-                    <div class="img-upload">
-                        <img class="img-upload-preview">
-                        <button type="button" class="img-upload-btn" onclick="this.nextElementSibling.click()">Choose
-                            Photo</button>
-                        <input type="file" class="navitem-img" accept="image/*" onchange="previewImg(this)">
-                    </div>
-                </div>`;
-            itemsWrap.appendChild(item);
+        function getSelectedFeatures() {
+            const out = {};
+            FEATURE_CATEGORIES.forEach(cat => { out[cat.key] = {}; });
+            document.querySelectorAll('.feat-card').forEach(card => {
+                out[card.dataset.cat][card.dataset.item] = card.querySelector('.feat-check').checked;
+            });
+            return out;
         }
 
-        // Start each repeatable section with one blank row so the form doesn't look empty
-        addPhone();
-        addSocial();
-        addAddress();
-        addWifi();
-        addBookingLink();
-        addRule();
-        addAmenity();
-        addNavGroup();
+        function refreshFeatureCount() {
+            const sel = getSelectedFeatures();
+            let count = 0;
+            Object.values(sel).forEach(cat => Object.values(cat).forEach(v => { if (v) count++; }));
+            document.getElementById('featCountFlag').textContent = count + ' selected';
+            document.getElementById('featCountLabel').textContent = count + ' app features selected';
+            renderReviewSummary();
+            refreshChecklist();
+        }
 
-        // ── Submit ──
+        // ── Step 3: content accordions ──
+        const CONTENT_GROUPS = [
+            { key: 'wifi', title: 'Wi-Fi networks', icon: '<path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9A16 16 0 0122.58 9"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>' },
+            { key: 'rulesArrival', title: 'Rules, arrival and checkout', icon: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
+            { key: 'amenitiesServices', title: 'Amenities, services and recreation', icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
+            { key: 'eventsSeasonal', title: 'Events and seasonal happenings', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+            { key: 'safetyEmergency', title: 'Safety and emergency information', icon: '<path d="M12 2l8 3v7c0 6-8 10-8 10s-8-4-8-10V5l8-3z"/>' },
+        ];
+
+        const contentAccordionsEl = document.getElementById('contentAccordions');
+        let contentItemCount = 0;
+
+        function contentItemTemplate() {
+            const wrap = document.createElement('div');
+            wrap.className = 'item-card';
+            wrap.innerHTML = `
+                <button type="button" class="item-card-remove">✕</button>
+                <div class="field">
+                    <label>Guest-Facing Button Title *</label>
+                    <input type="text" class="ci-title" placeholder="e.g. Amenities">
+                </div>
+                <div class="field">
+                    <label>Short Subtitle</label>
+                    <input type="text" class="ci-subtitle" placeholder="e.g. Pool, laundry, trails & more">
+                </div>
+                <div class="field">
+                    <label>Details Guests Should See *</label>
+                    <textarea class="ci-details" placeholder="Instructions, policies, prices, hours or what guests should expect."></textarea>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Primary Action</label>
+                        <select class="ci-action">
+                            <option>No action</option>
+                            <option>Call phone number</option>
+                            <option>Send email</option>
+                            <option>Open link / website</option>
+                            <option>Open directions / map</option>
+                            <option>Show photo or document</option>
+                            <option>Open booking link</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Action Label</label>
+                        <input type="text" class="ci-action-label" placeholder="e.g. Call Guest Services">
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Action URL / Phone / Email</label>
+                        <input type="text" class="ci-action-dest" placeholder="Paste destination">
+                    </div>
+                    <div class="field">
+                        <label>Hours or Availability</label>
+                        <input type="text" class="ci-hours" placeholder="Daily, 8 AM–8 PM">
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>On-Property Location</label>
+                        <input type="text" class="ci-location" placeholder="e.g. Beside the camp store">
+                    </div>
+                    <div class="field">
+                        <label>Active Dates / Season</label>
+                        <input type="text" class="ci-dates" placeholder="Year-round or date range">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Photo, PDF, Menu or Map</label>
+                    <div class="img-upload">
+                        <img class="img-upload-preview">
+                        <button type="button" class="img-upload-btn">Choose File</button>
+                        <input type="file" class="ci-photo" accept="image/*,.pdf">
+                    </div>
+                </div>`;
+            wrap.querySelector('.item-card-remove').addEventListener('click', () => wrap.remove());
+            wrap.querySelector('.img-upload-btn').addEventListener('click', () => wrap.querySelector('.ci-photo').click());
+            wrap.querySelector('.ci-photo').addEventListener('change', function () { previewImg(this); });
+            return wrap;
+        }
+
+        CONTENT_GROUPS.forEach(group => {
+            const acc = document.createElement('div');
+            acc.className = 'accordion';
+            acc.dataset.group = group.key;
+            acc.innerHTML = `
+                <div class="accordion-head">
+                    <div class="accordion-head-left">
+                        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${group.icon}</svg></div>
+                        <b>${group.title}</b>
+                        <span class="accordion-count">(0 items)</span>
+                    </div>
+                    <svg class="accordion-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-items" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    <button type="button" class="add-btn">+ Add an Item</button>
+                </div>`;
+            acc.querySelector('.accordion-head').addEventListener('click', () => acc.classList.toggle('open'));
+            const itemsWrap = acc.querySelector('.accordion-items');
+            const countLabel = acc.querySelector('.accordion-count');
+            function updateCount() { countLabel.textContent = `(${itemsWrap.children.length} items)`; }
+            acc.querySelector('.add-btn').addEventListener('click', () => {
+                contentItemCount++;
+                const item = contentItemTemplate();
+                itemsWrap.appendChild(item);
+                updateCount();
+                acc.classList.add('open');
+            });
+            new MutationObserver(updateCount).observe(itemsWrap, { childList: true });
+            contentAccordionsEl.appendChild(acc);
+        });
+
+        // ── Home screen quick actions (max 4) ──
+        const QA_OPTIONS = [
+            { key: 'map', label: 'Map', def: true },
+            { key: 'events', label: 'Events', def: true },
+            { key: 'contact', label: 'Contact', def: true },
+            { key: 'rules', label: 'Rules', def: true },
+            { key: 'wifi', label: 'Wi-Fi', def: false },
+            { key: 'bookNow', label: 'Book Now', def: false },
+            { key: 'amenities', label: 'Amenities', def: false },
+            { key: 'emergency', label: 'Emergency', def: false },
+        ];
+        const qaGrid = document.getElementById('qaPillGrid');
+        function syncQaDisabled() {
+            const checkedCount = qaGrid.querySelectorAll('.qa-pill input:checked').length;
+            qaGrid.querySelectorAll('.qa-pill').forEach(pill => {
+                const cb = pill.querySelector('input');
+                pill.classList.toggle('disabled', !cb.checked && checkedCount >= 4);
+                cb.disabled = !cb.checked && checkedCount >= 4;
+            });
+        }
+        QA_OPTIONS.forEach(opt => {
+            const pill = document.createElement('label');
+            pill.className = 'qa-pill' + (opt.def ? ' checked' : '');
+            pill.innerHTML = `<input type="checkbox" data-key="${opt.key}" ${opt.def ? 'checked' : ''}><span>${opt.label}</span>`;
+            const cb = pill.querySelector('input');
+            cb.addEventListener('change', () => {
+                pill.classList.toggle('checked', cb.checked);
+                syncQaDisabled();
+            });
+            qaGrid.appendChild(pill);
+        });
+        syncQaDisabled();
+
+        // ── "More" menu organization ──
+        const MENU_GROUPS = [
+            { key: 'myStay', title: 'My Stay', sub: 'Reservation and profile tools.', items: [{ key: 'registerProfile', label: 'Register / My Profile', def: true }, { key: 'reservations', label: 'Reservations', def: true }, { key: 'notifSettings', label: 'Notification Settings', def: true }, { key: 'newsletter', label: 'Newsletter', def: false }] },
+            { key: 'campInfo', title: 'Campground Information', sub: 'Always-available property information.', items: [{ key: 'amenities', label: 'Amenities', def: true }, { key: 'rules', label: 'Rules', def: true }, { key: 'wifi', label: 'Wi-Fi', def: true }, { key: 'weather', label: 'Weather Center', def: true }] },
+            { key: 'duringStay', title: 'During Your Stay', sub: 'Property-specific activities and services.', items: [{ key: 'rvSites', label: 'RV Sites / Cabins', def: true }, { key: 'events', label: 'Events & Activities', def: true }, { key: 'foodShopping', label: 'Food & Shopping', def: false }, { key: 'tickets', label: 'Tickets & Specials', def: false }] },
+            { key: 'helpFeedback', title: 'Help & Feedback', sub: 'Support and post-stay actions.', items: [{ key: 'contactUs', label: 'Contact Us', def: true }, { key: 'sendMessage', label: 'Send a Message', def: true }, { key: 'reportProblem', label: 'Report a Problem', def: true }, { key: 'leaveReview', label: 'Leave a Review', def: true }] },
+        ];
+        const menuGroupGrid = document.getElementById('menuGroupGrid');
+        MENU_GROUPS.forEach(group => {
+            const card = document.createElement('div');
+            card.className = 'menu-group-card';
+            card.dataset.group = group.key;
+            card.innerHTML = `<b>${group.title}</b><p>${group.sub}</p>`;
+            group.items.forEach(item => {
+                const row = document.createElement('label');
+                row.className = 'check-row';
+                row.style.textTransform = 'none';
+                row.style.fontWeight = '400';
+                row.innerHTML = `<input type="checkbox" data-item="${item.key}" ${item.def ? 'checked' : ''}><span>${item.label}</span>`;
+                card.appendChild(row);
+            });
+            menuGroupGrid.appendChild(card);
+        });
+
+        // ── Notification types ──
+        const NOTIF_TYPES = [
+            { key: 'emergency', label: 'Emergency alerts', sub: 'Urgent safety updates', def: true },
+            { key: 'eventReminders', label: 'Event reminders', sub: 'Upcoming activities', def: true },
+            { key: 'operationalUpdates', label: 'Operational updates', sub: 'Hours and closures', def: true },
+            { key: 'offers', label: 'Offers and promotions', sub: 'Discounts and specials', def: false },
+            { key: 'checkoutReminders', label: 'Checkout reminders', sub: 'Departure day nudges', def: false },
+        ];
+        const notifTypeGrid = document.getElementById('notifTypeGrid');
+        NOTIF_TYPES.forEach(t => {
+            const card = document.createElement('label');
+            card.className = 'feat-card' + (t.def ? ' checked' : '');
+            card.innerHTML = `<input type="checkbox" data-key="${t.key}" ${t.def ? 'checked' : ''}><div><div class="feat-card-title">${t.label}</div><div class="feat-card-sub">${t.sub}</div></div>`;
+            const cb = card.querySelector('input');
+            cb.addEventListener('change', () => card.classList.toggle('checked', cb.checked));
+            notifTypeGrid.appendChild(card);
+        });
+
+        // ── Step 4: review summary ──
+        const reviewSummaryGrid = document.getElementById('reviewSummaryGrid');
+        function renderReviewSummary() {
+            const sel = getSelectedFeatures();
+            reviewSummaryGrid.innerHTML = '';
+            FEATURE_CATEGORIES.forEach(cat => {
+                const checked = cat.items.filter(i => sel[cat.key][i.key]);
+                const box = document.createElement('div');
+                box.className = 'summary-cat';
+                box.innerHTML = `<b>${cat.title}</b><div class="pill-wrap">${checked.length ? checked.map(i => `<span class="pill">${i.title}</span>`).join('') : '<span class="hint">None selected</span>'}</div>`;
+                reviewSummaryGrid.appendChild(box);
+            });
+        }
+        renderReviewSummary();
+
+        // ── Step 4: pre-launch checklist ──
+        const checklistItemsEl = document.getElementById('checklistItems');
+        function checklistRow(ok, label) {
+            const div = document.createElement('div');
+            div.className = 'checklist-item ' + (ok ? 'ok' : 'warn');
+            div.innerHTML = `<span class="dot"><svg viewBox="0 0 24 24">${ok ? '<polyline points="20 6 9 17 4 12"/>' : '<line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="16" x2="12.01" y2="16"/>'}</svg></span><span>${label}</span>`;
+            return div;
+        }
+        function refreshChecklist() {
+            checklistItemsEl.innerHTML = '';
+            const basicsOk = ['p1Name', 'p1Address', 'p1Email', 'p1Phone'].every(id => document.getElementById(id).value.trim());
+            const brandOk = document.getElementById('p1LogoPreview').style.display === 'block'
+                && document.getElementById('p1HeroPreview').style.display === 'block'
+                && document.getElementById('p1BookingUrl').value.trim();
+            const sel = getSelectedFeatures();
+            let count = 0;
+            Object.values(sel).forEach(cat => Object.values(cat).forEach(v => { if (v) count++; }));
+
+            checklistItemsEl.appendChild(checklistRow(basicsOk, 'Property name, address and contact information supplied'));
+            checklistItemsEl.appendChild(checklistRow(!!brandOk, 'Logo, hero image, brand colors and booking link supplied'));
+            checklistItemsEl.appendChild(checklistRow(count > 0, `${count} app features selected and organized`));
+            checklistItemsEl.appendChild(checklistRow(false, 'Review seasonal hours, emergency instructions and uploaded documents'));
+        }
+        document.addEventListener('input', refreshChecklist);
+        document.addEventListener('change', refreshChecklist);
+        refreshChecklist();
+
+        // ── Submit / Save for later ──
+        async function collectPayload() {
+            const social = {};
+            document.querySelectorAll('.social-check').forEach(cb => {
+                if (cb.checked) {
+                    const url = document.querySelector(`.social-url[data-key="${cb.dataset.key}"]`).value.trim();
+                    social[cb.dataset.key] = url;
+                }
+            });
+
+            const logoFile = document.getElementById('p1Logo').files[0];
+            const heroFile = document.getElementById('p1Hero').files[0];
+            const logoUrl = logoFile ? await uploadImage(logoFile) : '';
+            const heroUrl = heroFile ? await uploadImage(heroFile) : '';
+
+            const contentItems = {};
+            for (const acc of document.querySelectorAll('#contentAccordions .accordion')) {
+                const groupKey = acc.dataset.group;
+                const items = [];
+                for (const el of acc.querySelectorAll('.accordion-items .item-card')) {
+                    const title = el.querySelector('.ci-title').value.trim();
+                    const subtitle = el.querySelector('.ci-subtitle').value.trim();
+                    const details = el.querySelector('.ci-details').value.trim();
+                    if (!title && !subtitle && !details) continue;
+                    const file = el.querySelector('.ci-photo').files[0];
+                    const photoUrl = file ? await uploadImage(file) : '';
+                    items.push({
+                        title, subtitle, details,
+                        primaryAction: el.querySelector('.ci-action').value,
+                        actionLabel: el.querySelector('.ci-action-label').value.trim(),
+                        actionDest: el.querySelector('.ci-action-dest').value.trim(),
+                        hours: el.querySelector('.ci-hours').value.trim(),
+                        location: el.querySelector('.ci-location').value.trim(),
+                        dates: el.querySelector('.ci-dates').value.trim(),
+                        photoUrl,
+                    });
+                }
+                contentItems[groupKey] = items;
+            }
+
+            const quickActions = [...qaGrid.querySelectorAll('input:checked')].map(cb => cb.dataset.key);
+
+            const moreMenuGroups = {};
+            document.querySelectorAll('.menu-group-card').forEach(card => {
+                moreMenuGroups[card.dataset.group] = [...card.querySelectorAll('input:checked')].map(cb => cb.dataset.item);
+            });
+
+            return {
+                step1: {
+                    propertyName: document.getElementById('p1Name').value.trim(),
+                    propertyType: document.getElementById('p1Type').value,
+                    address: document.getElementById('p1Address').value.trim(),
+                    timeZone: document.getElementById('p1TimeZone').value,
+                    primaryContact: document.getElementById('p1Contact').value.trim(),
+                    contactEmail: document.getElementById('p1Email').value.trim(),
+                    contactPhone: document.getElementById('p1Phone').value.trim(),
+                    logoUrl, heroUrl,
+                    primaryColor: document.getElementById('p1Color1').value.trim(),
+                    secondaryColor: document.getElementById('p1Color2').value.trim(),
+                    welcomeMessage: document.getElementById('p1Welcome').value.trim(),
+                    mainPhone: document.getElementById('p1MainPhone').value.trim(),
+                    afterHoursPhone: document.getElementById('p1AfterHoursPhone').value.trim(),
+                    guestServicesEmail: document.getElementById('p1GuestEmail').value.trim(),
+                    messageDestination: document.getElementById('p1MsgDest').value.trim(),
+                    website: document.getElementById('p1Website').value.trim(),
+                    bookingUrl: document.getElementById('p1BookingUrl').value.trim(),
+                    googleReviewUrl: document.getElementById('p1ReviewUrl').value.trim(),
+                    directionsUrl: document.getElementById('p1DirectionsUrl').value.trim(),
+                    social,
+                },
+                step2: { features: getSelectedFeatures() },
+                step3: {
+                    contentItems,
+                    quickActions,
+                    moreMenuGroups,
+                    notifications: {
+                        types: [...notifTypeGrid.querySelectorAll('input:checked')].map(cb => cb.dataset.key),
+                        range: document.getElementById('notifRange').value,
+                        quietHours: document.getElementById('notifQuiet').value.trim(),
+                        whoCanSend: document.getElementById('notifWho').value.trim(),
+                        escalation: document.getElementById('notifEscalation').value.trim(),
+                    }
+                },
+                step4: {
+                    primaryOwner: document.getElementById('s4PrimaryOwner').value.trim(),
+                    backupOwner: document.getElementById('s4BackupOwner').value.trim(),
+                    eventsMaintainer: document.getElementById('s4EventsMaintainer').value.trim(),
+                    updateMethod: document.getElementById('s4UpdateMethod').value,
+                    reviewFrequency: document.getElementById('s4ReviewFreq').value,
+                    finalApprover: document.getElementById('s4FinalApprover').value.trim(),
+                    confirmAccurate: document.getElementById('confirmAccurate').checked,
+                    confirmMediaRights: document.getElementById('confirmMediaRights').checked,
+                    approverName: document.getElementById('s4ApproverName').value.trim(),
+                    approvalDate: document.getElementById('s4ApprovalDate').value,
+                    finalNotes: document.getElementById('s4Notes').value.trim(),
+                },
+                submittedAt: new Date().toISOString(),
+            };
+        }
+
+        window.saveForLater = async function () {
+            const btn = document.getElementById('saveLaterBtn');
+            const status = document.getElementById('submitStatus');
+            btn.disabled = true;
+            status.className = 'submit-status';
+            status.textContent = 'Saving your progress…';
+            try {
+                const payload = await collectPayload();
+                const newRef = push(ref(db, 'hub_intake_drafts'));
+                await set(newRef, payload);
+                status.className = 'submit-status success';
+                status.textContent = 'Saved — you can come back and finish anytime.';
+            } catch (err) {
+                status.className = 'submit-status error';
+                status.textContent = 'Could not save: ' + (err.message || err);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
         document.getElementById('intakeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const status = document.getElementById('submitStatus');
-            const bizName = document.getElementById('bizName').value.trim();
-            const bizLocation = document.getElementById('bizLocation').value.trim();
-            const submitterName = document.getElementById('submitterName').value.trim();
-            const submitterEmail = document.getElementById('submitterEmail').value.trim();
-            const hasPhone = [...document.querySelectorAll('#phonesList .phone-number')].some(el => el.value.trim());
-            const hasBookingLink = [...document.querySelectorAll('#bookingLinksList .booking-url')].some(el => el.value.trim());
 
-            // Checked in order so the guest sees one problem at a time, and the
-            // page scrolls to whichever field needs fixing first.
             const checks = [
-                [bizName, 'bizName', 'Please enter your property name.'],
-                [bizLocation, 'bizLocation', 'Please enter your property\'s city and state.'],
-                [submitterName, 'submitterName', 'Please enter your name so we know who to follow up with.'],
-                [submitterEmail, 'submitterEmail', 'Please enter your email so we can follow up.'],
+                ['p1Name', 'Please enter your property name.'],
+                ['p1Address', 'Please enter your property\'s physical address.'],
+                ['p1Contact', 'Please enter the primary onboarding contact.'],
+                ['p1Email', 'Please enter a contact email.'],
+                ['p1Phone', 'Please enter a contact phone number.'],
+                ['p1MainPhone', 'Please enter the main office phone.'],
+                ['p1BookingUrl', 'Please enter your booking or reservation URL.'],
+                ['s4PrimaryOwner', 'Please name a primary content owner.'],
+                ['s4FinalApprover', 'Please name a final approver.'],
+                ['s4ApproverName', 'Please enter the approver\'s name.'],
+                ['s4ApprovalDate', 'Please enter the approval date.'],
             ];
-            for (const [value, id, msg] of checks) {
-                if (!value) {
+            for (const [id, msg] of checks) {
+                const field = document.getElementById(id);
+                if (!field.value.trim()) {
                     status.textContent = msg;
                     status.className = 'submit-status error';
-                    const field = document.getElementById(id);
                     field.focus();
                     field.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
             }
-            if (!hasPhone) {
-                status.textContent = 'Please add at least one phone number.';
+            if (!document.getElementById('confirmAccurate').checked || !document.getElementById('confirmMediaRights').checked) {
+                status.textContent = 'Please check both confirmation boxes before submitting.';
                 status.className = 'submit-status error';
-                document.getElementById('phonesList').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            if (!hasBookingLink) {
-                status.textContent = 'Please add at least one booking link — this is what "Book Now" buttons will point to.';
-                status.className = 'submit-status error';
-                document.getElementById('bookingLinksList').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('confirmAccurate').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
@@ -924,91 +2226,8 @@
             status.textContent = 'Uploading photos and saving…';
 
             try {
-                // Phone numbers
-                const phones = [...document.querySelectorAll('#phonesList .item-card')].map(el => ({
-                    label: el.querySelector('.phone-label').value.trim(),
-                    number: el.querySelector('.phone-number').value.trim(),
-                })).filter(p => p.label || p.number);
-
-                // Social links
-                const socials = [...document.querySelectorAll('#socialsList .item-card')].map(el => ({
-                    label: el.querySelector('.social-label').value.trim(),
-                    url: el.querySelector('.social-url').value.trim(),
-                })).filter(s => s.label || s.url);
-
-                // Addresses
-                const addresses = [...document.querySelectorAll('#addressesList .item-card')].map(el => ({
-                    label: el.querySelector('.address-label').value.trim(),
-                    text: el.querySelector('.address-text').value.trim(),
-                })).filter(a => a.label || a.text);
-
-                // WiFi networks
-                const wifiNetworks = [...document.querySelectorAll('#wifiList .item-card')].map(el => ({
-                    label: el.querySelector('.wifi-label').value.trim(),
-                    ssid: el.querySelector('.wifi-ssid').value.trim(),
-                    password: el.querySelector('.wifi-pass').value.trim(),
-                })).filter(w => w.label || w.ssid || w.password);
-
-                // Booking links
-                const bookingLinks = [...document.querySelectorAll('#bookingLinksList .item-card')].map(el => ({
-                    label: el.querySelector('.booking-label').value.trim(),
-                    url: el.querySelector('.booking-url').value.trim(),
-                })).filter(b => b.label || b.url);
-
-                // Rules
-                const rules = [...document.querySelectorAll('#rulesList .item-card')].map(el => ({
-                    title: el.querySelector('.rule-title').value.trim(),
-                    body: el.querySelector('.rule-body').value.trim(),
-                })).filter(r => r.title || r.body);
-
-                // Amenities (with image upload)
-                const amenities = [];
-                for (const el of document.querySelectorAll('#amenitiesList .item-card')) {
-                    const title = el.querySelector('.amenity-title').value.trim();
-                    const sub = el.querySelector('.amenity-sub').value.trim();
-                    const desc = el.querySelector('.amenity-desc').value.trim();
-                    const file = el.querySelector('.amenity-img').files[0];
-                    if (!title && !sub && !desc && !file) continue;
-                    const imageUrl = file ? await uploadImage(file) : '';
-                    amenities.push({ title, sub, desc, imageUrl });
-                }
-
-                // Additional nav groups
-                const navGroups = [];
-                for (const groupEl of document.querySelectorAll('#navGroupsList .nav-group')) {
-                    const label = groupEl.querySelector('.navgroup-label').value.trim();
-                    const items = [];
-                    for (const itemEl of groupEl.querySelectorAll('[data-items] .item-card')) {
-                        const title = itemEl.querySelector('.navitem-title').value.trim();
-                        const desc = itemEl.querySelector('.navitem-desc').value.trim();
-                        const file = itemEl.querySelector('.navitem-img').files[0];
-                        if (!title && !desc && !file) continue;
-                        const imageUrl = file ? await uploadImage(file) : '';
-                        items.push({ title, desc, imageUrl });
-                    }
-                    if (!label && !items.length) continue;
-                    navGroups.push({ label, items });
-                }
-
-                const payload = {
-                    bizName,
-                    bizLocation: document.getElementById('bizLocation').value.trim(),
-                    submitterName: document.getElementById('submitterName').value.trim(),
-                    submitterEmail: document.getElementById('submitterEmail').value.trim(),
-                    contact: {
-                        phones,
-                        socials,
-                        addresses,
-                    },
-                    wifiNetworks,
-                    rules,
-                    amenities,
-                    bookingLinks,
-                    navGroups,
-                    submittedAt: new Date().toISOString(),
-                };
-
-                const newRef = push(ref(db, 'hub_intake'));
+                const payload = await collectPayload();
+                const newRef = push(ref(db, 'hub_intake_v2'));
                 await set(newRef, payload);
 
                 document.getElementById('intakeForm').classList.add('hidden');
