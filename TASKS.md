@@ -605,8 +605,16 @@ COMPLETED TASKS — September 1, 2026
 COMPLETED TASKS — September 2, 2026
 ✅ Guest Hub Content Form - Fixed the remove ("✕") button on repeatable items overlapping/crowding the field below it, and trimmed a large empty gap under the Submit button caused by 80px of unused bottom page padding.
 ✅ Guest Hub Content Form - Added a "Cover Photos" section (main hero, activities page, "more" page — the 3 static banner images every hub's HTML hardcodes) and dedicated Check-In/Check-Out time fields, after scanning the live hub files and finding both were genuinely load-bearing but not captured anywhere in the form.
+✅ Blue Water RV Resort - Replaced all the leftover Stone Mountain Park placeholder content with real info pulled from bluewaterrvpark.com: address, phone, email, office hours, weather coordinates (Freeport, TX), and the real newbook booking link on every Book Now button (was still pointing to Campspot/Stone Mountain).
+✅ Blue Water RV Resort - Replaced the Fishing/Outpost/Golf Club amenity pages with real content — Beach & Water (11 miles of beach access, boat ramp, piers), Pool & Recreation (pool, clubhouse, pavilion, Discovery Trail), and Resort Conveniences (laundry, Wi-Fi, dog park, storage).
+✅ Blue Water RV Resort - Replaced the placeholder Premium/Waterfront/Buddy Sites and Big/Small Cabin pages with the resort's real site types (Deluxe & Super Sites, Canal & Pier Sites, Beach Sites) and Coastal Cottages, renamed "Cabins" to "Cottages" throughout.
+✅ Blue Water RV Resort - Replaced the Rules & Regulations page with the resort's real policies (check-in/out, payment & cancellation, day guest policy, quiet hours, RV & vehicle requirements, permitted/prohibited items, pet policy).
+✅ Blue Water RV Resort - Renamed "On Park Food & Shopping" to "Bar & Store" (Convenience Store + Blue Water Bar) and repurposed the Cable Channels page (was showing an Atlanta TV lineup) into a Blue Water Bar detail page.
+✅ Blue Water RV Resort - Renamed "Tickets & Specials" to "Activities Calendar," now linking to the resort's real activities-calendar page instead of Stone Mountain's ticket page.
+✅ Blue Water RV Resort - Fixed the "Leave a Review" popup's phone number and Google review link, and the Local Guide tab's fallback URL, which were all still pointing to Stone Mountain.
 
 TODO
+☐ Blue Water RV Resort - Still needs real photos uploaded (hero/logo, map, RV sites, cottages, amenities) — left the existing placeholder images and empty image slots in place since no real photos were available to pull in from the resort's website.
 ☐ Shared Code Cleanup - Still need to pull the shared page styling (colors, layout) and the rest of the shared app logic (Firebase setup, chat, push notifications, login, weather) into the same kind of shared Cloudflare file as today's map/tracking code, so hubs load even faster. Also needs a real fix (not just extraction) for 4 hubs — Blue Water RV Resort, Buckeye Lake KOA Holiday, Iron Mountain Resort, and Stone Mountain Park Hub — that are currently showing Stone Mountain's weather and local guide info instead of their own.
 ☐ Home Panel - A specific event photo ("Water Fitness Classes!" at Pickens Golf Club on Carolina Camp Cedar) was reported not showing up on the Home tab even though the same photo shows fine in other places. Cause is suspected but not yet confirmed — needs a follow-up look.
 
