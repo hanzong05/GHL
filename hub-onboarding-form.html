@@ -55,9 +55,16 @@
            <body>, discarding the tag itself — which strips the `body { background }`
            rule above along with it. This wrapper carries the same dark background
            independently so the page never falls back to the host's default white. */
+        /* Fixed + inset:0 breaks out of whatever padded, rounded-corner section
+           the host page wraps around this embed — fixed positioning is relative
+           to the real browser viewport, not that wrapper, so this always covers
+           the full window edge-to-edge regardless of the host's own layout. */
         .page-shell {
+            position: fixed;
+            inset: 0;
             background: var(--bg);
-            min-height: 100vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             padding-bottom: 60px;
         }
 
