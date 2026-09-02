@@ -99,6 +99,11 @@ const HUBS = {
         short_name: 'Big Meadow',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a637661d3104247ab323667.png',
     },
+    'iron-mountain-resort': {
+        name: 'Iron Mountain Resort',
+        short_name: 'Iron Mountain',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
+    },
     'iconnecthub': {
         name: 'iConnectHub Admin',
         short_name: 'iConnectHub',

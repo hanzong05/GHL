@@ -4197,133 +4197,124 @@
             </div>
         </div>
 
-        <!-- PREMIUM SITES OVERLAY -->
-        <div id="tab-premium-sites"
+        <!-- RV SITES LIST OVERLAY -->
+        <div id="tab-rv-sites-list"
             style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
             <div class="contact-header">
-                <div class="contact-back" onclick="closePremiumSites()">
+                <div class="contact-back" onclick="closeRvSitesList()">
                     <svg viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
                     Back
                 </div>
-                <h2>Premium Sites</h2>
+                <h2>RV Sites</h2>
+                <p>Ways to Stay</p>
             </div>
             <div class="contact-body">
-                <div class="contact-section">
-                    <img src="" alt="Premium Sites"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Add a description of the Premium Sites here.
-                    </div>
-                    <button onclick="openBookingWebview()"
-                        style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
-                        Now</button>
+                <div class="contact-section" style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                    Buckeye Lake KOA has sites to fit all your camping needs! From our Full Hook Up Deluxe KOA Patio
+                    Sites with a large patio 4 person table and chair set, rocker, fire ring and grill, to FHO 50 amp,
+                    FHU 30 amp, water and electric only sites or come with a buddy and choose our 30 amp FHU Buddy
+                    sites! We have everything for a tear drop to a Class A Toy Hauler — just remember, if there's a
+                    particular site number you want, be sure to lock it in with the KOA SELECT MY SITE option for an
+                    additional $30 to guarantee your reservation doesn't get moved.
                 </div>
-            </div>
-        </div>
 
-        <!-- WATERFRONT SITES OVERLAY -->
-        <div id="tab-waterfront-sites"
-            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
-            <div class="contact-header">
-                <div class="contact-back" onclick="closeWaterfrontSites()">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                    Back
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Back In, 50/30 Amps, Water/Electric</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Back In · 50/30 Amps · Gravel · Pets Allowed</div>
                 </div>
-                <h2>Waterfront</h2>
-            </div>
-            <div class="contact-body">
-                <div class="contact-section">
-                    <img src="" alt="Waterfront"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Add a description of the Waterfront sites here.
-                    </div>
-                    <button onclick="openBookingWebview()"
-                        style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
-                        Now</button>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Pull Thru, 50/30/20 Amps, Full Hookups, Patio</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Pull Thru · 50/30/20 Amps · Big Rig Friendly · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">These amazing sites are our most popular and requested sites. Longer and wider, these sites have a large patio, patio furniture, grill and specialty fire pit — perfect for enjoying your vacation or even a one-night stay. These are the perfect sites from the largest camper to the smallest, and the only area in the park that's satellite friendly. Perfect for those that enjoy a little luxury.</div>
                 </div>
-            </div>
-        </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Pull Thru, 50/30/20 Amps, Full Hookups, Patio (Extra Room)</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Pull Thru · 50/30/20 Amps · Big Rig Friendly · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Want a little extra room? These larger sites with lots of shade are perfect for you. The large patio with patio furniture is perfect for kicking back and relaxing. Grill your favorites on the charcoal grill, then enjoy s'mores around the fire — you'll cherish the memories made here.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Pull Thru, 50/30/20 Amps, Full Hookups</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Pull Thru · 50/30/20 Amps · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Most of these sites are over 60 feet, making them good for motorhomes that may be towing a car or trailer!</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Pull Thru, 30/20 Amps, Water/Electric</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Pull Thru · 30/20 Amps · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">If you don't need sewer but still want the ease of a pull-thru, these are the sites for you. Mature trees offer lots of shade for relaxing at the picnic table, and the fire pit will have you enjoying those delicious s'mores.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Buddy Pull Thru, 30/20 Amps, Full Hookups</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Pull Thru · 30/20 Amps · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Buddy Pull Thru 30/20 full hookup sites with trees for lots of shade. These awning-to-awning buddy sites are perfect for camping with others or for making new friends. These popular sites are sure to please!</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Back In, 50/30/20 Amps, Full Hookups, Deluxe Patio</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Back In · 50/30/20 Amps · Big Rig Friendly · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">These sites are awesome for enjoying your vacation. Kick back on the patio or around the campfire and enjoy the beautiful surroundings.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Back In, 30/20 Amps, Water/Electric</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · Back In · 30/20 Amps · Cable (Limited Channels) · Gravel · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">These back-in sites are a great penny saver compared to a full hookup site. A grass area with picnic table and fire pit are perfect for kicking back and relaxing by the fire. We have a dump station for your exit from the park.</div>
+                </div>
 
-        <!-- BUDDY SITES OVERLAY -->
-        <div id="tab-buddy-sites"
-            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
-            <div class="contact-header">
-                <div class="contact-back" onclick="closeBuddySites()">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                    Back
+                <div style="padding:0 16px 6px;font-size:11px;color:var(--muted);font-style:italic;">
+                    *The photo shown for each site type is an example and may not be the actual site reserved.
                 </div>
-                <h2>Buddy Sites</h2>
-            </div>
-            <div class="contact-body">
-                <div class="contact-section">
-                    <img src="" alt="Buddy Sites"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Add a description of the Buddy Sites here.
-                    </div>
-                    <button onclick="openBookingWebview()"
-                        style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
-                        Now</button>
-                </div>
+
+                <button onclick="openBookingWebview()"
+                    style="display:block;width:calc(100% - 32px);margin:8px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Check
+                    Availability</button>
             </div>
         </div>
 
         <!-- BIG CABIN OVERLAY -->
-        <div id="tab-big-cabin"
+        <!-- LODGING OVERLAY -->
+        <div id="tab-lodging"
             style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
             <div class="contact-header" style="background:linear-gradient(135deg,#1a56db,#1e3a8a);">
-                <div class="contact-back" onclick="closeBigCabin()">
+                <div class="contact-back" onclick="closeLodging()">
                     <svg viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
                     Back
                 </div>
-                <h2>The Big Cabin</h2>
+                <h2>Lodging</h2>
+                <p>Ways to Stay</p>
             </div>
             <div class="contact-body">
-                <div class="contact-section">
-                    <img src="" alt="The Big Cabin"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Add a description of The Big Cabin here.
-                    </div>
-                    <button onclick="openBookingWebview()"
-                        style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
-                        Now</button>
+                <div class="contact-section" style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                    KOA offers a variety of lodging options so you can enjoy the great outdoors with an elevated
+                    camping experience — no "roughing it" required. Availability varies, so check with the campground
+                    to see what's on site.
                 </div>
-            </div>
-        </div>
 
-        <!-- SMALL CABINS OVERLAY -->
-        <div id="tab-small-cabins"
-            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
-            <div class="contact-header" style="background:linear-gradient(135deg,#1a56db,#1e3a8a);">
-                <div class="contact-back" onclick="closeSmallCabins()">
-                    <svg viewBox="0 0 24 24">
-                        <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                    Back
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;">Deluxe Cabins</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Fully equipped with electricity, a private full bathroom, hot showers and comfortable beds — great for the whole family. Some come with extras like TVs, grills, fire pits and stocked kitchenettes.</div>
                 </div>
-                <h2>Small Cabins</h2>
-            </div>
-            <div class="contact-body">
-                <div class="contact-section">
-                    <img src="" alt="Small Cabins"
-                        style="width:100%;height:220px;display:block;object-fit:cover;background:#f3f4f6;">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Add a description of the Small Cabins here.
-                    </div>
-                    <button onclick="openBookingWebview()"
-                        style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Book
-                        Now</button>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;">Camping Cabins</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Enjoy the outdoor experience with the comfort of electricity and a roof over your head. Floor plans sleep between two and six guests, and many have front porches — perfect for relaxing after a day of exploring.</div>
                 </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;">Glamping Tents</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Wall tents and safari tents with a few more modern conveniences than a regular tent — electricity, storage and comfortable furniture for the ultimate blend of comfort and adventure.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;">Unique Lodging</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Teepees, yurts, Airstream trailers, treehouses and more — a one-of-a-kind way to camp. Check with the campground for what's currently available.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;">KOA Patio®</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Take your stay to the next level with a spacious KOA Patio® — extra room to enjoy the outdoors right outside your lodging, fully equipped with outdoor furniture and a fire ring or pit.</div>
+                </div>
+
+                <button onclick="openBookingWebview()"
+                    style="display:block;width:calc(100% - 32px);margin:8px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Reserve
+                    Now</button>
             </div>
         </div>
 
@@ -5542,6 +5533,165 @@
             </button>
         </nav>
 
+        <!-- TENT SITES OVERLAY -->
+        <div id="tab-tent-sites"
+            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
+            <div class="contact-header" style="background:linear-gradient(135deg,#16a34a,#166534);">
+                <div class="contact-back" onclick="closeTentSites()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                    Back
+                </div>
+                <h2>Tent Sites</h2>
+                <p>Ways to Stay</p>
+            </div>
+            <div class="contact-body">
+                <div class="contact-section" style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                    Buckeye Lake has multiple types of tent sites for all types of tenting! Choose from primitive,
+                    electric, and even electric and water. All you need is you, your tent and supplies.
+                </div>
+
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Individual Tent Site, No Hookups, Grass Tent Pad</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · No Hookups · Grass · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Enjoy nature in a wooded area with lots of shade. Some of these sites are secluded while still being close to our restrooms and shower facilities. If you like the great outdoors, these basic sites are waiting for you. While still camping with no-frills, you'll enjoy the picnic table and firepit that come with these sites. Experience a night under the stars while making s'mores — we're sure you won't want to leave.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Individual Tent Site, Water &amp; Electric, Grass Tent Pad</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · 20 Amps · Water &amp; Electric · Grass · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Nice and roomy, great for large tents — these shaded sites are in high demand. These large sites with ample parking are ideal for kicking back and enjoying the great outdoors in style.</div>
+                </div>
+                <div class="contact-section" style="padding:14px;">
+                    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;">Individual Tent Site, Electric Only, Grass Tent Pad</div>
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Up to 6 people · 20 Amps · Electric Only · Grass · Pets Allowed</div>
+                    <div style="font-size:13px;color:var(--text);line-height:1.6;">Gather around the campfire at one of these creekside sites with 20 amp electric. Great for tents large or small. Each site comes with a picnic table and firepit. The memories created here are priceless.</div>
+                </div>
+
+                <div style="padding:0 16px 6px;font-size:11px;color:var(--muted);font-style:italic;">
+                    *The photo shown for each site type is an example and may not be the actual site reserved.
+                </div>
+
+                <button onclick="openBookingWebview()"
+                    style="display:block;width:calc(100% - 32px);margin:8px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;">Check
+                    Availability</button>
+            </div>
+        </div>
+
+        <!-- EXTENDED STAYS OVERLAY -->
+        <div id="tab-extended-stays"
+            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
+            <div class="contact-header" style="background:linear-gradient(135deg,#9333ea,#6b21a8);">
+                <div class="contact-back" onclick="closeExtendedStays()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                    Back
+                </div>
+                <h2>Extended Stays</h2>
+                <p>Ways to Stay</p>
+            </div>
+            <div class="contact-body">
+                <div class="contact-section">
+                    <div class="contact-section-label">Want to Learn More?</div>
+                    <div class="contact-address">
+                        4460 Walnut Road<br>Buckeye Lake, OH 43008
+                    </div>
+                    <a class="contact-row" href="tel:7409280706">
+                        <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Call Us</div>
+                            <div class="contact-row-value">1-740-928-0706</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="mailto:BuckeyeLake@koa.com">
+                        <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Request Info Online</div>
+                            <div class="contact-row-value">BuckeyeLake@koa.com</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                </div>
+                <div class="contact-section" style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                    Our Seasonal Sites are available from April 1 through October 31. We offer Month-to-Month sites as well based on availability. Seasonal and Monthly Sites are accepted upon completion of a background check for each adult over the age of 18. Background check links are $25 per person and will be sent from CampBackgroundChecks.com to each email — no personal protected information is exposed. Once a passing grade is received by the General Manager, you will be called to set up your reservation.<br><br>
+                    If your RV is older than 10 years, you will be asked to submit a clear photo to show the RV is in like-new condition.<br><br>
+                    <strong>Pricing:</strong><br>
+                    • $25 per person background check fee<br>
+                    • $150 deposit, refunded at time of check out<br>
+                    • $950 per month plus metered electrical<br><br>
+                    Please email <a href="mailto:BuckeyeLake@koa.com" style="color:var(--blue);font-weight:600;">BuckeyeLake@koa.com</a> for more information.
+                </div>
+                <div class="contact-section">
+                    <div class="contact-section-label">Activities</div>
+                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                        Buckeye Lake KOA has recreational lead activities on Saturdays and Holiday weekends, weather dependent. Our Arcade room is open daily 9:00 AM – 9:00 PM during the summer. The recreation/play area will get a "face-lift" over the next couple seasons — keep an eye out as we transition to be bigger and better!
+                    </div>
+                </div>
+                <a href="tel:7409280706"
+                    style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;">Call
+                    to Reserve</a>
+            </div>
+        </div>
+
+        <!-- GROUPS OVERLAY -->
+        <div id="tab-group-stays"
+            style="position:absolute;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe-bottom));z-index:25;background:var(--bg);display:none;flex-direction:column;pointer-events:none;">
+            <div class="contact-header" style="background:linear-gradient(135deg,#2563eb,#1e3a8a);">
+                <div class="contact-back" onclick="closeGroupStays()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                    Back
+                </div>
+                <h2>Groups</h2>
+                <p>Ways to Stay</p>
+            </div>
+            <div class="contact-body">
+                <div class="contact-section" style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
+                    We love groups and they love us! Are you planning a family reunion, an RV club event, a church retreat, or a Boy or Girl Scout outing? Our many camping options, activities, and entertainment are just a few of the things our groups love about the Buckeye Lake KOA.<br><br>
+                    We can accommodate groups with all kinds of camping styles. With over 200 RV Sites, 3 primitive cabins, 6 deluxe cabins, and many options for tent sites, you can mix and match to create an awesome camping experience for all group members. Group discounts are based on 10 sites or more and range from 10% to 20% off site cost based on the size of your group.<br><br>
+                    Pavilion rental is also available.
+                </div>
+                <div class="contact-section">
+                    <div class="contact-section-label">Book a Group Stay</div>
+                    <a class="contact-row" href="mailto:buckeyelake@koa.com">
+                        <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Email Your Event & Contact Info</div>
+                            <div class="contact-row-value">buckeyelake@koa.com</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                    <a class="contact-row" href="tel:7409280706">
+                        <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg></div>
+                        <div class="contact-row-text">
+                            <div class="contact-row-label">Group & Rally Info</div>
+                            <div class="contact-row-value">1-740-928-0706</div>
+                        </div>
+                        <div class="contact-row-arrow">›</div>
+                    </a>
+                </div>
+                <div style="padding:0 16px 6px;font-size:12px;color:var(--muted);line-height:1.6;">
+                    The General Manager will reach out Tuesday through Saturday to assist you with your reservation.
+                </div>
+                <a href="tel:7409280706"
+                    style="display:block;width:calc(100% - 32px);margin:4px 16px 16px;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;">Call
+                    to Reserve</a>
+            </div>
+        </div>
+
     </div><!-- /#app -->
 
     <script>
@@ -5793,22 +5943,26 @@
         function closeFishing() { const el = document.getElementById('tab-fishing'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
 
         // ── RV Sites ──
-        function openRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.add('open'); }
-        function closeRvSitesPicker() { document.getElementById('rvSitesOverlay').classList.remove('open'); }
-        function openPremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closePremiumSites() { const el = document.getElementById('tab-premium-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeWaterfrontSites() { const el = document.getElementById('tab-waterfront-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeBuddySites() { const el = document.getElementById('tab-buddy-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        // ── Ways to Stay ──
+        function openWaysToStayPicker() { document.getElementById('waysToStayOverlay').classList.add('open'); }
+        function closeWaysToStayPicker() { document.getElementById('waysToStayOverlay').classList.remove('open'); }
+        function openTentSites() { const el = document.getElementById('tab-tent-sites'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeTentSites() { const el = document.getElementById('tab-tent-sites'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openExtendedStays() { const el = document.getElementById('tab-extended-stays'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeExtendedStays() { const el = document.getElementById('tab-extended-stays'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openGroupStays() { const el = document.getElementById('tab-group-stays'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeGroupStays() { const el = document.getElementById('tab-group-stays'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+
+        function openRvSitesPicker() { openRvSitesList(); }
+        function closeRvSitesPicker() { }
+        function openRvSitesList() { const el = document.getElementById('tab-rv-sites-list'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeRvSitesList() { const el = document.getElementById('tab-rv-sites-list'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
 
         // ── Cabins ──
-        function openCabinsPicker() { document.getElementById('cabinsOverlay').classList.add('open'); }
-        function closeCabinsPicker() { document.getElementById('cabinsOverlay').classList.remove('open'); }
-        function openBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeBigCabin() { const el = document.getElementById('tab-big-cabin'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
-        function openSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
-        function closeSmallCabins() { const el = document.getElementById('tab-small-cabins'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
+        function openCabinsPicker() { openLodging(); }
+        function closeCabinsPicker() { }
+        function openLodging() { const el = document.getElementById('tab-lodging'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
+        function closeLodging() { const el = document.getElementById('tab-lodging'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
 
         // ── Outpost overlay ──
         function openOutpost() { const el = document.getElementById('tab-outpost'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
@@ -6189,101 +6343,73 @@
         </div>
     </div>
 
-    <!-- RV SITES PICKER SHEET -->
-    <div class="notif-overlay" id="rvSitesOverlay" onclick="if(event.target===this)closeRvSitesPicker()">
+    <!-- WAYS TO STAY PICKER SHEET -->
+    <div class="notif-overlay" id="waysToStayOverlay" onclick="if(event.target===this)closeWaysToStayPicker()">
         <div class="notif-sheet">
             <div class="notif-sheet-header">
-                <div class="notif-sheet-title">RV Sites</div>
-                <button class="notif-close-btn" onclick="closeRvSitesPicker()">✕</button>
+                <div class="notif-sheet-title">Ways to Stay</div>
+                <button class="notif-close-btn" onclick="closeWaysToStayPicker()">✕</button>
             </div>
             <div style="padding:8px 0 4px;">
-                <div onclick="closeRvSitesPicker();openPremiumSites();"
+                <div onclick="closeWaysToStayPicker();openRvSitesPicker();"
                     style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                            <polyline points="9 22 9 12 15 12 15 22" />
+                    <div style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round">
+                            <rect x="2" y="10" width="15" height="8" rx="1.5" /><path d="M17 12h2.5l2.5 3v3h-5z" /><circle cx="6.5" cy="19" r="1.6" /><circle cx="17.5" cy="19" r="1.6" />
                         </svg>
                     </div>
                     <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Premium Sites</div>
+                        <div style="font-size:15px;font-weight:600;color:#111827;">RV Sites</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Back In · Pull Thru · Buddy Sites</div>
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
-                <div onclick="closeRvSitesPicker();openWaterfrontSites();"
+                <div onclick="closeWaysToStayPicker();openCabinsPicker();"
                     style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M2 20h20M4 20V10l8-6 8 6v10" />
-                            <path d="M10 20v-6h4v6" />
-                            <path d="M2 10h20" />
+                    <div style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round">
+                            <path d="M3 11l9-7 9 7" /><path d="M5 10v10h14V10" /><path d="M9 20v-6h6v6" />
                         </svg>
                     </div>
                     <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Waterfront</div>
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Lodging</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Deluxe Cabins · Camping Cabins · Glamping · KOA Patio&reg;</div>
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
-                <div onclick="closeRvSitesPicker();openBuddySites();"
+                <div onclick="closeWaysToStayPicker();openTentSites();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                            <path d="M12 3l9 18H3z" /><path d="M12 3v18" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Tent Sites</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="closeWaysToStayPicker();openExtendedStays();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Extended Stays</div>
+                    </div>
+                    <div style="color:#9ca3af;font-size:20px;">›</div>
+                </div>
+                <div onclick="closeWaysToStayPicker();openGroupStays();"
                     style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
-                            stroke-linecap="round">
-                            <path
-                                d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-8.13a4 4 0 110 8 4 4 0 010-8zM6 12a4 4 0 110-8 4 4 0 010 8z" />
+                    <div style="width:44px;height:44px;border-radius:12px;background:#eff6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
                         </svg>
                     </div>
                     <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Buddy Sites</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CABINS PICKER SHEET -->
-    <div class="notif-overlay" id="cabinsOverlay" onclick="if(event.target===this)closeCabinsPicker()">
-        <div class="notif-sheet">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Cabins</div>
-                <button class="notif-close-btn" onclick="closeCabinsPicker()">✕</button>
-            </div>
-            <div style="padding:8px 0 4px;">
-                <div onclick="closeCabinsPicker();openBigCabin();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M3 11l9-7 9 7" />
-                            <path d="M5 10v10h14V10" />
-                            <path d="M9 20v-6h6v6" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">The Big Cabin</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="closeCabinsPicker();openSmallCabins();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f97316" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M3 11l9-7 9 7" />
-                            <path d="M5 10v10h14V10" />
-                            <path d="M9 20v-6h6v6" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Small Cabins</div>
+                        <div style="font-size:15px;font-weight:600;color:#111827;">Groups</div>
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
@@ -7321,15 +7447,10 @@
                 icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
                 title: 'Amenities', sub: 'Fishing · Outpost · Golf Club',
             },
-            rvsites: {
-                bg: '#e0f7fa', onclick: 'openRvSitesPicker()',
+            waystostay: {
+                bg: '#e0f7fa', onclick: 'openWaysToStayPicker()',
                 icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round"><rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/><line x1="5" y1="10" x2="5" y2="6"/><line x1="9" y1="10" x2="9" y2="6"/><line x1="13" y1="10" x2="13" y2="6"/><line x1="4" y1="6" x2="14" y2="6"/></svg>',
-                title: 'RV Sites', sub: 'Premium · Waterfront · Buddy Sites',
-            },
-            cabins: {
-                bg: '#fff7ed', onclick: 'openCabinsPicker()',
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
-                title: 'Cabins', sub: 'The Big Cabin · Small Cabins',
+                title: 'Ways to Stay', sub: 'RV Sites · Lodging · Tent Sites · Extended Stays · Groups',
             },
             rules: {
                 bg: '#fdf4ff', onclick: 'openRules()',
@@ -7388,7 +7509,7 @@
             },
         };
         // Legacy flat order — used only when a hub has no custom visibilityGroups yet.
-        const DEFAULT_MORE_ORDER = ['register', 'weather', 'wifi', 'amenities', 'rvsites', 'cabins', 'rules', 'bookNow', 'reservations', 'foodshopping', 'tickets', 'cable', 'contact', 'newsletter', 'review', 'chat', 'notifSettings'];
+        const DEFAULT_MORE_ORDER = ['register', 'weather', 'wifi', 'amenities', 'waystostay', 'rules', 'bookNow', 'reservations', 'foodshopping', 'tickets', 'cable', 'contact', 'newsletter', 'review', 'chat', 'notifSettings'];
 
         // Group-header icon themes — chosen in the admin panel's Hub Visibility
         // editor (stored as a theme key on each group, e.g. "person"). Colors +
@@ -7436,7 +7557,19 @@
             const moreBody = document.getElementById('moreBody');
             if (!moreBody) return;
             const vis = _lastVisibilityMore || {};
-            const visibleIds = ids => ids.filter(id => MORE_ITEM_DEFS[id] && vis[id] !== false);
+            // Older saved hub orders (from Firebase, set via the admin panel's
+            // Hub Visibility editor before "RV Sites"/"Cabins" were merged into
+            // one "Ways to Stay" entry) still reference the old ids. Remap them
+            // so a stale saved order doesn't just silently drop the item.
+            const remapId = id => (id === 'rvsites' || id === 'cabins') ? 'waystostay' : id;
+            const visibleIds = ids => {
+                const seen = new Set();
+                return ids.map(remapId).filter(id => {
+                    if (!MORE_ITEM_DEFS[id] || vis[id] === false || seen.has(id)) return false;
+                    seen.add(id);
+                    return true;
+                });
+            };
 
             let html;
             if (groups && groups.length) {
@@ -7509,8 +7642,7 @@
             chat: { label: 'Chat', color: '#4f46e5', onclick: 'openChatModal()', icon: '<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>' },
             rules: { label: 'Rules', color: '#0891b2', onclick: 'openRules()', icon: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
             amenities: { label: 'Amenities', color: '#0891b2', onclick: 'openAmenitiesPicker()', icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
-            rvsites: { label: 'RV Sites', color: '#0891b2', onclick: 'openRvSitesPicker()', icon: '<rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/>' },
-            cabins: { label: 'Cabins', color: '#f97316', onclick: 'openCabinsPicker()', icon: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>' },
+            waystostay: { label: 'Ways to Stay', color: '#0891b2', onclick: 'openWaysToStayPicker()', icon: '<rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/>' },
             reservations: { label: 'Reservations', color: '#f97316', onclick: 'openReservePicker()', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
             foodshopping: { label: 'Food', color: '#16a34a', onclick: 'openFoodShop()', icon: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
             tickets: { label: 'Tickets', color: '#db2777', onclick: 'openTicketsSpecialsLink()', icon: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>' },
@@ -7524,6 +7656,7 @@
             const container = document.querySelector('.quick-actions');
             if (!container) return;
             container.innerHTML = slots.map(id => {
+                if (id === 'rvsites' || id === 'cabins') id = 'waystostay';
                 const d = QA_DEFS[id] || QA_DEFS.map;
                 const badge = id === 'chat' ? `<span class="notif-dot hidden" id="qaChatDot" style="width:12px;height:12px;font-size:0;"></span>` : '';
                 return `<div class="qa-btn" id="qa-${id}" onclick="${d.onclick}">
