@@ -38,7 +38,7 @@
             font-family: 'DM Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
-            padding: 24px 16px 80px;
+            padding: 24px 16px;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -196,11 +196,11 @@
 
         .item-card-remove {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
+            top: 8px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
             background: var(--surface);
             border: 1px solid var(--border2);
             color: var(--text3);
@@ -208,8 +208,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             line-height: 1;
+            z-index: 1;
         }
 
         .item-card-remove:hover {
@@ -464,6 +465,52 @@
                 </div>
             </div>
 
+            <!-- COVER PHOTOS -->
+            <div class="card">
+                <div class="card-head">
+                    <div class="ic"><svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg></div>
+                    <div>
+                        <h2>Cover Photos</h2>
+                        <p>Real photos of your property — used as the big banner images on your Hub</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="field">
+                        <label>Main Hero Photo</label>
+                        <div class="img-upload">
+                            <img class="img-upload-preview" id="mainHeroPreview">
+                            <button type="button" class="img-upload-btn" onclick="this.nextElementSibling.click()">Choose
+                                Photo</button>
+                            <input type="file" id="mainHeroImg" accept="image/*" onchange="previewImg(this)">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Activities Page Photo</label>
+                        <div class="img-upload">
+                            <img class="img-upload-preview" id="activitiesHeroPreview">
+                            <button type="button" class="img-upload-btn" onclick="this.nextElementSibling.click()">Choose
+                                Photo</button>
+                            <input type="file" id="activitiesHeroImg" accept="image/*" onchange="previewImg(this)">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>"More" Page Photo</label>
+                        <div class="img-upload">
+                            <img class="img-upload-preview" id="moreHeroPreview">
+                            <button type="button" class="img-upload-btn" onclick="this.nextElementSibling.click()">Choose
+                                Photo</button>
+                            <input type="file" id="moreHeroImg" accept="image/*" onchange="previewImg(this)">
+                        </div>
+                    </div>
+                    <div class="hint">Optional, but strongly recommended — if left blank, we'll use a placeholder
+                        until you send real photos.</div>
+                </div>
+            </div>
+
             <!-- CONTACTS -->
             <div class="card">
                 <div class="card-head">
@@ -520,10 +567,20 @@
                         </svg></div>
                     <div>
                         <h2>Rules</h2>
-                        <p>Park policies guests should know</p>
+                        <p>Check-in/out times and park policies guests should know</p>
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Check-In Time</label>
+                            <input type="text" id="checkInTime" placeholder="e.g. 2:00 PM">
+                        </div>
+                        <div class="field">
+                            <label>Check-Out Time</label>
+                            <input type="text" id="checkOutTime" placeholder="e.g. 11:00 AM">
+                        </div>
+                    </div>
                     <div id="rulesList" style="display:flex;flex-direction:column;gap:10px;"></div>
                     <button type="button" class="add-btn" onclick="addRule()">+ Add a Rule</button>
                 </div>
@@ -973,6 +1030,15 @@
                     amenities.push({ title, sub, desc, imageUrl });
                 }
 
+                // Cover photos (fixed, not repeatable)
+                const coverPhotos = {};
+                const mainHeroFile = document.getElementById('mainHeroImg').files[0];
+                if (mainHeroFile) coverPhotos.main = await uploadImage(mainHeroFile);
+                const activitiesHeroFile = document.getElementById('activitiesHeroImg').files[0];
+                if (activitiesHeroFile) coverPhotos.activities = await uploadImage(activitiesHeroFile);
+                const moreHeroFile = document.getElementById('moreHeroImg').files[0];
+                if (moreHeroFile) coverPhotos.more = await uploadImage(moreHeroFile);
+
                 // Additional nav groups
                 const navGroups = [];
                 for (const groupEl of document.querySelectorAll('#navGroupsList .nav-group')) {
@@ -1001,8 +1067,11 @@
                         addresses,
                     },
                     wifiNetworks,
+                    checkInTime: document.getElementById('checkInTime').value.trim(),
+                    checkOutTime: document.getElementById('checkOutTime').value.trim(),
                     rules,
                     amenities,
+                    coverPhotos,
                     bookingLinks,
                     navGroups,
                     submittedAt: new Date().toISOString(),

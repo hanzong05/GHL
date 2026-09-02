@@ -602,6 +602,10 @@ COMPLETED TASKS — September 1, 2026
 ✅ Winding Waters RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Admin Panel - Added a pre-shrinking step for event, monthly happenings, and newsletter photos the moment staff upload them, so the first guest to view a photo doesn't wait on it.
 
+COMPLETED TASKS — September 2, 2026
+✅ Guest Hub Content Form - Fixed the remove ("✕") button on repeatable items overlapping/crowding the field below it, and trimmed a large empty gap under the Submit button caused by 80px of unused bottom page padding.
+✅ Guest Hub Content Form - Added a "Cover Photos" section (main hero, activities page, "more" page — the 3 static banner images every hub's HTML hardcodes) and dedicated Check-In/Check-Out time fields, after scanning the live hub files and finding both were genuinely load-bearing but not captured anywhere in the form.
+
 TODO
 ☐ Shared Code Cleanup - Still need to pull the shared page styling (colors, layout) and the rest of the shared app logic (Firebase setup, chat, push notifications, login, weather) into the same kind of shared Cloudflare file as today's map/tracking code, so hubs load even faster. Also needs a real fix (not just extraction) for 4 hubs — Blue Water RV Resort, Buckeye Lake KOA Holiday, Iron Mountain Resort, and Stone Mountain Park Hub — that are currently showing Stone Mountain's weather and local guide info instead of their own.
 ☐ Home Panel - A specific event photo ("Water Fitness Classes!" at Pickens Golf Club on Carolina Camp Cedar) was reported not showing up on the Home tab even though the same photo shows fine in other places. Cause is suspected but not yet confirmed — needs a follow-up look.
