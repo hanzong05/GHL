@@ -99,6 +99,11 @@ const HUBS = {
         short_name: 'Big Meadow',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a637661d3104247ab323667.png',
     },
+    'blue-water-rv-resort': {
+        name: 'Blue Water RV Resort',
+        short_name: 'Blue Water RV',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7471e695133c52554c13d8.jpg',
+    },
     'iconnecthub': {
         name: 'iConnectHub Admin',
         short_name: 'iConnectHub',
