@@ -52,13 +52,12 @@
         }
 
         /* Some hosts (GHL custom-code embeds) inject only the inner content of
-           <body>, discarding the tag itself — which strips the `body { background }`
-           rule above along with it. This wrapper carries the same dark background
-           independently so the page never falls back to the host's default white. */
-        /* Fixed + inset:0 breaks out of whatever padded, rounded-corner section
-           the host page wraps around this embed — fixed positioning is relative
-           to the real browser viewport, not that wrapper, so this always covers
-           the full window edge-to-edge regardless of the host's own layout. */
+           <body> into their own padded, rounded-corner section — which both
+           strips the `body { background }` rule above (no real <body> left to
+           style) and boxes the page in as a card on the host's white page.
+           position:fixed + inset:0 sidesteps both: it paints its own background
+           and anchors to the real browser viewport instead of that wrapper, so
+           the page fills the window edge-to-edge no matter how the host nests it. */
         .page-shell {
             position: fixed;
             inset: 0;
