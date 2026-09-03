@@ -48,8 +48,23 @@
             font-family: 'DM Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
-            padding: 0 0 60px;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* Some hosts (GHL custom-code embeds) inject only the inner content of
+           <body> into their own padded, rounded-corner section — which both
+           strips the `body { background }` rule above (no real <body> left to
+           style) and boxes the page in as a card on the host's white page.
+           position:fixed + inset:0 sidesteps both: it paints its own background
+           and anchors to the real browser viewport instead of that wrapper, so
+           the page fills the window edge-to-edge no matter how the host nests it. */
+        .page-shell {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 60px;
         }
 
         .wrap {
@@ -1053,6 +1068,7 @@
 </head>
 
 <body>
+    <div class="page-shell">
     <div class="appbar">
         <div class="appbar-inner">
             <div class="appbar-left">
@@ -1622,6 +1638,7 @@
             <p id="successBody">Your property details were submitted successfully. Our team will use this to build
                 out your guest hub and follow up if we need anything else.</p>
         </div>
+    </div>
     </div>
 
     <script type="module">
