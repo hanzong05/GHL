@@ -2152,7 +2152,7 @@
                                 }
 
                                 .nav-item.active .nav-ico-wrap {
-                                    background: rgba(26, 86, 219, .1);
+                                    background: none;
                                 }
 
                                 .nav-item.active svg {
@@ -2164,7 +2164,7 @@
                                 }
 
                                 .nav-item.active.purple .nav-ico-wrap {
-                                    background: rgba(109, 40, 217, .1);
+                                    background: none;
                                 }
 
                                 .nav-item.active.purple svg {
@@ -7521,7 +7521,7 @@
                                     const d = MORE_ITEM_DEFS[id];
                                     if (!d) return '';
                                     return `<div class="more-item" id="more-item-${id}" onclick="${d.onclick}">
-                                        <div class="more-item-icon" style="background:${d.bg}${d.iconWrapStyle ? ';' + d.iconWrapStyle : ''}">${d.icon}</div>
+                                        <div class="more-item-icon" style="${d.iconWrapStyle || ''}">${d.icon}</div>
                                         <div class="more-item-text">
                                             <div class="more-item-title"${d.titleId ? ` id="${d.titleId}"` : ''}>${d.title}</div>
                                         </div>
@@ -7624,7 +7624,7 @@
                                         const d = QA_DEFS[id] || QA_DEFS.map;
                                         const badge = id === 'chat' ? `<span class="notif-dot hidden" id="qaChatDot" style="width:12px;height:12px;font-size:0;"></span>` : '';
                                         return `<div class="qa-btn" id="qa-${id}" onclick="${d.onclick}">
-                                            <div class="qa-icon" style="position:relative;">${badge}<svg viewBox="0 0 24 24" fill="none" stroke="${d.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d.icon}</svg></div>
+                                            <div class="qa-icon" style="position:relative;">${badge}<svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d.icon}</svg></div>
                                             <span class="qa-label">${d.label}</span>
                                         </div>`;
                                     }).join('');
@@ -7729,10 +7729,7 @@
                                         .section-title { color: ${p.textPrimary} !important; }
                                         .section-link { color: ${p.textPrimary} !important; }
                                         /* Quick actions */
-                                        .qa-icon.ic-map { background: ${p.primary}22 !important; }
-                                        .qa-icon.ic-act { background: ${p.tab}22 !important; }
-                                        .qa-icon.ic-call { background: ${p.primary}18 !important; }
-                                        .qa-icon.ic-wifi { background: ${p.primary}15 !important; }
+                                        .qa-icon { background: none !important; }
                                         .qa-icon.ic-map svg, .qa-icon.ic-call svg, .qa-icon.ic-wifi svg { stroke: ${p.primary} !important; }
                                         .qa-icon.ic-act svg { stroke: ${p.tab} !important; }
                                         .qa-label { color: ${p.textPrimary} !important; }
@@ -7743,6 +7740,14 @@
                                         .more-row-icon { background: ${p.primary}18 !important; }
                                         .more-row-icon svg { stroke: ${p.primary} !important; }
                                         .more-item-title { color: ${p.textPrimary} !important; }
+                                        .more-item-sub, .more-version { color: ${p.secondary} !important; }
+                                        .more-item-icon { background: none !important; }
+                                        .more-item-icon svg { stroke: ${p.primary} !important; }
+                                        .more-item-arrow { color: ${p.secondary} !important; }
+                                        /* Events / Activities tab */
+                                        .act-loc, .event-loc, .act-time, .event-time { color: ${p.secondary} !important; }
+                                        .act-modal-row span { color: ${p.secondary} !important; }
+                                        #actModalDesc div { color: ${p.secondary} !important; }
                                         /* Notifications overlay */
                                         .notif-overlay-header { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
                                         .notif-item-title { color: ${p.textPrimary} !important; }
@@ -7803,10 +7808,10 @@
                                         /* Bottom nav active state */
                                         .nav-item.active svg { stroke: ${p.dark} !important; }
                                         .nav-item.active span { color: ${p.dark} !important; }
-                                        .nav-item.active .nav-ico-wrap { background: ${p.dark}22 !important; }
+                                        .nav-item.active .nav-ico-wrap { background: none !important; }
                                         .nav-item.active.purple svg { stroke: ${p.dark} !important; }
                                         .nav-item.active.purple span { color: ${p.dark} !important; }
-                                        .nav-item.active.purple .nav-ico-wrap { background: ${p.dark}22 !important; }
+                                        .nav-item.active.purple .nav-ico-wrap { background: none !important; }
                                         /* Hero backgrounds */
                                         .act-hero { background: ${p.dark} !important; }
                                         .more-hero { background: ${p.dark} !important; }
