@@ -2042,8 +2042,13 @@
         });
 
         // ── Step 4: review summary ──
-        const reviewSummaryGrid = document.getElementById('reviewSummaryGrid');
+        // NOTE: looked up fresh on every call (not a hoisted top-level const) because
+        // refreshFeatureCount() below calls this before this point in the script runs —
+        // a module-level `const` here would throw "Cannot access before initialization"
+        // and silently kill every bit of JS after it (QA pills, More-menu groups, the
+        // submit handler itself), which is why those looked empty/dead on the live page.
         function renderReviewSummary() {
+            const reviewSummaryGrid = document.getElementById('reviewSummaryGrid');
             const sel = getSelectedFeatures();
             reviewSummaryGrid.innerHTML = '';
             FEATURE_CATEGORIES.forEach(cat => {
@@ -2057,7 +2062,7 @@
         renderReviewSummary();
 
         // ── Step 4: pre-launch checklist ──
-        const checklistItemsEl = document.getElementById('checklistItems');
+        // Same reason as above: looked up fresh each call rather than a hoisted const.
         function checklistRow(ok, label) {
             const div = document.createElement('div');
             div.className = 'checklist-item ' + (ok ? 'ok' : 'warn');
@@ -2065,6 +2070,7 @@
             return div;
         }
         function refreshChecklist() {
+            const checklistItemsEl = document.getElementById('checklistItems');
             checklistItemsEl.innerHTML = '';
             const basicsOk = ['p1Name', 'p1Address', 'p1Email', 'p1Phone'].every(id => document.getElementById(id).value.trim());
             const brandOk = document.getElementById('p1LogoPreview').style.display === 'block'
