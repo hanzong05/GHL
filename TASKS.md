@@ -603,6 +603,28 @@ COMPLETED TASKS — September 2, 2026
 ✅ Blue Water RV Resort - Renamed "Tickets & Specials" to "Activities Calendar," now linking to the resort's real activities-calendar page instead of Stone Mountain's ticket page.
 ✅ Blue Water RV Resort - Fixed the "Leave a Review" popup's phone number and Google review link, and the Local Guide tab's fallback URL, which were all still pointing to Stone Mountain.
 
+COMPLETED TASKS — September 3, 2026
+✅ Buckeye Lake KOA Holiday - Fixed the "Ways to Stay" menu item showing up twice in the More menu.
+✅ Buckeye Lake KOA Holiday - Removed the small subtitle text under RV Sites and Lodging in the "Ways to Stay" pop-up.
+✅ Buckeye Lake KOA Holiday - Extended the color picker to more of the app (item text, Events tab, icons, bottom nav) and made icons show as outline-only with no background circle.
+✅ Admin Panel - Color Palette editor now supports 6 separate colors instead of just one, for hubs with strict branding like KOA.
+✅ Iron Mountain Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Carolina Camp Cedar - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Forsyth Station RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Blue Water RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Little River Campground - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Allatoona Landing Marine Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Splash RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Stay Wilder Campground - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Blue Ridge River Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Big Meadow Family Campground - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ San War RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Sweetwater Valley Park - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Stone Mountain Park Hub - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Winding Waters RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Talona Ridge RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Talking Rock Motorcoach Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+
 TODO
 ☐ Buckeye Lake KOA Holiday - The RV Sites, Lodging, and Tent Sites pages have real descriptions now but no real photos yet.
 ☐ Blue Water RV Resort - Still needs real photos uploaded (hero/logo, map, RV sites, cottages, amenities) — left the existing placeholder images and empty image slots in place since no real photos were available to pull in from the resort's website.
