@@ -638,6 +638,7 @@ COMPLETED TASKS — September 4, 2026
 ✅ Iron Mountain Resort - Updated the Map tab with the real park map photo and fixed the "Stone Mountain Park" label left over from the template.
 ✅ Iron Mountain Resort - Fixed the Local Guide tab, which was still loading Stone Mountain's guide page, to load bluespotguide.com/iron-mountain-resort/.
 ✅ Iron Mountain Resort - Found and explained why visit counts weren't showing: this hub was never registered in the admin panel (missing from hubs_meta in Firebase), so it's invisible to the admin dashboard even though its own visit counter was working. Needs to be added via the admin panel's "Add Hub" button with the ID "iron-mountain-resort" to show up.
+✅ Iron Mountain Resort - Renamed the park's display name from "Iron Mountain Resort" to "Iron Mountain Park" across all guest-facing text (page title, hero title, alt text, mailing address, Grille/Stage/Storage copy, tent-camping copy). Left the Firebase hub ID, booking domain, and guide/service-worker URLs untouched since those are tied to live external integrations.
 
 TODO
 ☐ Buckeye Lake KOA Holiday - The RV Sites, Lodging, and Tent Sites pages have real descriptions now but no real photos yet.
