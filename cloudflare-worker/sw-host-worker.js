@@ -107,7 +107,7 @@ const HUBS = {
     'blue-water-rv-resort': {
         name: 'Blue Water RV Resort',
         short_name: 'Blue Water RV',
-        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7471e695133c52554c13d8.jpg',
+        icon: 'https://www.bluewaterdayton.com/wp-content/uploads/2016/09/cropped-bluewaterdayton-copy-192x192.png',
     },
     'iconnecthub': {
         name: 'iConnectHub Admin',
