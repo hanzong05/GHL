@@ -102,7 +102,7 @@ const HUBS = {
     'iron-mountain-resort': {
         name: 'Iron Mountain Resort',
         short_name: 'Iron Mountain',
-        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efa1f3f48f4bd0f5d5.png',
     },
     'blue-water-rv-resort': {
         name: 'Blue Water RV Resort',
