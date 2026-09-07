@@ -99,9 +99,9 @@ const HUBS = {
         short_name: 'Big Meadow',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a637661d3104247ab323667.png',
     },
-    'iron-mountain-resort': {
-        name: 'Iron Mountain Resort',
-        short_name: 'Iron Mountain',
+    'iron-mountain-park': {
+        name: 'Iron Mountain PARK',
+        short_name: 'Iron Mountain Park',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efa1f3f48f4bd0f5d5.png',
     },
     'blue-water-rv-resort': {

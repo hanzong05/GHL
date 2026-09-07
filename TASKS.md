@@ -547,14 +547,14 @@ COMPLETED TASKS — August 28, 2026
 
 COMPLETED TASKS — August 31, 2026
 ✅ Admin Panel - Fixed the Subscribers tab showing empty for super admins — the guest-hub dropdown only auto-loaded for hub managers, so a super admin landed on a blank "Select Hub…" placeholder until manually picking a hub. Now it defaults to "All Hubs" automatically, while still remembering a manually-picked hub if one was already chosen.
-✅ New Hubs - Created starter guest hub pages for Buckeye Lake KOA Holiday, Blue Water RV Resort, and Iron Mountain Resort, based on the Stone Mountain page. Each has its own hub ID and page title set up, but still needs its real address, photos, booking link, and amenities info filled in before it's ready to use.
-✅ Iron Mountain Resort - Replaced the leftover Stone Mountain lodging picker (RV Sites / Cabins) with Iron Mountain's real options: Bunk House Cabins, RV Camping, and Primitive Camping.
-✅ Iron Mountain Resort - Updated the Contact page with the real phone number, mailing address, and Instagram/Facebook links, removing all the old Stone Mountain department numbers.
-✅ Iron Mountain Resort - Replaced the Amenities section (Fishing/Outpost/Golf Club) with Trails, The Grille, Iron Mountain Stage, and a new Iron Mountain Storage listing, using the real park descriptions.
-✅ Iron Mountain Resort - Pointed all "Book Now" buttons and the Reserve page's booking link to ironmountainresort.com/shop instead of Stone Mountain's Campspot page.
-✅ Iron Mountain Resort - Added empty photo slots to all 4 Amenities detail pages (Trails, The Grille, Iron Mountain Stage, Iron Mountain Storage), ready for real photos.
-✅ Iron Mountain Resort - Filled in full real details on the Camping & Cabins pages: cabin options and pricing, RV site features and rates, and what's included with Primitive Camping.
-✅ Iron Mountain Resort - Renamed "Tickets & Specials" to "Passes" and replaced the old external ticket link with a list of the resort's real 4 pass types (Child Day Pass 4-8, Day Pass, Child Day Pass 3 & under, Annual Pass).
+✅ New Hubs - Created starter guest hub pages for Buckeye Lake KOA Holiday, Blue Water RV Resort, and Iron Mountain PARK, based on the Stone Mountain page. Each has its own hub ID and page title set up, but still needs its real address, photos, booking link, and amenities info filled in before it's ready to use.
+✅ Iron Mountain PARK - Replaced the leftover Stone Mountain lodging picker (RV Sites / Cabins) with Iron Mountain's real options: Bunk House Cabins, RV Camping, and Primitive Camping.
+✅ Iron Mountain PARK - Updated the Contact page with the real phone number, mailing address, and Instagram/Facebook links, removing all the old Stone Mountain department numbers.
+✅ Iron Mountain PARK - Replaced the Amenities section (Fishing/Outpost/Golf Club) with Trails, The Grille, Iron Mountain Stage, and a new Iron Mountain Storage listing, using the real park descriptions.
+✅ Iron Mountain PARK - Pointed all "Book Now" buttons and the Reserve page's booking link to ironmountainresort.com/shop instead of Stone Mountain's Campspot page.
+✅ Iron Mountain PARK - Added empty photo slots to all 4 Amenities detail pages (Trails, The Grille, Iron Mountain Stage, Iron Mountain Storage), ready for real photos.
+✅ Iron Mountain PARK - Filled in full real details on the Camping & Cabins pages: cabin options and pricing, RV site features and rates, and what's included with Primitive Camping.
+✅ Iron Mountain PARK - Renamed "Tickets & Specials" to "Passes" and replaced the old external ticket link with a list of the resort's real 4 pass types (Child Day Pass 4-8, Day Pass, Child Day Pass 3 & under, Annual Pass).
 ✅ New Feature - Built a client-facing "Guest Hub Content Form" (hub-onboarding-form.html) so property owners can submit their own contacts, WiFi, rules, amenities (with photos), booking links, and any extra buttons they need — instead of pasting content into chat for us to transcribe by hand. Every section supports adding as many entries as needed.
 ✅ Guest Hub Content Form - Made property location, submitter name/email, at least one phone number, and at least one booking link actually required before submission (previously only the property name blocked submit). Chosen by scanning all 17 live hubs: phone, address, and booking link are baked into each hub's static HTML at build time, and 6 of the 17 are still live with Stone Mountain's leftover phone number and Campspot booking link because nobody supplied the real ones — those are exactly the fields that silently go wrong if left optional. WiFi/rules/amenities stay optional since those load from Firebase and can be added anytime through the admin panel without a rebuild.
 
@@ -566,7 +566,7 @@ COMPLETED TASKS — September 1, 2026
 ✅ Buckeye Lake KOA Holiday - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Carolina Camp Cedar - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Forsyth Station RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
-✅ Iron Mountain Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
+✅ Iron Mountain PARK - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Little River Campground - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Sanwar RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
 ✅ Splash RV Resort - Fixed slow-loading event photos and moved the map/visit-tracking code to a shared file.
@@ -579,11 +579,11 @@ COMPLETED TASKS — September 1, 2026
 ✅ Admin Panel - Added a pre-shrinking step for event, monthly happenings, and newsletter photos the moment staff upload them, so the first guest to view a photo doesn't wait on it.
 
 COMPLETED TASKS — September 2, 2026
-✅ Iron Mountain Resort - Replaced the "On Park Food & Shopping" menu, which was still linking out to Stone Mountain's own website for stores and restaurants, with real in-app pages: the Campground Store's own hours/location/contact, and The Grille's full real menu (starters, burgers, sandwiches, wings, sides, kids meals, beverages) with prices.
-✅ Iron Mountain Resort - Removed two leftover Stone Mountain photos from the Campground Store page and replaced that page with the store's real hours, location, and phone number until real photos are available.
-✅ Iron Mountain Resort - Fixed the weather (Home tab and Weather Center) and the "Great!" review button, which were both still using Stone Mountain's location — weather now shows Iron Mountain Resort's real coordinates (116 Iron Mountain Pkwy, Dahlonega, GA), and the review button opens Iron Mountain Park's real Google Maps listing.
-✅ Iron Mountain Resort - Fixed the browser tab icon, which was still showing a leftover Stone Mountain image — now uses Iron Mountain Resort's real logo (same one shown on the Home tab).
-✅ Iron Mountain Resort - Registered the hub in the shared Cloudflare worker that powers "Add to Home Screen" (app icon, install prompt), matching its existing manifest/service-worker links in the page. Still needs a Cloudflare redeploy (see below) before install actually goes live.
+✅ Iron Mountain PARK - Replaced the "On Park Food & Shopping" menu, which was still linking out to Stone Mountain's own website for stores and restaurants, with real in-app pages: the Campground Store's own hours/location/contact, and The Grille's full real menu (starters, burgers, sandwiches, wings, sides, kids meals, beverages) with prices.
+✅ Iron Mountain PARK - Removed two leftover Stone Mountain photos from the Campground Store page and replaced that page with the store's real hours, location, and phone number until real photos are available.
+✅ Iron Mountain PARK - Fixed the weather (Home tab and Weather Center) and the "Great!" review button, which were both still using Stone Mountain's location — weather now shows Iron Mountain PARK's real coordinates (116 Iron Mountain Pkwy, Dahlonega, GA), and the review button opens Iron Mountain Park's real Google Maps listing.
+✅ Iron Mountain PARK - Fixed the browser tab icon, which was still showing a leftover Stone Mountain image — now uses Iron Mountain PARK's real logo (same one shown on the Home tab).
+✅ Iron Mountain PARK - Registered the hub in the shared Cloudflare worker that powers "Add to Home Screen" (app icon, install prompt), matching its existing manifest/service-worker links in the page. Still needs a Cloudflare redeploy (see below) before install actually goes live.
 ✅ Buckeye Lake KOA Holiday - Redesigned "RV Sites" and "Cabins" into one combined "Ways to Stay" menu (matching KOA's standard category style: RV Sites, Lodging, Tent Sites, Extended Stays, Groups), reusing the existing RV Sites and Lodging (formerly Cabins) pages and adding new placeholder pages for Tent Sites, Extended Stays, and Groups until real content is supplied.
 ✅ Buckeye Lake KOA Holiday - Replaced the placeholder Premium/Waterfront/Buddy Sites content under RV Sites with the real 8 site types and descriptions (Back In, Pull Thru, Deluxe Patio, Buddy sites, etc. with hookup/amp details and pricing notes), matching the property's real listings.
 ✅ Buckeye Lake KOA Holiday - Replaced the placeholder "The Big Cabin"/"Small Cabins" content under Lodging with KOA's real lodging categories and descriptions (Deluxe Cabins, Camping Cabins, Glamping Tents, Unique Lodging, KOA Patio®).
@@ -608,7 +608,7 @@ COMPLETED TASKS — September 3, 2026
 ✅ Buckeye Lake KOA Holiday - Removed the small subtitle text under RV Sites and Lodging in the "Ways to Stay" pop-up.
 ✅ Buckeye Lake KOA Holiday - Extended the color picker to more of the app (item text, Events tab, icons, bottom nav) and made icons show as outline-only with no background circle.
 ✅ Admin Panel - Color Palette editor now supports 6 separate colors instead of just one, for hubs with strict branding like KOA.
-✅ Iron Mountain Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
+✅ Iron Mountain PARK - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
 ✅ Carolina Camp Cedar - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
 ✅ Forsyth Station RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
 ✅ Blue Water RV Resort - Rolled out the same color-picker improvements as Buckeye Lake KOA Holiday.
@@ -628,23 +628,27 @@ COMPLETED TASKS — September 3, 2026
 ✅ Firebase Database Rules - Fixed the "any logged-in user can write to your entire database" warning Firebase emailed about. The `users` node's write rule was `auth != null` (any signed-in identity), which meant any authenticated account — not just BlueSpot staff — could write its own `role` into `/users` and grant itself admin access. Tightened it to require the requester's own already-saved role be `super` or `super_manager`, matching the admin panel's existing UI gate (`adminpanel.html:5958`). Verified against every actual write to `/users` (create account, toggle active, edit role, all admin-panel-only; the two Cloudflare workers that touch `/users` use a service account and bypass rules entirely) so nothing broke. Also added `hub_intake_v2` and `hub_intake_drafts` rules (public write, admin-only read, same pattern as the original `hub_intake`) since the rebuilt 4-step onboarding wizard writes to those new node names, which had no rule at all before this. Rule history now saved in `firebase-rules/` in the repo (Firebase Console is still the source of truth — this folder is just a manually-kept rollback history).
 
 COMPLETED TASKS — September 4, 2026
-✅ Iron Mountain Resort - Added a real swipeable photo carousel (5 trail photos with dots) to the Trails page, replacing the empty placeholder image.
-✅ Iron Mountain Resort - Added a real photo to The Grille page with a polished look (rounded corners, shadow, "Full Menu"/"Full Bar" badges, title overlay), replacing the empty placeholder image.
-✅ Iron Mountain Resort - Removed "Iron Mountain Stage" and "Iron Mountain Storage" from the Amenities picker, then added them back after a follow-up request; their pages still exist underneath the whole time.
-✅ Iron Mountain Resort - Updated the Home, Events, and More tab background photos to new images.
-✅ Iron Mountain Resort - Updated the browser tab icon, share preview image, and Home tab logo to the new logo.
-✅ Iron Mountain Resort - Wrote real content for the Iron Mountain Storage page (overview, what's included, important details, $30 price, Select button) and added a real photo with a polished look.
-✅ Iron Mountain Resort - Wrote real content for the Iron Mountain Stage page (description, availability, rates, booking rules, $150/day price, Select button) and added a real photo with a polished look.
-✅ Iron Mountain Resort - Updated the Map tab with the real park map photo and fixed the "Stone Mountain Park" label left over from the template.
-✅ Iron Mountain Resort - Fixed the Local Guide tab, which was still loading Stone Mountain's guide page, to load bluespotguide.com/iron-mountain-resort/.
-✅ Iron Mountain Resort - Found and explained why visit counts weren't showing: this hub was never registered in the admin panel (missing from hubs_meta in Firebase), so it's invisible to the admin dashboard even though its own visit counter was working. Needs to be added via the admin panel's "Add Hub" button with the ID "iron-mountain-resort" to show up.
+✅ Iron Mountain PARK - Added a real swipeable photo carousel (5 trail photos with dots) to the Trails page, replacing the empty placeholder image.
+✅ Iron Mountain PARK - Added a real photo to The Grille page with a polished look (rounded corners, shadow, "Full Menu"/"Full Bar" badges, title overlay), replacing the empty placeholder image.
+✅ Iron Mountain PARK - Removed "Iron Mountain Stage" and "Iron Mountain Storage" from the Amenities picker, then added them back after a follow-up request; their pages still exist underneath the whole time.
+✅ Iron Mountain PARK - Updated the Home, Events, and More tab background photos to new images.
+✅ Iron Mountain PARK - Updated the browser tab icon, share preview image, and Home tab logo to the new logo.
+✅ Iron Mountain PARK - Wrote real content for the Iron Mountain Storage page (overview, what's included, important details, $30 price, Select button) and added a real photo with a polished look.
+✅ Iron Mountain PARK - Wrote real content for the Iron Mountain Stage page (description, availability, rates, booking rules, $150/day price, Select button) and added a real photo with a polished look.
+✅ Iron Mountain PARK - Updated the Map tab with the real park map photo and fixed the "Stone Mountain Park" label left over from the template.
+✅ Iron Mountain PARK - Fixed the Local Guide tab, which was still loading Stone Mountain's guide page, to load bluespotguide.com/iron-mountain-park/.
+✅ Iron Mountain PARK - Found and explained why visit counts weren't showing: this hub was never registered in the admin panel (missing from hubs_meta in Firebase), so it's invisible to the admin dashboard even though its own visit counter was working. Needs to be added via the admin panel's "Add Hub" button with the ID "iron-mountain-park" to show up.
+
+COMPLETED TASKS — September 7, 2026
+✅ Iron Mountain PARK - Combined the 4-item Passes list (Child Day Parking Pass 4-8, Day Parking Pass, Child Day Parking Pass 3-and-under, Annual Parking Pass) into one page with photo + title cards instead of a plain list, using the real pass badge photos and product links from the resort's site.
+✅ Iron Mountain PARK - Fixed a bug where guests could end up seeing another guest's chat messages, name, and notifications. Cause: when a guest tapped "Add to Home Screen," their login was temporarily copied into the page's web address so it would carry over to the installed app icon — but if that address was ever shared, bookmarked, or reused, whoever opened it also picked up that same guest's login. Removed that entirely; guests who reopen the app logged out now just log back in with their email/password or an emailed code instead.
 
 TODO
 ☐ Buckeye Lake KOA Holiday - The RV Sites, Lodging, and Tent Sites pages have real descriptions now but no real photos yet.
 ✅ Blue Water RV Resort - Corrected a wrong-property mix-up: earlier content was pulled from a same-named beachfront resort in Freeport, TX, but this hub is actually Blue Water RV Resort & Marina in Dayton, TN (confirmed against bluespotguide.com/blue-water-resort/ and bluewaterdayton.com). Replaced address, phone, text number, office hours, check-in/checkout times, weather coordinates, booking link (now Staylist), RV site types and rates, Lodge/Duplex Cabin/River House info, cancellation/pet/pool policies, and the Marina/Boat Slip/General Store amenity pages with real Dayton, TN details.
 ✅ Blue Water RV Resort - Recovered the real contact email (reservations@bluewaterdayton.com) by decoding the Cloudflare email-obfuscation hash straight from the site's raw HTML, and added it back to the Contact page alongside the Text number.
 ☐ Blue Water RV Resort - Still needs real photos uploaded (hero/logo, map, RV sites, lodge/cabins, amenities) — left the existing placeholder images and empty image slots in place since no real photos were available to pull in from the resort's website.
-☐ Shared Code Cleanup - Still need to pull the shared page styling (colors, layout) and the rest of the shared app logic (Firebase setup, chat, push notifications, login, weather) into the same kind of shared Cloudflare file as today's map/tracking code, so hubs load even faster. Also needs a real fix (not just extraction) for 3 hubs — Buckeye Lake KOA Holiday, Iron Mountain Resort, and Stone Mountain Park Hub — that are currently showing Stone Mountain's weather and local guide info instead of their own (Blue Water RV Resort's weather/guide were fixed as part of its property correction).
+☐ Shared Code Cleanup - Still need to pull the shared page styling (colors, layout) and the rest of the shared app logic (Firebase setup, chat, push notifications, login, weather) into the same kind of shared Cloudflare file as today's map/tracking code, so hubs load even faster. Also needs a real fix (not just extraction) for 3 hubs — Buckeye Lake KOA Holiday, Iron Mountain PARK, and Stone Mountain Park Hub — that are currently showing Stone Mountain's weather and local guide info instead of their own (Blue Water RV Resort's weather/guide were fixed as part of its property correction).
 ☐ Home Panel - A specific event photo ("Water Fitness Classes!" at Pickens Golf Club on Carolina Camp Cedar) was reported not showing up on the Home tab even though the same photo shows fine in other places. Cause is suspected but not yet confirmed — needs a follow-up look.
-☐ Whoever manages the Cloudflare account needs to redeploy the shared "sw-host" worker so Iron Mountain Resort's and Blue Water RV Resort's "Add to Home Screen" installs actually go live.
-☐ Iron Mountain Resort - Still needs real photos for: Bunk House Cabins, RV Camping, Primitive Camping, and the Campground Store. (The Grille and Trails now have real photos.)
+☐ Whoever manages the Cloudflare account needs to redeploy the shared "sw-host" worker so Iron Mountain PARK's and Blue Water RV Resort's "Add to Home Screen" installs actually go live.
+☐ Iron Mountain PARK - Still needs real photos for: Bunk House Cabins, RV Camping, Primitive Camping, and the Campground Store. (The Grille and Trails now have real photos.)
