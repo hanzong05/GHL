@@ -642,8 +642,24 @@ COMPLETED TASKS — September 4, 2026
 
 COMPLETED TASKS — September 7, 2026
 ✅ Iron Mountain PARK - Combined the 4-item Passes list (Child Day Parking Pass 4-8, Day Parking Pass, Child Day Parking Pass 3-and-under, Annual Parking Pass) into one page with photo + title cards instead of a plain list, using the real pass badge photos and product links from the resort's site.
-✅ All Guest Hubs - Fixed a bug where guests could end up seeing another guest's chat messages, name, and notifications. Cause: when a guest tapped "Add to Home Screen," their login was temporarily copied into the page's web address so it would carry over to the installed app icon — but if that address was ever shared, bookmarked, or reused, whoever opened it also picked up that same guest's login. Removed that entirely across every guest hub; guests who reopen the app logged out now just log back in with their email/password or an emailed code instead.
-✅ Firebase Database Rules - Fixed a second Firebase security warning ("any user can read your entire database"). The guest list and chat messages for every property could be read in full by anyone who found the database address, not just the specific guest they belonged to — no login needed. Tightened the rules so only signed-in staff can browse the full guest/chat list; a guest's own device can still read and write its own record like before, so registering and chatting still work the same for guests. New rules saved in `firebase-rules/2026-09-07-guests-chats-scoped-to-own-record.json` — still needs to be pasted into the Firebase Console and published to take effect.
+✅ Iron Mountain PARK - Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Stone Mountain Park Campground - Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Blue Water RV Resort - Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Buckeye Lake KOA Holiday - Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Allatoona Landing Marine Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Big Meadow Family Campground -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Blue Ridge River Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Carolina Camp Cedar -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Forsyth Station RV Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Little River Campground -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Sanwar RV Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Splash RV Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Stay Wilder Campground -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Sweetwater Valley Park -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Talking Rock Motorcoach Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Talona Ridge RV Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Winding Waters RV Resort -Fixed a bug where guests could see another guest's chat messages and notifications.
+✅ Firebase Database Rules - Fixed a security warning: anyone could read every guest's info and chat messages across all properties without logging in. Now only signed-in staff can browse the full list; guests can still use their own record as before. Still needs to be published in the Firebase Console.
 
 TODO
 ☐ Buckeye Lake KOA Holiday - The RV Sites, Lodging, and Tent Sites pages have real descriptions now but no real photos yet.
