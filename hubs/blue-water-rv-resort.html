@@ -10,18 +10,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
     <title id="pageTitle">Blue Water RV Resort Guest Hub</title>
+    <meta name="description"
+        content="The official guest hub for Blue Water RV Resort &amp; Marina on Lake Chickamauga in Dayton, TN — RV sites, The Lodge, boat slip rentals, events, WiFi, and park alerts in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" id="ogTitle" content="Blue Water RV Resort Guest Hub">
+    <meta property="og:title" id="ogTitle" content="Blue Water RV Resort &amp; Marina Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Lake Chickamauga getaway companion — RV sites, The Lodge, marina &amp; boat ramp, events, WiFi and more, right in Dayton, TN.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9ee995968770b81c4bd072.jpg">
     <meta property="og:url" id="ogUrl" content="">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twTitle" content="Blue Water RV Resort Guest Hub">
+    <meta name="twitter:title" id="twTitle" content="Blue Water RV Resort &amp; Marina Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Lake Chickamauga getaway companion — RV sites, The Lodge, marina &amp; boat ramp, events, WiFi and more, right in Dayton, TN.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9ee995968770b81c4bd072.jpg">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -36,7 +38,6 @@
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
     <link rel="preconnect" href="https://assets.cdn.filesafe.space" crossorigin>
-    <link rel="preconnect" href="https://bluewaterdayton.com" crossorigin>
     <link rel="preconnect" href="https://wsrv.nl" crossorigin>
     <!-- Shared hub logic (map pinch-zoom/pan, visit analytics) — cached across
          every hub instead of re-downloaded inline on each page load. -->
@@ -4346,7 +4347,10 @@
 
                 <!-- Office / Emergency -->
                 <div class="rules-section" style="border-left:4px solid #ef4444;">
-                    <div class="rules-section-label" style="color:#ef4444;">🚨 Emergencies &amp; Office</div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#fef2f2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🚨</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ef4444;">Emergencies &amp; Office</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Emergency</div>
                         <div class="rules-rule-body">For any life-threatening emergency, dial <strong>911</strong>
@@ -4360,8 +4364,11 @@
                 </div>
 
                 <!-- Check-In / Check-Out -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Check-In &amp; Check-Out</div>
+                <div class="rules-section" style="border-left:4px solid #1a56db;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#eff6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🕐</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a56db;">Check-In &amp; Check-Out</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Check-In Time</div>
                         <div class="rules-rule-body">RV Campground: <strong>12:00 PM</strong> &nbsp;|&nbsp; Lodge,
@@ -4382,8 +4389,11 @@
                 </div>
 
                 <!-- Payment & Cancellation -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Payment &amp; Cancellation</div>
+                <div class="rules-section" style="border-left:4px solid #9333ea;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">💳</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9333ea;">Payment &amp; Cancellation</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Cancellation</div>
                         <div class="rules-rule-body">Full refund if cancelled <strong>7+ days</strong> before
@@ -4397,10 +4407,13 @@
                 </div>
 
                 <!-- Quiet Hours & Conduct -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Quiet Hours &amp; Conduct</div>
+                <div class="rules-section" style="border-left:4px solid #4338ca;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#eef2ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🌙</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4338ca;">Quiet Hours &amp; Conduct</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-title">🌙 Quiet Hours</div>
+                        <div class="rules-rule-title">Quiet Hours</div>
                         <div class="rules-rule-body">Call the resort office at <a href="tel:4237753265"
                                 style="color:#1a56db;font-weight:700;text-decoration:none;">(423) 775-3265</a> for
                             current quiet hours.</div>
@@ -4408,8 +4421,11 @@
                 </div>
 
                 <!-- RV Site Details -->
-                <div class="rules-section">
-                    <div class="rules-section-label">RV Site Details</div>
+                <div class="rules-section" style="border-left:4px solid #ea580c;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🔌</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ea580c;">RV Site Details</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Pads &amp; Hookups</div>
                         <div class="rules-rule-body">All RV sites feature <strong>40-foot concrete pads</strong> with
@@ -4419,28 +4435,34 @@
                 </div>
 
                 <!-- Pool, Laundry & Store -->
-                <div class="rules-section">
-                    <div class="rules-section-label">Pool, Laundry &amp; Store</div>
+                <div class="rules-section" style="border-left:4px solid #0891b2;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🏊</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0891b2;">Pool, Laundry &amp; Store</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
-                        <div class="rules-rule-title">🏊 Pool</div>
+                        <div class="rules-rule-title">Pool</div>
                         <div class="rules-rule-body">Open <strong>9:00 AM – 9:00 PM</strong>.
                             <strong>No lifeguard on duty — swim at your own risk.</strong>
                         </div>
                     </div>
                     <div class="rules-rule">
-                        <div class="rules-rule-title">👕 Laundry</div>
+                        <div class="rules-rule-title">Laundry</div>
                         <div class="rules-rule-body">Available for RV guests, <strong>$8 fee</strong>.</div>
                     </div>
                     <div class="rules-rule">
-                        <div class="rules-rule-title">🎣 General Store</div>
+                        <div class="rules-rule-title">General Store</div>
                         <div class="rules-rule-body">Bait &amp; tackle shop, open <strong>24/7</strong>. 89-octane
                             gasoline available at the fuel dock.</div>
                     </div>
                 </div>
 
                 <!-- Pets -->
-                <div class="rules-section">
-                    <div class="rules-section-label">🐾 Pets</div>
+                <div class="rules-section" style="border-left:4px solid #16a34a;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px;">
+                        <div style="width:26px;height:26px;border-radius:8px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;">🐾</div>
+                        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16a34a;">Pets</div>
+                    </div>
                     <div class="rules-rule" style="border-top:none;">
                         <div class="rules-rule-title">Pet Policy</div>
                         <div class="rules-rule-body">Pets are allowed in the RV Park <strong>at no charge</strong>.

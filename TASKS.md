@@ -677,6 +677,9 @@ COMPLETED TASKS — September 8, 2026
 ✅ Blue Water RV Resort - Turned the Marina & Boat Ramp page's plain bullet list ("Marina Details") into tappable icon rows, matching the row style used everywhere else in the app — tapping Boat Slip Rentals or General Store now jumps straight to those pages.
 ✅ Blue Water RV Resort - Gave the Pool & Pavilion page's "More to Enjoy" note a proper icon badge instead of a bare paragraph.
 ✅ Blue Water RV Resort - Redesigned the Resort Conveniences page: added an icon intro card, turned the plain "On-Site" bullet list into icon rows, and gave the Pets policy note a proper icon badge — matching the same visual treatment applied to the other amenity pages.
+✅ Blue Water RV Resort - Gave every section of the Rules & Regulations page a colored left-border accent and a small icon badge in its header (matching Emergencies' existing red-alert style), instead of a bare emoji stuck in the title text.
+✅ Blue Water RV Resort - Improved the page's SEO/share metadata: added a real meta description tag (it had none before), and rewrote the generic "Your campground companion..." Open Graph/Twitter description and title into Blue Water-specific copy naming Lake Chickamauga, Dayton TN, RV sites, The Lodge, and the marina.
+✅ Blue Water RV Resort - Removed the now-unused bluewaterdayton.com preconnect hint from the page head, since every image is hosted on GHL's own CDN now and nothing loads from that domain anymore.
 
 TODO
 ☐ Iron Mountain PARK - Color palette shows blue instead of the intended red because hubs/iron-mountain-park/settings/colorPalette was never set in Firebase (only got exposed once the correct, renamed code went live). Needs to be set to red in the admin panel's hub appearance/color picker.
