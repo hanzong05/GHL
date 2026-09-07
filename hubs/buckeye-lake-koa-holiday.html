@@ -6505,31 +6505,21 @@
         const LS_READ_ANNS = 'park_read_anns_' + HUB_ID;
         const LS_SETUP_SKIPPED = 'bs_setup_skipped_' + HUB_ID; // guest tapped "Continue Without Setting Up" — show the reminder card until they register
 
-        // ── Carry a logged-in guest's account into an installed home-screen
-        // app ── iOS Safari's "Add to Home Screen" captures whatever URL is
-        // in the address bar at that moment as the installed icon's launch
-        // URL, and a standalone home-screen web app has its OWN localStorage
-        // separate from the Safari tab it was installed from — so a guest
-        // who registers in the browser then installs the app used to land on
-        // a blank, logged-out copy and had to set up their stay again. We
-        // briefly stamp the guest token into the URL right before the
-        // install guide is shown (see onboardShowGuideClick below) so the
-        // installed icon's launch URL carries it; this reads it back out on
-        // first load and strips it from the address bar immediately so it
-        // doesn't linger in normal browsing/history.
-        (function adoptGuestTokenFromInstallUrl() {
+        // Guest tokens are never carried in the URL — a shared/bookmarked/
+        // screenshotted link with a token in it would let a stranger land on
+        // someone else's guest profile and chat thread. Guests who install
+        // the app to their home screen and land on a logged-out copy (iOS
+        // gives a standalone PWA its own separate localStorage) just log
+        // back in with email + password, or an emailed code — see
+        // openRegisterModal's isAppInstalled() branch below.
+        if (window.location.search.includes('guestToken')) {
             try {
                 const params = new URLSearchParams(window.location.search);
-                const tokenFromUrl = params.get('guestToken');
-                if (!tokenFromUrl) return;
-                if (!localStorage.getItem(LS_GUEST_TOKEN)) {
-                    localStorage.setItem(LS_GUEST_TOKEN, tokenFromUrl);
-                }
                 params.delete('guestToken');
                 const qs = params.toString();
                 history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
             } catch (e) { }
-        })();
+        }
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
@@ -8100,26 +8090,8 @@
         const GUEST_TOKEN_KEY = LS_GUEST_TOKEN;
 
         function getStoredToken() { try { return localStorage.getItem(GUEST_TOKEN_KEY); } catch (e) { return null; } }
-        function setStoredToken(t) { try { localStorage.setItem(GUEST_TOKEN_KEY, t); } catch (e) { } syncGuestTokenToUrl(); }
+        function setStoredToken(t) { try { localStorage.setItem(GUEST_TOKEN_KEY, t); } catch (e) { } }
         function clearStoredToken() { try { localStorage.removeItem(GUEST_TOKEN_KEY); } catch (e) { } }
-
-        // Keeps a logged-in guest's token sitting in the address bar at all
-        // times (not just right before the in-app install guide), so that
-        // however they actually trigger "Add to Home Screen" — the app's own
-        // guide button, or their phone's built-in Share/menu button — iOS
-        // captures a URL that already carries the account. Safe to call
-        // repeatedly; it's a no-op once the URL already matches.
-        function syncGuestTokenToUrl() {
-            const token = getStoredToken();
-            if (!token) return;
-            try {
-                const params = new URLSearchParams(window.location.search);
-                if (params.get('guestToken') === token) return;
-                params.set('guestToken', token);
-                history.replaceState(null, '', window.location.pathname + '?' + params.toString());
-            } catch (e) { }
-        }
-
         async function loadGuestProfile() {
             const token = getStoredToken();
             if (!token) return null;
@@ -9028,10 +9000,8 @@
         }
         // ──────────────────────────────────────────────────────────────────
 
-        // On load: if token exists, update the More tab label and keep the
-        // address bar carrying it (see syncGuestTokenToUrl above).
+        // On load: if token exists, update the More tab label.
         refreshRegisterMoreLabel();
-        syncGuestTokenToUrl();
 
         // ── Guided Onboarding (A2HS → Notifications → Registration) ────────
         // Three-step, opt-in-at-every-step flow shown on a guest's first visit.
@@ -9085,9 +9055,6 @@
                 if (iosBlock) iosBlock.style.display = '';
                 if (androidBlock) androidBlock.style.display = 'none';
             }
-            // Make sure the token is in the address bar right before the
-            // guest follows the Share > Add to Home Screen steps.
-            syncGuestTokenToUrl();
         };
         window.onboardGuideDoneClick = function () {
             document.getElementById('onboardStepModal').classList.remove('active');
