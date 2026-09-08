@@ -8,10 +8,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Blue Water RV">
     <title id="pageTitle">Blue Water RV Resort Guest Hub</title>
     <meta name="description"
-        content="The official guest hub for Blue Water RV Resort &amp; Marina on Lake Chickamauga in Dayton, TN — RV sites, The Lodge, boat slip rentals, events, WiFi, and park alerts in one app.">
+        content="Guest hub for Blue Water RV Resort &amp; Marina on Lake Chickamauga in Dayton, TN — RV sites, The Lodge, boat slips, events, WiFi &amp; alerts in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Blue Water RV Resort &amp; Marina Guest Hub">
@@ -19,7 +19,8 @@
         content="Your Lake Chickamauga getaway companion — RV sites, The Lodge, marina &amp; boat ramp, events, WiFi and more, right in Dayton, TN.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9ee995968770b81c4bd072.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/blue-water-rv-resort/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/blue-water-rv-resort/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Blue Water RV Resort &amp; Marina Guest Hub">
     <meta name="twitter:description" id="twDescription"
@@ -50,6 +51,38 @@
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a9ee6981543e1ae08adab7a.png&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Blue Water
+         RV Resort & Marina as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Blue Water RV Resort & Marina",
+        "url": "https://hub.bluespotguide.com/blue-water-rv-resort/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9eedf62032992f5a5d0232.png",
+        "telephone": "+14237753265",
+        "email": "reservations@bluewaterdayton.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "220 Blue Water Campground Road",
+            "addressLocality": "Dayton",
+            "addressRegion": "TN",
+            "postalCode": "37321",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.4898,
+            "longitude": -85.0113
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Marina & Boat Ramp" },
+            { "@type": "LocationFeatureSpecification", "name": "Swimming Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" },
+            { "@type": "LocationFeatureSpecification", "name": "Pet Friendly" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3454,7 +3487,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Blue Water RV Resort</div>
+                            <h1 class="hero-title">Blue Water RV Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>
@@ -4488,22 +4521,35 @@
             </div>
             <div class="contact-body">
                 <div class="contact-section">
-                    <div style="padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                        Keep your boat on Lake Chickamauga year-round with a marina slip rental, from
-                        <strong>$100–$450 per month</strong> depending on slip size. Call the office to check
-                        availability and reserve a slip.
+                    <div style="display:flex;align-items:center;gap:12px;padding:16px;">
+                        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#1a56db,#1e3a8a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="15" rx="2" />
+                                <polyline points="17 2 12 7 7 2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div style="font-size:15px;font-weight:700;color:var(--text);">$100–$450 per Month</div>
+                            <div style="font-size:12px;color:var(--muted);margin-top:1px;">Year-round slips on Lake Chickamauga</div>
+                        </div>
                     </div>
                 </div>
                 <div class="contact-section">
-                    <a class="contact-row" href="tel:4237753265">
-                        <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none"
-                                stroke="#16a34a" stroke-width="2" stroke-linecap="round">
+                    <div style="padding:0 16px 14px;font-size:13px;color:var(--text);line-height:1.7;">
+                        Keep your boat on Lake Chickamauga year-round with a marina slip rental. Rate depends on
+                        slip size — call the office to check availability and reserve a slip.
+                    </div>
+                </div>
+                <div class="contact-section">
+                    <a class="contact-main-call" href="tel:4237753265">
+                        <div class="contact-main-icon"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="#fff" stroke-width="2" stroke-linecap="round">
                                 <path
                                     d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                             </svg></div>
-                        <div class="contact-row-text">
-                            <div class="contact-row-label">Slip Availability &amp; Rates</div>
-                            <div class="contact-row-value">(423) 775-3265</div>
+                        <div class="contact-main-text">
+                            <div class="contact-main-label">Slip Availability &amp; Rates</div>
+                            <div class="contact-main-number">(423) 775-3265</div>
                         </div>
                         <div class="contact-row-arrow">›</div>
                     </a>
@@ -4555,220 +4601,6 @@
                     </div>
                 </div>
 
-                <!-- LEGACY CONTENT HIDDEN — replaced by dynamic image -->
-                <div id="newsletterLegacy" style="display:none;">
-                    <!-- Address + Hours -->
-                    <div class="contact-section">
-                        <div class="contact-section-label">Location</div>
-                        <div class="contact-address">
-                            <strong>Address</strong>
-                            4003 Stonewall Jackson Drive<br>Stone Mountain, GA 30083
-                        </div>
-                        <div style="border-top:1px solid #f3f4f6;padding:14px 16px;">
-                            <div
-                                style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">
-                                Welcome Center Hours</div>
-                            <div style="font-size:13px;color:var(--text);line-height:1.9;">
-                                Monday – Thursday &nbsp;<strong>9 AM – 7 PM</strong><br>
-                                Friday &nbsp;<strong>9 AM – 9 PM</strong><br>
-                                Saturday &nbsp;<strong>9 AM – 8 PM</strong>
-                            </div>
-                        </div>
-                        <div style="border-top:1px solid #f3f4f6;padding:14px 16px;">
-                            <div
-                                style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">
-                                Checkout Times</div>
-                            <div style="font-size:13px;color:var(--text);line-height:1.9;">
-                                RV &amp; Tent Sites &nbsp;<strong>12:00 PM</strong><br>
-                                Lodging &nbsp;<strong>11:00 AM</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Phone Numbers -->
-                    <div class="contact-section">
-                        <div class="contact-section-label">Important Phone Numbers</div>
-                        <a class="contact-row" href="tel:7704135333">
-                            <div class="contact-row-icon" style="background:#fef2f2"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">SMP Police Emergency #</div>
-                                <div class="contact-row-value">770-413-5333</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704985675">
-                            <div class="contact-row-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">Non-Emergency #</div>
-                                <div class="contact-row-value">770-498-5675</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704135276">
-                            <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">CG Welcome Center</div>
-                                <div class="contact-row-value">770-413-5276</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:4048951038">
-                            <div class="contact-row-icon" style="background:#fdf4ff"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">After Hours Host</div>
-                                <div class="contact-row-value">404-895-1038</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704985710">
-                            <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">Call Center</div>
-                                <div class="contact-row-value">770-498-5710</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704983272">
-                            <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">SMP Golf Course</div>
-                                <div class="contact-row-value">770-498-3272</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704653260">
-                            <div class="contact-row-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">Commons Restaurant</div>
-                                <div class="contact-row-value">770-465-3260</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                        <a class="contact-row" href="tel:7704653240">
-                            <div class="contact-row-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24"
-                                    fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg></div>
-                            <div class="contact-row-text">
-                                <div class="contact-row-label">Waterside Restaurant</div>
-                                <div class="contact-row-value">770-465-3240</div>
-                            </div>
-                            <div class="contact-row-arrow">›</div>
-                        </a>
-                    </div>
-
-                    <!-- Park Info -->
-                    <div class="contact-section">
-                        <div class="contact-section-label">Park Information</div>
-                        <div class="rules-rule" style="padding:14px 16px;border-top:none;">
-                            <div class="rules-rule-title">🌙 Quiet Hours</div>
-                            <div class="rules-rule-body">11 PM to 7 AM. For noise complaints call the SMP Police
-                                Non-Emergency Number <strong>770-498-5675</strong>.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">🗑️ Garbage Pickup</div>
-                            <div class="rules-rule-body">Curbside at your site between 9 AM – 4 PM. There are no
-                                dumpsters — trash will be picked up curbside only.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">👕 Laundry Facilities</div>
-                            <div class="rules-rule-body">Located at Comfort Stations #3, #7 and #9. Use the
-                                <strong>Aaxon Pay App</strong>. A QR Code is in the Laundry Room.
-                            </div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">🔍 Lost &amp; Found</div>
-                            <div class="rules-rule-body">Located at the Welcome Center. Technology items (phones,
-                                computers, wallets, credit cards) will be turned over to SMP Public Safety.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">📦 Mail Drop &amp; Package Delivery</div>
-                            <div class="rules-rule-body">At the Welcome Center. Please include your Name and Site number
-                                when having something delivered.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">🏊 Swimming Pool Passes</div>
-                            <div class="rules-rule-body">Available in the Welcome Center. You must present one for
-                                yourself or family when asked by a staff member.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">🚗 UBER / LYFT</div>
-                            <div class="rules-rule-body">Available for guests. Drivers will be charged a <strong>$5.00
-                                    fee</strong> at the entrance gate — please advise your driver in advance.</div>
-                        </div>
-                    </div>
-
-                    <!-- Weather Alert -->
-                    <div class="contact-section" style="border-left:4px solid #ef4444;">
-                        <div class="contact-section-label" style="color:#ef4444;">⚡ Weather Alert System</div>
-                        <div style="padding:0 16px 16px;font-size:13px;color:var(--text);line-height:1.7;">
-                            If lightning is detected within <strong>10 miles</strong> of the park a horn will sound once
-                            for 15 seconds. The horn sounds <strong>3 times rapidly</strong> when lightning has cleared
-                            the area. If severe weather is approaching, the system will sound advising you to seek
-                            shelter.
-                        </div>
-                        <div style="border-top:1px solid #f3f4f6;padding:14px 16px;">
-                            <div
-                                style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ef4444;margin-bottom:10px;">
-                                Emergency Shelters</div>
-                            <div style="font-size:13px;color:var(--text);line-height:2;">
-                                🏠 Comfort Station #4 — Trail F<br>
-                                🏠 Comfort Station #5 — Trail C<br>
-                                🏠 Comfort Station #6 — Trail A<br>
-                                🏠 Comfort Station #8 — Trail N
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Extras -->
-                    <div class="contact-section" style="border-left:4px solid #16a34a;">
-                        <div class="contact-section-label" style="color:#16a34a;">🎉 Activities &amp; Extras</div>
-                        <div class="rules-rule" style="padding:14px 16px;border-top:none;">
-                            <div class="rules-rule-title">⛵ FREE Lake Tours</div>
-                            <div class="rules-rule-body">Check the schedule! Pickup is at <strong>Magnolia Dock on O
-                                    Trail</strong>.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">🎟️ 2-Day Attraction Wristbands</div>
-                            <div class="rules-rule-body">Available in the office at a great discount! Includes the
-                                Skyride, Laser Lawn Show, Train and more.</div>
-                        </div>
-                        <div class="rules-rule" style="padding:14px 16px;">
-                            <div class="rules-rule-title">📅 SMP CG Activities</div>
-                            <div class="rules-rule-body">Check the Activities Schedule in the Hub.</div>
-                        </div>
-                    </div>
-
-                </div><!-- /newsletterLegacy -->
             </div>
         </div>
 
