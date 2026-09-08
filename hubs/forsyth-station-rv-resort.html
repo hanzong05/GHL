@@ -6729,10 +6729,13 @@ function openReservePicker() { const el = document.getElementById('tab-reservati
             const meta = s.val();
             if (meta.name) HUB_NAME = meta.name;
             if (meta.logoUrl) {
+                // A broken/dead custom logo URL (e.g. an expired image host link)
+                // must not blank out the logo entirely -- fall back to the
+                // default CDN logo already in the markup if it fails to load.
                 const icon = document.getElementById('a2hsIcon');
-                if (icon) icon.src = meta.logoUrl;
+                if (icon) { const fallback = icon.src; icon.onerror = () => { icon.onerror = null; icon.src = fallback; }; icon.src = meta.logoUrl; }
                 const heroLogo = document.getElementById('heroLogoImg');
-                if (heroLogo) heroLogo.src = meta.logoUrl;
+                if (heroLogo) { const fallback = heroLogo.src; heroLogo.onerror = () => { heroLogo.onerror = null; heroLogo.src = fallback; }; heroLogo.src = meta.logoUrl; }
             }
         }).catch(() => { });
         const messaging = getMessaging(app);

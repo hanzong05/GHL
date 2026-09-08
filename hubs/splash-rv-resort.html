@@ -6747,9 +6747,9 @@
             if (meta.name) HUB_NAME = meta.name;
             if (meta.logoUrl) {
                 const icon = document.getElementById('a2hsIcon');
-                if (icon) icon.src = meta.logoUrl;
+                if (icon) { const fallback = icon.src; icon.onerror = () => { icon.onerror = null; icon.src = fallback; }; icon.src = meta.logoUrl; }
                 const heroLogo = document.getElementById('heroLogoImg');
-                if (heroLogo) heroLogo.src = meta.logoUrl;
+                if (heroLogo) { const fallback = heroLogo.src; heroLogo.onerror = () => { heroLogo.onerror = null; heroLogo.src = fallback; }; heroLogo.src = meta.logoUrl; }
                 ['pwaFavicon', 'pwaAppleTouchIcon', 'pwaAppleTouchIcon152', 'pwaAppleTouchIcon120'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.href = meta.logoUrl;
