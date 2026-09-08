@@ -5518,6 +5518,17 @@
             </div>
         </div>
 
+        <!-- TICKETS & SPECIALS PICKER SHEET -->
+        <div class="notif-overlay" id="ticketsSpecialsOverlay" onclick="if(event.target===this)closeTicketsSpecials()">
+            <div class="notif-sheet">
+                <div class="notif-sheet-header">
+                    <div class="notif-sheet-title">Tickets &amp; Specials</div>
+                    <button class="notif-close-btn" onclick="closeTicketsSpecials()">✕</button>
+                </div>
+                <div id="ticketsSpecialsItems" style="padding:8px 0 4px;"></div>
+            </div>
+        </div>
+
     </div><!-- /#app -->
 
     <script>
@@ -6210,16 +6221,6 @@
         </div>
     </div>
 
-    <!-- TICKETS & SPECIALS PICKER SHEET -->
-    <div class="notif-overlay" id="ticketsSpecialsOverlay" onclick="if(event.target===this)closeTicketsSpecials()">
-        <div class="notif-sheet">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Tickets &amp; Specials</div>
-                <button class="notif-close-btn" onclick="closeTicketsSpecials()">✕</button>
-            </div>
-            <div id="ticketsSpecialsItems" style="padding:8px 0 4px;"></div>
-        </div>
-    </div>
 
 
     <div class="notif-overlay" id="notifOverlay" onclick="if(event.target===this)closeNotifOverlay()">
