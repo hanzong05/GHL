@@ -692,4 +692,5 @@ TODO
 ☐ Home Panel - A specific event photo ("Water Fitness Classes!" at Pickens Golf Club on Carolina Camp Cedar) was reported not showing up on the Home tab even though the same photo shows fine in other places. Cause is suspected but not yet confirmed — needs a follow-up look.
 ☐ Whoever manages the Cloudflare account needs to redeploy the shared "sw-host" worker so Iron Mountain PARK's and Blue Water RV Resort's "Add to Home Screen" installs actually go live.
 ☐ Iron Mountain PARK - Still needs real photos for: Bunk House Cabins, RV Camping, Primitive Camping, and the Campground Store. (The Grille and Trails now have real photos.)
+☐ Blue Water RV Resort - General Store, Marina & Boat Ramp, Pool & Pavilion, Resort Conveniences, and Boat Slip Rentals are icon-only for now (no photo) — left that way on purpose per the property owner, add real photos later if any become available.
 ☐ Blue Water RV Resort - The real-image swap above (lines 673–678) is done in code, but won't show live on hub.bluespotguide.com until republished — same cause as Iron Mountain PARK above: the site just proxies whatever's published in GoHighLevel.
