@@ -703,3 +703,11 @@ TODO
 ☐ Iron Mountain PARK - Still needs real photos for: Bunk House Cabins, RV Camping, Primitive Camping, and the Campground Store. (The Grille and Trails now have real photos.)
 ☐ Blue Water RV Resort - General Store, Marina & Boat Ramp, Pool & Pavilion, Resort Conveniences, and Boat Slip Rentals are icon-only for now (no photo) — left that way on purpose per the property owner, add real photos later if any become available.
 ☐ Blue Water RV Resort - The real-image swap above (lines 673–678) is done in code, but won't show live on hub.bluespotguide.com until republished — same cause as Iron Mountain PARK above: the site just proxies whatever's published in GoHighLevel.
+
+COMPLETED TASKS — September 8, 2026 (cont.)
+✅ Buckeye Lake KOA Holiday - Fixed the logo so the favicon, apple touch icons, share-preview image, and hero logo all use the same, correct image instead of a mismatched leftover.
+✅ Blue Water RV Resort - Fixed the logo the same way: favicon, share-preview image, and hero logo now all use the same, correct image, then swapped the favicon again to a newer version per follow-up request.
+✅ Buckeye Lake KOA Holiday - Added the new Home/Events/More tab hero background photos.
+✅ Buckeye Lake KOA Holiday - Uploaded, live with PWA (Add to Home Screen) functionality.
+✅  Blue Water RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
+✅ Iron Mountain park - Uploaded, live with PWA (Add to Home Screen) functionality.

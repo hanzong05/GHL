@@ -94,6 +94,11 @@ const HUBS = {
         short_name: 'Blue Ridge River Resort',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png',
     },
+     'buckeye-lake-koa-holiday': {
+        name: 'Buckeye Lake Koa Holiday',
+        short_name: 'Buckeye Lake Koa Holiday',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9ffa8c9ce7949849d1cb36.png',
+    },
     'big-meadow-family-campground': {
         name: 'Big Meadow Family Campground',
         short_name: 'Big Meadow',
