@@ -119,6 +119,11 @@ const HUBS = {
         short_name: 'Blue Water RV',
         icon: 'https://www.bluewaterdayton.com/wp-content/uploads/2016/09/cropped-bluewaterdayton-copy-192x192.png',
     },
+    'oak-lake-rv-resort': {
+        name: 'Oak Lake RV Resort',
+        short_name: 'Oak Lake RV Resort',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa18d78ad2361f5d371889f.png',
+    },
     'iconnecthub': {
         name: 'iConnectHub Admin',
         short_name: 'iConnectHub',
