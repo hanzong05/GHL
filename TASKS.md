@@ -723,17 +723,15 @@ COMPLETED TASKS — September 9, 2026
 ✅ GrandStand RV Park - Fixed the food & shopping page to show the right info.
 ✅ GrandStand RV Park - Fixed the guest profile to show the right park name.
 ✅ GrandStand RV Park - Uploaded, live with PWA (Add to Home Screen) functionality.
-
-TODO (new)
-☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
-☐ Oak Lake RV Resort - Needs to be registered in the admin panel to show up on the dashboard.
-☐ Oak Lake RV Resort - No real facts available yet for exact check-out time, quiet hours, firewood policy, or cancellation deadlines/fees — Rules page only shows what could be verified (check-in time, pet policy, winter camping, general cancellation notice) and points guests to the office for the rest. Fill in once the property confirms.
-☐ Oak Lake RV Resort - Cabins, Tent Sites, Deluxe Cottages, and Yurts "Ways to Stay" pages have short, honest descriptions but no real photos or per-unit pricing yet (none was available from the local guide, official site, or Campspot listing) — add real photos/pricing if the property provides them.
-
-COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Created the new hub (hubs/oak-lake-rv-resort.html) with its real name, address (5310 E 900 N, Fair Oaks, IN 47943), phone (219-306-8223), email (oaklake@teamoutsider.com), and coordinates, sourced from the property's official site, its bluespotguide.com local guide page, its Campspot listing, and its Facebook page.
 ✅ Oak Lake RV Resort - Added the real hero, events, more-tab, map, and logo images provided, plus full SEO from the start (meta description, Open Graph/Twitter tags, canonical link, Schema.org Campground structured data, real page title/app title, hero promoted to a real &lt;h1&gt;) — matching the standard now used for Blue Water RV Resort and Buckeye Lake KOA Holiday.
 ✅ Oak Lake RV Resort - Built the "Ways to Stay" picker around the property's real 5 stay types (RV Sites, Cabins, Tent Sites, Deluxe Cottages, Yurts) and the "Park Amenities" pages around its real amenities (swimming lake & beach, dog park & play areas, golf cart/ice cream/pavilion extras) — repurposing the shared template's KOA-specific overlays rather than carrying over any Buckeye Lake/KOA copy.
 ✅ Oak Lake RV Resort - Removed the Cable Channels and Tickets & Specials features entirely (including their dead JS functions and picker sheets) since neither applies to this property and no real data exists for either — rather than carry over Buckeye Lake's still-unfixed Stone Mountain channel lineup into a third hub.
 ✅ Oak Lake RV Resort - Wired Reservations to the property's real Campspot booking link and real phone number; Rules page limited to verified facts only (check-in time, pet policy, winter camping, Team Outsider management) with everything unverified left as a TODO instead of being guessed.
 ✅ Oak Lake RV Resort - Registered the new hub in the shared sw-host-worker.js (PWA icon/manifest) and added its tracking snippet (trackingcode/oak-lake-rv-resort.html).
+
+TODO (new)
+☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
+☐ Oak Lake RV Resort - Needs to be registered in the admin panel to show up on the dashboard.
+☐ Oak Lake RV Resort - No real facts available yet for exact check-out time, quiet hours, firewood policy, or cancellation deadlines/fees — Rules page only shows what could be verified (check-in time, pet policy, winter camping, general cancellation notice) and points guests to the office for the rest. Fill in once the property confirms.
+☐ Oak Lake RV Resort - Cabins, Tent Sites, Deluxe Cottages, and Yurts "Ways to Stay" pages have short, honest descriptions but no real photos or per-unit pricing yet (none was available from the local guide, official site, or Campspot listing) — add real photos/pricing if the property provides them.
