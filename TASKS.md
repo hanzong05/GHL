@@ -713,12 +713,16 @@ COMPLETED TASKS — September 8, 2026 (cont.)
 ✅ Iron Mountain park - Uploaded, live with PWA (Add to Home Screen) functionality.
 
 COMPLETED TASKS — September 9, 2026
-✅ GrandStand RV Park - NEW HUB Created the hub as a copy of the Stone Mountain starter template, with its own hub ID/page title, and pulled real details from bluespotguide.com/grandstand-rv-park/ (name, address at 3082 Speedway Blvd, Lincoln, AL 35096, phone (205) 505-2374, and weather coordinates for Lincoln, AL). Registered in the Cloudflare worker's hub list and given its own tracking-code snippet, so its PWA install can go live once redeployed.
+✅ GrandStand RV Park - Created the new hub with its real name, address, phone, and location.
+✅ GrandStand RV Park - Built a real Amenities page (sites, hookups, on-site amenities, events, discounts).
+✅ GrandStand RV Park - Built a real Things To Do & Eat page (local attractions, restaurants, shopping).
+✅ GrandStand RV Park - Added the real logo, favicon, app icon, park map, hero images, and contact info.
+✅ GrandStand RV Park - Added the real Book Now link.
+✅ GrandStand RV Park - Fixed the review page to leave a review for the right place.
+✅ GrandStand RV Park - Fixed the weather page to show the right location.
+✅ GrandStand RV Park - Fixed the food & shopping page to show the right info.
+✅ GrandStand RV Park - Fixed the guest profile to show the right park name.
+✅ GrandStand RV Park - Uploaded, live with PWA (Add to Home Screen) functionality.
 
 TODO (new)
-☐ GrandStand RV Park - Still needs its real logo, hero/map/amenity photos, WiFi info, booking link, and the leftover Stone Mountain-specific content (Fishing/Golf Club amenity pages, Rules & Regulations, Reserve picker's Campspot links, Newsletter legacy block) replaced with real GrandStand content — amenities to work from: pool, double dog parks, kids' playground, basketball court, horseshoe pit, cornhole, community fire pit, camp store, tiny home rentals, 30/50 amp full hookup pull-through sites.
-☐ GrandStand RV Park - Needs to be registered in the admin panel (hubs_meta) to show up on the dashboard, and its manifest/service-worker install won't go live until the Cloudflare worker is redeployed (same pending-redeploy situation as the other hubs noted above).
-✅ GrandStand RV Park - Built a real, visually-designed Amenities page (replacing the leftover Stone Mountain fishing/lake content) covering site types & hookups (pull-through, back-in, buddy sites, 30/50 amp, fire rings), a 12-item on-site amenities icon grid (pool, double dog park, laundry, pavilion, kids play area, camp store, tiny home rentals, basketball court, etc.), a Community & Events section, a Peace & Quiet note, and the full Discounts list (military/weekly/monthly/long-term/repeat-guest, race-week exclusion). Amenities buttons across the app now open this page directly instead of the old 3-item Fishing/Outpost/Golf Club picker.
-✅ GrandStand RV Park - Replaced the leftover Stone Mountain Golf Club page with a real "Things To Do & Eat" page covering local entertainment/attractions (Motorsports Hall of Fame, Talladega Short Track, DeSoto Caverns, Floating Fun, Talladega National Forest, waterfalls, Morgan Creek Vineyards, Top Golf Birmingham, Logan Martin Lake, Hall of Heroes), area restaurants with local favorites called out, Oxford City shopping/dining, delivery info, and kid-friendly spots — all with distances and hours. The Services page's Golf Club row now opens this page as "Things To Do & Eat."
-✅ GrandStand RV Park - Uploaded the real logo/favicon/app icon and real park map, hero images (Home/Events/More), contact info, and Book Now link — replacing all remaining Stone Mountain placeholders and generic images.
-✅ GrandStand RV Park - Fixed the last leftover Stone Mountain content: the "How was your experience?" review page's happy-face button now leaves a Google review for GrandStand RV Park (was searching Stone Mountain's listing), the weather page's radar map now centers on Lincoln, AL (was showing Atlanta/Stone Mountain's radar), the Reservations picker now goes straight to GrandStand's own Campspot booking link (removed the Evergreen Lakeside Resort and Stone Mountain Inn options, which don't exist here), the Food & Shopping picker's Shopping and Dining rows now open the real "Things To Do & Eat" page instead of Stone Mountain's website, the Tickets & Specials button now goes to Talladega Superspeedway's ticket page, and the guest profile's default location label now reads "GrandStand RV Park."
+☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
