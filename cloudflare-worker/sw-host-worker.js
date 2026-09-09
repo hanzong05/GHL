@@ -99,13 +99,20 @@ const HUBS = {
         short_name: 'Buckeye Lake Koa Holiday',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9ffa8c9ce7949849d1cb36.png',
     },
+    'grandstand-rv-park': {
+        name: 'GrandStand RV Park',
+        short_name: 'GrandStand RV Park',
+        // Placeholder icon (no real logo supplied yet) — same generic image used
+        // as the starter hub's default. Replace once the real logo is provided.
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
+    },
     'big-meadow-family-campground': {
         name: 'Big Meadow Family Campground',
         short_name: 'Big Meadow',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a637661d3104247ab323667.png',
     },
     'iron-mountain-park': {
-        name: 'Iron Mountain PARK',
+        name: 'Iron Mountain Park',
         short_name: 'Iron Mountain Park',
         icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efa1f3f48f4bd0f5d5.png',
     },

@@ -711,3 +711,10 @@ COMPLETED TASKS — September 8, 2026 (cont.)
 ✅ Buckeye Lake KOA Holiday - Uploaded, live with PWA (Add to Home Screen) functionality.
 ✅  Blue Water RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
 ✅ Iron Mountain park - Uploaded, live with PWA (Add to Home Screen) functionality.
+
+COMPLETED TASKS — September 9, 2026
+✅ GrandStand RV Park - NEW HUB Created the hub as a copy of the Stone Mountain starter template, with its own hub ID/page title, and pulled real details from bluespotguide.com/grandstand-rv-park/ (name, address at 3082 Speedway Blvd, Lincoln, AL 35096, phone (205) 505-2374, and weather coordinates for Lincoln, AL). Registered in the Cloudflare worker's hub list and given its own tracking-code snippet, so its PWA install can go live once redeployed.
+
+TODO (new)
+☐ GrandStand RV Park - Still needs its real logo, hero/map/amenity photos, WiFi info, booking link, and the leftover Stone Mountain-specific content (Fishing/Golf Club amenity pages, Rules & Regulations, Reserve picker's Campspot links, Newsletter legacy block) replaced with real GrandStand content — amenities to work from: pool, double dog parks, kids' playground, basketball court, horseshoe pit, cornhole, community fire pit, camp store, tiny home rentals, 30/50 amp full hookup pull-through sites.
+☐ GrandStand RV Park - Needs to be registered in the admin panel (hubs_meta) to show up on the dashboard, and its manifest/service-worker install won't go live until the Cloudflare worker is redeployed (same pending-redeploy situation as the other hubs noted above).
