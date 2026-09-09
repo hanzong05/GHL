@@ -5886,7 +5886,7 @@
             // Load weather radar
             const radarEl = document.getElementById('weatherRadar');
             const loadingEl = document.getElementById('radarLoading');
-            radarEl.src = 'https://embed.windy.com/embed2.html?lat=33.81&lon=-84.17&detailLat=33.81&detailLon=-84.17&width=100%25&height=100%25&zoom=10&level=surface&overlay=radar&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarAnimation=1';
+            radarEl.src = 'https://embed.windy.com/embed2.html?lat=33.6462&lon=-86.1391&detailLat=33.6462&detailLon=-86.1391&width=100%25&height=100%25&zoom=10&level=surface&overlay=radar&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarAnimation=1';
             radarEl.style.display = '';
             loadingEl.style.display = 'none';
 
@@ -5930,7 +5930,7 @@
         function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
         function openGoogleReview() {
             closeReviewModal();
-            window.open('https://www.google.com/search?q=stone+mountain+park+campground#lrd=0x88f5af93226febdf:0xf3c77e554d1f58eb,3,,,,', '_blank');
+            window.open('https://www.google.com/search?q=grandstand+rv+park', '_blank');
         }
 
         // ── Fishing overlay ──
@@ -6217,8 +6217,8 @@
                 <button class="notif-close-btn" onclick="closeReservePicker()">✕</button>
             </div>
             <div style="padding:8px 0 4px;">
-                <div onclick="window.open('https://stonemountainpark.com/campground/','_blank','noopener,noreferrer');closeReservePicker();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
+                <div onclick="window.open('https://www.campspot.com/book/grandstandrvpark','_blank','noopener,noreferrer');closeReservePicker();"
+                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
                     <div
                         style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2"
@@ -6229,41 +6229,7 @@
                     </div>
                     <div style="flex:1;">
                         <div style="font-size:15px;font-weight:600;color:#111827;">Campground</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">RV &amp; Tent Sites</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="window.open('https://stonemountainpark.com/camping-and-lodging/evergreen-lakeside-resort/','_blank','noopener,noreferrer');closeReservePicker();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
-                            stroke-linecap="round">
-                            <path d="M2 20h20M4 20V10l8-6 8 6v10" />
-                            <path d="M10 20v-6h4v6" />
-                            <path d="M2 10h20" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Evergreen Lakeside Resort</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Hotel &amp; Lakeside Lodging</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="window.open('https://stonemountainpark.com/camping-and-lodging/stone-mountain-inn/','_blank','noopener,noreferrer');closeReservePicker();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
-                            stroke-linecap="round">
-                            <rect x="3" y="7" width="18" height="14" rx="2" />
-                            <path d="M3 11h18M7 7V5a2 2 0 012-2h6a2 2 0 012 2v2" />
-                            <path d="M10 15h4" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Stone Mountain Inn</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Classic Park Inn</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">RV Sites</div>
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
@@ -6461,7 +6427,7 @@
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
-                <div onclick="window.open('https://stonemountainpark.com/activities/shopping/','_blank','noopener,noreferrer');closeFoodShop();"
+                <div onclick="closeFoodShop();openGolfClub();"
                     style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
                     <div
                         style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -6478,7 +6444,7 @@
                     </div>
                     <div style="color:#9ca3af;font-size:20px;">›</div>
                 </div>
-                <div onclick="window.open('https://stonemountainpark.com/activities/dining/','_blank','noopener,noreferrer');closeFoodShop();"
+                <div onclick="closeFoodShop();openGolfClub();"
                     style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
                     <div
                         style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -7424,7 +7390,7 @@
 
         // ── Tickets & Specials — static URL ──
         window.openTicketsSpecialsLink = function () {
-            window.open('https://stonemountainpark.com/tickets-specials/', '_blank', 'noopener,noreferrer');
+            window.open('https://www.talladegasuperspeedway.com/tickets/', '_blank', 'noopener,noreferrer');
         };
 
         // ── Activities ──
@@ -8441,7 +8407,7 @@
             document.getElementById('regProfileName').textContent = `${profile.firstName} ${profile.lastName}`;
             document.getElementById('regProfilePhone').textContent = profile.phone;
             document.getElementById('regProfileEmail').textContent = profile.email;
-            document.getElementById('regProfileLocation').textContent = profile.location || 'Stone Mountain Park';
+            document.getElementById('regProfileLocation').textContent = profile.location || 'GrandStand RV Park';
 
             const arr = profile.arrivalDate || (profile.stayDetails && profile.stayDetails.arrivalDate) || '';
             const dep = profile.departureDate || (profile.stayDetails && profile.stayDetails.departureDate) || '';
