@@ -102,9 +102,7 @@ const HUBS = {
     'grandstand-rv-park': {
         name: 'GrandStand RV Park',
         short_name: 'GrandStand RV Park',
-        // Placeholder icon (no real logo supplied yet) — same generic image used
-        // as the starter hub's default. Replace once the real logo is provided.
-        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png',
+        icon: 'https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa150a78d82674005f283ae.png',
     },
     'big-meadow-family-campground': {
         name: 'Big Meadow Family Campground',
