@@ -735,6 +735,7 @@ COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Moved Ways to Stay into its own More tab button.
 ✅ Oak Lake RV Resort - Moved Campground Store into its own More tab button.
 ✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
+✅ Oak Lake RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
 
 TODO (new)
 ☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
