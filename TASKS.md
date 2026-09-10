@@ -732,8 +732,8 @@ COMPLETED TASKS — September 9, 2026
 
 COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Fixed the Reservations button to go straight to the real booking link.
-✅ Oak Lake RV Resort - Fixed the Ways to Stay button to open in one tap instead of two.
-✅ Oak Lake RV Resort - Fixed the Campground Store button to open in one tap instead of two.
+✅ Oak Lake RV Resort - Moved Ways to Stay into its own More tab button.
+✅ Oak Lake RV Resort - Moved Campground Store into its own More tab button.
 ✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
 
 TODO (new)
