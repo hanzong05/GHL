@@ -730,6 +730,7 @@ COMPLETED TASKS — September 9, 2026
 ✅ Oak Lake RV Resort - Wired Reservations to the property's real Campspot booking link and real phone number; Rules page limited to verified facts only (check-in time, pet policy, winter camping, Team Outsider management) with everything unverified left as a TODO instead of being guessed.
 ✅ Oak Lake RV Resort - Registered the new hub in the shared sw-host-worker.js (PWA icon/manifest) and added its tracking snippet (trackingcode/oak-lake-rv-resort.html).
 ✅ Oak Lake RV Resort - Cleaned up the Reservations menu: it now goes straight to the real booking link instead of a stray picker, and Ways to Stay and the Campground Store info are reachable in one tap instead of two.
+✅ Oak Lake RV Resort - Fixed the weather page's radar map, which was showing Columbus, OH instead of the park's real location in Fair Oaks, IN.
 
 TODO (new)
 ☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
