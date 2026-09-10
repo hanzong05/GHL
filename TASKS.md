@@ -731,8 +731,10 @@ COMPLETED TASKS — September 9, 2026
 ✅ Oak Lake RV Resort - Registered the new hub in the shared sw-host-worker.js (PWA icon/manifest) and added its tracking snippet (trackingcode/oak-lake-rv-resort.html).
 
 COMPLETED TASKS — September 10, 2026
-✅ Oak Lake RV Resort - Cleaned up the Reservations menu: it now goes straight to the real booking link instead of a stray picker, and Ways to Stay and the Campground Store info are reachable in one tap instead of two.
-✅ Oak Lake RV Resort - Fixed the weather page's radar map, which was showing Columbus, OH instead of the park's real location in Fair Oaks, IN.
+✅ Oak Lake RV Resort - Fixed the Reservations button to go straight to the real booking link.
+✅ Oak Lake RV Resort - Fixed the Ways to Stay button to open in one tap instead of two.
+✅ Oak Lake RV Resort - Fixed the Campground Store button to open in one tap instead of two.
+✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
 
 TODO (new)
 ☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
