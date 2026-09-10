@@ -5350,7 +5350,7 @@
 
         function openReservePicker() { document.getElementById('reserveOverlay').classList.add('open'); }
         function closeReservePicker() { document.getElementById('reserveOverlay').classList.remove('open'); }
-        function openFoodShop() { document.getElementById('foodShopOverlay').classList.add('open'); }
+        function openFoodShop() { openStoreGallery(); }
         function closeFoodShop() { document.getElementById('foodShopOverlay').classList.remove('open'); }
         function openStoreGallery() { const el = document.getElementById('tab-storegallery'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
         function closeStoreGallery() { const el = document.getElementById('tab-storegallery'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
