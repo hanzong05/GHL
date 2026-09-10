@@ -736,6 +736,7 @@ COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Moved Campground Store into its own More tab button.
 ✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
 ✅ Oak Lake RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
+✅ All Hubs - Replaced the generic house icon on the "Welcome to [property]!" onboarding screen with each property's real logo (already loaded on the hero — no new upload needed), on a white backdrop so it reads cleanly regardless of the logo's own colors. Only the Welcome step changed; the "Add to Home Screen" step keeps its house icon since that one's about installing the app, not the property. Rolled out to all 19 hubs via one script since it's the same shared onboarding code everywhere.
 
 TODO (new)
 ☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.

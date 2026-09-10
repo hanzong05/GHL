@@ -9184,7 +9184,10 @@
         // Each step is skippable; skipping still advances to the next step.
         // Benefit-led copy per step — no jargon like "enable notifications".
         function openOnboardStep(opts) {
-            document.getElementById('onboardIconWrap').innerHTML = opts.icon;
+            const iconWrap = document.getElementById('onboardIconWrap');
+            iconWrap.innerHTML = opts.icon;
+            if (opts.iconBg) { iconWrap.style.setProperty('background', opts.iconBg, 'important'); iconWrap.style.padding = opts.iconPadding || '10px'; }
+            else { iconWrap.style.removeProperty('background'); iconWrap.style.padding = ''; }
             document.getElementById('onboardTitle').textContent = opts.title;
             document.getElementById('onboardSub').innerHTML = opts.sub;
             document.getElementById('onboardYesBtn').textContent = opts.yesLabel;
@@ -9267,8 +9270,11 @@
                 return;
             }
             logOnboardEvent('welcome_shown');
+            const heroLogoEl = document.getElementById('heroLogoImg');
+            const HUB_LOGO_ICON = (heroLogoEl && heroLogoEl.src) ? `<img src="${heroLogoEl.src}" alt="" style="width:100%;height:100%;object-fit:contain;">` : ICON_HOME;
             openOnboardStep({
-                icon: ICON_HOME,
+                icon: HUB_LOGO_ICON,
+                iconBg: '#fff',
                 title: `Welcome to ${HUB_NAME}!`,
                 sub: `<div style="text-align:center;">
                     <div class="onb-eyebrow">Make the Most of Your Stay</div>
