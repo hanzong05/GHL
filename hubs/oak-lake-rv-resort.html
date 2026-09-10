@@ -5348,8 +5348,6 @@
         function openGolfClub() { const el = document.getElementById('tab-golf'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
         function closeGolfClub() { const el = document.getElementById('tab-golf'); el.style.display = 'none'; el.style.pointerEvents = 'none'; }
 
-        function openReservePicker() { document.getElementById('reserveOverlay').classList.add('open'); }
-        function closeReservePicker() { document.getElementById('reserveOverlay').classList.remove('open'); }
         function openFoodShop() { openStoreGallery(); }
         function closeFoodShop() { document.getElementById('foodShopOverlay').classList.remove('open'); }
         function openStoreGallery() { const el = document.getElementById('tab-storegallery'); el.style.display = 'flex'; el.style.pointerEvents = 'auto'; }
@@ -5585,71 +5583,6 @@
                 <div class="ann-modal-msg" id="annModalMsg"></div>
             </div>
             <button class="ann-modal-close" onclick="closeAnnModal()">Close</button>
-        </div>
-    </div>
-
-    <!-- RESERVATION PICKER SHEET -->
-    <div class="notif-overlay" id="reserveOverlay" onclick="if(event.target===this)closeReservePicker()">
-        <div class="notif-sheet">
-            <div class="notif-sheet-header">
-                <div class="notif-sheet-title">Choose Your Stay</div>
-                <button class="notif-close-btn" onclick="closeReservePicker()">✕</button>
-            </div>
-            <div style="padding:8px 0 4px;">
-                <div onclick="closeReservePicker();window.open('tel:2193068223');"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2"
-                            stroke-linecap="round">
-                            <path
-                                d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Call to Reserve</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">(219) 306-8223</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="closeReservePicker();openBookingWebview();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;border-bottom:1px solid #f3f4f6;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0891b2" stroke-width="2"
-                            stroke-linecap="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Book Online</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Campspot Reservations</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-                <div onclick="closeReservePicker();openWaysToStayPicker();"
-                    style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;">
-                    <div
-                        style="width:44px;height:44px;border-radius:12px;background:#fdf4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"
-                            stroke-linecap="round">
-                            <rect x="2" y="10" width="15" height="8" rx="1.5" />
-                            <path d="M17 12h2.5l2.5 3v3h-5z" />
-                            <circle cx="6.5" cy="19" r="1.6" />
-                            <circle cx="17.5" cy="19" r="1.6" />
-                        </svg>
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-size:15px;font-weight:600;color:#111827;">Ways to Stay</div>
-                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">RV Sites · Cabins · Tent Sites · Cottages · Yurts</div>
-                    </div>
-                    <div style="color:#9ca3af;font-size:20px;">›</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -6713,9 +6646,9 @@
                 title: 'Book Now', sub: 'Reserve your stay',
             },
             reservations: {
-                bg: '#fff7ed', onclick: 'openReservePicker()',
+                bg: '#fff7ed', onclick: 'openBookingWebview()',
                 icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-                title: 'Reservations', sub: 'Campground · Resort · Inn',
+                title: 'Reservations', sub: 'Book your stay online',
             },
             foodshopping: {
                 bg: '#f0fdf4', onclick: 'openFoodShop()',
@@ -6749,7 +6682,7 @@
             },
         };
         // Legacy flat order — used only when a hub has no custom visibilityGroups yet.
-        const DEFAULT_MORE_ORDER = ['register', 'weather', 'wifi', 'amenities', 'rules', 'bookNow', 'reservations', 'foodshopping', 'contact', 'newsletter', 'review', 'chat', 'notifSettings'];
+        const DEFAULT_MORE_ORDER = ['register', 'weather', 'wifi', 'amenities', 'waystostay', 'rules', 'bookNow', 'reservations', 'foodshopping', 'contact', 'newsletter', 'review', 'chat', 'notifSettings'];
 
         // Group-header icon themes — chosen in the admin panel's Hub Visibility
         // editor (stored as a theme key on each group, e.g. "person"). Colors +
@@ -6886,7 +6819,7 @@
             rules: { label: 'Rules', color: '#0891b2', onclick: 'openRules()', icon: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
             amenities: { label: 'Amenities', color: '#0891b2', onclick: 'openAmenitiesPicker()', icon: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
             waystostay: { label: 'Ways to Stay', color: '#0891b2', onclick: 'openWaysToStayPicker()', icon: '<rect x="2" y="10" width="15" height="8" rx="1.5"/><path d="M17 12h2.5l2.5 3v3h-5z"/><circle cx="6.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/>' },
-            reservations: { label: 'Reservations', color: '#f97316', onclick: 'openReservePicker()', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+            reservations: { label: 'Reservations', color: '#f97316', onclick: 'openBookingWebview()', icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
             foodshopping: { label: 'Food', color: '#16a34a', onclick: 'openFoodShop()', icon: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
             weather: { label: 'Weather', color: '#2563eb', onclick: 'openWeatherOverlay()', icon: '<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>' },
             newsletter: { label: 'Newsletter', color: '#7c3aed', onclick: 'openNewsletter()', icon: '<path d="M4 3h16a1 1 0 011 1v14a2 2 0 01-2 2H5a2 2 0 01-2-2V4a1 1 0 011-1z"/><path d="M8 7h8M8 11h8M8 15h4"/>' },
