@@ -737,8 +737,14 @@ COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
 ✅ Oak Lake RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
 ✅ All Hubs - Replaced the generic house icon on the "Welcome to [property]!" onboarding screen with each property's real logo (already loaded on the hero — no new upload needed), on a white backdrop so it reads cleanly regardless of the logo's own colors. Only the Welcome step changed; the "Add to Home Screen" step keeps its house icon since that one's about installing the app, not the property. Rolled out to all 19 hubs via one script since it's the same shared onboarding code everywhere.
+✅ GrandStand RV Park - Checked against the real bluespotguide.com/grandstand-rv-park/ local guide. Found and fixed a live Stone Mountain Park leftover — the WiFi page was showing SMP's actual real network name and password (SMP_Guest / StoneM0unt@in, QR code included) to GrandStand guests; replaced with neutral "Ask Front Desk" placeholders, same fix as Buckeye Lake KOA Holiday earlier.
+✅ GrandStand RV Park - Fixed "Call to Reserve" and "Store Inquiries," which were both dialing Stone Mountain Park's old call center number (770-498-5710) instead of GrandStand's real number (205-505-2374).
+✅ GrandStand RV Park - Removed a ~215-line dead #newsletterLegacy block (superseded by the dynamic Firebase newsletter image, so guests never saw it) that was still full of Stone Mountain Park leftovers — SMP Police numbers, "Commons/Waterside Restaurant," SMP Golf Course, etc.
 
 TODO (new)
+☐ All Hubs - The 19 hub HTML files updated with each property's real Welcome-screen logo need to be republished in GoHighLevel before guests see the change live — hub.bluespotguide.com only proxies whatever's currently published there, it doesn't pull from this repo automatically.
+☐ GrandStand RV Park - Also needs republishing in GoHighLevel for the WiFi/phone-number fixes above to go live.
+☐ GrandStand RV Park - Minor data discrepancy: the Amenities page lists pull-through sites as 70' x 35', but the bluespotguide.com local guide says 75' x 35'. Didn't want to guess which is current — worth confirming with the property.
 ☐ GrandStand RV Park - Needs to be registered in the admin panel to show up on the dashboard.
 ☐ Oak Lake RV Resort - Needs to be registered in the admin panel to show up on the dashboard.
 ☐ Oak Lake RV Resort - No real facts available yet for exact check-out time, quiet hours, firewood policy, or cancellation deadlines/fees — Rules page only shows what could be verified (check-in time, pet policy, winter camping, general cancellation notice) and points guests to the office for the rest. Fill in once the property confirms.
