@@ -736,7 +736,25 @@ COMPLETED TASKS — September 10, 2026
 ✅ Oak Lake RV Resort - Moved Campground Store into its own More tab button.
 ✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
 ✅ Oak Lake RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
-✅ All Hubs - Replaced the generic house icon on the "Welcome to [property]!" onboarding screen with each property's real logo (already loaded on the hero — no new upload needed), on a white backdrop so it reads cleanly regardless of the logo's own colors. Only the Welcome step changed; the "Add to Home Screen" step keeps its house icon since that one's about installing the app, not the property. Rolled out to all 19 hubs via one script since it's the same shared onboarding code everywhere.
+✅ Allatoona Landing Marine Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Big Meadow Family Campground - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Blue Ridge River Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Blue Water RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Buckeye Lake KOA Holiday - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Carolina Camp Cedar - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Forsyth Station RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ GrandStand RV Park - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Iron Mountain Park - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Little River Campground - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Oak Lake RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Sanwar RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Splash RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Stay Wilder Campground - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Stone Mountain Park Campground - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Sweetwater Valley Park - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Talking Rock Motorcoach RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Talona Ridge RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+✅ Winding Waters RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
 ✅ GrandStand RV Park - Checked against the real bluespotguide.com/grandstand-rv-park/ local guide. Found and fixed a live Stone Mountain Park leftover — the WiFi page was showing SMP's actual real network name and password (SMP_Guest / StoneM0unt@in, QR code included) to GrandStand guests; replaced with neutral "Ask Front Desk" placeholders, same fix as Buckeye Lake KOA Holiday earlier.
 ✅ GrandStand RV Park - Fixed "Call to Reserve" and "Store Inquiries," which were both dialing Stone Mountain Park's old call center number (770-498-5710) instead of GrandStand's real number (205-505-2374).
 ✅ GrandStand RV Park - Removed a ~215-line dead #newsletterLegacy block (superseded by the dynamic Firebase newsletter image, so guests never saw it) that was still full of Stone Mountain Park leftovers — SMP Police numbers, "Commons/Waterside Restaurant," SMP Golf Course, etc.
