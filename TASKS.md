@@ -730,13 +730,8 @@ COMPLETED TASKS — September 9, 2026
 ✅ Oak Lake RV Resort - Wired Reservations to the property's real Campspot booking link and real phone number; Rules page limited to verified facts only (check-in time, pet policy, winter camping, Team Outsider management) with everything unverified left as a TODO instead of being guessed.
 ✅ Oak Lake RV Resort - Registered the new hub in the shared sw-host-worker.js (PWA icon/manifest) and added its tracking snippet (trackingcode/oak-lake-rv-resort.html).
 
-COMPLETED TASKS — September 10, 2026
-✅ Oak Lake RV Resort - Fixed the Reservations button to go straight to the real booking link.
-✅ Oak Lake RV Resort - Moved Ways to Stay into its own More tab button.
-✅ Oak Lake RV Resort - Moved Campground Store into its own More tab button.
-✅ Oak Lake RV Resort - Fixed the weather page's radar map to show the park's real location instead of Columbus, OH.
-✅ Oak Lake RV Resort - Uploaded, live with PWA (Add to Home Screen) functionality.
-✅ Allatoona Landing Marine Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
+COMPLETED TASKS — September 11, 2026
+
 ✅ Big Meadow Family Campground - Welcome screen now shows the park's real logo instead of a generic house icon.
 ✅ Blue Ridge River Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
 ✅ Blue Water RV Resort - Welcome screen now shows the park's real logo instead of a generic house icon.
@@ -758,7 +753,27 @@ COMPLETED TASKS — September 10, 2026
 ✅ GrandStand RV Park - Checked against the real bluespotguide.com/grandstand-rv-park/ local guide. Found and fixed a live Stone Mountain Park leftover — the WiFi page was showing SMP's actual real network name and password (SMP_Guest / StoneM0unt@in, QR code included) to GrandStand guests; replaced with neutral "Ask Front Desk" placeholders, same fix as Buckeye Lake KOA Holiday earlier.
 ✅ GrandStand RV Park - Fixed "Call to Reserve" and "Store Inquiries," which were both dialing Stone Mountain Park's old call center number (770-498-5710) instead of GrandStand's real number (205-505-2374).
 ✅ GrandStand RV Park - Removed a ~215-line dead #newsletterLegacy block (superseded by the dynamic Firebase newsletter image, so guests never saw it) that was still full of Stone Mountain Park leftovers — SMP Police numbers, "Commons/Waterside Restaurant," SMP Golf Course, etc.
-✅ All Hubs - Moved all the behind-the-scenes messaging, push notification, and password reset tools off the old shared account and onto our own account, so we're not depending on someone else's account anymore.
+✅ Allatoona Landing Marine Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Big Meadow Family Campground - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Blue Ridge River Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Blue Water RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Buckeye Lake KOA Holiday - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Carolina Camp Cedar - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Forsyth Station RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ GrandStand RV Park - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Iron Mountain Park - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Little River Campground - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Oak Lake RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Sanwar RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Splash RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Stay Wilder Campground - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Stone Mountain Park Campground - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Sweetwater Valley Park - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Talking Rock Motorcoach RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Talona Ridge RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Winding Waters RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Admin Panel - Moved messaging, push notification, and password reset tools onto our own account.
+✅ Password Reset Page - Moved messaging, push notification, and password reset tools onto our own account.
 
 TODO (new)
 ☐ All Hubs - The messaging/notification/password-reset tools moved to our own account need to actually be turned on there before guests can use them — the old versions still need to be turned off once that's done.
