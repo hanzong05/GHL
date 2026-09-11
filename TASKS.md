@@ -774,6 +774,8 @@ COMPLETED TASKS — September 11, 2026
 ✅ Winding Waters RV Resort - Moved messaging, push notification, and password reset tools onto our own account.
 ✅ Admin Panel - Moved messaging, push notification, and password reset tools onto our own account.
 ✅ Password Reset Page - Moved messaging, push notification, and password reset tools onto our own account.
+✅ All Hubs - Updated every hub, the admin panel, and the password reset page to point at the new worker links instead of the old ones.
+✅ All Hubs - Fixed the Log In / Create Password / Forgot Password buttons to use each hub's own theme color instead of always showing plain blue.
 
 TODO (new)
 ☐ All Hubs - The messaging/notification/password-reset tools moved to our own account need to actually be turned on there before guests can use them — the old versions still need to be turned off once that's done.
