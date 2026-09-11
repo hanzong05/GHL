@@ -6854,7 +6854,7 @@
             if (window.__locationPermResolve) { window.__locationPermResolve(true); window.__locationPermResolve = null; }
         };
 
-        const PUSH_WORKER_URL = 'https://bluespot-push.christian-51e.workers.dev/';
+        const PUSH_WORKER_URL = 'https://bluespot-push.bluespotadvertising.workers.dev/';
 
         // Fire-and-forget transactional email for a geofence exit / stay-end event.
         // Content is fixed server-side (reason: 'left_area' | 'departed') — this
@@ -8481,7 +8481,7 @@
         // Same worker the admin panel's "Forgot password?" uses — the
         // /send-guest-reset and /verify-guest-reset routes on it operate on
         // guest RTDB records instead of Firebase Auth accounts.
-        const PASSWORD_RESET_WORKER_URL = 'https://password-reset-worker.christian-51e.workers.dev';
+        const PASSWORD_RESET_WORKER_URL = 'https://password-reset-worker.bluespotadvertising.workers.dev';
         let _pendingResetToken = null;
 
         window.sendGuestPasswordReset = async function () {

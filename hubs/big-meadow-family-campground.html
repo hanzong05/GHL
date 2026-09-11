@@ -6839,7 +6839,7 @@
         // Cloudflare Worker that serves the Firebase SW with Service-Worker-Allowed: / header.
         // Deploy cloudflare-worker/sw-host-worker.js and paste its URL here:
         const SW_HOST_URL = 'https://hub.bluespotguide.com/big-meadow-family-campground/sw.js';
-        const PUSH_WORKER_URL = 'https://bluespot-push.christian-51e.workers.dev/';
+        const PUSH_WORKER_URL = 'https://bluespot-push.bluespotadvertising.workers.dev/';
 
         // Register the service worker immediately on load, independent of push
         // permission. Chrome only fires `beforeinstallprompt` (the signal that
@@ -8533,7 +8533,7 @@
         // Same worker the admin panel's "Forgot password?" uses — the
         // /send-guest-reset and /verify-guest-reset routes on it operate on
         // guest RTDB records instead of Firebase Auth accounts.
-        const PASSWORD_RESET_WORKER_URL = 'https://password-reset-worker.christian-51e.workers.dev';
+        const PASSWORD_RESET_WORKER_URL = 'https://password-reset-worker.bluespotadvertising.workers.dev';
         let _pendingResetToken = null;
 
         window.sendGuestPasswordReset = async function () {
