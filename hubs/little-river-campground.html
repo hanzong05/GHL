@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Little River Camp">
     <title id="pageTitle">Little River Campground Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Little River Campground in Townsend, TN — riverside RV, tent &amp; glamping sites, a pool, tubing on the river, and easy access to Cades Cove.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Little River Campground Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV, tent &amp; glamping sites, a swimming pool, tubing on the river and more at Little River Campground in Townsend, TN.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a68bb1bb7fe5a8e31a9bbb8.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/little-river-campground/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/little-river-campground/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Little River Campground Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV, tent &amp; glamping sites, a swimming pool, tubing on the river and more at Little River Campground in Townsend, TN.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a68bb1bb7fe5a8e31a9bbb8.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -46,6 +49,37 @@
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a68bb1bb7fe5a8e31a9bbb8.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Little
+         River Campground as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Little River Campground",
+        "url": "https://hub.bluespotguide.com/little-river-campground/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a68bb1bb7fe5a8e31a9bbb8.png",
+        "telephone": "+18657383665",
+        "email": "stay@LittleRiverCampground.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Townsend",
+            "addressRegion": "TN",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.6824,
+            "longitude": -83.7716
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Riverside Glamping Cabins" },
+            { "@type": "LocationFeatureSpecification", "name": "Swimming Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "Tubing Rentals" },
+            { "@type": "LocationFeatureSpecification", "name": "Full Hookups (30/50 Amp)" },
+            { "@type": "LocationFeatureSpecification", "name": "Camp Store" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3476,7 +3510,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Little River Campground</div>
+                            <h1 class="hero-title">Little River Campground</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

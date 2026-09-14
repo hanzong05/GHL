@@ -8,20 +8,23 @@
                             <meta name="mobile-web-app-capable" content="yes">
                             <meta name="apple-mobile-web-app-capable" content="yes">
                             <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-                            <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Talking Rock Motorcoach RV Resort">
+                            <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Talking Rock RV">
                             <title id="pageTitle">Talking Rock Motorcoach RV Resort Guest Hub</title>
+                            <meta name="description" id="metaDescription"
+                                content="Guest hub for Talking Rock Motorcoach RV Resort in Talking Rock, GA — a 115-acre mountain-view resort with a clubhouse, pool, garden trails and free WiFi.">
                             <!-- Open Graph / social sharing -->
                             <meta property="og:type" content="website">
                             <meta property="og:title" id="ogTitle" content="Talking Rock Motorcoach RV Resort Guest Hub">
                             <meta property="og:description" id="ogDescription"
-                                content="Your campground companion — announcements, amenities, activities and more.">
+                                content="RV sites, mountain views, clubhouse &amp; pool, garden trails and more at Talking Rock Motorcoach RV Resort in Talking Rock, GA.">
                             <meta property="og:image" id="ogImage"
                                 content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5fa31252b008d561980b37.png">
-                            <meta property="og:url" id="ogUrl" content="">
+                            <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/talking-rock-motorcoach-resort/">
+                            <link rel="canonical" href="https://hub.bluespotguide.com/talking-rock-motorcoach-resort/">
                             <meta name="twitter:card" content="summary_large_image">
                             <meta name="twitter:title" id="twTitle" content="Talking Rock Motorcoach RV Resort Guest Hub">
                             <meta name="twitter:description" id="twDescription"
-                                content="Your campground companion — announcements, amenities, activities and more.">
+                                content="RV sites, mountain views, clubhouse &amp; pool, garden trails and more at Talking Rock Motorcoach RV Resort in Talking Rock, GA.">
                             <meta name="twitter:image" id="twImage"
                                 content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5fa31252b008d561980b37.png">
                             <link rel="icon" type="image/png" id="pwaFavicon"
@@ -48,6 +51,38 @@
                             <link rel="preload" as="image"
                                 href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a67252fb7fe5a8e316fe4f5.png&w=900&q=80&output=webp">
                             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+                            <!-- Structured data — real NAP + geo so search engines can show Talking Rock
+                                 Motorcoach RV Resort as a rich result instead of a bare blue link. -->
+                            <script type="application/ld+json">
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "Campground",
+                                "name": "Talking Rock Motorcoach RV Resort",
+                                "url": "https://hub.bluespotguide.com/talking-rock-motorcoach-resort/",
+                                "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a5fa31252b008d561980b37.png",
+                                "telephone": "+17063833849",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "streetAddress": "199 Welcome Home Ln",
+                                    "addressLocality": "Talking Rock",
+                                    "addressRegion": "GA",
+                                    "postalCode": "30175",
+                                    "addressCountry": "US"
+                                },
+                                "geo": {
+                                    "@type": "GeoCoordinates",
+                                    "latitude": 34.5964,
+                                    "longitude": -84.5185
+                                },
+                                "amenityFeature": [
+                                    { "@type": "LocationFeatureSpecification", "name": "Clubhouse" },
+                                    { "@type": "LocationFeatureSpecification", "name": "Swimming Pool" },
+                                    { "@type": "LocationFeatureSpecification", "name": "Free WiFi" },
+                                    { "@type": "LocationFeatureSpecification", "name": "Pet Friendly" },
+                                    { "@type": "LocationFeatureSpecification", "name": "Garden & Nature Trails" }
+                                ]
+                            }
+                            </script>
                             <style>
                                 *,
                                 *::before,
@@ -3450,7 +3485,7 @@
                                                 </div>
                                                 <div class="hero-bottom">
                                                     <div class="hero-welcome">Welcome to</div>
-                                                    <div class="hero-title">Talking Rock Motorcoach RV Resort</div>
+                                                    <h1 class="hero-title">Talking Rock Motorcoach RV Resort</h1>
                                                     <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                                         <span class="hero-weather-icon">☀️</span>
                                                         <span class="hero-weather-temp">73°F</span>

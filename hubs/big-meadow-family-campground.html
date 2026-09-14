@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Big Meadow">
     <title id="pageTitle">Big Meadow Family Campground Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Big Meadow Family Campground in Townsend, TN — RV sites, cabins, splash pad, dog park, gazebo &amp; pavilion, camp store, WiFi and the park map.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Big Meadow Family Campground Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, a splash pad, dog park, gazebo &amp; pavilion, camp store and WiFi at Big Meadow Family Campground in Townsend, TN.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9c4b1eb55bdfc397104f.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/big-meadow-family-campground/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/big-meadow-family-campground/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Big Meadow Family Campground Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, a splash pad, dog park, gazebo &amp; pavilion, camp store and WiFi at Big Meadow Family Campground in Townsend, TN.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9c4b1eb55bdfc397104f.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -46,6 +49,39 @@
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9c4b1eb55bdfc397104f.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Big Meadow
+         Family Campground as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Big Meadow Family Campground",
+        "url": "https://hub.bluespotguide.com/big-meadow-family-campground/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a7c9c4b1eb55bdfc397104f.png",
+        "telephone": "+18654480625",
+        "email": "info@bigmeadowcampground.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "8215 Cedar Creek Rd",
+            "addressLocality": "Townsend",
+            "addressRegion": "TN",
+            "postalCode": "37882",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.6808,
+            "longitude": -83.7977
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Splash Pad" },
+            { "@type": "LocationFeatureSpecification", "name": "Dog Park" },
+            { "@type": "LocationFeatureSpecification", "name": "Climate-Controlled Bathhouse" },
+            { "@type": "LocationFeatureSpecification", "name": "Camp Store" },
+            { "@type": "LocationFeatureSpecification", "name": "Pavilion with Gazebo & Fire Pit" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3486,7 +3522,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Big Meadow Family Campground</div>
+                            <h1 class="hero-title">Big Meadow Family Campground</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

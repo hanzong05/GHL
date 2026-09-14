@@ -7,19 +7,22 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Winding Waters RV">
     <title id="pageTitle">Winding Waters RV Resort Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Winding Waters RV Resort in Canton, GA — riverfront RV sites, River View Cabins, beach-entry pool & lazy river, waterslides, WiFi and park alerts.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Winding Waters RV Resort Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Riverfront RV sites, River View Cabins, a beach-entry pool with lazy river &amp; waterslides, and more at Winding Waters RV Resort in Canton, GA.">
     <meta property="og:image" id="ogImage" content="https://i.ibb.co/nqwvGbnj/544ec0861954.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/winding-waters-rv-resort/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/winding-waters-rv-resort/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Winding Waters RV Resort Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Riverfront RV sites, River View Cabins, a beach-entry pool with lazy river &amp; waterslides, and more at Winding Waters RV Resort in Canton, GA.">
     <meta name="twitter:image" id="twImage" content="https://i.ibb.co/nqwvGbnj/544ec0861954.jpg">
     <link rel="icon" type="image/jpeg" id="pwaFavicon" href="https://i.ibb.co/nqwvGbnj/544ec0861954.jpg">
     <link rel="apple-touch-icon" type="image/jpeg" sizes="180x180" id="pwaAppleTouchIcon"
@@ -41,6 +44,37 @@
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image" href="https://i.ibb.co/nqwvGbnj/544ec0861954.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Winding
+         Waters RV Resort as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Winding Waters RV Resort",
+        "url": "https://hub.bluespotguide.com/winding-waters-rv-resort/",
+        "image": "https://i.ibb.co/nqwvGbnj/544ec0861954.jpg",
+        "telephone": "+17704151919",
+        "email": "Info@windingwatersrv.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Canton",
+            "addressRegion": "GA",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.1544,
+            "longitude": -84.767798
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Beach-Entry Pool & Lazy River" },
+            { "@type": "LocationFeatureSpecification", "name": "River View Cabins" },
+            { "@type": "LocationFeatureSpecification", "name": "Etowah Riverfront Fishing" },
+            { "@type": "LocationFeatureSpecification", "name": "Dog Parks" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3422,7 +3456,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Winding Waters RV Resort</div>
+                            <h1 class="hero-title">Winding Waters RV Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

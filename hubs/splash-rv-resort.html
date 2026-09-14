@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Splash RV">
     <title id="pageTitle">Splash RV Resort Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Splash RV Resort in Milton, FL — water park &amp; lazy river, mini golf, luxury cottages &amp; glamping wagons, fishing, WiFi and park alerts in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Splash RV Resort Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Milton, FL getaway companion — water park &amp; lazy river, mini golf, luxury cottages, glamping wagons and more, all in one app.">
     <meta property="og:image" id="ogImage"
         content="https://i.ibb.co/d0fYY5VG/546f394e2746.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/splash-rv-resort-hub/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/splash-rv-resort-hub/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Splash RV Resort Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Milton, FL getaway companion — water park &amp; lazy river, mini golf, luxury cottages, glamping wagons and more, all in one app.">
     <meta name="twitter:image" id="twImage"
         content="https://i.ibb.co/d0fYY5VG/546f394e2746.jpg">
     <link rel="icon" type="image/jpeg" id="pwaFavicon"
@@ -46,6 +49,39 @@
     <link rel="preload" as="image"
         href="https://i.ibb.co/d0fYY5VG/546f394e2746.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Splash
+         RV Resort as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Splash RV Resort",
+        "url": "https://hub.bluespotguide.com/splash-rv-resort-hub/",
+        "image": "https://i.ibb.co/d0fYY5VG/546f394e2746.jpg",
+        "telephone": "+18506008500",
+        "email": "info@splashrvresort.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "8500 Welcome Church Road",
+            "addressLocality": "Milton",
+            "addressRegion": "FL",
+            "postalCode": "32583",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 30.6324,
+            "longitude": -87.0505
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Water Park & Lazy River" },
+            { "@type": "LocationFeatureSpecification", "name": "Mini Golf Course" },
+            { "@type": "LocationFeatureSpecification", "name": "Luxury Cottages" },
+            { "@type": "LocationFeatureSpecification", "name": "Fishing" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3445,7 +3481,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Splash RV Resort</div>
+                            <h1 class="hero-title">Splash RV Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

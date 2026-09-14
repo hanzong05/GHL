@@ -7,20 +7,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Sweetwater Valley">
     <title id="pageTitle">Sweetwater Valley Park Guest Hub</title>
+    <meta name="description"
+        content="Guest hub for Sweetwater Valley Park, a gated RV campground in Villa Rica, GA — pull-through sites, gem mining, walking trails, playground &amp; more.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Sweetwater Valley Park Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Sweetwater Valley getaway companion — RV sites, gem mining, walking trails, a playground and more, tucked away in Villa Rica, GA.">
     <meta property="og:image" id="ogImage"
         content="https://i.ibb.co/6csYBbRV/71deab22604b.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/sweetwater-valley-rv-park/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/sweetwater-valley-rv-park/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Sweetwater Valley Park Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Sweetwater Valley getaway companion — RV sites, gem mining, walking trails, a playground and more, tucked away in Villa Rica, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://i.ibb.co/6csYBbRV/71deab22604b.jpg">
     <link rel="icon" type="image/jpeg" id="pwaFavicon"
@@ -45,6 +48,38 @@
     <link rel="preload" as="image"
         href="https://i.ibb.co/6csYBbRV/71deab22604b.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Sweetwater
+         Valley Park as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Sweetwater Valley Park",
+        "url": "https://hub.bluespotguide.com/sweetwater-valley-rv-park/",
+        "image": "https://i.ibb.co/6csYBbRV/71deab22604b.jpg",
+        "telephone": "+14707010430",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "366 Sweetwater Bend",
+            "addressLocality": "Villa Rica",
+            "addressRegion": "GA",
+            "postalCode": "30180",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.7304,
+            "longitude": -84.9155
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Gem Mining Sluice (Seasonal)" },
+            { "@type": "LocationFeatureSpecification", "name": "Pull-Through RV Sites" },
+            { "@type": "LocationFeatureSpecification", "name": "Walking Trails" },
+            { "@type": "LocationFeatureSpecification", "name": "Playground" },
+            { "@type": "LocationFeatureSpecification", "name": "On-Site Laundry Facility" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3467,7 +3502,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Sweetwater Valley Park</div>
+                            <h1 class="hero-title">Sweetwater Valley Park</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

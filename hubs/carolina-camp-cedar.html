@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Carolina Camp Cedar">
     <title id="pageTitle">Carolina Camp Cedar Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Carolina Camp Cedar in Pickens, SC — waterfront RV sites, cabins, resort-style pool, lake activities, dog park &amp; golf club, all in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Carolina Camp Cedar Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Waterfront RV sites, cabins, resort-style pool, lake fishing &amp; kayaking, dog park and golf club — all at Carolina Camp Cedar in Pickens, SC.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/carolina-camp-cedar/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/carolina-camp-cedar/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Carolina Camp Cedar Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Waterfront RV sites, cabins, resort-style pool, lake fishing &amp; kayaking, dog park and golf club — all at Carolina Camp Cedar in Pickens, SC.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -49,6 +52,38 @@
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a579553baf5f6da404e8fb0.jpg&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Carolina
+         Camp Cedar as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Carolina Camp Cedar",
+        "url": "https://hub.bluespotguide.com/carolina-camp-cedar/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png",
+        "telephone": "+18648786083",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1018 State Rd S-39-204",
+            "addressLocality": "Pickens",
+            "addressRegion": "SC",
+            "postalCode": "29671",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.8834,
+            "longitude": -82.7010
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Resort-Style Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "Waterfront RV Sites" },
+            { "@type": "LocationFeatureSpecification", "name": "Fenced Dog Park" },
+            { "@type": "LocationFeatureSpecification", "name": "Two 18-Hole Golf Courses" },
+            { "@type": "LocationFeatureSpecification", "name": "Kayak, Paddleboard & Pontoon Rentals" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3448,7 +3483,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Carolina Camp Cedar</div>
+                            <h1 class="hero-title">Carolina Camp Cedar</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

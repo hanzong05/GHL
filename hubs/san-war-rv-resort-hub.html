@@ -7,19 +7,22 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Sanwar RV Resort">
     <title id="pageTitle">Sanwar Rv Resort Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Sanwar RV Resort in Sandersville, GA — RV sites, cabins, pool &amp; lazy river, gem mining, Ghost Town Saloon, stocked ponds, WiFi and the park map.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" id="ogTitle" content="Sanwar Rv Resort Hub">
+    <meta property="og:title" id="ogTitle" content="Sanwar RV Resort Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, pool &amp; lazy river, gem mining, Ghost Town Saloon and stocked ponds — your home base at Sanwar RV Resort in Sandersville, GA.">
     <meta property="og:image" id="ogImage" content="https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/sanwar-rv-resort/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/sanwar-rv-resort/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twTitle" content="Sanwar Rv Resort Hub">
+    <meta name="twitter:title" id="twTitle" content="Sanwar RV Resort Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, pool &amp; lazy river, gem mining, Ghost Town Saloon and stocked ponds — your home base at Sanwar RV Resort in Sandersville, GA.">
     <meta name="twitter:image" id="twImage" content="https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg">
     <link rel="icon" type="image/jpeg" id="pwaFavicon" href="https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg">
     <link rel="apple-touch-icon" type="image/jpeg" sizes="180x180" id="pwaAppleTouchIcon"
@@ -42,6 +45,38 @@
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image" href="https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Sanwar
+         RV Resort as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Sanwar RV Resort",
+        "url": "https://hub.bluespotguide.com/sanwar-rv-resort/",
+        "image": "https://i.ibb.co/352V9Kd0/8d6fd4f3c751.jpg",
+        "telephone": "+17704985710",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1181 GA Hwy 15 North",
+            "addressLocality": "Sandersville",
+            "addressRegion": "GA",
+            "postalCode": "31082",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 32.9779,
+            "longitude": -82.8046
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Pool & Lazy River" },
+            { "@type": "LocationFeatureSpecification", "name": "Gem Mining" },
+            { "@type": "LocationFeatureSpecification", "name": "Ghost Town Saloon" },
+            { "@type": "LocationFeatureSpecification", "name": "Stocked Fishing Ponds" },
+            { "@type": "LocationFeatureSpecification", "name": "Pet Friendly" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3426,7 +3461,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Sanwar RV Resort</div>
+                            <h1 class="hero-title">Sanwar RV Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

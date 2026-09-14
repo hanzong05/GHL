@@ -8,20 +8,23 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+        <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Allatoona Landing">
         <title id="pageTitle">Allatoona Landing Marine Resort Guest Hub</title>
+        <meta name="description"
+            content="Guest hub for Allatoona Landing Marine Resort on Lake Allatoona in Cartersville, GA — marina slips, boat rentals, full hook-up RV sites, pool &amp; alerts.">
         <!-- Open Graph / social sharing -->
         <meta property="og:type" content="website">
         <meta property="og:title" id="ogTitle" content="Allatoona Landing Marine Resort Guest Hub">
         <meta property="og:description" id="ogDescription"
-            content="Your campground companion — announcements, amenities, activities and more.">
+            content="Your Lake Allatoona getaway companion — marina slips, boat rentals, RV sites, pool, events &amp; alerts, right in Cartersville, GA.">
         <meta property="og:image" id="ogImage"
             content="https://i.ibb.co/3mmmqByT/202694e68a45.jpg">
-        <meta property="og:url" id="ogUrl" content="">
+        <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/allatoona-landing-marine-resort/">
+        <link rel="canonical" href="https://hub.bluespotguide.com/allatoona-landing-marine-resort/">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" id="twTitle" content="Allatoona Landing Marine Resort Guest Hub">
         <meta name="twitter:description" id="twDescription"
-            content="Your campground companion — announcements, amenities, activities and more.">
+            content="Your Lake Allatoona getaway companion — marina slips, boat rentals, RV sites, pool, events &amp; alerts, right in Cartersville, GA.">
         <meta name="twitter:image" id="twImage"
             content="https://i.ibb.co/3mmmqByT/202694e68a45.jpg">
         <link rel="icon" type="image/jpeg" id="pwaFavicon"
@@ -46,6 +49,37 @@
         <link rel="preload" as="image"
             href="https://i.ibb.co/3mmmqByT/202694e68a45.jpg">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Structured data — real NAP + geo so search engines can show Allatoona
+             Landing Marine Resort as a rich result instead of a bare blue link. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Campground",
+            "name": "Allatoona Landing Marine Resort",
+            "url": "https://hub.bluespotguide.com/allatoona-landing-marine-resort/",
+            "image": "https://i.ibb.co/3mmmqByT/202694e68a45.jpg",
+            "telephone": "+17709746089",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "24 Allatoona Landing Rd SE",
+                "addressLocality": "Cartersville",
+                "addressRegion": "GA",
+                "postalCode": "30121",
+                "addressCountry": "US"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 34.1706,
+                "longitude": -84.7141
+            },
+            "amenityFeature": [
+                { "@type": "LocationFeatureSpecification", "name": "Marina & Boat Slips" },
+                { "@type": "LocationFeatureSpecification", "name": "Boat Rentals" },
+                { "@type": "LocationFeatureSpecification", "name": "Full Hook-Up RV Sites" },
+                { "@type": "LocationFeatureSpecification", "name": "Swimming Pool" }
+            ]
+        }
+        </script>
         <style>
             *,
             *::before,
@@ -3445,7 +3479,7 @@
                             </div>
                             <div class="hero-bottom">
                                 <div class="hero-welcome">Welcome to</div>
-                                <div class="hero-title">Allatoona Landing Marine Resort</div>
+                                <h1 class="hero-title">Allatoona Landing Marine Resort</h1>
                                 <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                     <span class="hero-weather-icon">☀️</span>
                                     <span class="hero-weather-temp">73°F</span>

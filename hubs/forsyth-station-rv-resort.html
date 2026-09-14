@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Forsyth Station RV">
     <title id="pageTitle">Forsyth Station RV Resort Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Forsyth Station RV Resort in Forsyth, GA — RV, tent &amp; cabin sites off I-75, a seasonal pool, playground, Wi-Fi &amp; pet-friendly camping.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Forsyth Station RV Resort Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Middle Georgia camping companion — RV, tent &amp; cabin sites, a seasonal pool, playground, Wi-Fi and more, just off I-75 in Forsyth, GA.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86d9ffcdd4b797a38aeac0.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/forsyth-station-rv-resort/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/forsyth-station-rv-resort/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Forsyth Station RV Resort Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your Middle Georgia camping companion — RV, tent &amp; cabin sites, a seasonal pool, playground, Wi-Fi and more, just off I-75 in Forsyth, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86d9ffcdd4b797a38aeac0.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -46,6 +49,38 @@
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86d9ffcdd4b797a38aeac0.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Forsyth
+         Station RV Resort as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Forsyth Station RV Resort",
+        "url": "https://hub.bluespotguide.com/forsyth-station-rv-resort/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a86d9ffcdd4b797a38aeac0.png",
+        "telephone": "+14789942019",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "414 S Frontage Rd",
+            "addressLocality": "Forsyth",
+            "addressRegion": "GA",
+            "postalCode": "31029",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.0362,
+            "longitude": -83.9388
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Full Hookup RV Sites" },
+            { "@type": "LocationFeatureSpecification", "name": "Seasonal Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" },
+            { "@type": "LocationFeatureSpecification", "name": "Pet Friendly" },
+            { "@type": "LocationFeatureSpecification", "name": "Playground" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3691,7 +3726,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Forsyth Station RV Resort</div>
+                            <h1 class="hero-title">Forsyth Station RV Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

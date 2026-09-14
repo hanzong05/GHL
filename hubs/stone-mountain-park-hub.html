@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="SMP Campground">
     <title id="pageTitle">Stone Mountain Park Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Stone Mountain Park Campground in Stone Mountain, GA — RV sites, cabins, fishing, the Outpost marina, golf, WiFi and park alerts in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" id="ogTitle" content="Stone Mountain Park Guest Hub">
+    <meta property="og:title" id="ogTitle" content="Stone Mountain Park Campground Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, fishing, the Outpost marina and golf at Stone Mountain Park Campground in Stone Mountain, GA.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/stone-mountain-park-campground/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/stone-mountain-park-campground/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twTitle" content="Stone Mountain Park Guest Hub">
+    <meta name="twitter:title" id="twTitle" content="Stone Mountain Park Campground Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites, cabins, fishing, the Outpost marina and golf at Stone Mountain Park Campground in Stone Mountain, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png">
     <link rel="icon" type="image/jpeg" id="pwaFavicon"
@@ -48,6 +51,38 @@
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a2ff442998928ce1fa88448.png&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Stone
+         Mountain Park Campground as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Stone Mountain Park Campground",
+        "url": "https://hub.bluespotguide.com/stone-mountain-park-campground/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a2ff4421b95dbb2c2e8e5c1.png",
+        "telephone": "+14784786686",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4003 Stonewall Jackson Dr",
+            "addressLocality": "Stone Mountain",
+            "addressRegion": "GA",
+            "postalCode": "30083",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.8082,
+            "longitude": -84.1704
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Fishing" },
+            { "@type": "LocationFeatureSpecification", "name": "Boat & Kayak Rentals" },
+            { "@type": "LocationFeatureSpecification", "name": "18-Hole Golf Courses" },
+            { "@type": "LocationFeatureSpecification", "name": "Cabins" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3452,7 +3487,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Stone Mountain Park Campground</div>
+                            <h1 class="hero-title">Stone Mountain Park Campground</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

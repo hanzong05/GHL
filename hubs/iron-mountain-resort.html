@@ -8,21 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
-    <title id="pageTitle">Iron Mountain PARK Guest Hub</title>
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Iron Mountain Park">
+    <title id="pageTitle">Iron Mountain Park Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Iron Mountain Park in Dahlonega, GA — RV camping, cabins, 4,300 acres of trails, The Grille, live music at the Stage, WiFi and park alerts.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" id="ogTitle" content="Iron Mountain PARK Guest Hub">
+    <meta property="og:title" id="ogTitle" content="Iron Mountain Park Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV camping, cabins, 4,300 acres of trails, The Grille and live entertainment at the Stage — all at Iron Mountain Park in Dahlonega, GA.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efc78647f313a0a2fc.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/iron-mountain-park/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/iron-mountain-park/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twTitle" content="Iron Mountain PARK Guest Hub">
     <meta name="twitter:title" id="twTitle" content="Iron Mountain Park Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV camping, cabins, 4,300 acres of trails, The Grille and live entertainment at the Stage — all at Iron Mountain Park in Dahlonega, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efc78647f313a0a2fc.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -49,6 +51,38 @@
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a2ff442998928ce1fa88448.png&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Iron
+         Mountain Park as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Iron Mountain Park",
+        "url": "https://hub.bluespotguide.com/iron-mountain-park/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a9aa4efc78647f313a0a2fc.png",
+        "telephone": "+17062167275",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "116 Iron Mountain Pkwy",
+            "addressLocality": "Dahlonega",
+            "addressRegion": "GA",
+            "postalCode": "30533",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.5469,
+            "longitude": -84.1387
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "4,300 Acres of Trails" },
+            { "@type": "LocationFeatureSpecification", "name": "The Grille — Food & Full Bar" },
+            { "@type": "LocationFeatureSpecification", "name": "Iron Mountain Stage — Live Entertainment" },
+            { "@type": "LocationFeatureSpecification", "name": "RV Camping & Cabins" },
+            { "@type": "LocationFeatureSpecification", "name": "Lake Fishing" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3453,7 +3487,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Iron Mountain Park</div>
+                            <h1 class="hero-title">Iron Mountain Park</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

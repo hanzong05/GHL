@@ -10,18 +10,21 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="GrandStand RV Park">
     <title id="pageTitle">GrandStand RV Park Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for GrandStand RV Park in Lincoln, AL — 200 yards from Talladega Superspeedway, with pull-through sites, a pool, double dog parks &amp; laundry.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="GrandStand RV Park Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Pull-through RV sites, a pool, double dog parks, laundry and more — 200 yards from Talladega Superspeedway at GrandStand RV Park in Lincoln, AL.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa14e5ad63e08439ce1bc96.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/grandstand-rv-park/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/grandstand-rv-park/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="GrandStand RV Park Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Pull-through RV sites, a pool, double dog parks, laundry and more — 200 yards from Talladega Superspeedway at GrandStand RV Park in Lincoln, AL.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa14e5ad63e08439ce1bc96.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -48,6 +51,39 @@
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a2ff442998928ce1fa88448.png&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show GrandStand
+         RV Park as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "GrandStand RV Park",
+        "url": "https://hub.bluespotguide.com/grandstand-rv-park/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa14e5ad63e08439ce1bc96.png",
+        "telephone": "+12055052374",
+        "email": "GrandStandRVPark@gmail.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3082 Speedway Blvd",
+            "addressLocality": "Lincoln",
+            "addressRegion": "AL",
+            "postalCode": "35096",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.6462,
+            "longitude": -86.1391
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Swimming Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "Double Dog Park" },
+            { "@type": "LocationFeatureSpecification", "name": "Laundry Facility" },
+            { "@type": "LocationFeatureSpecification", "name": "Covered Pavilion" },
+            { "@type": "LocationFeatureSpecification", "name": "Camp Store" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3452,7 +3488,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">GrandStand RV Park</div>
+                            <h1 class="hero-title">GrandStand RV Park</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

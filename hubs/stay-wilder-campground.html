@@ -7,20 +7,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Stay Wilder">
     <title id="pageTitle">Stay Wilder Campground Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Stay Wilder Campground in Rising Fawn, GA — RV sites, rustic cabins, a fishing pond, playground, pet-friendly sites, WiFi and park alerts.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Stay Wilder Campground Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites with full hookups, rustic cabins, a fishing pond, playground and pet-friendly sites at Stay Wilder Campground in Rising Fawn, GA.">
     <meta property="og:image" id="ogImage"
         content="https://i.ibb.co/nvKLyzm/2a5c64d96866.jpg">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/stay-wilder-campground/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/stay-wilder-campground/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Stay Wilder Campground Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="RV sites with full hookups, rustic cabins, a fishing pond, playground and pet-friendly sites at Stay Wilder Campground in Rising Fawn, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://i.ibb.co/nvKLyzm/2a5c64d96866.jpg">
     <link rel="icon" type="image/jpeg" id="pwaFavicon"
@@ -45,6 +48,39 @@
     <link rel="preload" as="image"
         href="https://i.ibb.co/nvKLyzm/2a5c64d96866.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Stay Wilder
+         Campground as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Stay Wilder Campground",
+        "url": "https://hub.bluespotguide.com/stay-wilder-campground/",
+        "image": "https://i.ibb.co/nvKLyzm/2a5c64d96866.jpg",
+        "telephone": "+16784476021",
+        "email": "staywildercampground@gmail.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7643 US-11",
+            "addressLocality": "Rising Fawn",
+            "addressRegion": "GA",
+            "postalCode": "30738",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.8401,
+            "longitude": -85.5478
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Pet Friendly" },
+            { "@type": "LocationFeatureSpecification", "name": "Fishing Pond" },
+            { "@type": "LocationFeatureSpecification", "name": "Playground" },
+            { "@type": "LocationFeatureSpecification", "name": "Laundry Facilities" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3436,7 +3472,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Stay Wilder Campground</div>
+                            <h1 class="hero-title">Stay Wilder Campground</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>

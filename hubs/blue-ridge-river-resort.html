@@ -8,20 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Park Hub">
+    <meta name="apple-mobile-web-app-title" id="metaAppTitle" content="Blue Ridge River">
     <title id="pageTitle">Blue Ridge River Resort Guest Hub</title>
+    <meta name="description" id="metaDescription"
+        content="Guest hub for Blue Ridge River Resort in Morganton, GA — RV sites, cabins, a heated pool, EV charging, a dog park, fishing and WiFi in one app.">
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="ogTitle" content="Blue Ridge River Resort Guest Hub">
     <meta property="og:description" id="ogDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your North Georgia mountain getaway companion — RV sites, cabins, heated pool, EV charging, dog park, fishing and more, right in Morganton, GA.">
     <meta property="og:image" id="ogImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/blue-ridge-rv-resort/">
+    <link rel="canonical" href="https://hub.bluespotguide.com/blue-ridge-rv-resort/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="twTitle" content="Blue Ridge River Resort Guest Hub">
     <meta name="twitter:description" id="twDescription"
-        content="Your campground companion — announcements, amenities, activities and more.">
+        content="Your North Georgia mountain getaway companion — RV sites, cabins, heated pool, EV charging, dog park, fishing and more, right in Morganton, GA.">
     <meta name="twitter:image" id="twImage"
         content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
@@ -46,6 +49,38 @@
     <link rel="preload" as="image"
         href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured data — real NAP + geo so search engines can show Blue Ridge
+         River Resort as a rich result instead of a bare blue link. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Campground",
+        "name": "Blue Ridge River Resort",
+        "url": "https://hub.bluespotguide.com/blue-ridge-rv-resort/",
+        "image": "https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a620d65ec166b2c5f7e3f64.png",
+        "telephone": "+17069007682",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "2431 Wright Mill Rd",
+            "addressLocality": "Morganton",
+            "addressRegion": "GA",
+            "postalCode": "30560",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.8618,
+            "longitude": -84.3229
+        },
+        "amenityFeature": [
+            { "@type": "LocationFeatureSpecification", "name": "Heated Pool" },
+            { "@type": "LocationFeatureSpecification", "name": "EV Charging" },
+            { "@type": "LocationFeatureSpecification", "name": "Dog Park" },
+            { "@type": "LocationFeatureSpecification", "name": "Fishing" },
+            { "@type": "LocationFeatureSpecification", "name": "Free WiFi" }
+        ]
+    }
+    </script>
     <style>
         *,
         *::before,
@@ -3445,7 +3480,7 @@
                         </div>
                         <div class="hero-bottom">
                             <div class="hero-welcome">Welcome to</div>
-                            <div class="hero-title">Blue Ridge River Resort</div>
+                            <h1 class="hero-title">Blue Ridge River Resort</h1>
                             <div class="hero-weather" onclick="openWeatherOverlay()" style="cursor:pointer;">
                                 <span class="hero-weather-icon">☀️</span>
                                 <span class="hero-weather-temp">73°F</span>
