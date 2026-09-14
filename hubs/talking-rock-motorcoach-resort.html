@@ -6571,16 +6571,6 @@
                                     if (!s.exists()) return;
                                     const meta = s.val();
                                     if (meta.name) HUB_NAME = meta.name;
-                                    if (meta.logoUrl) {
-                                        const icon = document.getElementById('a2hsIcon');
-                                        if (icon) { const fallback = icon.src; icon.onerror = () => { icon.onerror = null; icon.src = fallback; }; icon.src = meta.logoUrl; }
-                                        const heroLogo = document.getElementById('heroLogoImg');
-                                        if (heroLogo) { const fallback = heroLogo.src; heroLogo.onerror = () => { heroLogo.onerror = null; heroLogo.src = fallback; }; heroLogo.src = meta.logoUrl; }
-                                        ['pwaFavicon', 'pwaAppleTouchIcon', 'pwaAppleTouchIcon152', 'pwaAppleTouchIcon120'].forEach(id => {
-                                            const el = document.getElementById(id);
-                                            if (el) el.href = meta.logoUrl;
-                                        });
-                                    }
                                 }).catch(() => { });
 
                                 // ── Onboarding funnel analytics — lightweight event log so we can
@@ -7837,8 +7827,8 @@
                                         .comm-privacy-text { color: ${p.primary} !important; }
                                         #enableNotifsBtn { border-color: ${p.primary} !important; color: ${p.primary} !important; }
                                         #regSubmitBtn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
-                #regLoginBtn, #regSetPasswordBtn, #regForgotBtn { background: linear-gradient(135deg,,) !important; }
-                #regViewLogin .wifi-modal-icon, #regViewSetPassword .wifi-modal-icon, #regViewForgot .wifi-modal-icon { background: linear-gradient(135deg,,) !important; }
+                #regLoginBtn, #regSetPasswordBtn, #regForgotBtn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
+                #regViewLogin .wifi-modal-icon, #regViewSetPassword .wifi-modal-icon, #regViewForgot .wifi-modal-icon { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
                                         /* Section header labels */
                                         .section-title { color: ${p.dark} !important; opacity: 1 !important; }
                                         .act-section-title { color: ${p.dark} !important; opacity: 1 !important; }

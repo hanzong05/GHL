@@ -760,6 +760,11 @@ COMPLETED TASKS — September 11, 2026
 ✅ Password Reset Page - Moved messaging, push notification, and password reset tools onto our own account.
 ✅ All Hubs - Updated every hub, the admin panel, and the password reset page to point at the new worker links instead of the old ones.
 ✅ All Hubs - Fixed the Log In / Create Password / Forgot Password buttons to use each hub's own theme color instead of always showing plain blue.
+✅ Forsyth Station, Camp Cedar, Talking Rock, Splash RV Resort - Stopped a saved Firebase logo link from being able to silently override the welcome icon and home screen icon with an old or broken image, so the fix always shows correctly.
+✅ Forsyth Station, Splash RV Resort - Fixed the welcome popup logo showing too small/cramped; it now displays at the right size.
+✅ San War RV Resort - Fixed "Rv" showing instead of "RV" throughout the hub name (title, page heading, map label, etc).
+✅ Forsyth Station, Splash RV Resort - Made sure "RV" always stays capitalized correctly if a hub's name isn't set up yet.
+✅ Blue Water RV Resort - Updated the More tab's background image to the new photo provided.
 
 TODO (new)
 ☐ All Hubs - The messaging/notification/password-reset tools moved to our own account need to actually be turned on there before guests can use them — the old versions still need to be turned off once that's done.

@@ -18,7 +18,7 @@
     <meta property="og:description" id="ogDescription"
         content="Waterfront RV sites, cabins, resort-style pool, lake fishing &amp; kayaking, dog park and golf club — all at Carolina Camp Cedar in Pickens, SC.">
     <meta property="og:image" id="ogImage"
-        content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <meta property="og:url" id="ogUrl" content="https://hub.bluespotguide.com/carolina-camp-cedar/">
     <link rel="canonical" href="https://hub.bluespotguide.com/carolina-camp-cedar/">
     <meta name="twitter:card" content="summary_large_image">
@@ -26,15 +26,15 @@
     <meta name="twitter:description" id="twDescription"
         content="Waterfront RV sites, cabins, resort-style pool, lake fishing &amp; kayaking, dog park and golf club — all at Carolina Camp Cedar in Pickens, SC.">
     <meta name="twitter:image" id="twImage"
-        content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        content="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="icon" type="image/png" id="pwaFavicon"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="apple-touch-icon" type="image/png" sizes="180x180" id="pwaAppleTouchIcon"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="apple-touch-icon" type="image/png" sizes="152x152" id="pwaAppleTouchIcon152"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="apple-touch-icon" type="image/png" sizes="120x120" id="pwaAppleTouchIcon120"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="manifest" href="https://hub.bluespotguide.com/carolina-camp-cedar/manifest.json">
     <meta name="theme-color" content="#1a56db">
     <!-- Preconnect to CDN and fonts -->
@@ -48,7 +48,7 @@
     <script src="https://hub.bluespotguide.com/hub-corev1.js" defer></script>
     <!-- Preload above-the-fold images -->
     <link rel="preload" as="image"
-        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png">
+        href="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png">
     <link rel="preload" as="image"
         href="https://wsrv.nl/?url=https%3A%2F%2Fassets.cdn.filesafe.space%2FSk7XUXxjVtIrJHKp3GhX%2Fmedia%2F6a579553baf5f6da404e8fb0.jpg&w=900&q=80&output=webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -3469,7 +3469,7 @@
                         <div class="hero-top">
                             <div class="hero-logo">
                                 <img id="heroLogoImg"
-                                    src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a56594f21818528a810ac97.png"
+                                    src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6aa7e5ee9f8b31b6ab013ab6.png"
                                     alt="Carolina Camp Cedar" style="height:70px;width:auto;display:block;"
                                     fetchpriority="high" decoding="async">
                             </div>
@@ -7420,16 +7420,6 @@
             if (!s.exists()) return;
             const meta = s.val();
             if (meta.name) HUB_NAME = meta.name;
-            if (meta.logoUrl) {
-                const icon = document.getElementById('a2hsIcon');
-                if (icon) { const fallback = icon.src; icon.onerror = () => { icon.onerror = null; icon.src = fallback; }; icon.src = meta.logoUrl; }
-                const heroLogo = document.getElementById('heroLogoImg');
-                if (heroLogo) { const fallback = heroLogo.src; heroLogo.onerror = () => { heroLogo.onerror = null; heroLogo.src = fallback; }; heroLogo.src = meta.logoUrl; }
-                ['pwaFavicon', 'pwaAppleTouchIcon', 'pwaAppleTouchIcon152', 'pwaAppleTouchIcon120'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.href = meta.logoUrl;
-                });
-            }
         }).catch(() => { });
         const messaging = getMessaging(app);
 
@@ -8668,8 +8658,8 @@
                 .comm-privacy-text { color: ${p.primary} !important; }
                 #enableNotifsBtn { border-color: ${p.primary} !important; color: ${p.primary} !important; }
                 #regSubmitBtn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
-                #regLoginBtn, #regSetPasswordBtn, #regForgotBtn { background: linear-gradient(135deg,,) !important; }
-                #regViewLogin .wifi-modal-icon, #regViewSetPassword .wifi-modal-icon, #regViewForgot .wifi-modal-icon { background: linear-gradient(135deg,,) !important; }
+                #regLoginBtn, #regSetPasswordBtn, #regForgotBtn { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
+                #regViewLogin .wifi-modal-icon, #regViewSetPassword .wifi-modal-icon, #regViewForgot .wifi-modal-icon { background: linear-gradient(135deg,${p.primary},${p.dark}) !important; }
                 /* Section header labels */
                 .section-title { color: ${p.dark} !important; opacity: 1 !important; }
                 .act-section-title { color: ${p.dark} !important; opacity: 1 !important; }
