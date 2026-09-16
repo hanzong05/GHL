@@ -817,6 +817,7 @@ TODO (new)
 COMPLETED TASKS — September 17, 2026
 ✅ All hubs - Optimized the favicon, Apple touch icons (180/152/120), hero logo, and image preload hint on the 13 hubs that were still serving raw full-size logo files (Big Meadow, Blue Water, Buckeye Lake, Blue Ridge River, Carolina Camp Cedar, Forsyth Station, GrandStand, Iron Mountain, Little River, Oak Lake, Stone Mountain Park, Talking Rock, Talona Ridge) — same wsrv.nl resize/WebP-conversion fix Hanz already applied to Allatoona, San War, Splash, Stay Wilder, Sweetwater Valley, and Winding Waters. Cuts the logo/icon payload from full-size PNGs/JPGs down to correctly-sized WebP.
 ✅ Blue Water RV Resort / Forsyth Station / Stone Mountain Park / Talking Rock - These 4 hubs use a different image for the visible hero logo than for the favicon/app-icon; the hero logo (and its matching preload, where one existed) is now also wsrv.nl-optimized separately from the favicon icon.
+✅ Buckeye Lake KOA Holiday - Rebalanced the Home tab's Discover banner typography: enlarged the "Discover More Near You" title (18px → 22px) and resized the "Explore the Local Area Guide" pill into a proper small complementary button (11px text, 12px icon, tighter padding) instead of competing with the title. Colors/gradients left untouched per request.
 
 TODO (new)
 ☐ Logo/icon optimization - The 13-hub wsrv.nl fix above is pushed to GitHub but, same as every other hub HTML change, won't show live on hub.bluespotguide.com until republished in GoHighLevel.
