@@ -816,3 +816,11 @@ TODO (new)
 
 COMPLETED TASKS — September 15, 2026
 ✅ Buckeye Lake KOA Holiday - Replaced the Map tab image with a new park map photo.
+✅ Buckeye Lake KOA Holiday - Added an "Official KOA Camping App" download card to the Home tab with the real KOA logo image.
+✅ Buckeye Lake KOA Holiday - Home tab download button now automatically sends Android phones to the Google Play Store and everything else to the Apple App Store, instead of always going to one store.
+✅ Buckeye Lake KOA Holiday - Added a "KOA App & Rewards" section to the bottom of the More tab, matching the reference screenshot the user provided.
+✅ Buckeye Lake KOA Holiday - "Download the KOA App" card in the More tab — its own card, same Android/iOS auto-detect as the Home tab button.
+✅ Buckeye Lake KOA Holiday - "Explore KOA Rewards" card in the More tab — its own card, links to koa.com/kamp-rewards.
+✅ Buckeye Lake KOA Holiday - "Visit Our KOA Website" card in the More tab — its own card, links to koa.com.
+✅ Buckeye Lake KOA Holiday - Added an "App Store" button in the More tab that links straight to the KOA app's Apple App Store page.
+✅ Buckeye Lake KOA Holiday - Added a "Google Play" button in the More tab that links straight to the KOA app's Google Play page.
