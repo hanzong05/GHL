@@ -814,6 +814,14 @@ TODO (new)
 ☐ Splash RV Resort / Sweetwater Valley Park - The live hub.bluespotguide.com manifest slug for each doesn't match the repo filename (`splash-rv-resort-hub` vs. `splash-rv-resort.html`; `sweetwater-valley-rv-park` vs. `sweetwater-valley-park.html`). Used the manifest's own slug for the new og:url/canonical/Schema.org URLs since that's what's actually live, but worth a sanity check that routing matches.
 ☐ Allatoona Landing Marine Resort - Found a naming inconsistency while doing the SEO pass: the page title/H1/filename all say "Allatoona Landing Marine Resort," but the Directions address block reads "Allatoona Landing Marina & Resort" and the Facebook link slug is "allatoonalandingmarinaandcampground." Kept "Marine Resort" for the new Schema.org data to match the H1/title/branding used everywhere else in the hub, but the real business name is worth confirming.
 
+COMPLETED TASKS — September 17, 2026
+✅ All hubs - Optimized the favicon, Apple touch icons (180/152/120), hero logo, and image preload hint on the 13 hubs that were still serving raw full-size logo files (Big Meadow, Blue Water, Buckeye Lake, Blue Ridge River, Carolina Camp Cedar, Forsyth Station, GrandStand, Iron Mountain, Little River, Oak Lake, Stone Mountain Park, Talking Rock, Talona Ridge) — same wsrv.nl resize/WebP-conversion fix Hanz already applied to Allatoona, San War, Splash, Stay Wilder, Sweetwater Valley, and Winding Waters. Cuts the logo/icon payload from full-size PNGs/JPGs down to correctly-sized WebP.
+✅ Blue Water RV Resort / Forsyth Station / Stone Mountain Park / Talking Rock - These 4 hubs use a different image for the visible hero logo than for the favicon/app-icon; the hero logo (and its matching preload, where one existed) is now also wsrv.nl-optimized separately from the favicon icon.
+
+TODO (new)
+☐ Logo/icon optimization - The 13-hub wsrv.nl fix above is pushed to GitHub but, same as every other hub HTML change, won't show live on hub.bluespotguide.com until republished in GoHighLevel.
+☐ Buckeye Lake KOA Holiday - The page's SECOND preload hint (for the hero background photo) still points to a stale/unused image ID (6a2ff442998928ce1fa88448.png) that doesn't match the actual hero background image the JS sets at runtime (6aa91a54196984c408f73872.png) — found while investigating slow logo/image loading, not fixed yet. Also, the hero background is only set by JS after the Firebase SDK modules load, rather than being in the initial HTML, which delays the largest visual element on the page. Worth doing across other hubs too if the same pattern shows up elsewhere.
+
 COMPLETED TASKS — September 15, 2026
 ✅ Buckeye Lake KOA Holiday - Replaced the Map tab image with a new park map photo.
 ✅ Buckeye Lake KOA Holiday - Added an "Official KOA Camping App" download card to the Home tab with the real KOA logo image.
