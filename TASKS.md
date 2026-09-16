@@ -795,6 +795,16 @@ COMPLETED TASKS — September 14, 2026
 ✅ Talona Ridge RV Resort - Same SEO pass: real meta description, rewrote Open Graph/Twitter description to property-specific copy, fixed the empty og:url, added a canonical link, added Schema.org structured data (Campground type with real address/phone/geo/amenities), fixed apple-mobile-web-app-title to "Talona Ridge RV", and promoted the hero title to a real `<h1>`.
 ✅ SEO/Metadata - Closed out the full 16-hub SEO pass: Allatoona Landing Marine Resort, Big Meadow Family Campground, Blue Ridge River Resort, Carolina Camp Cedar, Forsyth Station RV Resort, GrandStand RV Park, Iron Mountain Park, Little River Campground, Sanwar RV Resort, Splash RV Resort, Stay Wilder Campground, Stone Mountain Park Hub, Sweetwater Valley Park, Talking Rock Motorcoach RV Resort, Talona Ridge RV Resort, and Winding Waters RV Resort now all match Blue Water RV Resort/Buckeye Lake KOA Holiday/Oak Lake RV Resort's SEO standard. Pushed to origin/main.
 
+COMPLETED TASKS — September 15, 2026
+✅ Buckeye Lake KOA Holiday - Added an "Official KOA Camping App" download card to the Home tab with the real KOA logo image.
+✅ Buckeye Lake KOA Holiday - Home tab download button now automatically sends Android phones to the Google Play Store and everything else to the Apple App Store, instead of always going to one store.
+✅ Buckeye Lake KOA Holiday - Added a "KOA App & Rewards" section to the bottom of the More tab, matching the reference screenshot the user provided.
+✅ Buckeye Lake KOA Holiday - "Download the KOA App" card in the More tab — its own card, same Android/iOS auto-detect as the Home tab button.
+✅ Buckeye Lake KOA Holiday - "Explore KOA Rewards" card in the More tab — its own card, links to koa.com/kamp-rewards.
+✅ Buckeye Lake KOA Holiday - "Visit Our KOA Website" card in the More tab — its own card, links to koa.com.
+✅ Buckeye Lake KOA Holiday - Added an "App Store" button in the More tab that links straight to the KOA app's Apple App Store page.
+✅ Buckeye Lake KOA Holiday - Added a "Google Play" button in the More tab that links straight to the KOA app's Google Play page.
+
 TODO (new)
 ☐ SEO/Metadata - The 16 hubs' SEO updates above are pushed to GitHub but, same as every other hub HTML change, won't show live on hub.bluespotguide.com until republished in GoHighLevel.
 ☐ Talking Rock Motorcoach RV Resort - The "Mailing Address" contact block (199 Welcome Home Ln, Talking Rock, GA 30175) and the "Get Directions" link a few lines above it (2650 Hwy 136 W, Talking Rock, GA 30175) show two different addresses. Used the labeled mailing address for the new Schema.org structured data since it's presented as the property address, but the Hwy 136 one may be the real physical entrance — worth reconciling with the property.
