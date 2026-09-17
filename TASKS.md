@@ -808,7 +808,6 @@ COMPLETED TASKS — September 16, 2026 (cont.)
 ✅ Reviewed remaining hubs (Big Meadow, Blue Ridge River, Blue Water, Carolina Camp Cedar, GrandStand, Little River, Splash, Stay Wilder, Stone Mountain Park, Sweetwater Valley, Talking Rock) for social icons to fix — none have actual social link markup (some only mention "Follow us on Facebook" as plain text), so left untouched.
 
 TODO (new)
-☐ Logo/icon optimization - The 13-hub wsrv.nl fix above is pushed to GitHub but, same as every other hub HTML change, won't show live on hub.bluespotguide.com until republished in GoHighLevel.
 ☐ Buckeye Lake KOA Holiday - The page's SECOND preload hint (for the hero background photo) still points to a stale/unused image ID (6a2ff442998928ce1fa88448.png) that doesn't match the actual hero background image the JS sets at runtime (6aa91a54196984c408f73872.png) — found while investigating slow logo/image loading, not fixed yet. Also, the hero background is only set by JS after the Firebase SDK modules load, rather than being in the initial HTML, which delays the largest visual element on the page. Worth doing across other hubs too if the same pattern shows up elsewhere.
 
 COMPLETED TASKS — September 15, 2026
@@ -862,5 +861,6 @@ COMPLETED TASKS — September 17, 2026
 ✅ Admin Panel - NEW FEATURE Added a "Digital Map Overlay" to the Park Map tool — upload your own map image and lay it right over the real map with an adjustable opacity slider to see through it, always sitting above the real map but underneath your traced shapes and pins.
 ✅ Admin Panel - NEW FEATURE Added drag handles to the digital map overlay so staff can freely resize and reposition it to line up with the real map, instead of it being stuck at whatever size/spot it was uploaded at.
 ✅ Admin Panel - NEW FEATURE Added a rotate control to the digital map overlay so it can be turned to any angle to match the real map's orientation, independent of the main map's own rotate control.
+✅ All hubs - Republished all the pending hub changes live in GoHighLevel (favicon/wsrv.nl logo optimization, Discover banner typography rebalance, real social brand icons) — guests are now seeing the updated versions, not just what was pushed to GitHub.
 ☐ Park Map - The new trail-tracing feature only works in the admin panel so far; showing traced trails on the actual guest-facing hub page still needs to be built.
 
