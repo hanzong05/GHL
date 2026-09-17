@@ -862,5 +862,6 @@ COMPLETED TASKS — September 17, 2026
 ✅ Admin Panel - NEW FEATURE Added drag handles to the digital map overlay so staff can freely resize and reposition it to line up with the real map, instead of it being stuck at whatever size/spot it was uploaded at.
 ✅ Admin Panel - NEW FEATURE Added a rotate control to the digital map overlay so it can be turned to any angle to match the real map's orientation, independent of the main map's own rotate control.
 ✅ All hubs - Republished all the pending hub changes live in GoHighLevel (favicon/wsrv.nl logo optimization, Discover banner typography rebalance, real social brand icons) — guests are now seeing the updated versions, not just what was pushed to GitHub.
+✅ Allatoona Landing Marine Resort - Moved the line break in the Home tab's Discover banner title so "More" sits beside "Discover" on the first line and "Near You" wraps to its own second line, instead of "Discover" alone on line one. Tried here first before rolling out to other hubs.
 ☐ Park Map - The new trail-tracing feature only works in the admin panel so far; showing traced trails on the actual guest-facing hub page still needs to be built.
 
