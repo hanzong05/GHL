@@ -720,7 +720,8 @@
         #panel-newsletter.active,
         #panel-monthlyhappenings.active,
         #panel-musicfestival.active,
-        #panel-hubs.active {
+        #panel-hubs.active,
+        #panel-parkmap.active {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             max-height: 100%;
@@ -730,7 +731,8 @@
         #panel-newsletter .card,
         #panel-monthlyhappenings .card,
         #panel-musicfestival .card,
-        #panel-hubs .card {
+        #panel-hubs .card,
+        #panel-parkmap .card {
             overflow: visible;
         }
 
@@ -3560,6 +3562,8 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
 </head>
 
 <body>
@@ -3788,6 +3792,13 @@
                             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                     </svg>
                     Settings
+                </div>
+                <div class="nav-item" data-panel="parkmap" onclick="switchPanel(this);loadParkMapPanel()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    Park Map
                 </div>
 
                 <!-- Administration — super admin (all hubs) + super manager (own hub) -->
@@ -4539,6 +4550,79 @@
                             </div>
                             <div id="nlStatus"
                                 style="display:none;font-size:13px;color:var(--text2);text-align:center;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARK MAP — a real Leaflet map (street/satellite tiles), with
+                     colored boxes drawn directly on top at real locations. Drawing
+                     is done here (staff/owner only) and saved to Firebase; the hub
+                     itself only ever reads it, never writes it. -->
+                <div class="panel" id="panel-parkmap">
+                    <div class="card">
+                        <div class="card-body" style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+                            <div>
+                                <label class="form-label">Hub</label>
+                                <select class="form-select" id="pmHubSelect" onchange="loadParkMapForHub()"></select>
+                            </div>
+                            <div>
+                                <label class="form-label">Find Location</label>
+                                <div style="display:flex;gap:8px;">
+                                    <input type="text" class="form-input" id="pmSearchInput" placeholder="e.g. Stone Mountain Park, GA" style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();pmSearchLocation();}">
+                                    <button class="btn" style="white-space:nowrap;" onclick="pmSearchLocation()">Search</button>
+                                </div>
+                                <div class="form-hint">Searching drops a draggable pin at that address — drag it to the park's exact entrance/location, then hit Save.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">Digital Map Overlay</label>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <input type="file" id="pmOverlayFileInput" accept="image/*" style="display:none;" onchange="handlePmOverlayUpload(this)">
+                                    <button class="btn" style="white-space:nowrap;" onclick="document.getElementById('pmOverlayFileInput').click()">Upload Map Image</button>
+                                    <button class="btn" id="pmOverlayRemoveBtn" onclick="pmRemoveOverlay()" style="white-space:nowrap;display:none;">Remove Overlay</button>
+                                    <div id="pmOverlayOpacityWrap" style="display:none;align-items:center;gap:6px;">
+                                        <span style="font-size:12px;color:var(--text2);">Opacity</span>
+                                        <input type="range" id="pmOverlayOpacitySlider" min="0" max="1" step="0.05" value="0.7" oninput="pmSetOverlayOpacity(this.value)" style="width:120px;">
+                                        <span id="pmOverlayOpacityLabel" style="font-size:11px;color:var(--text2);min-width:32px;">70%</span>
+                                    </div>
+                                    <div id="pmOverlayRotateWrap" style="display:none;align-items:center;gap:4px;">
+                                        <span style="font-size:12px;color:var(--text2);">Rotate</span>
+                                        <button class="btn" title="Rotate left" onclick="pmSetOverlayRotation(pmOverlayRotation-15)" style="padding:5px 8px;">↺</button>
+                                        <input type="range" id="pmOverlayRotateSlider" min="-180" max="180" step="1" value="0" oninput="pmSetOverlayRotation(this.value)" style="width:110px;">
+                                        <button class="btn" title="Rotate right" onclick="pmSetOverlayRotation(pmOverlayRotation+15)" style="padding:5px 8px;">↻</button>
+                                        <span id="pmOverlayRotateLabel" style="font-size:11px;color:var(--text2);min-width:32px;">0°</span>
+                                    </div>
+                                </div>
+                                <div class="form-hint">Uploads your own park map image over the real map so you can trace against it — it sits above the satellite/street tiles but under your traced shapes and pins. Drag the slider to see through it.</div>
+                            </div>
+                            <div style="width:100%;height:480px;border-radius:12px;border:1px solid var(--border2);overflow:hidden;position:relative;">
+                                <div id="pmMap" style="width:100%;height:100%;transition:transform .2s;transform-origin:center center;"></div>
+                                <!-- Zoom buttons live OUTSIDE #pmMap so they stay upright and in place
+                                     while the map rotates — Leaflet's built-in zoom control lives inside
+                                     the map container and would spin along with the tiles otherwise. -->
+                                <div style="position:absolute;top:10px;left:10px;z-index:1000;display:flex;flex-direction:column;background:#fff;border:1px solid var(--border2);border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);">
+                                    <button class="btn" title="Zoom in" onclick="pmZoomIn()" style="padding:8px 11px;border-radius:0;border-bottom:1px solid var(--border2);">+</button>
+                                    <button class="btn" title="Zoom out" onclick="pmZoomOut()" style="padding:8px 11px;border-radius:0;">−</button>
+                                </div>
+                                <div style="position:absolute;bottom:10px;right:10px;z-index:1000;display:flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--border2);border-radius:8px;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);">
+                                    <button class="btn" title="Rotate left" onclick="pmRotateMap(-15)" style="padding:6px 9px;">↺</button>
+                                    <span id="pmRotateLabel" style="font-size:11px;color:var(--text2);min-width:32px;text-align:center;">0°</span>
+                                    <button class="btn" title="Rotate right" onclick="pmRotateMap(15)" style="padding:6px 9px;">↻</button>
+                                    <button class="btn" title="Reset rotation" onclick="pmRotateMap(0,true)" style="padding:6px 9px;font-size:11px;">Reset</button>
+                                </div>
+                            </div>
+                            <div class="form-hint">© OpenStreetMap contributors. Rotating the map is just for viewing at an angle — tracing/dragging still uses the map's normal (unrotated) orientation, so turn rotation back to 0° before tracing new shapes.</div>
+                            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;">
+                                <input type="checkbox" id="pmTrailModeCheck" style="width:16px;height:16px;cursor:pointer;">
+                                Tracing a trail/path (not a closed land area) — draws an open line instead of a filled shape
+                            </label>
+                            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                <div id="pmStatus" style="flex:1;min-width:200px;font-size:13px;color:var(--text2);">Search a location above, or scroll/drag the map to find it.</div>
+                                <button class="btn" id="pmDrawBtn" onclick="pmToggleDrawMode()" style="white-space:nowrap;">+ Trace Shape</button>
+                                <button class="btn" id="pmUndoBtn" onclick="pmUndoTracePoint()" style="white-space:nowrap;display:none;">Undo Point</button>
+                                <button class="btn btn-primary" id="pmFinishBtn" onclick="pmFinishTrace()" style="white-space:nowrap;display:none;">Finish Shape</button>
+                                <button class="btn btn-primary" onclick="pmSaveSites()" style="white-space:nowrap;">Save</button>
+                            </div>
+                            <div id="pmSiteList" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;padding-right:4px;"></div>
                         </div>
                     </div>
                 </div>
@@ -6921,6 +7005,526 @@
                     Download QR
                 </a>
             </div>`;
+        };
+
+        // ── Park Map panel ──
+        // A real Leaflet map (OpenStreetMap tiles) with colored freeform shapes
+        // traced directly on top at real lat/lng locations — no illustrated
+        // image required. Drawing is staff-only, done here, and written once to
+        // Firebase; the hub itself only ever reads hubs/{hubId}/settings/mapSites.
+        let pmMap = null;
+        let pmSites = []; // [{points:[[lat,lng],...],label,details,color}]
+        let pmSiteLayers = [];
+        let pmVertexMarkers = []; // parallel to pmSiteLayers — each entry is an array of draggable vertex markers for that site
+        let pmDrawMode = false, pmTracePoints = [], pmTracePreview = null, pmTraceMarkers = [];
+        let pmCurrentHubId = null;
+        let pmOverlayLayer = null; // L.imageOverlay — sits above the tile layer, below traced shapes
+        let pmOverlayUrl = null, pmOverlayBounds = null, pmOverlayOpacity = 0.7, pmOverlayRotation = 0;
+        let pmParkLocation = null; // {lat,lng} — the park's own pin, separate from traced site shapes
+        let pmParkMarker = null;
+        let pmTraceType = 'area'; // locked in when tracing starts: 'area' (closed, filled) or 'trail' (open line)
+
+        const PM_SITE_COLORS = ['#f97316', '#facc15', '#22c55e', '#06b6d4', '#6366f1', '#ec4899', '#ef4444', '#a3a3a3'];
+        const PM_TRAIL_COLORS = ['#dc2626', '#2563eb', '#16a34a', '#d97706', '#9333ea', '#0891b2'];
+
+        function populatePMHubSelect() {
+            const sel = document.getElementById('pmHubSelect');
+            if (!sel) return;
+            const isManagerView = currentUserRole !== 'super' && currentUserHubId;
+            const hubs = isManagerView
+                ? Object.values(hubsCache).filter(h => h.id === currentUserHubId)
+                : Object.values(hubsCache);
+            const render = (list) => {
+                sel.innerHTML = list.map(h => `<option value="${h.id}">${h.name || h.id}</option>`).join('');
+                if (list.length) loadParkMapForHub();
+            };
+            if (hubs.length) {
+                render(hubs);
+            } else {
+                get(ref(db, 'hubs_meta')).then(snap => {
+                    const data = snap.val() || {};
+                    const ids = Object.keys(data).filter(k => k !== '_global');
+                    render(ids.map(id => ({ id, name: data[id]?.name || id })));
+                });
+            }
+        }
+
+        window.loadParkMapPanel = function () {
+            pmEnsureBaseMap();
+            populatePMHubSelect();
+        };
+
+        // Purely visual — rotates the map's DOM element with CSS so staff can
+        // preview it at an angle. Leaflet's own click/drag math is unaware of
+        // this rotation, so tracing/dragging stays accurate only at 0°.
+        let pmRotateDeg = 0;
+        window.pmRotateMap = function (delta, reset) {
+            pmRotateDeg = reset ? 0 : pmRotateDeg + delta;
+            const mapEl = document.getElementById('pmMap');
+            const label = document.getElementById('pmRotateLabel');
+            if (mapEl) mapEl.style.transform = `rotate(${pmRotateDeg}deg)`;
+            if (label) label.textContent = `${pmRotateDeg}°`;
+        };
+
+        function pmSitesPath(hubId) { return `hubs/${hubId}/settings/mapSites`; }
+
+        function pmEnsureBaseMap() {
+            if (pmMap) return;
+            // Leaflet always injects its zoom control + attribution INSIDE the map
+            // container (#pmMap), so they'd rotate along with the tiles/shapes when
+            // rotated. Both are disabled here; zoom is done with a separate +/- pair
+            // outside #pmMap (see markup) and attribution is a plain unrotated line
+            // under the map, so only the actual tiles/shapes ever rotate.
+            pmMap = L.map('pmMap', { zoomSnap: 0.25, zoomControl: false, attributionControl: false }).setView([39.8283, -98.5795], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 20
+            }).addTo(pmMap);
+            pmMap.on('click', pmOnMapClick);
+            pmMap.on('dblclick', pmOnMapDblClick);
+            // Leaflet repositions the overlay's <img> on every zoom/pan by
+            // overwriting its CSS transform — reapply our rotation on top of
+            // that each time so it survives panning/zooming instead of
+            // snapping back to 0°.
+            pmMap.on('zoom viewreset move zoomend moveend', pmApplyOverlayRotationCss);
+        }
+
+        window.pmZoomIn = function () { if (pmMap) pmMap.zoomIn(); };
+        window.pmZoomOut = function () { if (pmMap) pmMap.zoomOut(); };
+
+        function pmOverlayPath(hubId) { return `hubs/${hubId}/settings/mapOverlay`; }
+
+        // Rotates the overlay image in place around its own center. Leaflet's
+        // ImageOverlay has no built-in rotation (bounds are always an
+        // axis-aligned lat/lng rectangle), so this appends a CSS rotate() on
+        // top of the translate/scale transform Leaflet itself sets on the
+        // <img> element.
+        function pmApplyOverlayRotationCss() {
+            if (!pmOverlayLayer) return;
+            const img = pmOverlayLayer.getElement && pmOverlayLayer.getElement();
+            if (!img) return;
+            img.style.transformOrigin = 'center center';
+            const base = img.style.transform.replace(/\s*rotate\([^)]*\)\s*/, '');
+            img.style.transform = `${base} rotate(${pmOverlayRotation}deg)`;
+        }
+
+        window.pmSetOverlayRotation = function (val) {
+            pmOverlayRotation = ((parseFloat(val) % 360) + 540) % 360 - 180; // normalize to [-180,180]
+            document.getElementById('pmOverlayRotateSlider').value = pmOverlayRotation;
+            document.getElementById('pmOverlayRotateLabel').textContent = `${Math.round(pmOverlayRotation)}°`;
+            pmApplyOverlayRotationCss();
+        };
+
+        // Resize/move handles for the overlay image — draggable corner markers
+        // (resize) plus a center marker (move the whole image) so staff can fit
+        // an arbitrary uploaded map to the real map instead of being stuck with
+        // whatever bounds existed at upload time.
+        let pmOverlayHandles = []; // [nw, se, center]
+
+        function pmClearOverlayHandles() {
+            pmOverlayHandles.forEach(m => pmMap.removeLayer(m));
+            pmOverlayHandles = [];
+        }
+
+        function pmOverlayHandleIcon(html) {
+            return L.divIcon({ className: '', html, iconSize: [18, 18], iconAnchor: [9, 9] });
+        }
+
+        function pmRenderOverlayHandles() {
+            pmClearOverlayHandles();
+            if (!pmOverlayLayer || !pmOverlayBounds) return;
+            const b = L.latLngBounds(pmOverlayBounds);
+            const cornerHtml = '<div style="width:14px;height:14px;border-radius:3px;background:#2563eb;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);cursor:nwse-resize;"></div>';
+            const centerHtml = '<div style="width:20px;height:20px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);cursor:move;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;">✥</div>';
+
+            const nw = L.marker(b.getNorthWest(), { draggable: true, icon: pmOverlayHandleIcon(cornerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to resize', { direction: 'top' });
+            const se = L.marker(b.getSouthEast(), { draggable: true, icon: pmOverlayHandleIcon(cornerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to resize', { direction: 'top' });
+            const center = L.marker(b.getCenter(), { draggable: true, icon: pmOverlayHandleIcon(centerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to move', { direction: 'top' });
+
+            function applyBounds(newBounds) {
+                pmOverlayBounds = [[newBounds.getSouth(), newBounds.getWest()], [newBounds.getNorth(), newBounds.getEast()]];
+                pmOverlayLayer.setBounds(newBounds);
+                pmApplyOverlayRotationCss();
+            }
+
+            nw.on('drag', () => { applyBounds(L.latLngBounds(nw.getLatLng(), se.getLatLng())); center.setLatLng(L.latLngBounds(nw.getLatLng(), se.getLatLng()).getCenter()); });
+            se.on('drag', () => { applyBounds(L.latLngBounds(nw.getLatLng(), se.getLatLng())); center.setLatLng(L.latLngBounds(nw.getLatLng(), se.getLatLng()).getCenter()); });
+            center.on('drag', () => {
+                const cur = L.latLngBounds(pmOverlayBounds);
+                const oldCenter = cur.getCenter();
+                const newCenter = center.getLatLng();
+                const dLat = newCenter.lat - oldCenter.lat, dLng = newCenter.lng - oldCenter.lng;
+                const newSw = L.latLng(cur.getSouth() + dLat, cur.getWest() + dLng);
+                const newNe = L.latLng(cur.getNorth() + dLat, cur.getEast() + dLng);
+                const newBounds = L.latLngBounds(newSw, newNe);
+                applyBounds(newBounds);
+                nw.setLatLng(newBounds.getNorthWest());
+                se.setLatLng(newBounds.getSouthEast());
+            });
+
+            pmOverlayHandles = [nw, se, center];
+        }
+
+        // Adds/replaces the image overlay layer. Leaflet stacks vector layers and
+        // image overlays in DOM order within the same pane, so as long as this is
+        // added BEFORE the traced shapes (pmSiteLayers), it stays visually beneath
+        // them even as shapes are cleared/redrawn on top of it.
+        function pmApplyOverlay(url, bounds, opacity, rotation) {
+            if (pmOverlayLayer) { pmMap.removeLayer(pmOverlayLayer); pmOverlayLayer = null; }
+            pmOverlayUrl = url;
+            pmOverlayBounds = bounds;
+            pmOverlayOpacity = opacity != null ? opacity : pmOverlayOpacity;
+            pmOverlayRotation = rotation != null ? rotation : 0;
+            pmOverlayLayer = L.imageOverlay(url, bounds, { opacity: pmOverlayOpacity }).addTo(pmMap);
+            pmOverlayLayer.once('load', pmApplyOverlayRotationCss);
+            pmSiteLayers.forEach(l => l.bringToFront());
+            pmRenderOverlayHandles();
+            pmApplyOverlayRotationCss();
+            document.getElementById('pmOverlayRemoveBtn').style.display = '';
+            document.getElementById('pmOverlayOpacityWrap').style.display = 'flex';
+            document.getElementById('pmOverlayOpacitySlider').value = pmOverlayOpacity;
+            document.getElementById('pmOverlayOpacityLabel').textContent = `${Math.round(pmOverlayOpacity * 100)}%`;
+            document.getElementById('pmOverlayRotateWrap').style.display = 'flex';
+            document.getElementById('pmOverlayRotateSlider').value = pmOverlayRotation;
+            document.getElementById('pmOverlayRotateLabel').textContent = `${Math.round(pmOverlayRotation)}°`;
+        }
+
+        window.handlePmOverlayUpload = async function (input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            pmEnsureBaseMap();
+            const statusEl = document.getElementById('pmStatus');
+            statusEl.textContent = 'Uploading map image…';
+            try {
+                const url = await uploadLogo(file);
+                const b = pmMap.getBounds();
+                const bounds = [[b.getSouth(), b.getWest()], [b.getNorth(), b.getEast()]];
+                pmApplyOverlay(url, bounds, pmOverlayOpacity);
+                statusEl.textContent = 'Map image added — adjust opacity to align it, then press Save.';
+            } catch (e) {
+                statusEl.textContent = 'Could not upload the map image. Please try again.';
+                showToast('Upload failed', 'error');
+            }
+            input.value = '';
+        };
+
+        window.pmSetOverlayOpacity = function (val) {
+            pmOverlayOpacity = parseFloat(val);
+            if (pmOverlayLayer) pmOverlayLayer.setOpacity(pmOverlayOpacity);
+            document.getElementById('pmOverlayOpacityLabel').textContent = `${Math.round(pmOverlayOpacity * 100)}%`;
+        };
+
+        window.pmRemoveOverlay = function () {
+            if (pmOverlayLayer) { pmMap.removeLayer(pmOverlayLayer); pmOverlayLayer = null; }
+            pmClearOverlayHandles();
+            pmOverlayUrl = null;
+            pmOverlayBounds = null;
+            pmOverlayRotation = 0;
+            document.getElementById('pmOverlayRemoveBtn').style.display = 'none';
+            document.getElementById('pmOverlayOpacityWrap').style.display = 'none';
+            document.getElementById('pmOverlayRotateWrap').style.display = 'none';
+        };
+
+        window.pmSearchLocation = function () {
+            const q = document.getElementById('pmSearchInput').value.trim();
+            if (!q) return;
+            const statusEl = document.getElementById('pmStatus');
+            statusEl.textContent = 'Searching…';
+            pmEnsureBaseMap();
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q)}`)
+                .then(r => r.json())
+                .then(results => {
+                    if (!results.length) { statusEl.textContent = `Couldn't find "${q}". Try a more specific address.`; return; }
+                    const { lat, lon } = results[0];
+                    pmMap.setView([parseFloat(lat), parseFloat(lon)], 17);
+                    pmSetParkLocation(parseFloat(lat), parseFloat(lon));
+                    statusEl.textContent = 'Found it — drag the pin to the exact spot, or press "+ Trace Shape" to outline a site.';
+                })
+                .catch(() => { statusEl.textContent = 'Search failed. Try again.'; });
+        };
+
+        function pmSetParkLocation(lat, lng) {
+            pmParkLocation = { lat, lng };
+            if (pmParkMarker) { pmMap.removeLayer(pmParkMarker); }
+            pmParkMarker = L.marker([lat, lng], {
+                draggable: true,
+                icon: L.divIcon({
+                    className: '', html: '<div style="width:22px;height:22px;border-radius:50% 50% 50% 0;background:#dc2626;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transform:rotate(-45deg);"></div>',
+                    iconSize: [22, 22], iconAnchor: [11, 22]
+                })
+            }).addTo(pmMap).bindTooltip('Park location — drag to adjust', { direction: 'top' });
+            pmParkMarker.on('dragend', () => {
+                const p = pmParkMarker.getLatLng();
+                pmParkLocation = { lat: p.lat, lng: p.lng };
+            });
+        }
+
+        function pmLocationPath(hubId) { return `hubs/${hubId}/settings/mapCenter`; }
+
+        window.loadParkMapForHub = function () {
+            const hubId = document.getElementById('pmHubSelect')?.value;
+            if (!hubId) return;
+            pmCurrentHubId = hubId;
+            pmEnsureBaseMap();
+            if (pmParkMarker) { pmMap.removeLayer(pmParkMarker); pmParkMarker = null; }
+            pmParkLocation = null;
+            window.pmRemoveOverlay();
+            document.getElementById('pmStatus').textContent = 'Loading…';
+            Promise.all([
+                get(ref(db, pmSitesPath(hubId))),
+                get(ref(db, pmLocationPath(hubId))),
+                get(ref(db, pmOverlayPath(hubId)))
+            ]).then(([sitesSnap, locSnap, overlaySnap]) => {
+                pmSites = sitesSnap.val() || [];
+                pmRenderSites();
+                const loc = locSnap.val();
+                if (loc && loc.lat && loc.lng) pmSetParkLocation(loc.lat, loc.lng);
+                const overlay = overlaySnap.val();
+                if (overlay && overlay.url && overlay.bounds) pmApplyOverlay(overlay.url, overlay.bounds, overlay.opacity != null ? overlay.opacity : 0.7, overlay.rotation || 0);
+
+                const boundsLayers = pmSiteLayers.slice();
+                if (pmParkMarker) boundsLayers.push(pmParkMarker);
+                if (boundsLayers.length) {
+                    const group = L.featureGroup(boundsLayers);
+                    pmMap.fitBounds(group.getBounds(), { maxZoom: 18, padding: [40, 40] });
+                    document.getElementById('pmStatus').textContent = 'Drag the red pin or any site corner to adjust — press "+ Trace Shape" to outline another item.';
+                } else {
+                    document.getElementById('pmStatus').textContent = 'Search a location above, then press "+ Trace Shape" and click points on the map.';
+                }
+            });
+        };
+
+        function pmOnMapClick(e) {
+            if (pmAddPointSiteIndex !== null) {
+                pmSites[pmAddPointSiteIndex].points.push([e.latlng.lat, e.latlng.lng]);
+                pmRenderSites();
+                return;
+            }
+            if (!pmDrawMode) return;
+            pmTracePoints.push([e.latlng.lat, e.latlng.lng]);
+            pmRedrawTracePreview();
+            document.getElementById('pmFinishBtn').style.display = pmTracePoints.length >= pmMinTracePoints() ? '' : 'none';
+            document.getElementById('pmUndoBtn').style.display = pmTracePoints.length ? '' : 'none';
+            document.getElementById('pmStatus').textContent = `${pmTracePoints.length} point${pmTracePoints.length === 1 ? '' : 's'} placed — click to add more, Undo to remove the last point, or double-click / press Finish when done.`;
+        }
+
+        function pmRedrawTracePreview() {
+            const marker = pmTracePoints.length
+                ? L.circleMarker(pmTracePoints[pmTracePoints.length - 1], { radius: 5, color: '#2563eb', fillColor: '#2563eb', fillOpacity: 1 }).addTo(pmMap)
+                : null;
+            if (marker) pmTraceMarkers.push(marker);
+            if (pmTracePreview) { pmMap.removeLayer(pmTracePreview); pmTracePreview = null; }
+            // Open polyline, not a polygon — stays visually open while tracing so it
+            // doesn't look closed/enclosed until the shape is actually finished.
+            if (pmTracePoints.length >= 2) {
+                pmTracePreview = L.polyline(pmTracePoints, { color: '#2563eb', weight: 2, dashArray: '6,4' }).addTo(pmMap);
+            }
+        }
+
+        window.pmUndoTracePoint = function () {
+            if (!pmTracePoints.length) return;
+            pmTracePoints.pop();
+            if (pmTraceMarkers.length) { pmMap.removeLayer(pmTraceMarkers.pop()); }
+            if (pmTracePreview) { pmMap.removeLayer(pmTracePreview); pmTracePreview = null; }
+            if (pmTracePoints.length >= 2) {
+                pmTracePreview = L.polyline(pmTracePoints, { color: '#2563eb', weight: 2, dashArray: '6,4' }).addTo(pmMap);
+            }
+            document.getElementById('pmFinishBtn').style.display = pmTracePoints.length >= pmMinTracePoints() ? '' : 'none';
+            document.getElementById('pmUndoBtn').style.display = pmTracePoints.length ? '' : 'none';
+            document.getElementById('pmStatus').textContent = pmTracePoints.length
+                ? `${pmTracePoints.length} point${pmTracePoints.length === 1 ? '' : 's'} placed — click to add more, Undo to remove the last point, or double-click / press Finish when done.`
+                : 'Click on the map to start tracing.';
+        };
+
+        function pmMinTracePoints() { return pmTraceType === 'trail' ? 2 : 3; }
+
+        function pmOnMapDblClick(e) {
+            if (!pmDrawMode || pmTracePoints.length < pmMinTracePoints()) return;
+            pmTracePoints.pop(); // the second click of the dblclick already added a duplicate point via pmOnMapClick
+            if (pmTraceMarkers.length) { pmMap.removeLayer(pmTraceMarkers.pop()); }
+            window.pmFinishTrace();
+        }
+
+        window.pmFinishTrace = function () {
+            const minPts = pmMinTracePoints();
+            if (pmTracePoints.length < minPts) { showToast(`Place at least ${minPts} points to make a ${pmTraceType === 'trail' ? 'trail' : 'shape'}`, 'error'); return; }
+            const points = pmTracePoints.slice();
+            const type = pmTraceType;
+            pmClearTraceState();
+            const label = prompt(type === 'trail' ? 'Name this trail (e.g. "Lakeside Trail"):' : 'Name this item (e.g. "Site 47", "Welcome Center"):', '');
+            if (label === null) { window.pmToggleDrawMode(); return; }
+            const details = prompt('Optional details shown in the popup (leave blank to skip):', '') || '';
+            const color = type === 'trail' ? '#ffffff' : PM_SITE_COLORS[pmSites.filter(s => (s.type || 'area') === type).length % PM_SITE_COLORS.length];
+            pmSites.push({ points, label: label.trim() || 'Untitled', details: details.trim(), color, type });
+            pmRenderSites();
+            window.pmToggleDrawMode();
+        };
+
+        function pmClearTraceState() {
+            if (pmTracePreview) { pmMap.removeLayer(pmTracePreview); pmTracePreview = null; }
+            pmTraceMarkers.forEach(m => pmMap.removeLayer(m));
+            pmTraceMarkers = [];
+            pmTracePoints = [];
+            document.getElementById('pmFinishBtn').style.display = 'none';
+            document.getElementById('pmUndoBtn').style.display = 'none';
+        }
+
+        function pmClearSiteLayers() {
+            pmSiteLayers.forEach(l => pmMap.removeLayer(l));
+            pmSiteLayers = [];
+            pmVertexMarkers.forEach(group => group.forEach(m => pmMap.removeLayer(m)));
+            pmVertexMarkers = [];
+        }
+
+        function pmRenderSites() {
+            if (!pmMap) return;
+            pmClearSiteLayers();
+            pmSites.forEach((s, i) => {
+                const isTrail = (s.type || 'area') === 'trail';
+                const layer = isTrail
+                    ? L.polyline(s.points, { color: s.color, weight: 4 })
+                        .addTo(pmMap)
+                        .bindTooltip(s.label, { permanent: false, direction: 'top' })
+                    : L.polygon(s.points, { color: s.color, weight: 2, fillColor: s.color, fillOpacity: 0.45 })
+                        .addTo(pmMap)
+                        .bindTooltip(s.label, { permanent: false, direction: 'center' });
+                pmSiteLayers.push(layer);
+                pmVertexMarkers.push(i === pmAddPointSiteIndex ? pmMakeVertexMarkers(i) : []);
+            });
+            renderPmSiteList();
+        }
+
+        // Draggable corner handles for an already-traced shape, so a site can be
+        // reshaped after the fact instead of only re-traced from scratch. Uses
+        // L.marker (not circleMarker, which has no native drag support) with a
+        // small round divIcon styled to look like a vertex handle.
+        function pmVertexIcon(color) {
+            return L.divIcon({
+                className: '', html: `<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.5);"></div>`,
+                iconSize: [14, 14], iconAnchor: [7, 7]
+            });
+        }
+
+        function pmMakeVertexMarkers(siteIndex) {
+            const s = pmSites[siteIndex];
+            return s.points.map((pt, ptIndex) => {
+                const marker = L.marker(pt, { draggable: true, icon: pmVertexIcon(s.color) })
+                    .addTo(pmMap)
+                    .bindTooltip('Drag to move · double-click to remove', { direction: 'top', opacity: 0.9 });
+                marker.on('drag', () => {
+                    const p = marker.getLatLng();
+                    pmSites[siteIndex].points[ptIndex] = [p.lat, p.lng];
+                    pmSiteLayers[siteIndex].setLatLngs(pmSites[siteIndex].points);
+                });
+                marker.on('dblclick', () => {
+                    const minPts = (pmSites[siteIndex].type || 'area') === 'trail' ? 2 : 3;
+                    if (pmSites[siteIndex].points.length <= minPts) {
+                        showToast(`A ${(pmSites[siteIndex].type || 'area') === 'trail' ? 'trail' : 'shape'} needs at least ${minPts} points`, 'error');
+                        return;
+                    }
+                    pmSites[siteIndex].points.splice(ptIndex, 1);
+                    pmRenderSites();
+                });
+                return marker;
+            });
+        }
+
+        // ── Add-point mode — appends new points to an already-saved shape
+        // instead of only being able to drag its existing corners. ──
+        let pmAddPointSiteIndex = null;
+
+        window.pmToggleAddPointMode = function (i) {
+            if (pmAddPointSiteIndex === i) {
+                pmAddPointSiteIndex = null;
+                document.getElementById('pmStatus').textContent = 'Press "+ Trace Shape" then click points on the map to outline another item.';
+            } else {
+                pmAddPointSiteIndex = i;
+                if (pmDrawMode) window.pmToggleDrawMode();
+                document.getElementById('pmStatus').textContent = `Click the map to add points to "${pmSites[i].label || 'Untitled'}" — click "Done Adding" when finished.`;
+            }
+            pmRenderSites();
+        };
+
+        function renderPmSiteList() {
+            const list = document.getElementById('pmSiteList');
+            if (!list) return;
+            if (!pmSites.length) {
+                list.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:6px 2px;">No items drawn yet.</div>';
+                return;
+            }
+            list.innerHTML = pmSites.map((s, i) => {
+                const isTrail = (s.type || 'area') === 'trail';
+                return `
+                <div style="display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;">
+                    <button class="btn" title="Click to switch between Area (closed, filled) and Trail (open line)" onclick="pmToggleSiteType(${i})" style="font-size:10px;font-weight:700;letter-spacing:.03em;padding:3px 7px;border-radius:20px;white-space:nowrap;background:${isTrail ? 'var(--amber-glow)' : 'var(--blue-glow)'};color:${isTrail ? 'var(--amber)' : 'var(--blue)'};">${isTrail ? 'TRAIL' : 'AREA'}</button>
+                    <input type="color" value="${s.color}" onchange="pmRecolorSite(${i}, this.value)" style="width:30px;height:30px;border:none;border-radius:6px;padding:0;flex-shrink:0;cursor:pointer;">
+                    <input class="form-input" value="${(s.label || '').replace(/"/g, '&quot;')}" oninput="pmRenameSite(${i}, this.value)" style="flex:1;padding:6px 10px;min-height:34px;font-size:12.5px;" placeholder="Label">
+                    <input class="form-input" value="${(s.details || '').replace(/"/g, '&quot;')}" oninput="pmRedetailSite(${i}, this.value)" style="flex:1;padding:6px 10px;min-height:34px;font-size:12.5px;" placeholder="Details (optional)">
+                    <button class="btn" style="${pmAddPointSiteIndex === i ? 'background:var(--blue);color:#fff;' : ''}padding:6px 10px;white-space:nowrap;" onclick="pmToggleAddPointMode(${i})">${pmAddPointSiteIndex === i ? 'Done Adding' : '+ Point'}</button>
+                    <button class="btn" style="background:var(--red-glow);color:var(--red);border:1px solid var(--red);padding:6px 10px;white-space:nowrap;" onclick="pmDeleteSite(${i})">Remove</button>
+                </div>
+            `;
+            }).join('');
+        }
+
+        window.pmRenameSite = function (i, value) { if (pmSites[i]) { pmSites[i].label = value; pmSiteLayers[i]?.setTooltipContent(value || 'Untitled'); } };
+        window.pmRedetailSite = function (i, value) { if (pmSites[i]) pmSites[i].details = value; };
+        window.pmRecolorSite = function (i, value) {
+            if (!pmSites[i]) return;
+            pmSites[i].color = value;
+            const layer = pmSiteLayers[i];
+            if (layer) layer.setStyle({ color: value, fillColor: value });
+            (pmVertexMarkers[i] || []).forEach(m => m.setIcon(pmVertexIcon(value)));
+        };
+        window.pmDeleteSite = function (i) { pmSites.splice(i, 1); pmRenderSites(); };
+        window.pmToggleSiteType = function (i) {
+            const s = pmSites[i];
+            if (!s) return;
+            const newType = (s.type || 'area') === 'trail' ? 'area' : 'trail';
+            const minPts = newType === 'trail' ? 2 : 3;
+            if (s.points.length < minPts) { showToast(`Needs at least ${minPts} points to be a ${newType}`, 'error'); return; }
+            s.type = newType;
+            pmRenderSites();
+        };
+
+        window.pmToggleDrawMode = function () {
+            pmDrawMode = !pmDrawMode;
+            if (pmDrawMode) pmTraceType = document.getElementById('pmTrailModeCheck')?.checked ? 'trail' : 'area';
+            if (!pmDrawMode) pmClearTraceState();
+            const btn = document.getElementById('pmDrawBtn');
+            if (btn) {
+                btn.textContent = pmDrawMode ? 'Click points on the map…' : '+ Trace Shape';
+                btn.style.background = pmDrawMode ? 'var(--blue)' : '';
+                btn.style.color = pmDrawMode ? '#fff' : '';
+            }
+            const trailCheck = document.getElementById('pmTrailModeCheck');
+            if (trailCheck) trailCheck.disabled = pmDrawMode;
+            document.getElementById('pmStatus').textContent = pmDrawMode
+                ? (pmTraceType === 'trail'
+                    ? 'Click along the trail\'s path, then double-click or press Finish when done.'
+                    : 'Click each corner of the site to trace its shape, then double-click or press Finish.')
+                : 'Press "+ Trace Shape" then click points on the map to outline another item.';
+        };
+
+        window.pmSaveSites = function () {
+            const hubId = document.getElementById('pmHubSelect')?.value;
+            const statusEl = document.getElementById('pmStatus');
+            if (!hubId) { showToast('Select a hub first', 'error'); return; }
+            Promise.all([
+                set(ref(db, pmSitesPath(hubId)), pmSites),
+                set(ref(db, pmLocationPath(hubId)), pmParkLocation),
+                set(ref(db, pmOverlayPath(hubId)), pmOverlayUrl ? { url: pmOverlayUrl, bounds: pmOverlayBounds, opacity: pmOverlayOpacity, rotation: pmOverlayRotation } : null)
+            ])
+                .then(() => {
+                    statusEl.textContent = 'Saved — guests will now see these on the Map tab.';
+                    showToast('Saved', 'success');
+                })
+                .catch(() => {
+                    statusEl.textContent = 'Could not save. Please try again.';
+                    showToast('Could not save', 'error');
+                });
         };
 
         // ── Newsletter image panel ──
@@ -9835,7 +10439,7 @@
                 if (activeChatHubId === currentGuestDetailHubId && activeChatSession === currentGuestKey) {
                     activeChatSession = null;
                     activeChatGuestName = null;
-                    document.getElementById('chatNoThread').style.display = 'flex';
+                    document.getElementById('chatNoThread').style.display = 'flex'; 
                     document.getElementById('chatThreadActive').style.display = 'none';
                     const chatCard = document.getElementById('chatCard');
                     if (chatCard) chatCard.classList.remove('thread-open');
