@@ -864,5 +864,6 @@ COMPLETED TASKS — September 17, 2026
 ✅ All hubs - Republished all the pending hub changes live in GoHighLevel (favicon/wsrv.nl logo optimization, Discover banner typography rebalance, real social brand icons) — guests are now seeing the updated versions, not just what was pushed to GitHub.
 ✅ Allatoona Landing Marine Resort - Moved the line break in the Home tab's Discover banner title so "More" sits beside "Discover" on the first line and "Near You" wraps to its own second line, instead of "Discover" alone on line one. Tried here first before rolling out to other hubs.
 ✅ Allatoona Landing Marine Resort - Bolded "You" in the Discover banner's "Near You" line to match the weight of "More" on the line above, without changing its color.
+✅ All hubs - Rolled the Allatoona Discover banner title tweak (line break moved so "Discover More" reads on the first line, "Near You" wraps to its own second line, "You" bolded to match "More") out to the other 18 hubs — same text, applied via scripted find/replace since the markup was identical boilerplate in every hub.
 ☐ Park Map - The new trail-tracing feature only works in the admin panel so far; showing traced trails on the actual guest-facing hub page still needs to be built.
 
