@@ -824,3 +824,23 @@ COMPLETED TASKS — September 15, 2026
 ✅ Buckeye Lake KOA Holiday - "Visit Our KOA Website" card in the More tab — its own card, links to koa.com.
 ✅ Buckeye Lake KOA Holiday - Added an "App Store" button in the More tab that links straight to the KOA app's Apple App Store page.
 ✅ Buckeye Lake KOA Holiday - Added a "Google Play" button in the More tab that links straight to the KOA app's Google Play page.
+
+COMPLETED TASKS — September 16, 2026
+✅ Buckeye Lake KOA Holiday - Fixed the "Explore KOA Rewards" link in the More tab to point to the correct koa.com/rewards page.
+✅ Buckeye Lake KOA Holiday - Restyled the KOA App & Rewards cards in the More tab to match the look of the other card lists (like Contact/Message Us/Leave a Review), with a matching red underline header.
+✅ Image loading speed - Found and fixed the real cause of slow-loading logos and photos across 7 hubs: they were being pulled at full size from a free image host with no resizing, instead of through the site's own image-speed-up service like every other image. Fixed for Buckeye Lake KOA Holiday, Sanwar RV Resort, Winding Waters RV Resort, Sweetwater Valley Park, Stay Wilder Campground, Splash RV Resort, and Allatoona Landing Marine Resort — covers each hub's home screen logo, browser tab icon, and "Add to Home Screen" icon.
+
+COMPLETED TASKS — September 17, 2026
+✅ Admin Panel - NEW FEATURE Replaced the old click-and-drag rectangle tool on the Park Map screen with a freeform tracing tool — click to drop points along any shape (a site, a building, a whole section of the park) and finish it up to make an outlined, colored area, so it can match real irregular boundaries instead of only boxes.
+✅ Admin Panel - Made the corner points of an already-traced shape draggable, so staff can fine-tune or reshape an area after the fact instead of having to delete it and retrace from scratch.
+✅ Admin Panel - Added an address search box on the Park Map screen that drops a draggable red pin at the searched location, so staff can pinpoint the park's own exact location separately from the site/lot shapes, then drag it to the exact spot before saving.
+✅ Admin Panel - Fixed the shape-tracing tool so the in-progress outline no longer looks like a closed loop while you're still placing points, and added an "Undo Point" button so a misplaced click can be removed without starting the whole trace over.
+✅ Admin Panel - NEW FEATURE Added a "tracing a trail/path" checkbox to the Park Map tool so staff can trace walking trails and paths as open lines instead of only closed, filled-in areas, with their own separate color choices and a clear AREA/TRAIL label in the saved items list.
+✅ Admin Panel - Fixed the Park Map and site list so the page can actually be scrolled down to reach the Save button and the list of traced items, instead of getting stuck on just the map.
+✅ Admin Panel - Added the ability to edit an already-traced shape after the fact — add new points to it or remove a point — instead of only being able to drag existing corners or delete the whole thing and start over.
+✅ Admin Panel - Made the AREA/TRAIL label on each traced item clickable so staff can flip a shape between a closed, filled area and an open trail line without retracing it — fixes the case where the trail checkbox wasn't checked in time and the shape came out filled in.
+✅ Admin Panel - NEW FEATURE Trails now default to a white line color automatically instead of cycling through the same reds/blues used for areas, so they stand out clearly against the park map.
+✅ Admin Panel - Fixed the Park Map so a busy trail with lots of points no longer shows a distracting row of dots along its entire length — the draggable corner dots are now hidden by default and only appear while actively adding points to that specific item, so normal viewing just shows the clean colored line/shape.
+✅ Admin Panel - NEW FEATURE Added a rotate control to the Park Map so staff can spin the map view to any angle for a better look — with a note that tracing/dragging should be done at 0° since rotation is just for viewing.
+☐ Park Map - The new trail-tracing feature only works in the admin panel so far; showing traced trails on the actual guest-facing hub page still needs to be built.
+
