@@ -4573,6 +4573,27 @@
                                 </div>
                                 <div class="form-hint">Searching drops a draggable pin at that address — drag it to the park's exact entrance/location, then hit Save.</div>
                             </div>
+                            <div>
+                                <label class="form-label">Digital Map Overlay</label>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <input type="file" id="pmOverlayFileInput" accept="image/*" style="display:none;" onchange="handlePmOverlayUpload(this)">
+                                    <button class="btn" style="white-space:nowrap;" onclick="document.getElementById('pmOverlayFileInput').click()">Upload Map Image</button>
+                                    <button class="btn" id="pmOverlayRemoveBtn" onclick="pmRemoveOverlay()" style="white-space:nowrap;display:none;">Remove Overlay</button>
+                                    <div id="pmOverlayOpacityWrap" style="display:none;align-items:center;gap:6px;">
+                                        <span style="font-size:12px;color:var(--text2);">Opacity</span>
+                                        <input type="range" id="pmOverlayOpacitySlider" min="0" max="1" step="0.05" value="0.7" oninput="pmSetOverlayOpacity(this.value)" style="width:120px;">
+                                        <span id="pmOverlayOpacityLabel" style="font-size:11px;color:var(--text2);min-width:32px;">70%</span>
+                                    </div>
+                                    <div id="pmOverlayRotateWrap" style="display:none;align-items:center;gap:4px;">
+                                        <span style="font-size:12px;color:var(--text2);">Rotate</span>
+                                        <button class="btn" title="Rotate left" onclick="pmSetOverlayRotation(pmOverlayRotation-15)" style="padding:5px 8px;">↺</button>
+                                        <input type="range" id="pmOverlayRotateSlider" min="-180" max="180" step="1" value="0" oninput="pmSetOverlayRotation(this.value)" style="width:110px;">
+                                        <button class="btn" title="Rotate right" onclick="pmSetOverlayRotation(pmOverlayRotation+15)" style="padding:5px 8px;">↻</button>
+                                        <span id="pmOverlayRotateLabel" style="font-size:11px;color:var(--text2);min-width:32px;">0°</span>
+                                    </div>
+                                </div>
+                                <div class="form-hint">Uploads your own park map image over the real map so you can trace against it — it sits above the satellite/street tiles but under your traced shapes and pins. Drag the slider to see through it.</div>
+                            </div>
                             <div style="width:100%;height:480px;border-radius:12px;border:1px solid var(--border2);overflow:hidden;position:relative;">
                                 <div id="pmMap" style="width:100%;height:100%;transition:transform .2s;transform-origin:center center;"></div>
                                 <!-- Zoom buttons live OUTSIDE #pmMap so they stay upright and in place
@@ -6997,6 +7018,8 @@
         let pmVertexMarkers = []; // parallel to pmSiteLayers — each entry is an array of draggable vertex markers for that site
         let pmDrawMode = false, pmTracePoints = [], pmTracePreview = null, pmTraceMarkers = [];
         let pmCurrentHubId = null;
+        let pmOverlayLayer = null; // L.imageOverlay — sits above the tile layer, below traced shapes
+        let pmOverlayUrl = null, pmOverlayBounds = null, pmOverlayOpacity = 0.7, pmOverlayRotation = 0;
         let pmParkLocation = null; // {lat,lng} — the park's own pin, separate from traced site shapes
         let pmParkMarker = null;
         let pmTraceType = 'area'; // locked in when tracing starts: 'area' (closed, filled) or 'trail' (open line)
@@ -7058,10 +7081,151 @@
             }).addTo(pmMap);
             pmMap.on('click', pmOnMapClick);
             pmMap.on('dblclick', pmOnMapDblClick);
+            // Leaflet repositions the overlay's <img> on every zoom/pan by
+            // overwriting its CSS transform — reapply our rotation on top of
+            // that each time so it survives panning/zooming instead of
+            // snapping back to 0°.
+            pmMap.on('zoom viewreset move zoomend moveend', pmApplyOverlayRotationCss);
         }
 
         window.pmZoomIn = function () { if (pmMap) pmMap.zoomIn(); };
         window.pmZoomOut = function () { if (pmMap) pmMap.zoomOut(); };
+
+        function pmOverlayPath(hubId) { return `hubs/${hubId}/settings/mapOverlay`; }
+
+        // Rotates the overlay image in place around its own center. Leaflet's
+        // ImageOverlay has no built-in rotation (bounds are always an
+        // axis-aligned lat/lng rectangle), so this appends a CSS rotate() on
+        // top of the translate/scale transform Leaflet itself sets on the
+        // <img> element.
+        function pmApplyOverlayRotationCss() {
+            if (!pmOverlayLayer) return;
+            const img = pmOverlayLayer.getElement && pmOverlayLayer.getElement();
+            if (!img) return;
+            img.style.transformOrigin = 'center center';
+            const base = img.style.transform.replace(/\s*rotate\([^)]*\)\s*/, '');
+            img.style.transform = `${base} rotate(${pmOverlayRotation}deg)`;
+        }
+
+        window.pmSetOverlayRotation = function (val) {
+            pmOverlayRotation = ((parseFloat(val) % 360) + 540) % 360 - 180; // normalize to [-180,180]
+            document.getElementById('pmOverlayRotateSlider').value = pmOverlayRotation;
+            document.getElementById('pmOverlayRotateLabel').textContent = `${Math.round(pmOverlayRotation)}°`;
+            pmApplyOverlayRotationCss();
+        };
+
+        // Resize/move handles for the overlay image — draggable corner markers
+        // (resize) plus a center marker (move the whole image) so staff can fit
+        // an arbitrary uploaded map to the real map instead of being stuck with
+        // whatever bounds existed at upload time.
+        let pmOverlayHandles = []; // [nw, se, center]
+
+        function pmClearOverlayHandles() {
+            pmOverlayHandles.forEach(m => pmMap.removeLayer(m));
+            pmOverlayHandles = [];
+        }
+
+        function pmOverlayHandleIcon(html) {
+            return L.divIcon({ className: '', html, iconSize: [18, 18], iconAnchor: [9, 9] });
+        }
+
+        function pmRenderOverlayHandles() {
+            pmClearOverlayHandles();
+            if (!pmOverlayLayer || !pmOverlayBounds) return;
+            const b = L.latLngBounds(pmOverlayBounds);
+            const cornerHtml = '<div style="width:14px;height:14px;border-radius:3px;background:#2563eb;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);cursor:nwse-resize;"></div>';
+            const centerHtml = '<div style="width:20px;height:20px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);cursor:move;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;">✥</div>';
+
+            const nw = L.marker(b.getNorthWest(), { draggable: true, icon: pmOverlayHandleIcon(cornerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to resize', { direction: 'top' });
+            const se = L.marker(b.getSouthEast(), { draggable: true, icon: pmOverlayHandleIcon(cornerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to resize', { direction: 'top' });
+            const center = L.marker(b.getCenter(), { draggable: true, icon: pmOverlayHandleIcon(centerHtml), zIndexOffset: 1000 }).addTo(pmMap)
+                .bindTooltip('Drag to move', { direction: 'top' });
+
+            function applyBounds(newBounds) {
+                pmOverlayBounds = [[newBounds.getSouth(), newBounds.getWest()], [newBounds.getNorth(), newBounds.getEast()]];
+                pmOverlayLayer.setBounds(newBounds);
+                pmApplyOverlayRotationCss();
+            }
+
+            nw.on('drag', () => { applyBounds(L.latLngBounds(nw.getLatLng(), se.getLatLng())); center.setLatLng(L.latLngBounds(nw.getLatLng(), se.getLatLng()).getCenter()); });
+            se.on('drag', () => { applyBounds(L.latLngBounds(nw.getLatLng(), se.getLatLng())); center.setLatLng(L.latLngBounds(nw.getLatLng(), se.getLatLng()).getCenter()); });
+            center.on('drag', () => {
+                const cur = L.latLngBounds(pmOverlayBounds);
+                const oldCenter = cur.getCenter();
+                const newCenter = center.getLatLng();
+                const dLat = newCenter.lat - oldCenter.lat, dLng = newCenter.lng - oldCenter.lng;
+                const newSw = L.latLng(cur.getSouth() + dLat, cur.getWest() + dLng);
+                const newNe = L.latLng(cur.getNorth() + dLat, cur.getEast() + dLng);
+                const newBounds = L.latLngBounds(newSw, newNe);
+                applyBounds(newBounds);
+                nw.setLatLng(newBounds.getNorthWest());
+                se.setLatLng(newBounds.getSouthEast());
+            });
+
+            pmOverlayHandles = [nw, se, center];
+        }
+
+        // Adds/replaces the image overlay layer. Leaflet stacks vector layers and
+        // image overlays in DOM order within the same pane, so as long as this is
+        // added BEFORE the traced shapes (pmSiteLayers), it stays visually beneath
+        // them even as shapes are cleared/redrawn on top of it.
+        function pmApplyOverlay(url, bounds, opacity, rotation) {
+            if (pmOverlayLayer) { pmMap.removeLayer(pmOverlayLayer); pmOverlayLayer = null; }
+            pmOverlayUrl = url;
+            pmOverlayBounds = bounds;
+            pmOverlayOpacity = opacity != null ? opacity : pmOverlayOpacity;
+            pmOverlayRotation = rotation != null ? rotation : 0;
+            pmOverlayLayer = L.imageOverlay(url, bounds, { opacity: pmOverlayOpacity }).addTo(pmMap);
+            pmOverlayLayer.once('load', pmApplyOverlayRotationCss);
+            pmSiteLayers.forEach(l => l.bringToFront());
+            pmRenderOverlayHandles();
+            pmApplyOverlayRotationCss();
+            document.getElementById('pmOverlayRemoveBtn').style.display = '';
+            document.getElementById('pmOverlayOpacityWrap').style.display = 'flex';
+            document.getElementById('pmOverlayOpacitySlider').value = pmOverlayOpacity;
+            document.getElementById('pmOverlayOpacityLabel').textContent = `${Math.round(pmOverlayOpacity * 100)}%`;
+            document.getElementById('pmOverlayRotateWrap').style.display = 'flex';
+            document.getElementById('pmOverlayRotateSlider').value = pmOverlayRotation;
+            document.getElementById('pmOverlayRotateLabel').textContent = `${Math.round(pmOverlayRotation)}°`;
+        }
+
+        window.handlePmOverlayUpload = async function (input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            pmEnsureBaseMap();
+            const statusEl = document.getElementById('pmStatus');
+            statusEl.textContent = 'Uploading map image…';
+            try {
+                const url = await uploadLogo(file);
+                const b = pmMap.getBounds();
+                const bounds = [[b.getSouth(), b.getWest()], [b.getNorth(), b.getEast()]];
+                pmApplyOverlay(url, bounds, pmOverlayOpacity);
+                statusEl.textContent = 'Map image added — adjust opacity to align it, then press Save.';
+            } catch (e) {
+                statusEl.textContent = 'Could not upload the map image. Please try again.';
+                showToast('Upload failed', 'error');
+            }
+            input.value = '';
+        };
+
+        window.pmSetOverlayOpacity = function (val) {
+            pmOverlayOpacity = parseFloat(val);
+            if (pmOverlayLayer) pmOverlayLayer.setOpacity(pmOverlayOpacity);
+            document.getElementById('pmOverlayOpacityLabel').textContent = `${Math.round(pmOverlayOpacity * 100)}%`;
+        };
+
+        window.pmRemoveOverlay = function () {
+            if (pmOverlayLayer) { pmMap.removeLayer(pmOverlayLayer); pmOverlayLayer = null; }
+            pmClearOverlayHandles();
+            pmOverlayUrl = null;
+            pmOverlayBounds = null;
+            pmOverlayRotation = 0;
+            document.getElementById('pmOverlayRemoveBtn').style.display = 'none';
+            document.getElementById('pmOverlayOpacityWrap').style.display = 'none';
+            document.getElementById('pmOverlayRotateWrap').style.display = 'none';
+        };
 
         window.pmSearchLocation = function () {
             const q = document.getElementById('pmSearchInput').value.trim();
@@ -7106,15 +7270,19 @@
             pmEnsureBaseMap();
             if (pmParkMarker) { pmMap.removeLayer(pmParkMarker); pmParkMarker = null; }
             pmParkLocation = null;
+            window.pmRemoveOverlay();
             document.getElementById('pmStatus').textContent = 'Loading…';
             Promise.all([
                 get(ref(db, pmSitesPath(hubId))),
-                get(ref(db, pmLocationPath(hubId)))
-            ]).then(([sitesSnap, locSnap]) => {
+                get(ref(db, pmLocationPath(hubId))),
+                get(ref(db, pmOverlayPath(hubId)))
+            ]).then(([sitesSnap, locSnap, overlaySnap]) => {
                 pmSites = sitesSnap.val() || [];
                 pmRenderSites();
                 const loc = locSnap.val();
                 if (loc && loc.lat && loc.lng) pmSetParkLocation(loc.lat, loc.lng);
+                const overlay = overlaySnap.val();
+                if (overlay && overlay.url && overlay.bounds) pmApplyOverlay(overlay.url, overlay.bounds, overlay.opacity != null ? overlay.opacity : 0.7, overlay.rotation || 0);
 
                 const boundsLayers = pmSiteLayers.slice();
                 if (pmParkMarker) boundsLayers.push(pmParkMarker);
@@ -7346,7 +7514,8 @@
             if (!hubId) { showToast('Select a hub first', 'error'); return; }
             Promise.all([
                 set(ref(db, pmSitesPath(hubId)), pmSites),
-                set(ref(db, pmLocationPath(hubId)), pmParkLocation)
+                set(ref(db, pmLocationPath(hubId)), pmParkLocation),
+                set(ref(db, pmOverlayPath(hubId)), pmOverlayUrl ? { url: pmOverlayUrl, bounds: pmOverlayBounds, opacity: pmOverlayOpacity, rotation: pmOverlayRotation } : null)
             ])
                 .then(() => {
                     statusEl.textContent = 'Saved — guests will now see these on the Map tab.';
@@ -10270,7 +10439,7 @@
                 if (activeChatHubId === currentGuestDetailHubId && activeChatSession === currentGuestKey) {
                     activeChatSession = null;
                     activeChatGuestName = null;
-                    document.getElementById('chatNoThread').style.display = 'flex';
+                    document.getElementById('chatNoThread').style.display = 'flex'; 
                     document.getElementById('chatThreadActive').style.display = 'none';
                     const chatCard = document.getElementById('chatCard');
                     if (chatCard) chatCard.classList.remove('thread-open');
