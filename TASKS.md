@@ -867,3 +867,20 @@ COMPLETED TASKS — September 17, 2026
 ✅ All hubs - Rolled the Allatoona Discover banner title tweak (line break moved so "Discover More" reads on the first line, "Near You" wraps to its own second line, "You" bolded to match "More") out to the other 18 hubs — same text, applied via scripted find/replace since the markup was identical boilerplate in every hub.
 ☐ Park Map - The new trail-tracing feature only works in the admin panel so far; showing traced trails on the actual guest-facing hub page still needs to be built.
 
+COMPLETED TASKS — September 18, 2026
+
+✅ Admin Panel - Park Map - Added Shape Cluster controls — Added shape-cluster presets and controls to make it easier for staff to create and manage groups of buildings/areas on the Park Map.
+
+✅ Admin Panel - Park Map - Added Building and Free Shape tools — Added + Building and + Free Shape options so staff can quickly place standard building shapes or create custom shapes on the map.
+
+✅ Admin Panel - Park Map - Added shape transformation controls — Added controls for rotating, resizing/scaling, and adjusting the selected shape directly from the Park Map interface.
+
+✅ Admin Panel - Park Map - Added shape presets — Added horizontal/vertical shape adjustment presets, including Square and + Corner, to quickly modify the structure of a selected shape.
+
+✅ Admin Panel - Park Map - Added Clip functionality — Added a Clip to option so shapes can be trimmed to fit within an existing traced area/outline, useful for placing buildings or objects inside irregular site boundaries.
+
+✅ Admin Panel - Park Map - Added Duplicate and Remove controls — Added the ability to duplicate an existing shape and remove a selected shape directly from the shape controls.
+
+✅ Admin Panel - Park Map - Improved shape editing workflow — Expanded the existing tracing/editing system so staff can create, duplicate, transform, clip, and remove map objects without having to retrace them from scratch.
+
+☐ Park Map - Guest-facing hub — The new trail-tracing and shape functionality is currently available in the admin panel; displaying these newly created trails/shapes on the guest-facing hub page still needs to be implemented.
