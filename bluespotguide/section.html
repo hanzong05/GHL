@@ -1,0 +1,2027 @@
+<!-- BlueSpot Guide — Homepage sections (Beaver Builder HTML module, Row = Full Width) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=Kaushan+Script&display=swap" rel="stylesheet">
+
+<style>
+  /* ================= TOKENS / BASE ================= */
+  #bsg-home {
+    --navy: #12244d; --blue: #1f63e2; --blue-d: #1650c8; --bg: #edf2fb; --line: #dde8f5;
+    --muted: #6b7fa8; --muted2: #7082a8; --faint: #9baac8; --soft: #e8f1fd; --star: #f59e0b;
+    --shadow: 0 2px 14px rgba(31, 99, 226, .07);
+    --script: 'Kaushan Script', 'Brush Script MT', cursive;
+    font-family: 'Figtree', system-ui, sans-serif; color: var(--navy); background: #f5f8fd;
+    -webkit-font-smoothing: antialiased;
+  }
+  #bsg-home *, #bsg-home *::before, #bsg-home *::after { box-sizing: border-box; }
+  #bsg-home a { text-decoration: none; color: inherit; }
+  #bsg-home h2, #bsg-home h3, #bsg-home p { margin: 0; }
+  #bsg-home h2, #bsg-home h3 { font-family: 'Figtree', system-ui, sans-serif; }
+  #bsg-home :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  #bsg-home .bsg-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1; }
+  #bsg-home .bsg-sec { padding: 26px 0; }
+  #bsg-home .bsg-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+  #bsg-home .bsg-h2 { font-size: clamp(1.3rem, 1.8vw, 1.6rem); font-weight: 900; letter-spacing: -.02em; line-height: 1.1; color: var(--navy); }
+  #bsg-home .bsg-lede { font-size: .82rem; color: var(--muted); line-height: 1.55; margin-top: 5px; }
+  #bsg-home .bsg-more { font-size: .82rem; font-weight: 700; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+  #bsg-home .bsg-more:hover { opacity: .8; }
+  #bsg-home .bsg-script { font-family: var(--script); color: var(--navy); line-height: 1.05; transform: rotate(-7deg); text-align: center; font-weight: 400; }
+  #bsg-home .bsg-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  #bsg-home .bsg-media { position: relative; overflow: hidden; background-size: cover; }
+  #bsg-home .bsg-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ================= HERO ================= */
+  #bsg-home .bsg-hero {
+    position: relative; overflow: hidden; padding: 48px 0 30px;
+    background-color: #e8eff9;
+    background-image: url('https://bluespotguide.com/wp-content/uploads/2026/09/Explore-Campgrounds-Background.png');
+    background-size: cover; background-position: center bottom; background-repeat: no-repeat;
+  }
+  #bsg-home .exp-grid { display: grid; grid-template-columns: 400px 1fr; gap: 0 28px; align-items: start; }
+  #bsg-home .left-col { display: flex; flex-direction: column; gap: 14px; }
+  #bsg-home .exp-title { font-size: clamp(1.6rem, 2.3vw, 2.1rem); font-weight: 900; line-height: 1.08; letter-spacing: -.025em; color: var(--navy); }
+  #bsg-home .exp-sub { font-size: .82rem; color: var(--muted); line-height: 1.55; margin-top: 6px; }
+
+  #bsg-home .states-panel { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  #bsg-home .states-tabs { display: flex; background: #eef3fb; padding: 5px; gap: 3px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  #bsg-home .states-tab { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 10px; font: 700 .82rem 'Figtree', system-ui, sans-serif; color: #5a6e94; background: transparent; border: 0; border-radius: 7px; cursor: pointer; box-shadow: none; transition: background .15s, color .15s; }
+  #bsg-home .states-tab:hover:not(.active) { background: #e2ecfb; color: var(--blue); }
+  #bsg-home .states-tab.active { background: var(--blue); color: #fff; }
+  #bsg-home .tab-count { background: var(--line); color: var(--blue); font-size: .67rem; font-weight: 800; border-radius: 20px; padding: 1px 6px; line-height: 1.4; }
+  #bsg-home .states-tab.active .tab-count { background: rgba(255, 255, 255, .25); color: #fff; }
+  #bsg-home .search-wrap { padding: 8px 12px; border-bottom: 1px solid #eef2f9; flex-shrink: 0; }
+  #bsg-home .search-row { display: flex; align-items: center; gap: 7px; background: #f5f8ff; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; margin: 0; }
+  #bsg-home .search-row input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: inherit; font-size: 16px; color: var(--navy); padding: 0; box-shadow: none; }
+  #bsg-home .search-row input::placeholder { color: var(--faint); }
+  #bsg-home .tab-panel { display: none; }
+  #bsg-home .tab-panel.active { display: flex; flex-direction: column; flex: 1; }
+  #bsg-home .list-scroll { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(31, 99, 226, .2) transparent; }
+  #bsg-home .state-row, #bsg-home .city-row { display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #f0f5fc; transition: background .12s; }
+  #bsg-home .state-row { padding: 9px 16px; }
+  #bsg-home .city-row { padding: 8px 14px 8px 28px; }
+  #bsg-home .state-row:hover, #bsg-home .city-row:hover { background: #eef4ff; }
+  #bsg-home .state-name { flex: 1; font-size: .875rem; font-weight: 700; }
+  #bsg-home .state-count { font-size: .74rem; color: #8a9bbf; font-weight: 500; }
+  #bsg-home .city-name { flex: 1; font-size: .82rem; font-weight: 700; }
+  #bsg-home .bsg-arrow { color: #c5d0e0; flex-shrink: 0; }
+  #bsg-home .city-group-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 7px; padding: 7px 16px 6px; font-size: .69rem; font-weight: 800; color: var(--blue); letter-spacing: .07em; text-transform: uppercase; background: #f7faff; border-bottom: 1px solid #eef2f9; }
+
+  #bsg-home .right-col { position: relative; }
+  #bsg-home .map-card { position: relative; width: 100%; min-height: 300px; }
+  #bsg-home .map-script { position: absolute; top: 24%; right: 0; z-index: 3; pointer-events: none; width: clamp(170px, 21%, 320px); }
+  #bsg-home .map-script img { display: block; width: 100%; height: auto; max-width: 100%; }
+  #bsg-home .map-legend { position: absolute; right: 0; bottom: 3%; z-index: 3; pointer-events: none; display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; box-shadow: var(--shadow); }
+  #bsg-home .legend-item { display: flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 700; color: #43577f; }
+  #bsg-home .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+  #bsg-home .legend-dot.active { background: var(--blue); }
+  #bsg-home .legend-dot.future { background: #d4dff0; border: 1.5px solid #b4c5df; }
+  #bsg-home .map-loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #8a9bbf; font-size: .9rem; }
+  #bsg-home #bsg-map-container { width: 100%; display: block; }
+  #bsg-home .us-state { fill: #d6e1ef; stroke: #fff; stroke-width: 1.4; transition: fill .15s; }
+  #bsg-home .us-state:hover { fill: #c4d3e6; }
+  #bsg-home .us-state.served { fill: var(--blue); cursor: pointer; }
+  #bsg-home .us-state.served:hover { fill: var(--blue-d); }
+  #bsg-home .us-mesh { fill: none; stroke: #fff; stroke-width: 1.4; pointer-events: none; }
+  #bsg-home .us-labels { pointer-events: none; }
+  #bsg-home .us-state-label { font-family: 'Figtree', Arial, sans-serif; font-weight: 800; fill: #5a7a9e; text-anchor: middle; dominant-baseline: central; user-select: none; paint-order: stroke fill; stroke: #fff; stroke-width: 2.5px; stroke-linejoin: round; }
+  #bsg-home .us-state-label.served { fill: #fff; stroke: rgba(22, 80, 200, .55); stroke-width: 2px; }
+
+  #bsgTT { position: fixed; z-index: 99999; pointer-events: none; opacity: 0; transition: opacity .12s; white-space: nowrap; background: #12244d; color: #fff; border-radius: 9px; padding: 9px 14px; font: 700 .8rem 'Figtree', system-ui, sans-serif; box-shadow: 0 6px 20px rgba(18, 36, 77, .22); }
+  #bsgTT.show { opacity: 1; }
+  #bsgTT .bsg-tt-sub { display: block; margin-top: 3px; font-size: .7rem; font-weight: 500; color: #60a5fa; }
+
+  /* ================= FEATURES STRIP ================= */
+  #bsg-home .features-strip { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
+  #bsg-home .feat-item { display: flex; align-items: center; gap: 14px; padding: 20px; border-right: 1px solid var(--line); }
+  #bsg-home .feat-item:last-child { border-right: 0; }
+  #bsg-home .feat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid currentColor; }
+  #bsg-home .feat-icon svg { width: 24px; height: 24px; }
+  #bsg-home .feat-icon.blue { color: var(--blue); background: #eef4ff; }
+  #bsg-home .feat-icon.green { color: #16a34a; background: #effbf4; }
+  #bsg-home .feat-icon.amber { color: var(--star); background: #fff7eb; }
+  #bsg-home .feat-title { font-size: .87rem; font-weight: 800; margin-bottom: 3px; }
+  #bsg-home .feat-desc { font-size: .74rem; color: var(--muted2); line-height: 1.5; }
+
+  /* ================= CAMPGROUND CARDS ================= */
+  #bsg-home .bsg-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .18s, box-shadow .18s; }
+  #bsg-home .bsg-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(31, 99, 226, .13); }
+  #bsg-home .bsg-card .bsg-media { height: 150px; }
+  #bsg-home .bsg-card-body { display: flex; flex-direction: column; gap: 5px; flex: 1; padding: 12px 14px 14px; }
+  #bsg-home .bsg-card-title { font-size: .9rem; font-weight: 800; line-height: 1.25; color: var(--navy); }
+  #bsg-home .bsg-card-loc { font-size: .74rem; color: var(--muted); }
+  #bsg-home .bsg-stars { position: relative; display: inline-block; align-self: flex-start; font-size: .92rem; line-height: 1; letter-spacing: 1px; color: #dbe3ef; }
+  #bsg-home .bsg-stars-on { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: var(--star); }
+  #bsg-home .bsg-card-tags { font-size: .7rem; color: #8a9bbf; line-height: 1.4; }
+  #bsg-home .bsg-card-excerpt { font-size: .74rem; color: var(--muted2); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  #bsg-home .bsg-link { margin-top: auto; padding-top: 6px; font-size: .78rem; font-weight: 800; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; }
+
+  /* ================= IMAGE TILES (categories + destinations) ================= */
+  #bsg-home .bsg-tile { position: relative; display: block; isolation: isolate; overflow: hidden; border-radius: 12px; color: #fff; transition: transform .18s, box-shadow .18s; }
+  #bsg-home .bsg-tile:hover { transform: translateY(-3px); }
+  #bsg-home .bsg-tile .bsg-media { position: absolute; inset: 0; z-index: -2; }
+  #bsg-home .bsg-tile::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(18, 36, 77, .05) 25%, rgba(18, 36, 77, .78) 100%); }
+  #bsg-home .bsg-cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  #bsg-home .bsg-cat { width: 100%; height: 150px; margin: 0; padding: 12px 8px 16px; border: 0; cursor: pointer; background: #2e72a0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; text-align: center; font: 800 .92rem 'Figtree', system-ui, sans-serif; color: #fff; }
+  #bsg-home .bsg-cat svg { width: 46px; height: 46px; stroke-width: 1.8; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25)); }
+  #bsg-home .bsg-cat:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--blue); outline: 0; }
+
+  /* destination chip */
+  #bsg-home .bsg-dest-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 8px 7px 12px; background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); font-size: .8rem; color: var(--muted); white-space: nowrap; }
+  #bsg-home .bsg-dest-chip[hidden] { display: none; }
+  #bsg-home .bsg-dest-chip svg { color: var(--blue); flex-shrink: 0; }
+  #bsg-home .bsg-dest-chip strong { color: var(--navy); font-weight: 800; }
+  #bsg-home .bsg-chip-btn { border: 0; background: var(--soft); color: var(--blue); font: 800 .75rem 'Figtree', system-ui, sans-serif; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+  #bsg-home .bsg-chip-btn:hover { background: var(--blue); color: #fff; }
+  #bsg-home .bsg-chip-x { border: 0; background: transparent; color: var(--faint); font-size: 1.1rem; line-height: 1; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; padding: 0; }
+  #bsg-home .bsg-chip-x:hover { background: #f0f5fc; color: var(--navy); }
+
+  /* "Exploring Macon, GA" bar (replaces the search bar once a destination is set) */
+  #bsg-home .bsg-exploring { flex: 1; display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 14px; background: #fff; border: 1.5px solid var(--blue); border-radius: 14px; box-shadow: var(--shadow); }
+  #bsg-home .bsg-exploring[hidden], #bsg-home .bsg-find-bar[hidden] { display: none; }
+  #bsg-home .bsg-exploring-text { flex: 1; min-width: 0; font-size: .92rem; color: var(--muted); }
+  #bsg-home .bsg-exploring-text strong { color: var(--navy); font-weight: 800; }
+  #bsg-home .bsg-exploring-text small { display: block; font-size: .74rem; color: var(--faint); margin-top: 1px; }
+  #bsg-home .bsg-exploring .bsg-chip-btn { padding: 8px 16px; font-size: .82rem; }
+  #bsg-home .bsg-loc-group { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); padding: 10px 12px 4px; }
+
+  /* live results */
+  #bsg-home .bsg-live { margin-top: 14px; padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+  #bsg-home .bsg-live[hidden] { display: none; }
+  #bsg-home .bsg-live-head { font-size: .88rem; color: var(--muted); margin-bottom: 10px; }
+  #bsg-home .bsg-live-head strong { color: var(--navy); }
+  #bsg-home .bsg-live-places { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  #bsg-home .bsg-live-places:empty { display: none; }
+  #bsg-home .bsg-live-place { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: #f5f8ff; color: var(--navy); font: 700 .8rem 'Figtree', system-ui, sans-serif; cursor: pointer; }
+  #bsg-home .bsg-live-place:hover { border-color: var(--blue); color: var(--blue); }
+  #bsg-home .bsg-live-place svg { color: var(--blue); }
+  #bsg-home .bsg-live-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+  #bsg-home .bsg-live-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+  #bsg-home .bsg-live-img { position: relative; aspect-ratio: 1 / 1; background: linear-gradient(150deg, #5a9fc8, #2e72a0, #1d5a80); }
+  #bsg-home .bsg-live-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #bsg-home .bsg-live-img.is-ad { aspect-ratio: auto; background: #f7faff; }
+  #bsg-home .bsg-live-img.is-ad img { height: auto; max-height: 320px; object-fit: contain; }
+  #bsg-home .bsg-live-badge { position: absolute; left: 8px; top: 8px; background: var(--star); color: #fff; font-size: .62rem; font-weight: 800; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; }
+  #bsg-home .bsg-live-body { padding: 10px 12px 12px; }
+  #bsg-home .bsg-live-body h4 { margin: 0; font-size: .9rem; font-weight: 800; color: var(--navy); line-height: 1.25; }
+  #bsg-home .bsg-live-meta { font-size: .74rem; font-weight: 700; color: var(--blue); margin: 3px 0 0; }
+  #bsg-home .bsg-live-tags { font-size: .72rem; color: var(--muted); margin: 3px 0 0; }
+  #bsg-home .bsg-live-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  #bsg-home .bsg-live-btns a { font-size: .76rem; font-weight: 800; color: var(--blue); }
+  #bsg-home .bsg-live-all { display: inline-block; margin-top: 12px; font-size: .85rem; font-weight: 800; color: var(--blue); }
+  #bsg-home .bsg-live-all[hidden] { display: none; }
+  #bsg-home .bsg-find-label .bsg-exploring-text { margin-right: 6px; }
+  #bsg-home .bsg-find-label .bsg-chip-btn { margin-right: 4px; }
+  @media (max-width: 1100px) { #bsg-home .bsg-live-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { #bsg-home .bsg-live-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) { #bsg-home .bsg-live-grid { grid-template-columns: 1fr; } }
+
+  /* location popup */
+  #bsg-home .bsg-loc { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: flex-start; justify-content: center; padding: 12vh 16px 16px; }
+  #bsg-home .bsg-loc[hidden] { display: none; }
+  #bsg-home .bsg-loc-backdrop { position: absolute; inset: 0; background: rgba(8, 18, 40, .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  #bsg-home .bsg-loc-box { position: relative; width: 100%; max-width: 520px; background: #fff; border-radius: 18px; padding: 26px 24px 18px; box-shadow: 0 24px 60px rgba(8, 18, 40, .35); }
+  #bsg-home .bsg-loc-x { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #f0f5fc; color: var(--navy); font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 0; }
+  #bsg-home .bsg-loc-x:hover { background: var(--line); }
+  #bsg-home .bsg-loc-title { font-size: 1.3rem; font-weight: 900; letter-spacing: -.01em; padding-right: 36px; color: var(--navy); }
+  #bsg-home .bsg-loc-q { font-size: .9rem; color: var(--muted); margin: 4px 0 14px; }
+  #bsg-home .bsg-loc-field { display: flex; align-items: center; gap: 10px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 12px; background: #f5f8ff; color: var(--blue); margin: 0; }
+  #bsg-home .bsg-loc-field:focus-within { border-color: var(--blue); background: #fff; }
+  #bsg-home .bsg-loc-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 500 16px 'Figtree', system-ui, sans-serif; color: var(--navy); padding: 13px 0; box-shadow: none; }
+  #bsg-home .bsg-loc-list { margin-top: 10px; max-height: 300px; overflow-y: auto; }
+  #bsg-home .bsg-loc-opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border: 0; border-radius: 10px; background: transparent; text-align: left; cursor: pointer; color: var(--blue); font-family: 'Figtree', system-ui, sans-serif; }
+  #bsg-home .bsg-loc-opt span { display: flex; flex-direction: column; min-width: 0; }
+  #bsg-home .bsg-loc-opt strong { font-size: .92rem; font-weight: 700; color: var(--navy); }
+  #bsg-home .bsg-loc-opt small { font-size: .78rem; color: var(--muted); }
+  #bsg-home .bsg-loc-opt.on, #bsg-home .bsg-loc-opt:hover { background: #eef4ff; }
+  #bsg-home .bsg-loc-hint { font-size: .85rem; color: var(--faint); padding: 10px 4px; }
+  #bsg-home .bsg-loc-opt.last { border: 1.5px solid var(--blue); background: #eef4ff; }
+  #bsg-home .bsg-loc-opt.last small { color: var(--blue); font-weight: 700; }
+  html.bsg-loc-open { overflow: hidden; }
+  #bsg-home .bsg-loc-field[hidden] { display: none; }
+  #bsg-home .bsg-loc-q svg { color: var(--blue); vertical-align: -2px; }
+  #bsg-home .bsg-loc-q strong { color: var(--navy); }
+  #bsg-home .bsg-loc-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  #bsg-home .bsg-loc-cat { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; cursor: pointer; font-family: 'Figtree', system-ui, sans-serif; transition: border-color .15s, transform .15s, box-shadow .15s; }
+  #bsg-home .bsg-loc-cat:hover, #bsg-home .bsg-loc-cat:focus-visible { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(31, 99, 226, .15); outline: 0; }
+  #bsg-home .bsg-loc-cat-img { position: relative; display: flex; align-items: center; justify-content: center; height: 70px; background: linear-gradient(150deg, #5a9fc8, #2e72a0); color: #fff; }
+  #bsg-home .bsg-loc-cat-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #bsg-home .bsg-loc-cat-img::after { content: ''; position: absolute; inset: 0; background: rgba(18, 36, 77, .35); }
+  #bsg-home .bsg-loc-cat-img svg { position: relative; z-index: 1; width: 28px; height: 28px; }
+  #bsg-home .bsg-loc-cat-name { padding: 9px 6px; font-size: .82rem; font-weight: 800; color: var(--navy); text-align: center; }
+  #bsg-home .bsg-loc-kw { display: flex; gap: 8px; margin-top: 14px; padding: 5px; border: 1.5px solid var(--line); border-radius: 12px; background: #f5f8ff; }
+  #bsg-home .bsg-loc-kw input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 500 16px 'Figtree', system-ui, sans-serif; color: var(--navy); padding: 8px 10px; box-shadow: none; }
+  #bsg-home .bsg-loc-kw button { border: 0; border-radius: 9px; background: var(--blue); color: #fff; font: 800 .85rem 'Figtree', system-ui, sans-serif; padding: 8px 16px; cursor: pointer; }
+  #bsg-home .bsg-loc-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  #bsg-home .bsg-loc-back, #bsg-home .bsg-loc-done { border: 0; background: none; color: var(--blue); font: 700 .82rem 'Figtree', system-ui, sans-serif; cursor: pointer; padding: 6px 2px; }
+  #bsg-home .bsg-loc-done { color: var(--muted); }
+  @media (max-width: 480px) { #bsg-home .bsg-loc-cats { grid-template-columns: repeat(2, 1fr); } #bsg-home .bsg-loc-cat-img { height: 56px; } }
+  #bsg-home .bsg-find { display: flex; align-items: center; gap: 22px; margin-top: 18px; }
+  #bsg-home .bsg-find-bar { flex: 1; display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 10px 10px 14px; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+  #bsg-home .bsg-find-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--soft); color: var(--blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  #bsg-home .bsg-find-label { font-size: .84rem; font-weight: 800; white-space: nowrap; }
+  #bsg-home .bsg-find-input { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 0 12px; margin: 0; background: #f5f8ff; border: 1px solid var(--line); border-radius: 9px; }
+  #bsg-home .bsg-find-input input { flex: 1; min-width: 0; border: 0; outline: 0; box-shadow: none; background: transparent; font-family: inherit; font-size: 16px; color: var(--navy); padding: 10px 0; margin: 0; }
+  #bsg-home .bsg-find-input input::placeholder { color: var(--faint); }
+  #bsg-home .bsg-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--blue); color: #fff; border: 0; border-radius: 9px; padding: 11px 26px; font: 800 .85rem 'Figtree', system-ui, sans-serif; cursor: pointer; white-space: nowrap; transition: background .15s; }
+  #bsg-home .bsg-btn:hover { background: var(--blue-d); }
+  #bsg-home .bsg-find-art { flex-shrink: 0; width: 160px; }
+  #bsg-home .bsg-find-art img { display: block; width: 100%; height: auto; max-width: 100%; }
+  #bsg-home .bsg-dest { height: 160px; }
+  #bsg-home .bsg-dest-viewport { overflow: hidden; border-radius: 12px; }
+  #bsg-home .bsg-camp-viewport { overflow: hidden; margin: -8px; padding: 8px; }
+  #bsg-home .bsg-camp-track { display: flex; gap: 16px; transition: transform .6s ease; will-change: transform; }
+  #bsg-home .bsg-camp-track > * { flex: 0 0 calc((100% - 48px) / 4); }
+  #bsg-home .bsg-card-excerpt:empty { display: none; }
+  #bsg-home .bsg-dest-track { display: flex; gap: 16px; transition: transform .6s ease; will-change: transform; }
+  #bsg-home .bsg-dest-track .bsg-dest { flex: 0 0 calc((100% - 48px) / 4); }
+  #bsg-home .bsg-dest-track .bsg-tile:hover { transform: none; }
+  #bsg-home .bsg-head-actions { display: flex; align-items: center; gap: 8px; }
+  #bsg-home .bsg-head-actions .bsg-more { margin-right: 6px; }
+  #bsg-home .bsg-arrow-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; box-shadow: var(--shadow); transition: background .15s, color .15s, border-color .15s; }
+  #bsg-home .bsg-arrow-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+  #bsg-home .bsg-dest-text { position: absolute; left: 14px; bottom: 12px; right: 14px; display: flex; flex-direction: column; line-height: 1.2; }
+  #bsg-home .bsg-dest-text strong { font-size: 1.02rem; font-weight: 800; }
+  #bsg-home .bsg-dest-text span { font-size: .78rem; font-weight: 600; opacity: .9; }
+
+  /* ================= ARTICLES ================= */
+  #bsg-home .art-card { display: block; transition: transform .18s; }
+  #bsg-home .art-card:hover { transform: translateY(-3px); }
+  #bsg-home .art-card .bsg-media { height: 150px; border-radius: 12px; margin-bottom: 10px; }
+  #bsg-home .art-tag { position: absolute; left: 10px; bottom: 10px; z-index: 1; background: var(--blue); color: #fff; font-size: .6rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 4px 8px; border-radius: 5px; }
+  #bsg-home .art-title { font-size: .9rem; font-weight: 800; line-height: 1.3; margin-bottom: 5px; }
+  #bsg-home .art-meta { font-size: .72rem; color: var(--faint); display: flex; align-items: center; gap: 4px; }
+  #bsg-home .art-meta .dot { opacity: .5; }
+  @keyframes bsgShimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+  #bsg-home .art-skeleton { height: 220px; border-radius: 12px; background: linear-gradient(90deg, #e8eef8 25%, #f4f7fd 50%, #e8eef8 75%); background-size: 800px 100%; animation: bsgShimmer 1.4s infinite linear; }
+
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 1100px) {
+    #bsg-home .exp-grid { grid-template-columns: 340px 1fr; }
+    #bsg-home .bsg-grid4 { grid-template-columns: repeat(2, 1fr); }
+    #bsg-home .bsg-cats { grid-template-columns: repeat(3, 1fr); }
+    #bsg-home .bsg-dest-track .bsg-dest { flex-basis: calc((100% - 16px) / 2); }
+    #bsg-home .bsg-camp-track > * { flex-basis: calc((100% - 16px) / 2); }
+    #bsg-home .features-strip { grid-template-columns: repeat(2, 1fr); }
+    #bsg-home .feat-item:nth-child(2) { border-right: 0; }
+    #bsg-home .feat-item:nth-child(n+3) { border-top: 1px solid var(--line); }
+    #bsg-home .bsg-find-art { display: none; }
+  }
+  @media (max-width: 900px) {
+    #bsg-home .bsg-container { padding: 0 24px; }
+    #bsg-home .bsg-hero { padding: 36px 0 24px; }
+    #bsg-home .exp-grid { grid-template-columns: 1fr; gap: 20px 0; }
+    #bsg-home .states-panel { height: auto !important; }
+    #bsg-home #states-scroll, #bsg-home #cities-scroll { max-height: 300px !important; }
+    #bsg-home .bsg-find-bar { flex-wrap: wrap; }
+    #bsg-home .bsg-find-label { flex: 1; }
+    #bsg-home .bsg-find-input { flex-basis: 100%; order: 3; }
+    #bsg-home .bsg-find-bar .bsg-btn { order: 4; width: 100%; justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    #bsg-home .bsg-container { padding: 0 16px; }
+    #bsg-home .bsg-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    #bsg-home .bsg-dest-chip { white-space: normal; }
+    #bsg-home .bsg-loc { padding-top: 8vh; }
+    #bsg-home .map-script { position: static; display: block; width: 170px; margin: 0 auto 8px; }
+    #bsg-home .map-legend { position: static; justify-content: center; width: max-content; margin: 8px auto 0; }
+    #bsg-home .bsg-camp-track > * { flex-basis: 100%; }
+    #bsg-home .bsg-cats { grid-template-columns: repeat(2, 1fr); }
+    #bsg-home .bsg-cat { height: 130px; }
+    #bsg-home .bsg-cat svg { width: 38px; height: 38px; }
+    #bsg-home .bsg-dest { height: 130px; }
+  }
+  @media (max-width: 480px) {
+    #bsg-home .bsg-grid4.bsg-articles { grid-template-columns: 1fr; }
+    #bsg-home .bsg-dest-track .bsg-dest { flex-basis: 100%; }
+    #bsg-home .features-strip { grid-template-columns: 1fr; }
+    #bsg-home .feat-item { border-right: 0; border-top: 0; border-bottom: 1px solid var(--line); }
+    #bsg-home .feat-item:last-child { border-bottom: 0; }
+  }
+  @media (min-width: 1600px) {
+    #bsg-home .bsg-container { max-width: 1600px; padding: 0 80px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #bsg-home *, #bsg-home *::before { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div id="bsgTT"></div>
+
+<div id="bsg-home">
+
+  <!-- ============ HERO / EXPLORE ============ -->
+  <section class="bsg-hero" id="bsg-explore">
+    <div class="bsg-container">
+      <div class="exp-grid">
+        <div class="left-col">
+          <div>
+            <h2 class="exp-title">Explore Campgrounds &amp;<br>Local Guides Across the U.S.</h2>
+            <p class="exp-sub">Choose a state to find campgrounds, local guides, dining, attractions, RV services and more.</p>
+          </div>
+
+          <div class="states-panel" id="statesPanel">
+            <div class="states-tabs" role="tablist">
+              <button type="button" class="states-tab active" data-panel="states" role="tab" aria-selected="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-5.2 7-10a7 7 0 1 0-14 0c0 4.8 7 10 7 10Z" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+                States <span class="tab-count" id="bsgStateCount">0</span>
+              </button>
+              <button type="button" class="states-tab" data-panel="cities" role="tab" aria-selected="false">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                Cities <span class="tab-count" id="bsgCityCount">0</span>
+              </button>
+            </div>
+            <div class="search-wrap">
+              <label class="search-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="#9baac8" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="#9baac8" stroke-width="2" stroke-linecap="round"/></svg>
+                <input type="text" id="bsgSearch" placeholder="Search states..." autocomplete="off" aria-label="Search states or cities">
+              </label>
+            </div>
+            <div class="tab-panel active" id="panel-states"><div class="list-scroll" id="states-scroll"></div></div>
+            <div class="tab-panel" id="panel-cities"><div class="list-scroll" id="cities-scroll"></div></div>
+          </div>
+        </div>
+
+        <div class="right-col">
+          <div class="map-card" id="mapCard">
+            <div class="map-script">
+              <img src="https://bluespotguide.com/wp-content/uploads/2026/09/explore-more-of-america.png" alt="Explore More of America">
+            </div>
+            <span class="map-loading" id="bsgMapLoading">Loading map&hellip;</span>
+            <div id="bsg-map-container"></div>
+            <div class="map-legend">
+              <span class="legend-item"><span class="legend-dot active"></span>Active</span>
+              <span class="legend-item"><span class="legend-dot future"></span>Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="bsg-sec">
+    <div class="bsg-container">
+      <div class="features-strip">
+        <div class="feat-item">
+          <div class="feat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+          <div><div class="feat-title">Local Area Guides</div><div class="feat-desc">Insider tips on dining, attractions, services and more.</div></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+          <div><div class="feat-title">Trusted by Campgrounds</div><div class="feat-desc">Helpful local information connected to places you stay.</div></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div><div class="feat-title">Mobile Friendly</div><div class="feat-desc">Plan your trip and explore on the go.</div></div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div><div class="feat-title">Everything in One Place</div><div class="feat-desc">Where to go. What to do. All in one place.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIND YOUR NEXT STAY ============ -->
+  <section class="bsg-sec">
+    <div class="bsg-container">
+      <div class="bsg-head">
+        <div><h2 class="bsg-h2">Find Your Next Stay</h2><p class="bsg-lede">Explore featured campgrounds and start planning your next adventure today.</p></div>
+        <div class="bsg-head-actions">
+          <a class="bsg-more" href="https://bluespotguide.com/explore-locations/">View All Campgrounds <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+          <button type="button" class="bsg-arrow-btn" id="bsgCampPrev" aria-label="Previous campgrounds"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" class="bsg-arrow-btn" id="bsgCampNext" aria-label="Next campgrounds"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+      <div class="bsg-camp-viewport">
+        <div class="bsg-camp-track" id="bsgCamps">
+          <div class="art-skeleton"></div><div class="art-skeleton"></div><div class="art-skeleton"></div><div class="art-skeleton"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPLORE THE LOCAL AREA ============ -->
+  <section class="bsg-sec">
+    <div class="bsg-container">
+      <div class="bsg-head">
+        <div><h2 class="bsg-h2">Explore the Local Area</h2><p class="bsg-lede">Choose a category or search for something near your destination.</p></div>
+      </div>
+      <div class="bsg-cats" id="bsgCats"></div>
+      <div class="bsg-find">
+        <div class="bsg-exploring" id="bsgExploring" hidden></div>
+        <form class="bsg-find-bar" id="bsgFind" role="search">
+          <span class="bsg-find-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
+          <span class="bsg-find-label">Already know where you're going?</span>
+          <label class="bsg-find-input">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="#9baac8" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="#9baac8" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="text" id="bsgFindInput" placeholder="Search food, attractions, a city, or ZIP code..." autocomplete="off" aria-label="Search food, attractions, a city, or ZIP code">
+          </label>
+          <button type="submit" class="bsg-btn">Search</button>
+        </form>
+        <div class="bsg-find-art">
+          <img src="https://bluespotguide.com/wp-content/uploads/2026/09/find-it-near-you.png" alt="Find it Near You">
+        </div>
+      </div>
+
+      <!-- live results: business ads that match what's typed -->
+      <div class="bsg-live" id="bsgLive" hidden aria-live="polite">
+        <div class="bsg-live-head" id="bsgLiveHead"></div>
+        <div class="bsg-live-places" id="bsgLivePlaces"></div>
+        <div class="bsg-live-grid" id="bsgLiveGrid"></div>
+        <a class="bsg-live-all" id="bsgLiveAll" href="#" hidden>See all results &rarr;</a>
+      </div>
+
+      <!-- "Where are you headed?" popup -->
+      <div class="bsg-loc" id="bsgLoc" hidden>
+        <div class="bsg-loc-backdrop" data-close></div>
+        <div class="bsg-loc-box" role="dialog" aria-modal="true" aria-labelledby="bsgLocTitle">
+          <button type="button" class="bsg-loc-x" data-close aria-label="Close">&times;</button>
+          <h3 class="bsg-loc-title" id="bsgLocTitle">Find Food &amp; Dining Near Your Destination</h3>
+          <p class="bsg-loc-q">Where are you headed?</p>
+          <label class="bsg-loc-field">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            <input type="text" id="bsgLocInput" placeholder="Campground, city, state, or ZIP code..." autocomplete="off"
+              role="combobox" aria-autocomplete="list" aria-controls="bsgLocList" aria-expanded="false" aria-label="Where are you headed?">
+          </label>
+          <div class="bsg-loc-list" id="bsgLocList" role="listbox"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POPULAR DESTINATIONS ============ -->
+  <section class="bsg-sec">
+    <div class="bsg-container">
+      <div class="bsg-head">
+        <div><h2 class="bsg-h2">Popular Destinations</h2><p class="bsg-lede">Explore popular places and start planning your next trip.</p></div>
+        <div class="bsg-head-actions">
+          <a class="bsg-more" href="https://bluespotguide.com/destinations/">View All Destinations <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+          <button type="button" class="bsg-arrow-btn" id="bsgDestPrev" aria-label="Previous destinations"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" class="bsg-arrow-btn" id="bsgDestNext" aria-label="Next destinations"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+      <div class="bsg-dest-viewport">
+        <div class="bsg-dest-track" id="bsgDest"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRAVEL INSPIRATION ============ -->
+  <section class="bsg-sec">
+    <div class="bsg-container">
+      <div class="bsg-head">
+        <div><h2 class="bsg-h2">Travel Inspiration</h2><p class="bsg-lede">Tips, guides and ideas to help you make the most of your next adventure.</p></div>
+        <a class="bsg-more" href="https://bluespotguide.com/blog/">View All Articles <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+      </div>
+      <div class="bsg-grid4 bsg-articles" id="articlesGrid">
+        <div class="art-skeleton"></div><div class="art-skeleton"></div><div class="art-skeleton"></div><div class="art-skeleton"></div>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var SL = '/';
+  var PROTO = 'https:' + SL + SL;
+  var SITE = PROTO + 'bluespotguide.com' + SL;
+
+  /* ============ EDIT CONTENT HERE ============ */
+  var STATES = [
+    { name: 'Alabama', count: 7, cities: [
+      ['Birmingham', 'campgrounds-near-birmingham-alabama'],
+      ['Gulf Shores', 'campgrounds-near-gulf-shores-al'],
+      ['Montgomery', 'campgrounds-near-montgomery-al']] },
+    { name: 'California', count: 2, cities: [
+      ['San Francisco', 'campgrounds-near-san-francisco-ca']] },
+    { name: 'Florida', count: 1, cities: [
+      ['Jacksonville', 'campgrounds-near-jacksonville-fl'],
+      ['Pensacola', 'campgrounds-near-pensacola-fl']] },
+    { name: 'Georgia', count: 37, cities: [
+      ['Atlanta', 'campgrounds-near-atlanta-ga'],
+      ['Blue Ridge', 'campgrounds-near-blue-ridge-ga'],
+      ['Helen', 'campgrounds-near-helen-ga'],
+      ['Macon', 'campgrounds-near-macon-ga'],
+      ['Savannah', 'campgrounds-near-savannah-ga']] },
+    { name: 'Illinois', count: 0, cities: [
+      ['Chicago', 'campgrounds-near-chicago-il']] },
+    { name: 'Indiana', count: 1, cities: [] },
+    { name: 'Louisiana', count: 1, cities: [
+      ['New Orleans', 'campgrounds-near-new-orleans-la']] },
+    { name: 'Michigan', count: 2, cities: [
+      ['Detroit', 'campgrounds-near-detroit-mi']] },
+    { name: 'New York', count: 1, cities: [
+      ['Buffalo', 'campgrounds-near-buffalo-ny']] },
+    { name: 'North Carolina', count: 3, cities: [
+      ['Winston Salem', 'campgrounds-near-winston-salem-nc'],
+      ['Asheville', 'campgrounds-near-asheville-nc']] },
+    { name: 'Ohio', count: 2, cities: [
+      ['Columbus', 'campgrounds-near-columbus-oh']] },
+    { name: 'South Carolina', count: 3, cities: [
+      ['Spartanburg', 'campgrounds-near-spartanburg-sc'],
+      ['Greenville', 'campgrounds-near-greenville-sc']] },
+    { name: 'Tennessee', count: 11, cities: [
+      ['Chattanooga', 'campgrounds-near-chattanooga-tn'],
+      ['Memphis', 'campgrounds-near-memphis-tn'],
+      ['Pigeon Forge', 'campgrounds-near-pigeon-forge-tn']] },
+    { name: 'Texas', count: 9, cities: [
+      ['Dallas', 'campgrounds-near-dallas-tx'],
+      ['Houston', 'campgrounds-near-houston-tx'],
+      ['McAllen', 'campgrounds-near-mcallen-tx']] },
+    { name: 'Virginia', count: 2, cities: [
+      ['Charlottesville', 'campgrounds-near-charlottesville-va']] },
+    { name: 'Wisconsin', count: 5, cities: [
+      ['Kenosha', 'campgrounds-near-kenosha-wi'],
+      ['Wisconsin Dells', 'campgrounds-near-wisconsin-dells-wi']] }
+  ];
+
+  /* FIND YOUR NEXT STAY - a rotating row of every campground in BSG_SEARCH_DATA.
+     Photos and descriptions come from each campground's WordPress page.
+     CAMP_FEATURED: slugs shown first, in this order (the part of the URL after
+       bluespotguide.com). Every other campground follows.
+     CAMP_ROTATE_MS: time between slides (0 turns auto-rotate off).
+     CAMP_SHUFFLE:   true = the non-featured campgrounds are in random order.
+     CAMP_TYPE: leave '' to auto-detect the campground post type. */
+  /* Empty = every campground is shuffled on each page load, so no property is
+     always first or always last. Add slugs here only if you want to pin some. */
+  var CAMP_FEATURED = [];
+  var CAMP_TYPE = '';
+  var CAMP_ROTATE_MS = 5000;
+  var CAMP_SHUFFLE = true;
+
+  /* EXPLORE THE LOCAL AREA - WHAT (category) + WHERE (destination).
+     Clicking a category opens the destination's guide page at that category:
+       [guide page URL]?category=KEY#KEY
+     KEY must match the ID of that category's section/row on the guide pages
+     (Beaver Builder: Row > Advanced > HTML Element > ID). */
+  var UP = SITE + 'wp-content/uploads/2026/09/';
+  var CATEGORIES = [
+    { label: 'Food & Dining', key: 'food-dining', icon: 'food', img: UP + 'BlueSpot-Food-Dining.png' },
+    { label: 'Things to Do', key: 'things-to-do', icon: 'explore', img: UP + 'BlueSpot-Things-to-Do.png' },
+    { label: 'Shopping', key: 'shopping', icon: 'shop', img: UP + 'BlueSpot-Shopping.png' },
+    { label: 'RV Services', key: 'rv-services', icon: 'rv', img: UP + 'BlueSpot-RV-Services.png' },
+    { label: 'Health & Safety', key: 'health-safety', icon: 'health', img: UP + 'BlueSpot-Health-Safety.png' },
+    { label: 'Local Favorites', key: 'local-favorites', icon: 'star', img: UP + 'BlueSpot-Local-Services.png' }
+  ];
+  /* the traveler's destination is kept for the browsing session under this key
+     (shared with the sitewide bsg-destination-memory snippet) */
+  var DEST_KEY = 'bsgDestination';
+  /* When a campground is chosen:
+       'nearby'      = search results of ALL business ads near the campground, matched by
+                       keywords ("Food & Dining near Stone Mountain Park")
+       'guide'       = jump to that section of the campground's own Local Area Guide page
+       'destination' = use the campground's city ("Food & Dining near Stone Mountain, Georgia")
+     Must match "When a campground is chosen" in Local Businesses > Search & Sync. */
+  var CAMP_RESULTS = 'nearby';
+  /* sections on each campground's own Local Area Guide page */
+  var GUIDE_ANCHORS = {
+    'food-dining': 'bsg-food',
+    'things-to-do': 'bsg-things',
+    'shopping': 'bsg-shopping',
+    'rv-services': 'bsg-rvc',
+    'health-safety': 'bsg-health',
+    'local-favorites': 'bsg-attractions'
+  };
+
+  /* POPULAR DESTINATIONS - a rotating row of every city in BSG_SEARCH_DATA.
+     Photos come from the BSG_DESTINATIONS snippet, then the city page's
+     featured image, then a coloured gradient.
+     DEST_ROTATE_MS: time between slides (0 turns auto-rotate off).
+     DEST_SHUFFLE:   true = random order on each page load. */
+  var DEST_ROTATE_MS = 4000;
+  var DEST_SHUFFLE = true;
+  /* fallback list, only used if BSG_SEARCH_DATA isn't loaded */
+  var DEST_FEATURED = [
+    'campgrounds-near-pigeon-forge-tn',
+    'campgrounds-near-gulf-shores-al',
+    'campgrounds-near-atlanta-ga',
+    'campgrounds-near-macon-ga'
+  ];
+  var DEST_IMAGES = {};
+
+  /* PAGE HERO IMAGES - both rotating rows use the hero (banner) image from each
+     campground / city page. Found once per page and remembered for
+     HERO_CACHE_DAYS in the visitor's browser. Set USE_PAGE_HERO = false to go
+     back to the WordPress featured images. */
+  var USE_PAGE_HERO = true;
+  var HERO_CACHE_DAYS = 7;
+  function destImg(slug) {
+    var v = DEST_IMAGES[slug] || '';
+    var cfg = window.BSG_DESTINATIONS;
+    if (cfg && cfg.length) {
+      cfg.forEach(function (d) {
+        if (d && d.href && d.image) {
+          var parts = String(d.href).split(SL).filter(function (x) { return x; });
+          if (parts[parts.length - 1] === slug) v = d.image;
+        }
+      });
+    }
+    if (!v) return '';
+    return v.indexOf('http') === 0 ? v : SITE + 'wp-content/uploads/' + v;
+  }
+  /* =========================================== */
+
+  var FALLBACK_BG = [
+    'linear-gradient(150deg,#5a9fc8,#2e72a0,#1d5a80)',
+    'linear-gradient(150deg,#c47830,#e08830,#c86820)',
+    'linear-gradient(150deg,#3d8a68,#277050,#1a5a3a)',
+    'linear-gradient(150deg,#6a8a40,#4d7030,#3a5820)'
+  ];
+  var STAR5 = '&#9733;&#9733;&#9733;&#9733;&#9733;';
+  var PIN_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+    '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+  var PIN_D = 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z';
+  var ARROW = '<svg class="bsg-arrow" width="13" height="13" viewBox="0 0 24 24"' +
+    ' fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor"' +
+    ' stroke-width="2" stroke-linecap="round"/></svg>';
+  var ARROW_R = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none"' +
+    ' aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor"' +
+    ' stroke-width="2.4" stroke-linecap="round"/></svg>';
+  var CITY_PIN = '<svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"' +
+    ' style="flex-shrink:0"><path fill="#1f63e2" d="' + PIN_D +
+    'm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+  var HEAD_PIN = '<svg width="9" height="9" viewBox="0 0 24 24" fill="none"' +
+    ' aria-hidden="true"><path d="M12 21s7-5.2 7-10a7 7 0 1 0-14 0c0 4.8 7 10 7 10Z"' +
+    ' stroke="#1f63e2" stroke-width="2.5"/></svg>';
+  var ICONS = {
+    food: '<path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M17 22V2c-2.5 1.5-4 4.5-4 8h4"/>',
+    explore: '<circle cx="12" cy="12" r="9"/>' +
+      '<path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/>',
+    shop: '<path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    rv: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0' +
+      ' 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+    health: '<rect x="3" y="3" width="18" height="18" rx="4"/>' +
+      '<path d="M12 8v8M8 12h8"/>',
+    star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 2.9 1-6.2' +
+      'L3 9.6l6.2-.9z"/>'
+  };
+  var NAMES = {
+    '01': 'Alabama', '02': 'Alaska', '04': 'Arizona', '05': 'Arkansas',
+    '06': 'California', '08': 'Colorado', '09': 'Connecticut', '10': 'Delaware',
+    '11': 'District of Columbia', '12': 'Florida', '13': 'Georgia', '15': 'Hawaii',
+    '16': 'Idaho', '17': 'Illinois', '18': 'Indiana', '19': 'Iowa', '20': 'Kansas',
+    '21': 'Kentucky', '22': 'Louisiana', '23': 'Maine', '24': 'Maryland',
+    '25': 'Massachusetts', '26': 'Michigan', '27': 'Minnesota', '28': 'Mississippi',
+    '29': 'Missouri', '30': 'Montana', '31': 'Nebraska', '32': 'Nevada',
+    '33': 'New Hampshire', '34': 'New Jersey', '35': 'New Mexico', '36': 'New York',
+    '37': 'North Carolina', '38': 'North Dakota', '39': 'Ohio', '40': 'Oklahoma',
+    '41': 'Oregon', '42': 'Pennsylvania', '44': 'Rhode Island', '45': 'South Carolina',
+    '46': 'South Dakota', '47': 'Tennessee', '48': 'Texas', '49': 'Utah',
+    '50': 'Vermont', '51': 'Virginia', '53': 'Washington', '54': 'West Virginia',
+    '55': 'Wisconsin', '56': 'Wyoming'
+  };
+
+  var ABBR = {
+    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA',
+    'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA',
+    'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA',
+    'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+    'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH',
+    'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC',
+    'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA',
+    'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN',
+    'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA',
+    'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
+  };
+
+  function byId(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .split('&').join('&amp;')
+      .split('<').join('&lt;')
+      .split('>').join('&gt;')
+      .split('"').join('&quot;');
+  }
+  function hrefOf(x) { return x.indexOf('http') === 0 ? x : SITE + x + SL; }
+  function stateUrl(s) { return s.href || (SITE + s.name.toLowerCase().split(' ').join('-') + SL); }
+  function cityUrl(c) { return hrefOf(c[1]); }
+
+  /* ---- Live data from window.BSG_SEARCH_DATA (the site-wide search data) ----
+     States, campground counts and cities are rebuilt from it when it's present.
+     The STATES list above is only a fallback if the data file isn't loaded. */
+  var CAMP_LIST = [];
+  var CITY_LIST = [];
+  function slugOf(href) {
+    var parts = String(href || '').split(SL).filter(function (x) { return x; });
+    return parts[parts.length - 1] || '';
+  }
+  function lastPart(s) {
+    var p = String(s || '').split(',');
+    return p[p.length - 1].trim();
+  }
+  function firstPart(s) {
+    return String(s || '').split(',')[0].trim();
+  }
+  function applySearchData() {
+    var data = window.BSG_SEARCH_DATA;
+    if (!data || !data.states || !data.states.length) return false;
+
+    var counts = {};
+    CAMP_LIST = (data.campgrounds || []).map(function (c) {
+      var st = lastPart(c.subtitle);
+      counts[st] = (counts[st] || 0) + 1;
+      return { label: c.label, subtitle: c.subtitle || '', url: c.href };
+    });
+
+    var cityMap = {};
+    CITY_LIST = [];
+    (data.cities || []).forEach(function (c) {
+      var st = lastPart(c.subtitle);
+      var name = firstPart(c.subtitle) || String(c.label || '').split('Near ').pop();
+      CITY_LIST.push({ city: name, state: st, url: c.href });
+      if (!cityMap[st]) cityMap[st] = [];
+      cityMap[st].push([name, c.href]);
+    });
+
+    var list = data.states.map(function (s) {
+      var name = String(s.label || '').split('Campgrounds in ').join('').trim();
+      var cities = (cityMap[name] || []).sort(function (a, b) {
+        return a[0].localeCompare(b[0]);
+      });
+      return { name: name, href: s.href, count: counts[name] || 0, cities: cities };
+    });
+    list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    STATES = list;
+    return true;
+  }
+  function icon(k) {
+    return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none"' +
+      ' stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
+      ' stroke-linejoin="round" aria-hidden="true">' + ICONS[k] + '</svg>';
+  }
+  function media(src, alt, i, extra) {
+    var html = '<div class="bsg-media" style="background:' +
+      FALLBACK_BG[i % FALLBACK_BG.length] + '">';
+    if (src) {
+      html += '<img src="' + esc(src) + '" alt="' + esc(alt) +
+        '" loading="lazy" onerror="this.remove()">';
+    }
+    return html + (extra || '') + '</div>';
+  }
+
+  function init() {
+    var root = byId('bsg-home');
+    if (!root) return;
+
+    /* States and cities lists */
+    function renderLists() {
+      byId('states-scroll').innerHTML = STATES.map(function (s) {
+        return '<a class="state-row" href="' + stateUrl(s) + '">' +
+          '<span class="state-name">' + esc(s.name) + '</span>' +
+          '<span class="state-count">' + s.count + ' Campground' +
+          (s.count === 1 ? '' : 's') + '</span>' + ARROW + '</a>';
+      }).join('');
+
+      byId('cities-scroll').innerHTML = STATES.filter(function (s) {
+        return s.cities.length;
+      }).map(function (s) {
+        var rows = s.cities.map(function (c) {
+          return '<a class="city-row" href="' + cityUrl(c) + '">' + CITY_PIN +
+            '<span class="city-name">' + esc(c[0]) + '</span>' + ARROW + '</a>';
+        }).join('');
+        return '<div class="city-group"><div class="city-group-header">' +
+          HEAD_PIN + esc(s.name) + '</div>' + rows + '</div>';
+      }).join('');
+
+      byId('bsgStateCount').textContent = STATES.length;
+      byId('bsgCityCount').textContent = STATES.reduce(function (n, s) {
+        return n + s.cities.length;
+      }, 0);
+    }
+
+    var hasData = applySearchData();
+    renderLists();
+    if (!hasData) {
+      /* data file may be printed later in the page; try again once it has loaded */
+      window.addEventListener('load', function () {
+        if (applySearchData()) {
+          renderLists();
+          buildPlaces();
+          loadCampgrounds();
+          loadDestinations();
+        }
+      });
+    }
+
+    /* Campground cards load live - see loadCampgrounds() */
+
+    /* Category tiles */
+    var catsEl = byId('bsgCats');
+    catsEl.innerHTML = CATEGORIES.map(function (c, i) {
+      var inner = media(c.img, '', i + 1) + icon(c.icon) +
+        '<span>' + esc(c.label) + '</span>';
+      return '<button type="button" class="bsg-tile bsg-cat" data-cat="' + i + '">' + inner + '</button>';
+    }).join('');
+
+    /* Destinations load from the search data - see loadDestinations() */
+    loadDestinations();
+
+    /* Tabs */
+    var search = byId('bsgSearch');
+    var tabs = root.querySelectorAll('.states-tab');
+    Array.prototype.forEach.call(tabs, function (tab) {
+      tab.addEventListener('click', function () {
+        Array.prototype.forEach.call(tabs, function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        Array.prototype.forEach.call(root.querySelectorAll('.tab-panel'), function (p) {
+          p.classList.remove('active');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        byId('panel-' + tab.getAttribute('data-panel')).classList.add('active');
+        search.value = '';
+        search.placeholder = tab.getAttribute('data-panel') === 'states' ?
+          'Search states...' : 'Search cities...';
+        Array.prototype.forEach.call(
+          root.querySelectorAll('.state-row,.city-row,.city-group'),
+          function (r) { r.style.display = ''; });
+      });
+    });
+
+    /* Panel search */
+    search.addEventListener('input', function () {
+      var q = this.value.toLowerCase().trim();
+      var active = root.querySelector('.tab-panel.active');
+      if (active.id === 'panel-cities') {
+        Array.prototype.forEach.call(active.querySelectorAll('.city-group'), function (g) {
+          var head = g.querySelector('.city-group-header').textContent.toLowerCase();
+          var stateHit = head.indexOf(q) > -1;
+          var any = false;
+          Array.prototype.forEach.call(g.querySelectorAll('.city-row'), function (r) {
+            var hit = !q || stateHit || r.textContent.toLowerCase().indexOf(q) > -1;
+            r.style.display = hit ? '' : 'none';
+            if (hit) any = true;
+          });
+          g.style.display = any ? '' : 'none';
+        });
+      } else {
+        Array.prototype.forEach.call(active.querySelectorAll('.state-row'), function (r) {
+          var hit = !q || r.textContent.toLowerCase().indexOf(q) > -1;
+          r.style.display = hit ? '' : 'none';
+        });
+      }
+    });
+
+    /* Find-it search and category filter */
+    var findInput = byId('bsgFindInput');
+    var places = [];
+    /* CATEGORY + DESTINATION = RESULTS.
+       Destinations come from the city guides AND the city of every campground, so
+       "Cartersville, Georgia" exists even without a Cartersville guide page.
+       A campground only SETS the destination; it never narrows the results.
+       Each place: url  = its /explore/ results base (what categories use)
+                   page = its own page on the site (used to recognise clicks) */
+    function toSlug(t) {
+      return String(t || '').toLowerCase().split("'").join('')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+    function exploreUrl(stateName, city) {
+      return SITE + 'explore/' + toSlug(stateName) + SL + (city ? toSlug(city) + SL : '');
+    }
+    function buildPlaces() {
+      places = [];
+      var destByKey = {};
+      function addDest(city, stateName, page) {
+        var key = toSlug(city) + '|' + toSlug(stateName);
+        if (destByKey[key]) {
+          if (page && !destByKey[key].page) destByKey[key].page = page;
+          return destByKey[key];
+        }
+        var d = { label: city + ', ' + stateName, name: city + ', ' + stateName, city: city,
+          sub: 'Destination', kind: 'city', url: exploreUrl(stateName, city), page: page || '' };
+        destByKey[key] = d;
+        places.push(d);
+        return d;
+      }
+      STATES.forEach(function (s) {
+        places.push({ label: s.name, name: s.name, sub: 'State', kind: 'state',
+          url: exploreUrl(s.name, ''), page: stateUrl(s) });
+        s.cities.forEach(function (c) { addDest(c[0], s.name, cityUrl(c)); });
+      });
+      CAMP_LIST.forEach(function (c) {
+        var dest = null;
+        if (c.subtitle && c.subtitle.indexOf(',') > -1) {
+          dest = addDest(firstPart(c.subtitle), lastPart(c.subtitle), '');
+        }
+        places.push({ label: c.label, name: c.label,
+          sub: 'Campground' + (c.subtitle ? ' ' + String.fromCharCode(183) + ' ' + c.subtitle : ''),
+          kind: 'campground', url: dest ? dest.url : '', page: c.url, dest: dest,
+          guideUrl: SITE + 'explore/guide/' + slugOf(c.url) + SL });
+      });
+    }
+    buildPlaces();
+
+    /* ---- destination memory (session) ---- */
+    function getDest() {
+      var d = null;
+      try { d = JSON.parse(sessionStorage.getItem(DEST_KEY) || 'null'); } catch (e) { d = null; }
+      /* ignore anything saved by older versions (they pointed at guide pages) */
+      if (!d || d.v !== 2 || !d.url || d.url.indexOf(SL + 'explore' + SL) < 0) return null;
+      return d;
+    }
+    function setDest(p) {
+      var d;
+      if (p.kind === 'campground' && CAMP_RESULTS !== 'destination') {
+        d = { v: 2, kind: 'campground', name: p.label, url: SITE + 'explore/search/', page: p.page, via: '' };
+      } else if (p.kind === 'campground') {
+        if (!p.dest) return null;
+        d = { v: 2, kind: 'city', name: p.dest.name, url: p.dest.url, via: p.label };
+      } else if (p.kind === 'zip') {
+        d = { v: 2, kind: 'zip', name: p.name, url: p.url, via: '' };
+      } else {
+        d = { v: 2, kind: p.kind === 'state' ? 'state' : 'city', name: p.name || p.label, url: p.url, via: '' };
+      }
+      try { sessionStorage.setItem(DEST_KEY, JSON.stringify(d)); } catch (e) { }
+      showChip();
+      return d;
+    }
+    function clearDest() {
+      try { sessionStorage.removeItem(DEST_KEY); } catch (e) { }
+      showChip();
+    }
+    function placeByUrl(href) {
+      var sl = slugOf(href);
+      if (!sl) return null;
+      for (var i = 0; i < places.length; i++) {
+        if (places[i].page && slugOf(places[i].page) === sl) return places[i];
+      }
+      return null;
+    }
+    function inPhrase(d) {
+      return (d.kind === 'campground' ? 'Near ' : 'in ') + d.name;
+    }
+    /* real, crawlable results pages from the BlueSpot Local Guide plugin:
+       /explore/{place-slug}/{category}/ */
+    function catUrl(cat, d) {
+      if (d.kind === 'zip') {
+        return SITE + 'explore/search/?q=' + encodeURIComponent(cat.label + ' near ' + d.name);
+      }
+      /* campground: jump to that section of its own Local Area Guide page */
+      if (d.kind === 'campground' && CAMP_RESULTS === 'nearby') {
+        /* every business ad near the campground, matched by keywords */
+        return SITE + 'explore/search/?q=' + encodeURIComponent(cat.label + ' near ' + d.name);
+      }
+      if (d.kind === 'campground') {
+        /* older saved destinations have no page link: work it out from the saved URL */
+        var page = d.page ? String(d.page).split('#')[0] : SITE + slugOf(d.url) + SL;
+        return page + '#' + (GUIDE_ANCHORS[cat.key] || 'bsgWrap');
+      }
+      return d.url + cat.key + SL;
+    }
+    function shortName(d) {
+      if (d.kind === 'zip') return 'ZIP ' + d.name;
+      if (d.kind !== 'city') return d.name;
+      var bits = String(d.name).split(', ');
+      var st = bits.pop();
+      return bits.length && ABBR[st] ? bits.join(', ') + ', ' + ABBR[st] : d.name;
+    }
+    function goCategory(cat, d) { window.location.href = catUrl(cat, d); }
+
+    /* once a destination is known, the search bar becomes:
+       [pin] Exploring Macon, GA   Change  x      (or "Near Forsyth Station RV Resort") */
+    var exploring = byId('bsgExploring');
+    var findForm = byId('bsgFind');
+    var findLabel = findForm.querySelector('.bsg-find-label');
+    findLabel.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (!b) return;
+      e.preventDefault();
+      if (b.getAttribute('data-act') === 'clear') {
+        clearDest();
+        findInput.focus();
+      } else {
+        openLoc(null, '');
+      }
+    });
+    function showChip() {
+      var d = getDest();
+      if (!exploring) return;
+      if (!d || !d.url) {
+        exploring.hidden = true;
+        exploring.innerHTML = '';
+        findForm.hidden = false;
+        findLabel.textContent = "Already know where you're going?";
+        findInput.placeholder = 'Search food, attractions, a city, or ZIP code...';
+        return;
+      }
+      /* keep the search box; the label becomes "Exploring Stone Mountain Park  Change  x" */
+      exploring.hidden = true;
+      findForm.hidden = false;
+      findLabel.innerHTML = '<span class="bsg-exploring-text">' + (d.kind === 'campground' ? 'Near ' : 'Exploring ') +
+        '<strong>' + esc(shortName(d)) + '</strong></span>' +
+        '<button type="button" class="bsg-chip-btn" data-act="change">Change</button>' +
+        '<button type="button" class="bsg-chip-x" data-act="clear" aria-label="Clear destination">&times;</button>';
+      findInput.placeholder = 'Search tacos, golf, RV repair...';
+      if (findInput.value.trim()) liveSearch();
+    }
+    if (exploring) {
+      exploring.addEventListener('click', function (e) {
+        var b = e.target.closest ? e.target.closest('[data-act]') : null;
+        if (!b) return;
+        if (b.getAttribute('data-act') === 'clear') {
+          clearDest();
+          findInput.value = '';
+          findInput.focus();
+        } else {
+          openLoc(null, '');
+        }
+      });
+    }
+
+    /* ---- "Where are you headed?" popup ---- */
+    var modal = byId('bsgLoc');
+    var locInput = byId('bsgLocInput');
+    var locList = byId('bsgLocList');
+    var locTitle = byId('bsgLocTitle');
+    var pendingCat = null;
+    var hits = [];
+    var hi = 0;
+    var lastFocus = null;
+
+    function rank(q) {
+      q = q.toLowerCase().trim();
+      if (!q) return [];
+      /* a 5-digit ZIP code becomes a place of its own */
+      if (/^[0-9]{5}$/.test(q)) {
+        return [{ label: 'ZIP code ' + q, name: q, sub: 'Search near this ZIP code', kind: 'zip',
+          url: SITE + 'explore/search/' }];
+      }
+      var out = [];
+      places.forEach(function (p) {
+        var lab = p.label.toLowerCase();
+        var sub = String(p.sub || '').toLowerCase();
+        var sc = 0;
+        if (lab.indexOf(q) === 0) sc = 3;
+        else if (lab.indexOf(' ' + q) > -1) sc = 2;
+        else if (lab.indexOf(q) > -1 || sub.indexOf(q) > -1) sc = 1;
+        if (sc) out.push({ p: p, sc: sc + (p.kind === 'city' ? .3 : p.kind === 'state' ? .2 : 0) });
+      });
+      /* grouped: CAMPGROUNDS, DESTINATIONS, STATES - up to 5 of each */
+      var order = { campground: 0, city: 1, state: 2 };
+      out.sort(function (a, b) {
+        return (order[a.p.kind] - order[b.p.kind]) || (b.sc - a.sc) || a.p.label.localeCompare(b.p.label);
+      });
+      var per = {};
+      return out.filter(function (x) {
+        per[x.p.kind] = (per[x.p.kind] || 0) + 1;
+        return per[x.p.kind] <= 5;
+      }).map(function (x) { return x.p; });
+    }
+    var KIND_ICON = {
+      state: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/>',
+      zip: '<path d="M12 21s7-5.2 7-10a7 7 0 1 0-14 0c0 4.8 7 10 7 10Z"/><circle cx="12" cy="11" r="2.5"/>',
+      city: '<path d="M3 21h18M5 21V8l6-4v17M11 21V10h8v11M8 11h.01M8 15h.01M15 14h.01M15 18h.01"/>',
+      campground: '<rect x="2" y="6" width="14" height="10" rx="2"/><path d="M16 9h3l3 4v3h-6"/>' +
+        '<circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/><path d="M5 10h4"/>',
+      query: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/>'
+    };
+    /* free-text search: "Mexican food near Cartersville, GA" -> /explore/search/?q=... */
+    function searchUrl(q) {
+      var d = getDest();
+      if (d && !/ (near|in|around) /i.test(' ' + q + ' ')) q = q + ' near ' + d.name;
+      return SITE + 'explore/search/?q=' + encodeURIComponent(q);
+    }
+    function renderHits() {
+      var q = locInput.value;
+      var last = getDest();
+      hi = 0;
+      if (!q.trim() && last && last.url) {
+        hits = [{ label: last.name, name: last.name, sub: 'Your last destination',
+          kind: KIND_ICON[last.kind] ? last.kind : 'city', url: last.url, last: true }];
+      } else {
+        hits = rank(q);
+        if (!pendingCat && q.trim()) {
+          var near = / (near|in|around) /i.test(' ' + q + ' ');
+          var d0 = getDest();
+          var sq = { kind: 'query', label: 'Search for "' + q.trim() + '"', q: q.trim(),
+            sub: near ? 'Businesses and attractions' : (d0 ? 'Near ' + d0.name : 'Tip: add a place, e.g. tacos near Macon') };
+          /* a place that starts with what they typed stays first; otherwise the search does */
+          var placeFirst = hits.length && !near && hits[0].label.toLowerCase().indexOf(q.trim().toLowerCase()) === 0;
+          if (placeFirst) hits.splice(1, 0, sq); else hits.unshift(sq);
+        }
+      }
+      if (!q.trim() && !hits.length) {
+        locList.innerHTML = '<p class="bsg-loc-hint">Start typing a campground, city, or state.</p>';
+      } else if (!hits.length) {
+        locList.innerHTML = '<p class="bsg-loc-hint">No matches yet. Try a nearby city or the state name.</p>';
+      } else {
+        var GROUPS = { zip: 'ZIP Code', campground: 'Campgrounds', city: 'Destinations', state: 'States', query: '' };
+        var lastGroup = '';
+        locList.innerHTML = hits.map(function (p, i) {
+          var head = '';
+          if (!p.last && p.kind !== lastGroup) {
+            lastGroup = p.kind;
+            if (GROUPS[p.kind]) head = '<div class="bsg-loc-group" role="presentation">' + GROUPS[p.kind] + '</div>';
+          }
+          return head + '<button type="button" role="option" class="bsg-loc-opt' + (i === 0 ? ' on' : '') + (p.last ? ' last' : '') +
+            '" data-i="' + i + '" aria-selected="' + (i === 0) + '">' +
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' +
+            ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + KIND_ICON[p.kind] + '</svg>' +
+            '<span><strong>' + esc(p.label) + '</strong><small>' + esc(p.sub || '') + '</small></span></button>';
+        }).join('') + (hits[0] && hits[0].last ?
+          '<p class="bsg-loc-hint">Press Enter to keep it, or type to choose somewhere else.</p>' : '');
+      }
+      locInput.setAttribute('aria-expanded', hits.length ? 'true' : 'false');
+    }
+    function highlight(n) {
+      var opts = locList.querySelectorAll('.bsg-loc-opt');
+      if (!opts.length) return;
+      hi = (n + opts.length) % opts.length;
+      Array.prototype.forEach.call(opts, function (o, i) {
+        o.classList.toggle('on', i === hi);
+        o.setAttribute('aria-selected', i === hi ? 'true' : 'false');
+      });
+      opts[hi].scrollIntoView({ block: 'nearest' });
+    }
+    var locQ = modal ? modal.querySelector('.bsg-loc-q') : null;
+    var locField = modal ? modal.querySelector('.bsg-loc-field') : null;
+    function choose(p) {
+      if (p.kind === 'query') { window.location.href = searchUrl(p.q); return; }
+      var d = setDest(p);
+      if (!d) return;
+      var cat = pendingCat;
+      if (cat) { closeLoc(); goCategory(cat, d); return; }
+      showCatStep(d);
+    }
+    /* after choosing a place: "What are you looking for?" with big category buttons */
+    function showCatStep(d) {
+      hits = [];
+      locTitle.textContent = 'What are you looking for?';
+      locQ.innerHTML = PIN_ICON + ' ' + (d.kind === 'campground' ? 'Near ' : 'In ') + '<strong>' + esc(shortName(d)) + '</strong>';
+      locField.hidden = true;
+      locInput.setAttribute('aria-expanded', 'false');
+      locList.innerHTML = '<div class="bsg-loc-cats">' + CATEGORIES.map(function (c, i) {
+        return '<button type="button" class="bsg-loc-cat" data-cat="' + i + '">' +
+          '<span class="bsg-loc-cat-img">' + (c.img ? '<img src="' + esc(c.img) + '" alt="" loading="lazy">' : '') + icon(c.icon) + '</span>' +
+          '<span class="bsg-loc-cat-name">' + esc(c.label) + '</span></button>';
+      }).join('') + '</div>' +
+        '<form class="bsg-loc-kw" role="search"><input type="text" placeholder="Or search: tacos, golf, RV repair..." aria-label="Search for something specific">' +
+        '<button type="submit">Search</button></form>' +
+        '<div class="bsg-loc-foot"><button type="button" class="bsg-loc-back">' + String.fromCharCode(8592) + ' Choose a different place</button>' +
+        '<button type="button" class="bsg-loc-done">Done</button></div>';
+      var first = locList.querySelector('.bsg-loc-cat');
+      if (first) first.focus();
+    }
+    /* open the popup straight at "What are you looking for?" for a place just chosen */
+    function openCats(d) {
+      pendingCat = null;
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.documentElement.classList.add('bsg-loc-open');
+      showCatStep(d);
+    }
+    function openLoc(cat, q) {
+      pendingCat = cat;
+      lastFocus = document.activeElement;
+      locTitle.textContent = cat ? 'Find ' + cat.label + ' Near Your Destination' : 'Where are you headed?';
+      locQ.textContent = cat ? 'Where are you headed?' : 'Pick a campground, city, state, or ZIP code. Then choose what you need.';
+      locField.hidden = false;
+      locInput.value = q || '';
+      modal.hidden = false;
+      document.documentElement.classList.add('bsg-loc-open');
+      renderHits();
+      setTimeout(function () { locInput.focus(); }, 30);
+    }
+    function closeLoc() {
+      modal.hidden = true;
+      pendingCat = null;
+      document.documentElement.classList.remove('bsg-loc-open');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    if (modal) {
+      locInput.addEventListener('input', renderHits);
+      locInput.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); highlight(hi + 1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(hi - 1); }
+        else if (e.key === 'Enter') { e.preventDefault(); if (hits[hi]) choose(hits[hi]); }
+      });
+      locList.addEventListener('click', function (e) {
+        var t = e.target.closest ? e.target : null;
+        if (!t) return;
+        var b = t.closest('.bsg-loc-opt');
+        if (b) { choose(hits[parseInt(b.getAttribute('data-i'), 10)]); return; }
+        var c = t.closest('.bsg-loc-cat');
+        if (c) { var dd = getDest(); closeLoc(); if (dd) goCategory(CATEGORIES[parseInt(c.getAttribute('data-cat'), 10)], dd); return; }
+        if (t.closest('.bsg-loc-back')) { openLoc(null, ''); return; }
+        if (t.closest('.bsg-loc-done')) { closeLoc(); }
+      });
+      locList.addEventListener('submit', function (e) {
+        var f = e.target.closest ? e.target.closest('.bsg-loc-kw') : null;
+        if (!f) return;
+        e.preventDefault();
+        var v = f.querySelector('input').value.trim();
+        if (v) window.location.href = searchUrl(v);
+      });
+      modal.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('[data-close]')) closeLoc();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) closeLoc();
+        if (e.key === 'Tab' && !modal.hidden) {
+          var f = modal.querySelectorAll('button, input');
+          var first = f[0];
+          var last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+    }
+
+    /* category tile: known destination -> go straight there, otherwise ask */
+    catsEl.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('button.bsg-cat') : null;
+      if (!b) return;
+      var cat = CATEGORIES[parseInt(b.getAttribute('data-cat'), 10)];
+      var d = getDest();
+      if (d && d.url) goCategory(cat, d);
+      else openLoc(cat, '');
+    });
+
+    /* "Already know where you're going?" establishes the destination on its own.
+       Typing opens the grouped autocomplete; choosing a place stays on the homepage. */
+    var live = byId('bsgLive');
+    var liveHead = byId('bsgLiveHead');
+    var livePlaces = byId('bsgLivePlaces');
+    var liveGrid = byId('bsgLiveGrid');
+    var liveAll = byId('bsgLiveAll');
+    var liveTimer = null;
+    var liveSeq = 0;
+    function liveCard(b) {
+      var meta = [];
+      if (b.type) meta.push(esc(b.type));
+      if (b.miles !== null && b.miles !== undefined) meta.push(b.miles + ' mi away');
+      else if (b.where) meta.push(esc(b.where));
+      var btns = '';
+      if (b.maps) btns += '<a href="' + esc(b.maps) + '" target="_blank" rel="noopener">Directions</a>';
+      if (b.website) btns += '<a href="' + esc(b.website) + '" target="_blank" rel="noopener">Website</a>';
+      else if (b.facebook) btns += '<a href="' + esc(b.facebook) + '" target="_blank" rel="noopener">Facebook</a>';
+      if (b.phone) btns += '<a href="tel:' + esc(b.phone.replace(/[^0-9+]/g, '')) + '">Call</a>';
+      return '<article class="bsg-live-card">' +
+        '<div class="bsg-live-img' + (b.full_ad ? ' is-ad' : '') + '">' +
+        (b.image ? '<img src="' + esc(b.image) + '" alt="' + esc(b.name) + '" loading="lazy">' : '') +
+        (b.favorite ? '<span class="bsg-live-badge">Local Favorite</span>' : '') + '</div>' +
+        '<div class="bsg-live-body"><h4>' + esc(b.name) + '</h4>' +
+        (meta.length ? '<p class="bsg-live-meta">' + meta.join(' ' + String.fromCharCode(183) + ' ') + '</p>' : '') +
+        (b.tags && b.tags.length ? '<p class="bsg-live-tags">' + b.tags.map(esc).join(', ') + '</p>' : '') +
+        (btns ? '<div class="bsg-live-btns">' + btns + '</div>' : '') + '</div></article>';
+    }
+    function hideLive() {
+      live.hidden = true;
+      liveGrid.innerHTML = '';
+      livePlaces.innerHTML = '';
+    }
+    function liveSearch() {
+      var q = findInput.value.trim();
+      if (q.length < 2) { hideLive(); return; }
+      var d = getDest();
+      /* matching places, so a destination can still be picked with one click */
+      var pl = rank(q).slice(0, 4);
+      livePlaces.innerHTML = pl.map(function (p, i) {
+        return '<button type="button" class="bsg-live-place" data-i="' + i + '">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          KIND_ICON[p.kind] + '</svg>' + esc(p.label) + '</button>';
+      }).join('');
+      livePlaces.pl = pl;
+      live.hidden = false;
+      liveHead.innerHTML = 'Searching&hellip;';
+      var seq = ++liveSeq;
+      /* typed a place (ZIP, city, campground)? show what's near it instead of a keyword search */
+      var isZip = /^[0-9]{5}$/.test(q);
+      var exact = null;
+      for (var k = 0; k < pl.length; k++) {
+        if (pl[k].kind !== 'state' && (pl[k].label.toLowerCase() === q.toLowerCase() ||
+            (pl[k].city && pl[k].city.toLowerCase() === q.toLowerCase()))) { exact = pl[k]; break; }
+      }
+      var placeName = isZip ? q : (exact ? exact.name : '');
+      var url = SITE + 'wp-json/bsg/v1/search?limit=8' + (placeName ?
+        '&q=&near=' + encodeURIComponent(placeName) :
+        '&q=' + encodeURIComponent(q) + (d && d.name ? '&near=' + encodeURIComponent(d.name) : ''));
+      fetch(url).then(function (r) { return r.ok ? r.json() : { items: [] }; }).then(function (res) {
+        if (seq !== liveSeq) return;
+        var items = res.items || [];
+        var label = isZip ? 'ZIP ' + q : (exact ? exact.label : '');
+        if (placeName) {
+          liveHead.innerHTML = items.length ?
+            'Businesses near <strong>' + esc(label) + '</strong>. Tap it above to choose Food &amp; Dining, Things to Do and more.' :
+            'We don&rsquo;t have businesses near <strong>' + esc(label) + '</strong> yet. Try a nearby city or campground.';
+        } else {
+          liveHead.innerHTML = items.length ?
+            'Results for <strong>' + esc(q) + '</strong>' + (res.near ? ' near <strong>' + esc(res.near) + '</strong>' : '') :
+            'No businesses match <strong>' + esc(q) + '</strong>' + (res.near ? ' near ' + esc(res.near) : '') + ' yet.';
+        }
+        liveGrid.innerHTML = items.map(liveCard).join('');
+        liveAll.hidden = !items.length;
+        liveAll.href = placeName ? SITE + 'explore/search/?q=' + encodeURIComponent('near ' + placeName) : (res.more || searchUrl(q));
+      }).catch(function () {
+        if (seq !== liveSeq) return;
+        liveHead.textContent = 'Search is unavailable right now.';
+        liveGrid.innerHTML = '';
+        liveAll.hidden = true;
+      });
+    }
+    livePlaces.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.bsg-live-place') : null;
+      if (!b || !livePlaces.pl) return;
+      var dd = setDest(livePlaces.pl[parseInt(b.getAttribute('data-i'), 10)]);
+      findInput.value = '';
+      hideLive();
+      if (dd) openCats(dd);
+    });
+    findInput.addEventListener('input', function () {
+      clearTimeout(liveTimer);
+      liveTimer = setTimeout(liveSearch, 250);
+    });
+    byId('bsgFind').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = findInput.value.trim();
+      var ql = q.toLowerCase();
+      for (var i = 0; i < places.length; i++) {
+        var p = places[i];
+        if (q && (p.label.toLowerCase() === ql || (p.city && p.city.toLowerCase() === ql))) {
+          var dd = setDest(p);
+          findInput.value = '';
+          hideLive();
+          if (dd) openCats(dd);
+          return;
+        }
+      }
+      if (/^[0-9]{5}$/.test(q)) {
+        var zd = setDest(rank(q)[0]);
+        findInput.value = '';
+        hideLive();
+        if (zd) openCats(zd);
+        return;
+      }
+      if (q) window.location.href = searchUrl(q);
+      else openLoc(null, '');
+    });
+
+    /* any campground / city / state link clicked on the homepage becomes the destination */
+    root.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      var p = placeByUrl(a.getAttribute('href'));
+      if (p) setDest(p);
+    });
+
+    showChip();
+
+    loadCampgrounds();
+    loadArticles();
+    loadMap(root);
+  }
+
+  /* Campgrounds: rotating row of every campground in BSG_SEARCH_DATA */
+  function loadCampgrounds() {
+    var track = byId('bsgCamps');
+    if (!track) return;
+    var API = SITE + 'wp-json/wp/v2/';
+    var ELLIPSIS = String.fromCharCode(8230);
+
+    function getJSON(u) {
+      return fetch(u).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      });
+    }
+    function strip(h) {
+      var d = document.createElement('div');
+      d.innerHTML = h || '';
+      return (d.textContent || '').trim();
+    }
+    function cut(s, n) {
+      if (s.length <= n) return s;
+      var c = s.slice(0, n);
+      var sp = c.lastIndexOf(' ');
+      return (sp > 40 ? c.slice(0, sp) : c) + ELLIPSIS;
+    }
+    function detectBase() {
+      if (CAMP_TYPE) return Promise.resolve(CAMP_TYPE);
+      return getJSON(API + 'types').then(function (types) {
+        var keys = Object.keys(types);
+        for (var i = 0; i < keys.length; i++) {
+          var k = keys[i];
+          if (k === 'post' || k === 'page' || k === 'attachment') continue;
+          var label = k + ' ' + (types[k].name || '');
+          if (/campground|listing|location|propert|resort|rv.?park/i.test(label)) {
+            return types[k].rest_base || k;
+          }
+        }
+        return 'pages';
+      }).catch(function () { return 'pages'; });
+    }
+    function image(p) {
+      try {
+        var m = p._embedded['wp:featuredmedia'][0];
+        var sizes = m.media_details && m.media_details.sizes;
+        if (sizes && sizes.medium_large) return sizes.medium_large.source_url;
+        return m.source_url || '';
+      } catch (e) { return ''; }
+    }
+    function describe(p, title) {
+      /* page excerpts start with breadcrumb text; keep only what follows the last one */
+      var raw = strip(p && p.excerpt && p.excerpt.rendered);
+      var parts = raw.split(String.fromCharCode(8250)).map(function (x) { return x.trim(); });
+      var last = parts[parts.length - 1] || '';
+      if (title && last.indexOf(title) === 0) last = last.slice(title.length).trim();
+      return last.split('[').join('').split(']').join('');
+    }
+
+    /* 1. order: featured first, then everything else */
+    var bySlug = {};
+    CAMP_LIST.forEach(function (c) { bySlug[slugOf(c.url)] = c; });
+    var picks = [];
+    CAMP_FEATURED.forEach(function (sl) { if (bySlug[sl]) picks.push(bySlug[sl]); });
+    var rest = CAMP_LIST.filter(function (c) { return picks.indexOf(c) < 0; });
+    if (CAMP_SHUFFLE) {
+      for (var i = rest.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = rest[i]; rest[i] = rest[j]; rest[j] = t;
+      }
+    }
+    picks = picks.concat(rest);
+    if (!picks.length) {
+      picks = CAMP_FEATURED.map(function (sl) {
+        return { label: '', subtitle: '', url: SITE + sl + SL };
+      });
+    }
+    if (!picks.length) {
+      track.innerHTML = '<p style="flex:1;text-align:center;padding:20px 0;color:#8a9bbf;font-size:.85rem;">' +
+        'Featured campgrounds unavailable. <a href="' + SITE + 'explore-locations/" style="color:#1f63e2;">' +
+        'Browse all campgrounds &rarr;</a></p>';
+      return;
+    }
+
+    /* 2. draw every card now, fill photos + descriptions as they load */
+    track.innerHTML = picks.map(function (pick, i) {
+      return '<a class="bsg-card" data-slug="' + esc(slugOf(pick.url)) + '" href="' + esc(pick.url) + '">' +
+        media('', pick.label, i) +
+        '<div class="bsg-card-body">' +
+        '<h3 class="bsg-card-title">' + esc(pick.label) + '</h3>' +
+        (pick.subtitle ? '<div class="bsg-card-loc">' + esc(pick.subtitle) + '</div>' : '') +
+        '<div class="bsg-card-excerpt"></div>' +
+        '<span class="bsg-link">View Campground ' + ARROW_R + '</span>' +
+        '</div></a>';
+    }).join('');
+    makeCarousel('camps', track, 'bsgCampPrev', 'bsgCampNext', CAMP_ROTATE_MS, function (w) {
+      return w <= 600 ? 1 : (w <= 1100 ? 2 : 4);
+    }, function (idx, pv) { heroRange(track, idx, pv); });
+
+    function fill(items) {
+      if (!Array.isArray(items)) return;
+      items.forEach(function (p) {
+        Array.prototype.forEach.call(track.querySelectorAll('[data-slug="' + p.slug + '"]'), function (el) {
+          fillOne(el, p);
+        });
+      });
+    }
+    function fillOne(el, p) {
+      {
+        var tEl = el.querySelector('.bsg-card-title');
+        if (tEl && !tEl.textContent) tEl.textContent = strip(p.title && p.title.rendered);
+        var img = image(p);
+        var m = el.querySelector('.bsg-media');
+        if (img && m && !m.querySelector('img')) {
+          var im = document.createElement('img');
+          im.src = img;
+          im.alt = tEl ? tEl.textContent : '';
+          im.setAttribute('data-featured', '1');
+          im.loading = 'lazy';
+          im.onerror = function () { im.remove(); };
+          m.appendChild(im);
+        }
+        var ex = el.querySelector('.bsg-card-excerpt');
+        if (ex && !ex.textContent) ex.textContent = cut(describe(p, tEl ? tEl.textContent : ''), 95);
+      }
+    }
+    var slugs = picks.map(function (c) { return slugOf(c.url); });
+    var CHUNK = 12;
+    function run(base, from, retried) {
+      if (from >= slugs.length) return null;
+      var part = slugs.slice(from, from + CHUNK);
+      var q = API + base + '?_embed=1&per_page=' + part.length + '&' + part.map(function (s) {
+        return 'slug[]=' + encodeURIComponent(s);
+      }).join('&');
+      return getJSON(q).catch(function () { return []; }).then(function (items) {
+        if (from === 0 && !retried && (!items || !items.length) && base !== 'pages') {
+          return run('pages', 0, true);
+        }
+        fill(items);
+        return run(base, from + CHUNK, true);
+      });
+    }
+    detectBase().then(function (base) { return run(base, 0, false); });
+  }
+
+  /* Destinations: rotating row of all cities from BSG_SEARCH_DATA */
+  function loadDestinations() {
+    var track = byId('bsgDest');
+    if (!track) return;
+
+    var picks = CITY_LIST.slice();
+    if (!picks.length) {
+      picks = DEST_FEATURED.map(function (sl) {
+        var name = sl.split('near-').pop().split('-');
+        name.pop();
+        name = name.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+        return { city: name, state: '', url: SITE + sl + SL };
+      });
+    }
+    if (DEST_SHUFFLE) {
+      for (var i = picks.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = picks[i]; picks[i] = picks[j]; picks[j] = t;
+      }
+    }
+
+    track.innerHTML = picks.map(function (d, i) {
+      var sl = slugOf(d.url);
+      return '<a class="bsg-tile bsg-dest" data-slug="' + esc(sl) + '" href="' + esc(d.url) + '">' +
+        media(destImg(sl), d.city + (d.state ? ', ' + d.state : ''), i) +
+        '<span class="bsg-dest-text"><strong>' + esc(d.city) + '</strong>' +
+        (d.state ? '<span>' + esc(d.state) + '</span>' : '') + '</span></a>';
+    }).join('');
+    makeCarousel('dest', track, 'bsgDestPrev', 'bsgDestNext', DEST_ROTATE_MS, function (w) {
+      return w <= 480 ? 1 : (w <= 1100 ? 2 : 4);
+    }, function (idx, pv) {
+      heroRange(track, idx, pv, function (el) { return !!destImg(el.getAttribute('data-slug')); });
+    });
+
+    /* fill in featured images for tiles that don't have a snippet photo */
+    var need = picks.filter(function (d) { return !destImg(slugOf(d.url)); })
+      .map(function (d) { return slugOf(d.url); });
+    if (!need.length) return;
+    var q = SITE + 'wp-json/wp/v2/pages?_embed=1&per_page=100&_fields=slug,_links,_embedded&' +
+      need.map(function (s) { return 'slug[]=' + encodeURIComponent(s); }).join('&');
+    fetch(q).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function (items) {
+      (items || []).forEach(function (p) {
+        var img = '';
+        try {
+          var m = p._embedded['wp:featuredmedia'][0];
+          var sz = m.media_details && m.media_details.sizes;
+          img = (sz && sz.medium_large) ? sz.medium_large.source_url : (m.source_url || '');
+        } catch (e) { img = ''; }
+        if (!img) return;
+        Array.prototype.forEach.call(track.querySelectorAll('[data-slug="' + p.slug + '"] .bsg-media'), function (tile) {
+          if (tile.querySelector('img')) return;
+          var el = document.createElement('img');
+          el.src = img;
+          el.alt = '';
+          el.loading = 'lazy';
+          el.onerror = function () { el.remove(); };
+          tile.appendChild(el);
+        });
+      });
+    }).catch(function () { /* keep gradients */ });
+  }
+
+  /* Seamless looping carousel: the first cards are copied onto the end, so after
+     the last card the row keeps sliding forward instead of jumping back. */
+  var carousels = {};
+  function makeCarousel(key, track, prevId, nextId, ms, perViewFn, onShow) {
+    if (carousels[key]) carousels[key].stop();
+    var viewport = track.parentNode;
+    var prev = byId(prevId);
+    var next = byId(nextId);
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    Array.prototype.slice.call(track.querySelectorAll('[data-clone]')).forEach(function (c) {
+      track.removeChild(c);
+    });
+    var real = track.children.length;
+    var copies = Math.min(4, real);
+    for (var c = 0; c < copies; c++) {
+      var cl = track.children[c].cloneNode(true);
+      cl.setAttribute('data-clone', '1');
+      cl.setAttribute('aria-hidden', 'true');
+      cl.setAttribute('tabindex', '-1');
+      track.appendChild(cl);
+    }
+
+    var idx = 0;
+    var timer = null;
+    function perView() { return perViewFn(window.innerWidth); }
+    function canMove() { return real > perView(); }
+    function step() {
+      var first = track.children[0];
+      if (!first) return 0;
+      var cs = getComputedStyle(track);
+      var gap = parseFloat(cs.columnGap || cs.gap) || 16;
+      return first.offsetWidth + gap;
+    }
+    function place(animate) {
+      track.style.transition = animate ? '' : 'none';
+      track.style.transform = 'translateX(' + (-idx * step()) + 'px)';
+      if (!animate) {
+        void track.offsetWidth;
+        track.style.transition = '';
+      }
+      if (onShow) onShow(idx, perView());
+    }
+    function settle() {
+      /* sitting on the copies? swap back to the real cards invisibly */
+      if (idx >= real) { idx = idx - real; place(false); }
+    }
+    function go(i) {
+      if (!canMove()) { idx = 0; place(false); return; }
+      idx = i;
+      place(true);
+    }
+    function forward() { settle(); go(idx + 1); }
+    function back() {
+      settle();
+      if (!canMove()) return;
+      if (idx === 0) { idx = real; place(false); }
+      go(idx - 1);
+    }
+    track.ontransitionend = function (e) {
+      if (e.target === track) settle();
+    };
+
+    function stop() { if (timer) clearInterval(timer); timer = null; }
+    function play() {
+      stop();
+      if (still || !ms || !canMove()) return;
+      timer = setInterval(forward, ms);
+    }
+
+    if (prev) prev.onclick = function () { back(); play(); };
+    if (next) next.onclick = function () { forward(); play(); };
+    viewport.onmouseenter = stop;
+    viewport.onmouseleave = play;
+    viewport.onfocusin = stop;
+    viewport.onfocusout = play;
+    if (!carousels[key]) {
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(function () { if (carousels[key]) carousels[key].refit(); }, 120);
+      });
+    }
+    carousels[key] = {
+      stop: stop,
+      refit: function () { settle(); if (!canMove()) idx = 0; place(false); play(); }
+    };
+    idx = 0;
+    place(false);
+    play();
+  }
+
+  /* ---- Page hero image finder ----
+     Reads the page's Beaver Builder layout CSS (or the page itself) and takes
+     the first background image from the uploads folder. No regex is used so
+     optimisation plugins can't break it. */
+  var heroPending = {};
+  function heroCacheGet(k) {
+    try {
+      var v = JSON.parse(localStorage.getItem('bsgHero:' + k) || 'null');
+      if (v && (Date.now() - v.t) < HERO_CACHE_DAYS * 86400000) return v;
+    } catch (e) { }
+    return null;
+  }
+  function heroCacheSet(k, u) {
+    try { localStorage.setItem('bsgHero:' + k, JSON.stringify({ t: Date.now(), u: u })); } catch (e) { }
+  }
+  function bgUrls(text) {
+    var out = [];
+    var from = 0;
+    for (;;) {
+      var i = text.indexOf('background-image', from);
+      if (i < 0) break;
+      var u = text.indexOf('url(', i);
+      var semi = text.indexOf(';', i);
+      var close = text.indexOf('}', i);
+      var stop = Math.min(semi < 0 ? text.length : semi, close < 0 ? text.length : close);
+      if (u > -1 && u < stop) {
+        var e = text.indexOf(')', u);
+        var raw = text.slice(u + 4, e).split('&quot;').join('').split('"').join('').split("'").join('').trim();
+        var low = raw.toLowerCase();
+        if (low.indexOf('uploads') > -1 && low.indexOf('logo') < 0 && low.indexOf('.svg') < 0) {
+          if (raw.charAt(0) === '/' && raw.charAt(1) !== '/') raw = SITE + raw.slice(1);
+          out.push(raw);
+        }
+      }
+      from = i + 16;
+    }
+    return out;
+  }
+  function pageId(html) {
+    var keys = ['page-id-', 'postid-'];
+    for (var n = 0; n < keys.length; n++) {
+      var i = html.indexOf(keys[n]);
+      if (i < 0) continue;
+      var j = i + keys[n].length;
+      var k = j;
+      while (k < html.length && '0123456789'.indexOf(html.charAt(k)) > -1) k++;
+      if (k > j) return html.slice(j, k);
+    }
+    return '';
+  }
+  function layoutCssUrl(html) {
+    var id = pageId(html);
+    var k = id ? html.indexOf(id + '-layout') : -1;
+    if (k < 0) return '';
+    var st = Math.max(html.lastIndexOf('"', k), html.lastIndexOf("'", k));
+    if (st < 0) return '';
+    var en = html.indexOf(html.charAt(st), k);
+    return html.slice(st + 1, en).split('&#038;').join('&').split('&amp;').join('&');
+  }
+  function getHero(url) {
+    var slug = slugOf(url);
+    var c = heroCacheGet(slug);
+    if (c) return Promise.resolve(c.u);
+    if (heroPending[slug]) return heroPending[slug];
+    heroPending[slug] = fetch(url, { credentials: 'same-origin' }).then(function (r) {
+      return r.ok ? r.text() : '';
+    }).then(function (html) {
+      var css = layoutCssUrl(html);
+      var inPage = bgUrls(html);
+      if (!css) return inPage[0] || '';
+      return fetch(css).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+        return bgUrls(t)[0] || inPage[0] || '';
+      }).catch(function () { return inPage[0] || ''; });
+    }).catch(function () { return ''; }).then(function (u) {
+      heroCacheSet(slug, u || '');
+      return u || '';
+    });
+    return heroPending[slug];
+  }
+  function heroFor(el, skip) {
+    if (!USE_PAGE_HERO || !el || el.getAttribute('data-hero')) return;
+    if (skip && skip(el)) return;
+    el.setAttribute('data-hero', '1');
+    var href = el.getAttribute('href');
+    if (!href) return;
+    var slug = el.getAttribute('data-slug');
+    getHero(href).then(function (u) {
+      if (!u) return;
+      var box = el.parentNode;
+      var copies = (box && slug) ? box.querySelectorAll('[data-slug="' + slug + '"]') : [el];
+      Array.prototype.forEach.call(copies, function (node) {
+        node.setAttribute('data-hero', '1');
+        var m = node.querySelector('.bsg-media');
+        if (!m) return;
+        var im = m.querySelector('img');
+        if (!im) {
+          im = document.createElement('img');
+          im.alt = '';
+          im.loading = 'lazy';
+          m.appendChild(im);
+        }
+        im.onerror = function () { im.remove(); };
+        im.src = u;
+      });
+    });
+  }
+  /* load heroes for the cards on screen plus the next two */
+  function heroRange(track, idx, pv, skip) {
+    var end = Math.min(track.children.length, idx + pv + 2);
+    for (var k = idx; k < end; k++) heroFor(track.children[k], skip);
+  }
+
+  /* Articles, live from WordPress */
+  function loadArticles() {
+    var API = SITE + 'wp-json/wp/v2/posts?per_page=4&_embed=1&orderby=date&order=desc';
+    var CAT_LABELS = {
+      'campground-spotlight': 'Campground', 'family-travel': 'Family Travel',
+      'tips': 'Travel Tips', 'rv-tips': 'RV Tips', 'local-eats': 'Local Eats',
+      'things-to-do': 'Things To Do', 'guides': 'Area Guide',
+      'outdoor-activities': 'Outdoors', 'events': 'Events',
+      'community': 'Community', 'local-guide': 'Local Guide'
+    };
+    var grid = byId('articlesGrid');
+    if (!grid) return;
+
+    function strip(h) {
+      var d = document.createElement('div');
+      d.innerHTML = h;
+      return (d.textContent || '').trim();
+    }
+    function readTime(h) {
+      var words = strip(h).replace(/[^A-Za-z0-9 ]/g, ' ').split(' ')
+        .filter(function (w) { return w; }).length;
+      return Math.max(1, Math.round(words / 200)) + ' min read';
+    }
+    function fmtDate(s) {
+      return new Date(s).toLocaleDateString('en-US',
+        { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function catLabel(p) {
+      try {
+        var t = p._embedded['wp:term'][0];
+        for (var i = 0; i < t.length; i++) {
+          if (CAT_LABELS[t[i].slug]) return CAT_LABELS[t[i].slug];
+        }
+        if (t[0]) return t[0].name;
+      } catch (e) { }
+      return 'Article';
+    }
+    function img(p) {
+      try { return p._embedded['wp:featuredmedia'][0].source_url || ''; }
+      catch (e) { return ''; }
+    }
+    function card(p, i) {
+      var title = strip(p.title.rendered);
+      var tag = '<span class="art-tag">' + esc(catLabel(p)) + '</span>';
+      return '<a class="art-card" href="' + esc(p.link) + '">' +
+        media(img(p), title, i, tag) +
+        '<div class="art-title">' + esc(title) + '</div>' +
+        '<div class="art-meta">' + fmtDate(p.date) +
+        ' <span class="dot">&bull;</span> ' + readTime(p.content.rendered) +
+        '</div></a>';
+    }
+    function fail() {
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:20px 0;' +
+        'color:#8a9bbf;font-size:.85rem;">Articles unavailable. <a href="' + SITE +
+        'blog/" style="color:#1f63e2;">View blog &rarr;</a></p>';
+    }
+    fetch(API).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function (posts) {
+      if (!posts || !posts.length) { fail(); return; }
+      grid.innerHTML = posts.slice(0, 4).map(card).join('');
+    }).catch(fail);
+  }
+
+  /* Map */
+  function loadMap(root) {
+    var LINKS = {};
+    STATES.forEach(function (s) { LINKS[s.name] = stateUrl(s); });
+    var usData = null;
+    var lastW = 0;
+
+    function stateName(d) {
+      var id = String(d.id);
+      if (id.length < 2) id = '0' + id;
+      return NAMES[id] || '';
+    }
+    function mainCentroid(d, path) {
+      if (d.geometry.type !== 'MultiPolygon') return path.centroid(d);
+      var best = null;
+      var bestA = -1;
+      d.geometry.coordinates.forEach(function (c) {
+        var f = { type: 'Feature', geometry: { type: 'Polygon', coordinates: c } };
+        var a = path.area(f);
+        if (a > bestA) { bestA = a; best = f; }
+      });
+      return path.centroid(best);
+    }
+    function mapFail() {
+      var l = byId('bsgMapLoading');
+      if (l) l.textContent = 'Map unavailable.';
+    }
+
+    function syncPanelHeight(mapH) {
+      if (window.innerWidth <= 900) return;
+      var panel = byId('statesPanel');
+      var head = root.querySelector('.left-col > div:first-child');
+      var panelH = mapH - (head ? head.offsetHeight + 14 : 0);
+      if (!panel || panelH <= 100) return;
+      panel.style.height = (panelH + 1) + 'px';
+      var fixed = panel.querySelector('.states-tabs').offsetHeight +
+        panel.querySelector('.search-wrap').offsetHeight;
+      var scrollH = panelH - fixed;
+      if (scrollH > 40) {
+        byId('states-scroll').style.maxHeight = scrollH + 'px';
+        byId('cities-scroll').style.maxHeight = scrollH + 'px';
+      }
+    }
+
+    function renderMap(force) {
+      var mapCard = byId('mapCard');
+      var c = byId('bsg-map-container');
+      var loading = byId('bsgMapLoading');
+      var tt = byId('bsgTT');
+      if (!mapCard || !c || !usData) return;
+      var W = mapCard.offsetWidth || 700;
+      if (!force && W === lastW) return;
+      lastW = W;
+      var mobile = window.innerWidth <= 600;
+      var H = Math.round(W * 0.64);
+      c.innerHTML = '';
+      if (loading) loading.style.display = 'none';
+
+      var all = topojson.feature(usData, usData.objects.states);
+      var pad = 12;
+      var scriptEl = mapCard.querySelector('.map-script');
+      var reserve = (!mobile && scriptEl) ? scriptEl.offsetWidth + 4 : 0;
+      var right = W - pad - reserve;
+      var proj = d3.geoAlbersUsa().fitExtent([[pad, pad], [right, H - pad]], all);
+      var path = d3.geoPath().projection(proj);
+      /* push the map flush against the headline image */
+      var b = path.bounds(all);
+      var shift = right - b[1][0];
+      if (shift > 0) {
+        var tr = proj.translate();
+        proj.translate([tr[0] + shift, tr[1]]);
+      }
+
+      var svg = d3.select(c).append('svg')
+        .attr('viewBox', '0 0 ' + W + ' ' + H)
+        .attr('width', '100%').attr('height', H)
+        .attr('role', 'img')
+        .attr('aria-label', 'Map of states covered by BlueSpot Guide')
+        .style('display', 'block');
+
+      svg.selectAll('path.us-state').data(all.features).enter().append('path')
+        .attr('class', function (d) {
+          return 'us-state' + (LINKS[stateName(d)] ? ' served' : '');
+        })
+        .attr('d', path)
+        .on('mouseenter', function (e, d) {
+          var n = stateName(d);
+          var sub = LINKS[n] ?
+            '<span class="bsg-tt-sub">View campgrounds &rarr;</span>' :
+            '<span class="bsg-tt-sub" style="color:#94a3b8">Coming soon</span>';
+          tt.innerHTML = '<strong>' + esc(n) + '</strong>' + sub;
+          tt.classList.add('show');
+        })
+        .on('mousemove', function (e) {
+          tt.style.left = (e.clientX + 14) + 'px';
+          tt.style.top = (e.clientY - 52) + 'px';
+        })
+        .on('mouseleave', function () { tt.classList.remove('show'); })
+        .on('click', function (e, d) {
+          var u = LINKS[stateName(d)];
+          if (u) window.location.href = u;
+        });
+
+      svg.append('path').attr('class', 'us-mesh')
+        .datum(topojson.mesh(usData, usData.objects.states, function (a, b) {
+          return a !== b;
+        }))
+        .attr('d', path);
+
+      /* state abbreviations on every state */
+      var fs = Math.max(7, Math.min(11, W / 90));
+      var labels = svg.append('g').attr('class', 'us-labels');
+      all.features.forEach(function (d) {
+        var n = stateName(d);
+        if (!n || !ABBR[n]) return;
+        var ct = mainCentroid(d, path);
+        if (!ct || isNaN(ct[0])) return;
+        if (n === 'Florida') ct = [ct[0] + W * 0.018, ct[1] + H * 0.012];
+        if (n === 'Louisiana') ct = [ct[0] - W * 0.008, ct[1]];
+        labels.append('text')
+          .attr('class', 'us-state-label' + (LINKS[n] ? ' served' : ''))
+          .attr('x', ct[0]).attr('y', ct[1])
+          .style('font-size', fs + 'px')
+          .text(ABBR[n]);
+      });
+
+      syncPanelHeight(H);
+    }
+
+    function loadScript(src, cb) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.onload = cb;
+      s.onerror = mapFail;
+      document.head.appendChild(s);
+    }
+    function withLib(test, src, cb) {
+      if (test()) cb(); else loadScript(src, cb);
+    }
+
+    var D3_URL = PROTO + 'cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
+    var TOPO_URL = PROTO + 'cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js';
+    var ATLAS_URL = PROTO + 'cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
+
+    withLib(function () { return window.d3 && window.d3.geoAlbersUsa; }, D3_URL, function () {
+      withLib(function () { return window.topojson; }, TOPO_URL, function () {
+        fetch(ATLAS_URL)
+          .then(function (r) { return r.json(); })
+          .then(function (us) {
+            usData = us;
+            setTimeout(function () { renderMap(true); }, 80);
+            setTimeout(function () { renderMap(true); }, 400);
+            var t;
+            window.addEventListener('resize', function () {
+              clearTimeout(t);
+              t = setTimeout(function () { renderMap(false); }, 120);
+            });
+          })
+          .catch(mapFail);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

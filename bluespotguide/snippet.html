@@ -1,0 +1,95 @@
+
+(function () {
+  'use strict';
+  var KEY = 'bsgDestination';
+  /* must match CAMP_RESULTS in the homepage module: 'nearby', 'guide' or 'destination' */
+  var CAMP_RESULTS = 'nearby';
+  var SL = '/';
+
+  function toSlug(t) {
+    return String(t || '').toLowerCase().split("'").join('')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function slugOf(href) {
+    var parts = String(href || '').split('?')[0].split('#')[0].split(SL).filter(function (x) { return x; });
+    return parts[parts.length - 1] || '';
+  }
+  function firstPart(s) { return String(s || '').split(',')[0].trim(); }
+  function lastPart(s) { var p = String(s || '').split(','); return p[p.length - 1].trim(); }
+  function exploreUrl(stateName, city) {
+    return location.origin + SL + 'explore' + SL + toSlug(stateName) + SL + (city ? toSlug(city) + SL : '');
+  }
+  function save(d) {
+    try { sessionStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { }
+  }
+
+  var done = false;
+  function run() {
+    var data = window.BSG_SEARCH_DATA;
+    if (done || !data) return;
+    done = true;
+    var slug = slugOf(location.pathname);
+    if (!slug) return;
+    var i;
+
+    var camps = data.campgrounds || [];
+    for (i = 0; i < camps.length; i++) {
+      if (slugOf(camps[i].href) === slug) {
+        var sub = camps[i].subtitle || '';
+        if (CAMP_RESULTS !== 'destination') {
+          save({ v: 2, kind: 'campground', name: camps[i].label,
+            url: location.origin + SL + 'explore' + SL + 'guide' + SL + slug + SL,
+            page: location.origin + location.pathname, via: '' });
+        } else if (sub.indexOf(',') > -1) {
+          save({ v: 2, kind: 'city', name: firstPart(sub) + ', ' + lastPart(sub),
+            url: exploreUrl(lastPart(sub), firstPart(sub)), via: camps[i].label });
+        }
+        return;
+      }
+    }
+    var cities = data.cities || [];
+    for (i = 0; i < cities.length; i++) {
+      if (slugOf(cities[i].href) === slug) {
+        var cs = cities[i].subtitle || '';
+        save({ v: 2, kind: 'city', name: firstPart(cs) + ', ' + lastPart(cs),
+          url: exploreUrl(lastPart(cs), firstPart(cs)), via: '' });
+        return;
+      }
+    }
+    var states = data.states || [];
+    for (i = 0; i < states.length; i++) {
+      if (slugOf(states[i].href) === slug) {
+        var st = String(states[i].label || '').split('Campgrounds in ').join('').trim();
+        save({ v: 2, kind: 'state', name: st, url: exploreUrl(st, ''), via: '' });
+        return;
+      }
+    }
+  }
+
+  /* Arriving at a guide section from the homepage (e.g. /stone-mountain-park/#bsg-things):
+     the guide draws its sections with JavaScript after the page loads, so wait for the
+     section to exist, then scroll to it below the sticky menus. */
+  function jumpToSection() {
+    var id = (location.hash || '').slice(1);
+    if (id.indexOf('bsg-') !== 0 && id !== 'bsgWrap') return;
+    var tries = 0;
+    var timer = setInterval(function () {
+      var el = document.getElementById(id);
+      tries++;
+      if (el || tries > 40) {
+        clearInterval(timer);
+        if (!el) el = document.getElementById('bsgWrap');
+        if (!el) return;
+        if (typeof window.bsgApplyOffsets === 'function') window.bsgApplyOffsets();
+        var nav = document.getElementById('bsgNav');
+        var offset = (nav ? nav.getBoundingClientRect().height : 0) + 90;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - offset, behavior: 'smooth' });
+      }
+    }, 150);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+  window.addEventListener('load', run);
+  window.addEventListener('load', jumpToSection);
+})();
