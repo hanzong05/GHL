@@ -1,0 +1,219 @@
+<!-- BlueSpot Guide — Global footer (Beaver Builder HTML module / Themer footer, Row = Full Width, no padding). Pairs with newsletter.html -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap');
+
+  /* ================= TOKENS / BASE ================= */
+  #bsg-ft {
+    /* BlueSpot Guide Brand Kit v1.0 — BlueSpot Blue #005baa, Accent Red #e82427 (sparingly),
+       Black #000000, Charcoal #2e2e2e, White #ffffff. Fonts: Poppins + Kaushan Script (accents). */
+    --blue: #005baa; --blue-d: #004a8c; --red: #e82427; --black: #000000; --charcoal: #2e2e2e; --white: #ffffff;
+    --navy: #0b2148; --navy-d: #081a3a; --line: #d6e2f0;
+    --muted: #5a5a5a; --ink: var(--charcoal);
+    --script: 'Kaushan Script', 'Brush Script MT', cursive;
+    font-family: 'Poppins', system-ui, sans-serif; color: #fff;
+    -webkit-font-smoothing: antialiased; position: relative; overflow-x: clip;
+  }
+  #bsg-ft *, #bsg-ft *::before, #bsg-ft *::after { box-sizing: border-box; }
+  #bsg-ft a { text-decoration: none; color: inherit; }
+  #bsg-ft h2, #bsg-ft h3, #bsg-ft p, #bsg-ft ul { margin: 0; padding: 0; }
+  #bsg-ft ul { list-style: none; }
+  #bsg-ft :focus-visible { outline: 2px solid #6fa3ff; outline-offset: 3px; border-radius: 4px; }
+  /* same content width as the site header (.bs-header-inner): 1280px / 48px gutters, 1600px / 80px on big screens */
+  #bsg-ft .bsg-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1; }
+  @media (min-width: 1600px) { #bsg-ft .bsg-container { max-width: 1600px; padding: 0 80px; } }
+  @media (max-width: 900px)  { #bsg-ft .bsg-container { padding: 0 32px !important; } }
+  @media (max-width: 600px)  { #bsg-ft .bsg-container { padding: 0 20px !important; } }
+  #bsg-ft .bsg-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ================= FOOTER ================= */
+  #bsg-ft .ft {
+    position: relative; overflow: hidden; color: #fff;
+    background-color: var(--navy-d);
+    /* background photo + a soft navy wash so the white text stays readable */
+    background-image:
+      linear-gradient(180deg, rgba(8,26,58,.25) 0%, rgba(8,26,58,.05) 55%, rgba(8,26,58,.3) 100%),
+      url('https://bluespotguide.com/wp-content/uploads/2026/10/Misty-Blue-Mountain-Nightscape.png');
+    background-size: cover; background-position: center bottom; background-repeat: no-repeat;
+  }
+  #bsg-ft .ft-main {
+    display: grid; grid-template-columns: 22fr 17fr 20fr 17fr 20fr;
+    padding: clamp(28px, 2.2vw, 44px) 0 clamp(26px, 2vw, 40px);
+  }
+  #bsg-ft .ft-col { padding: 0 clamp(16px, 2.2vw, 40px); }
+  #bsg-ft .ft-col + .ft-col { border-left: 1px solid rgba(255,255,255,.16); }
+  #bsg-ft .ft-col:first-child { padding-left: 0; padding-right: clamp(16px, 2.2vw, 40px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+  #bsg-ft .ft-col:last-child { padding-right: 0; display: flex; align-items: center; justify-content: center; }
+
+  #bsg-ft .ft-logo img { display: block; width: clamp(190px, 13vw, 270px); max-width: 100%; height: auto; }
+  #bsg-ft .ft-tag { margin-top: 12px; font-size: clamp(.9rem, .95vw, 1.15rem); font-weight: 600 !important; text-transform: uppercase !important; color: #e7eefc; letter-spacing: .04em; white-space: nowrap; }
+  #bsg-ft .ft-social { display: flex; gap: 10px; margin-top: 16px; }
+  #bsg-ft .ft-social a {
+    width: clamp(36px, 2.5vw, 48px); height: clamp(36px, 2.5vw, 48px); border-radius: 50%; display: grid; place-items: center;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); color: #fff;
+    transition: background .15s, transform .15s, border-color .15s;
+  }
+  #bsg-ft .ft-social a:hover { background: var(--blue); border-color: var(--blue); transform: translateY(-2px); }
+  #bsg-ft .ft-social svg { width: 17px; height: 17px; }
+
+  #bsg-ft .ft-h { white-space: nowrap; font-size: clamp(.82rem, .85vw, 1.05rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
+  #bsg-ft .ft-h::after { content: ''; display: block; width: 46px; height: 4px; border-radius: 2px; background: var(--blue); margin: 8px 0 14px; }
+  #bsg-ft .ft-links li + li { margin-top: clamp(6px, .55vw, 11px); }
+  #bsg-ft .ft-links a { white-space: nowrap; font-size: clamp(.88rem, .9vw, 1.1rem); color: #e3eafa; transition: color .15s; }
+  #bsg-ft .ft-links a:hover { color: #8cc0f0; }
+
+  #bsg-ft .ft-brand-art { position: relative; width: 100%; text-align: center; line-height: 0; }
+  #bsg-ft .ft-brand-art img.ft-slogan-img { display: block !important; width: clamp(190px, 14vw, 290px) !important; max-width: 100% !important; height: auto !important; margin: -8% auto !important; opacity: 1 !important; visibility: visible !important; }
+
+  #bsg-ft .ft-bar { border-top: 1px solid rgba(255,255,255,.14); padding: 14px 0 18px; text-align: center; position: relative; z-index: 1; }
+  #bsg-ft .ft-legal { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; row-gap: 6px; }
+  #bsg-ft .ft-legal li { display: flex; align-items: center; }
+  #bsg-ft .ft-legal li + li::before { content: '|'; margin: 0 14px; color: rgba(255,255,255,.55); }
+  #bsg-ft .ft-legal a, #bsg-ft .ft-legal button {
+    font: 400 clamp(.8rem, .8vw, .98rem) 'Poppins', system-ui, sans-serif; color: #e3eafa; background: none; border: 0; padding: 0; cursor: pointer;
+    text-transform: none; letter-spacing: 0; line-height: 1.4;
+  }
+  #bsg-ft .ft-legal a:hover, #bsg-ft .ft-legal button:hover { color: #8cc0f0; }
+  #bsg-ft .ft-copy { margin-top: 12px; font-size: clamp(.72rem, .7vw, .86rem); color: #c9d4ec; line-height: 1.55; }
+  #bsg-ft .ft-copy + .ft-copy { margin-top: 4px; }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 1100px) {
+    #bsg-ft .ft-main { grid-template-columns: repeat(3, 1fr); row-gap: 34px; }
+    #bsg-ft .ft-col:first-child { grid-column: 1 / -1; padding: 0 0 28px; border-bottom: 1px solid rgba(255,255,255,.16); }
+    #bsg-ft .ft-col:nth-child(2) { border-left: 0; padding-left: 0; }
+    #bsg-ft .ft-col:last-child { grid-column: 1 / -1; border-left: 0; padding: 26px 0 0; border-top: 1px solid rgba(255,255,255,.16); }
+  }
+  @media (max-width: 768px) {
+    #bsg-ft .ft-main { grid-template-columns: 1fr 1fr; }
+    #bsg-ft .ft-col:nth-child(4) { border-left: 0; padding-left: 0; }
+    #bsg-ft .ft-col:nth-child(3) { padding-right: 0; }
+    #bsg-ft .ft-legal li + li::before { margin: 0 10px; }
+  }
+  @media (max-width: 560px) {
+    #bsg-ft .ft-main { grid-template-columns: 1fr; }
+    #bsg-ft .ft-col { padding: 0 !important; border-left: 0 !important; }
+    #bsg-ft .ft-col:not(:first-child):not(:last-child) { padding-bottom: 6px !important; }
+    #bsg-ft .ft-col:first-child { padding-bottom: 28px !important; }
+    #bsg-ft .ft-col:last-child { padding-top: 26px !important; }
+    #bsg-ft .ft-legal { flex-direction: column; }
+    #bsg-ft .ft-legal li + li::before { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #bsg-ft * { transition: none !important; animation: none !important; }
+  }
+
+  /* ===== BRAND FONTS (enforced so the theme can't override them) =====
+     Poppins = all text. The "More Trips. Brighter Days." art is the official image file. */
+  #bsg-ft, #bsg-ft *:not(svg):not(path) { font-family: 'Poppins', system-ui, sans-serif !important; }
+</style>
+
+<div id="bsg-ft">
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft" aria-label="Site footer">
+
+
+    <div class="bsg-container">
+      <div class="ft-main">
+        <!-- Brand -->
+        <div class="ft-col">
+          <a class="ft-logo" href="/" aria-label="BlueSpot Guide home">
+            <img src="https://bluespotguide.com/wp-content/uploads/2021/08/Asset-38@3x-scaled.png" alt="BlueSpot Guide" width="260" height="80" loading="lazy">
+          </a>
+          <p class="ft-tag">Where to go. What to do.</p>
+          <ul class="ft-social" aria-label="BlueSpot Guide on social media">
+            <li><a href="https://www.facebook.com/BlueSpotConnect/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.6V21h2.9z"/></svg></a></li>
+            <li><a href="https://www.instagram.com/bluespot.connect/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a></li>
+            <li><a href="https://x.com/BlueSpotConnect" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg></a></li>
+            <li><a href="https://www.tiktok.com/@gobluespot" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.3 2.2 1.6 3.7 3.9 3.9v2.8c-1.4.1-2.6-.3-3.9-1.1v5.7c0 7.3-8 9.6-11.2 4.4-2.1-3.4-.8-9.3 6-9.6v3c-.5.1-1.1.2-1.6.4-1.5.5-2.4 1.5-2.1 3.2.5 3.3 6.5 4.3 6-2.2V3h2.9z"/></svg></a></li>
+            <li><a href="https://www.youtube.com/@BlueSpotConnect" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.6 2.6 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.6 2.6 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.6 2.6 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg></a></li>
+          </ul>
+        </div>
+
+        <!-- Explore -->
+        <nav class="ft-col" aria-labelledby="bsgFtExplore">
+          <h3 class="ft-h" id="bsgFtExplore">Explore</h3>
+          <ul class="ft-links">
+            <li><a href="https://bluespotguide.com/explore-locations/">Campgrounds</a></li><!-- TODO: change to /campgrounds/ once that page is built -->
+            <li><a href="https://bluespotguide.com/destinations/">Destinations</a></li>
+            <li><a href="https://bluespotguide.com/category/local-guide/">Local Guides</a></li>
+            <li><a href="https://bluespotguide.com/category/things-to-do/">Things to Do</a></li>
+            <li><a href="https://bluespotguide.com/premier-property/">Premier Properties</a></li>
+          </ul>
+        </nav>
+
+        <!-- Plan & Inspire -->
+        <nav class="ft-col" aria-labelledby="bsgFtPlan">
+          <h3 class="ft-h" id="bsgFtPlan">Plan &amp; Inspire</h3>
+          <ul class="ft-links">
+            <li><a href="https://bluespotguide.com/blog/">Travel Inspiration</a></li>
+            <li><a href="https://bluespotguide.com/category/tips/">Camping Tips</a></li>
+            <li><a href="https://bluespotguide.com/category/rv-tips/">RV Tips &amp; Essentials</a></li>
+            <li><a href="https://bluespotguide.com/category/family-travel/">Family Travel</a></li>
+            <li><a href="https://bluespotguide.com/category/campground-spotlight/">Campground Spotlights</a></li>
+          </ul>
+        </nav>
+
+        <!-- BlueSpot -->
+        <nav class="ft-col" aria-labelledby="bsgFtBrand">
+          <h3 class="ft-h" id="bsgFtBrand">BlueSpot</h3>
+          <ul class="ft-links">
+            <li><a href="https://bluespotguide.com/about-us/">About Us</a></li>
+            <li><a href="https://bluespotguide.com/contact/">Partner With Us</a></li><!-- TODO: change to /partner-with-us/ once that page is built -->
+            <li><a href="https://bluespotconnect.com/" target="_blank" rel="noopener">List Your Property</a></li>
+            <li><a href="https://bluespotguide.com/help-center/">Help Center</a></li>
+            <li><a href="https://bluespotguide.com/contact/">Contact Us</a></li>
+          </ul>
+        </nav>
+
+        <!-- Slogan art -->
+        <div class="ft-col">
+          <div class="ft-brand-art">
+            <img src="https://bluespotguide.com/wp-content/uploads/2026/10/More-Trips-Brighter-Days-1.png" alt="More Trips. Brighter Days." width="1254" height="1254" data-no-lazy="1" class="ft-slogan-img skip-lazy no-lazyload">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal bar -->
+    <div class="ft-bar">
+      <div class="bsg-container">
+        <ul class="ft-legal" aria-label="Legal and privacy">
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/privacy-choices/" data-bsg-privacy="choices">Your Privacy Choices</a></li>
+          <li><a href="/california-privacy-rights/">California Privacy Rights</a></li>
+          <li><a href="/do-not-sell-or-share/" data-bsg-privacy="optout">Do Not Sell or Share My Personal Information</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="/accessibility/">Accessibility</a></li>
+        </ul>
+        <p class="ft-copy">© <span id="bsgYear">2026</span> BlueSpot Advertising, LLC. All rights reserved. BlueSpot® is a registered trademark of BlueSpot Advertising, LLC. BlueSpot Guide is a brand of BlueSpot Advertising, LLC.</p>
+        <p class="ft-copy">The BlueSpot name, logos, designs, and brand assets are proprietary to BlueSpot Advertising, LLC. Unauthorized reproduction, imitation, modification, distribution, or commercial use is prohibited except as permitted by law or with prior written authorization.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.getElementById('bsg-ft');
+  if (!root) return;
+
+  var y = document.getElementById('bsgYear');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* Privacy links: if a consent manager is loaded, open it instead of the static page.
+     Supports common CMPs; otherwise the link falls through to its URL. */
+  root.querySelectorAll('[data-bsg-privacy]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var w = window;
+      if (w.Osano && w.Osano.cm && w.Osano.cm.showDrawer) { e.preventDefault(); w.Osano.cm.showDrawer('osano-cm-dom-info-dialog-open'); }
+      else if (w.OneTrust && w.OneTrust.ToggleInfoDisplay) { e.preventDefault(); w.OneTrust.ToggleInfoDisplay(); }
+      else if (w.termly && w.termly.displayPreferenceModal) { e.preventDefault(); w.termly.displayPreferenceModal(); }
+    });
+  });
+})();
+</script>

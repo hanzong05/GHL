@@ -1,0 +1,706 @@
+<!-- BlueSpot Guide — Hero (Beaver Builder HTML module, Row = Full Width) -->
+<!-- Brand Kit v1.0: Poppins for all text, BlueSpot Blue #005baa. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap');
+
+  #bsg-hero {
+    --blue:       #005baa;   /* BlueSpot Blue */
+    --blue-hover: #004a8c;
+    --blue-light: #e8f1fa;
+    --accent:     #3d8fdc;   /* lighter tint of BlueSpot Blue so "Here." reads on dark photos */
+    --text-dark:  #0b2148;
+    --text-mid:   #2e2e2e;   /* Charcoal */
+    --text-muted: #6b6b6b;
+
+    position: relative;
+    z-index: 50;             /* keeps the search dropdown above the sections below the hero */
+    font-family: 'Poppins', system-ui, sans-serif;
+    overflow: visible;
+    width: 100%;
+    background: #0b1a33;
+  }
+
+  #bsg-hero *, #bsg-hero *::before, #bsg-hero *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── SLIDESHOW BACKGROUND ── */
+  #bsg-hero .bsg-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  #bsg-hero .bsg-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+  /* the new slide fades in ON TOP of the old one, which stays fully visible underneath
+     (no see-through "double exposure" halfway through the fade) */
+  #bsg-hero .bsg-slide.active { opacity: 1; z-index: 2; }
+  #bsg-hero .bsg-slide.prev   { opacity: 1; z-index: 1; transition: none; }
+
+  /* one overlay for all slides: darker on the left for the text, clear on the right,
+     with a soft shade behind the tagline so the script stays readable on busy photos */
+  #bsg-hero .bsg-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background-image:
+      radial-gradient(ellipse 26% 42% at 68% 34%, rgba(5,12,30,.30) 0%, rgba(5,12,30,0) 100%),
+      linear-gradient(to right, rgba(5,12,30,.78) 0%, rgba(5,12,30,.50) 42%, rgba(5,12,30,.08) 72%, rgba(5,12,30,0) 100%),
+      linear-gradient(to top, rgba(5,12,30,.35) 0%, rgba(5,12,30,0) 35%);
+  }
+
+  /* ── SLIDESHOW DOTS (24px tap area, 8px dot) ── */
+  #bsg-hero .bsg-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+    z-index: 10;
+  }
+  #bsg-hero .bsg-dot {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  #bsg-hero .bsg-dot::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.40);
+    transition: background .3s, transform .3s;
+  }
+  #bsg-hero .bsg-dot[aria-current="true"]::before { background: #fff; transform: scale(1.3); }
+  #bsg-hero .bsg-dot:focus-visible { outline: 2px solid #fff; outline-offset: 0; border-radius: 50%; }
+
+  /* ── LAYOUT ── */
+  #bsg-hero .bsg-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 88px 48px 72px;
+    display: grid;
+    grid-template-columns: minmax(0, 640px) 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  #bsg-hero .bsg-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* ── TEXT — standard BlueSpot hero type (matches the Destinations hero):
+     Poppins ExtraBold headline with tight tracking + Poppins Bold subheading ── */
+  #bsg-hero .bsg-headline {
+    font-size: clamp(2.8rem, 5.2vw, 4.6rem);
+    font-weight: 800;
+    line-height: .98;
+    color: #fff;
+    letter-spacing: -.04em;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 24px rgba(0,0,0,.25);
+  }
+  #bsg-hero .bsg-headline .accent { color: var(--accent); }
+
+  #bsg-hero .bsg-sub {
+    font-size: clamp(1.1rem, 1.45vw, 1.45rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    letter-spacing: -.01em;
+    max-width: 600px;
+    text-shadow: 0 1px 12px rgba(0,0,0,.3);
+  }
+  /* secondary copy (regular weight, like the Destinations hero paragraph) */
+  #bsg-hero .bsg-copy {
+    font-size: 1.02rem;
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.55;
+    max-width: 560px;
+    margin: 12px 0 26px;
+    text-shadow: 0 1px 12px rgba(0,0,0,.3);
+  }
+
+  /* ── SEARCH ── */
+  #bsg-hero .bsg-search-wrap {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    max-width: 560px;
+    margin-bottom: 26px;
+  }
+  #bsg-hero .bsg-search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 999px;
+    padding: 7px 7px 7px 18px;
+    box-shadow: 0 10px 36px rgba(0,0,0,.28);
+    gap: 10px;
+  }
+  #bsg-hero .bsg-search-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--blue);
+  }
+  #bsg-hero .bsg-search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: max(16px, .95rem);
+    color: var(--text-dark);
+    padding: 8px 0;
+  }
+  #bsg-hero .bsg-search-input::placeholder { color: var(--text-muted); }
+  #bsg-hero .bsg-search-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 11px 22px;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: .92rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .18s ease;
+  }
+  #bsg-hero .bsg-search-btn:hover  { background: var(--blue-hover); }
+  #bsg-hero .bsg-search-btn:active { opacity: .88; }
+
+  /* ── DROPDOWN ── */
+  #bsg-hero .bsg-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 16px 48px rgba(2,9,24,.26);
+    border: 1px solid rgba(0,91,170,.12);
+    max-height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,91,170,.38) rgba(0,91,170,.06);
+  }
+  #bsg-hero .bsg-dropdown::-webkit-scrollbar       { width: 7px; }
+  #bsg-hero .bsg-dropdown::-webkit-scrollbar-track { background: rgba(0,91,170,.06); border-radius: 999px; }
+  #bsg-hero .bsg-dropdown::-webkit-scrollbar-thumb { background: rgba(0,91,170,.36); border-radius: 999px; border: 2px solid #fff; }
+  #bsg-hero .bsg-dropdown.open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+
+  #bsg-hero .bsg-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 13px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    text-align: left;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: .92rem;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: background .14s;
+  }
+  #bsg-hero .bsg-opt:hover,
+  #bsg-hero .bsg-opt.active { background: var(--blue-light); color: var(--blue); }
+  #bsg-hero .bsg-opt strong { display: block; font-size: .92rem; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+  #bsg-hero .bsg-opt span   { font-size: .8rem; color: var(--text-muted); }
+  #bsg-hero .bsg-opt svg    { flex-shrink: 0; margin-top: 2px; }
+  #bsg-hero .bsg-empty      { padding: 13px 15px; font-size: .9rem; color: var(--text-muted); }
+
+  /* ── SPACER where the category buttons used to be (keeps the hero the same height) ── */
+  #bsg-hero .bsg-nav-space { height: 48px; width: 100%; }
+
+  /* ── RIGHT-SIDE SCRIPT ── */
+  #bsg-hero .bsg-tagline {
+    justify-self: start;
+    align-self: start;
+    margin-top: 40px;
+    pointer-events: none;
+  }
+  #bsg-hero .bsg-tagline img {
+    display: block;
+    width: clamp(180px, 18vw, 300px);
+    height: auto;
+    max-width: none;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,.35));
+  }
+
+  /* ── SHARED HERO STANDARD: every page hero uses this desktop height ── */
+  @media (min-width: 901px) {
+    #bsg-hero .bsg-inner { min-height: clamp(580px, 42vw, 760px); }
+  }
+  @media (max-width: 900px) { #bsg-hero .bsg-inner { min-height: 520px; align-content: center; } }
+  @media (max-width: 600px) { #bsg-hero .bsg-inner { min-height: 470px; } }
+
+  @media (min-width: 1024px) and (max-width: 1599px) {
+    #bsg-hero .bsg-nav-space { height: 42px; }
+  }
+
+  /* ── SMALL LAPTOP: narrower text column so the tagline clears the dog ── */
+  @media (max-width: 1200px) {
+    #bsg-hero .bsg-inner { grid-template-columns: minmax(0, 560px) 1fr; }
+  }
+
+  /* ── TABLET ── */
+  @media (max-width: 900px) {
+    #bsg-hero .bsg-inner    { grid-template-columns: minmax(0, 1fr); padding: 72px 32px 60px; }
+    #bsg-hero .bsg-headline { font-size: clamp(2.6rem, 7vw, 3.6rem); }
+    #bsg-hero .bsg-sub      { font-size: 1.12rem; }
+    #bsg-hero .bsg-tagline  { display: none; }
+    #bsg-hero .bsg-bg::after {
+      background-image:
+        linear-gradient(to right, rgba(5,12,30,.78) 0%, rgba(5,12,30,.55) 55%, rgba(5,12,30,.25) 100%),
+        linear-gradient(to top, rgba(5,12,30,.35) 0%, rgba(5,12,30,0) 35%);
+    }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    #bsg-hero .bsg-bg::after {
+      background-image: linear-gradient(to bottom, rgba(5,12,30,.72) 0%, rgba(5,12,30,.62) 60%, rgba(5,12,30,.55) 100%);
+    }
+    #bsg-hero .bsg-inner        { padding: 48px 20px 48px; }
+    #bsg-hero .bsg-headline     { font-size: 2.5rem; line-height: 1; }
+    #bsg-hero .bsg-sub          { font-size: 1.02rem; }
+    #bsg-hero .bsg-copy         { font-size: .92rem; margin: 10px 0 22px; }
+    #bsg-hero .bsg-search-wrap  { margin-bottom: 20px; }
+    #bsg-hero .bsg-search-bar   { padding: 6px 6px 6px 14px; gap: 8px; }
+    #bsg-hero .bsg-search-btn   { padding: 10px 14px; font-size: .86rem; }
+    #bsg-hero .bsg-search-btn svg { display: none; }
+    #bsg-hero .bsg-nav-space    { height: 40px; }
+    #bsg-hero .bsg-opt          { padding: 9px 10px; font-size: .86rem; }
+    #bsg-hero .bsg-opt strong   { font-size: .86rem; }
+    #bsg-hero .bsg-dropdown     { border-radius: 14px; }
+    #bsg-hero .bsg-dots         { bottom: 8px; }
+  }
+
+  /* ── SMALL MOBILE ── */
+  @media (max-width: 380px) {
+    #bsg-hero .bsg-inner    { padding: 40px 16px 44px; }
+    #bsg-hero .bsg-headline { font-size: 2.15rem; }
+    #bsg-hero .bsg-sub      { font-size: .96rem; }
+    #bsg-hero .bsg-copy     { font-size: .88rem; }
+  }
+
+  /* ── LARGE SCREENS ── */
+  @media (min-width: 1600px) {
+    #bsg-hero .bsg-inner        { max-width: 1600px; padding: 110px 80px 96px; grid-template-columns: minmax(0, 780px) 1fr; }
+    #bsg-hero .bsg-headline     { font-size: 5.6rem; }
+    #bsg-hero .bsg-sub          { font-size: 1.6rem; max-width: 720px; }
+    #bsg-hero .bsg-copy         { font-size: 1.15rem; max-width: 660px; }
+    #bsg-hero .bsg-search-wrap  { max-width: 640px; }
+    #bsg-hero .bsg-search-input { font-size: 1.02rem; }
+    #bsg-hero .bsg-search-btn   { font-size: 1rem; padding: 12px 26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #bsg-hero .bsg-slide, #bsg-hero .bsg-dropdown { transition: none; }
+  }
+
+  /* Beaver Builder wraps this module in a row; lift that row too so the dropdown
+     can't slip under the next row's content */
+  .fl-row:has(#bsg-hero), .fl-module:has(#bsg-hero) { position: relative; z-index: 50; }
+
+  /* ===== BRAND FONT (enforced so the theme can't override it) ===== */
+  #bsg-hero, #bsg-hero *:not(svg):not(path):not(circle) { font-family: 'Poppins', system-ui, sans-serif !important; }
+</style>
+
+<section id="bsg-hero">
+
+  <!--
+    Slide photos: the WebP copies Imagify already made (…png.webp), in 4 widths so phones
+    download ~90 KB instead of ~1 MB. Only slide 1 loads with the page; slides 2 and 3 load
+    after the page has finished loading (data-srcset), so they never compete with it.
+  -->
+  <div class="bsg-bg">
+    <img class="bsg-slide active" alt="" width="2048" height="768" fetchpriority="high"
+      src="https://bluespotguide.com/wp-content/uploads/2026/09/mountain-rv-resort-camping-bluespot-guide-1-1024x384.png.webp"
+      srcset="https://bluespotguide.com/wp-content/uploads/2026/09/mountain-rv-resort-camping-bluespot-guide-1-768x288.png.webp 768w,
+              https://bluespotguide.com/wp-content/uploads/2026/09/mountain-rv-resort-camping-bluespot-guide-1-1024x384.png.webp 1024w,
+              https://bluespotguide.com/wp-content/uploads/2026/09/mountain-rv-resort-camping-bluespot-guide-1-1536x576.png.webp 1536w,
+              https://bluespotguide.com/wp-content/uploads/2026/09/mountain-rv-resort-camping-bluespot-guide-1.png.webp 2048w"
+      sizes="(max-width: 600px) 580px, 100vw">
+    <img class="bsg-slide" alt="" width="2048" height="768"
+      data-srcset="https://bluespotguide.com/wp-content/uploads/2026/09/beach-rv-resort-camping-bluespot-guide-768x288.png.webp 768w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/beach-rv-resort-camping-bluespot-guide-1024x384.png.webp 1024w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/beach-rv-resort-camping-bluespot-guide-1536x576.png.webp 1536w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/beach-rv-resort-camping-bluespot-guide.png.webp 2048w"
+      sizes="(max-width: 600px) 580px, 100vw">
+    <img class="bsg-slide" alt="" width="2048" height="768"
+      data-srcset="https://bluespotguide.com/wp-content/uploads/2026/09/desert-campground-camping-bluespot-guide-768x288.png.webp 768w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/desert-campground-camping-bluespot-guide-1024x384.png.webp 1024w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/desert-campground-camping-bluespot-guide-1536x576.png.webp 1536w,
+                   https://bluespotguide.com/wp-content/uploads/2026/09/desert-campground-camping-bluespot-guide.png.webp 2048w"
+      sizes="(max-width: 600px) 580px, 100vw">
+  </div>
+
+  <div class="bsg-inner">
+    <div class="bsg-content">
+      <h1 class="bsg-headline">Your Adventure<br>Starts <span class="accent">Here.</span></h1>
+      <p class="bsg-sub">Find BlueSpot Premier campgrounds, RV&nbsp;parks, RV&nbsp;resorts, and marinas across the&nbsp;U.S.</p>
+      <p class="bsg-copy">Explore destinations, things to do, local dining, shopping, RV&nbsp;services, and travel inspiration for a better trip.</p>
+
+      <div class="bsg-search-wrap">
+        <div class="bsg-search-bar" id="bsgBar">
+          <span class="bsg-search-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </span>
+          <input class="bsg-search-input" id="bsgInput" type="text"
+            placeholder="Search campgrounds, marinas, cities, or states"
+            autocomplete="off" aria-label="Search campgrounds, marinas, cities, or states"
+            aria-expanded="false" aria-controls="bsgMenu">
+          <button class="bsg-search-btn" id="bsgBtn" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+            Search
+          </button>
+        </div>
+        <div class="bsg-dropdown" id="bsgMenu" role="listbox" aria-label="Search suggestions"></div>
+      </div>
+
+      <!-- category buttons removed; this keeps the same space so the hero height doesn't change -->
+      <div class="bsg-nav-space" aria-hidden="true"></div>
+    </div>
+
+    <!-- 16 KB / 57 KB resized copies instead of the 209 KB original. loading="lazy" means
+         tablets/phones (where it's hidden) never download it. -->
+    <div class="bsg-tagline">
+      <img alt="Adventure Looks Good On You." width="300" height="250" loading="lazy" decoding="async"
+        src="https://bluespotguide.com/wp-content/uploads/2026/09/adventure-looks-good-on-you-300x250.png"
+        srcset="https://bluespotguide.com/wp-content/uploads/2026/09/adventure-looks-good-on-you-300x250.png 300w,
+                https://bluespotguide.com/wp-content/uploads/2026/09/adventure-looks-good-on-you-768x640.png 768w"
+        sizes="(min-width: 1667px) 300px, (min-width: 1000px) 18vw, 180px">
+    </div>
+  </div>
+
+  <div class="bsg-dots" aria-label="Slideshow">
+    <button class="bsg-dot" type="button" aria-label="Show slide 1" aria-current="true" data-index="0"></button>
+    <button class="bsg-dot" type="button" aria-label="Show slide 2" aria-current="false" data-index="1"></button>
+    <button class="bsg-dot" type="button" aria-label="Show slide 3" aria-current="false" data-index="2"></button>
+  </div>
+
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---- SLIDESHOW ---- */
+  var hero     = document.getElementById('bsg-hero');
+  var slides   = hero.querySelectorAll('.bsg-slide');
+  var dots     = hero.querySelectorAll('.bsg-dot');
+  var current  = 0;
+  var timer    = null;
+  var INTERVAL = 7000;
+  var FADE_MS  = 1200;
+  var visible  = true;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* load a deferred slide; resolves when it's decoded and ready to show */
+  function ready(slide) {
+    var src = slide.getAttribute('data-srcset');
+    if (src) {
+      slide.srcset = src;
+      slide.removeAttribute('data-srcset');
+    }
+    if (slide.complete && slide.naturalWidth) return Promise.resolve();
+    return new Promise(function (res) {
+      slide.addEventListener('load', res, { once: true });
+      slide.addEventListener('error', res, { once: true });
+    }).then(function () {
+      return slide.decode ? slide.decode().catch(function () {}) : null;
+    });
+  }
+
+  function goTo(index) {
+    index = (index + slides.length) % slides.length;
+    if (index === current) return;
+    var next = slides[index];
+    ready(next).then(function () {
+      var old = slides[current];
+      old.classList.add('prev');
+      old.classList.remove('active');
+      next.classList.add('active');
+      dots[current].setAttribute('aria-current', 'false');
+      dots[index].setAttribute('aria-current', 'true');
+      current = index;
+      setTimeout(function () { old.classList.remove('prev'); }, FADE_MS + 50);
+    });
+  }
+  function stopTimer() { clearInterval(timer); timer = null; }
+  function startTimer() {
+    stopTimer();
+    if (slides.length > 1 && !reduceMotion && visible && !document.hidden) {
+      timer = setInterval(function () { goTo(current + 1); }, INTERVAL);
+    }
+  }
+
+  Array.prototype.forEach.call(dots, function (dot) {
+    dot.addEventListener('click', function () {
+      goTo(parseInt(this.getAttribute('data-index'), 10));
+      startTimer();
+    });
+  });
+  if (slides.length < 2) {
+    var dotWrap = hero.querySelector('.bsg-dots');
+    if (dotWrap) dotWrap.style.display = 'none';
+  }
+
+  /* pause while the hero is off-screen or the tab is hidden */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) startTimer(); else stopTimer();
+    }).observe(hero);
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopTimer(); else startTimer();
+  });
+
+  /* fetch the other slides only after the page has fully loaded */
+  function afterLoad() {
+    var idle = window.requestIdleCallback || function (cb) { setTimeout(cb, 200); };
+    idle(function () {
+      for (var i = 1; i < slides.length; i++) ready(slides[i]);
+      startTimer();
+    });
+  }
+  if (document.readyState === 'complete') afterLoad();
+  else window.addEventListener('load', afterLoad);
+
+  /* ---- SEARCH DATA ---- */
+  var stateOptions  = [];
+  var resortOptions = [];
+  var cityOptions   = [];
+
+  /* read lazily: the data file may be printed after this module */
+  function loadData() {
+    if (stateOptions.length || cityOptions.length || resortOptions.length) return;
+    var data = window.BSG_SEARCH_DATA;
+    if (!data) return;
+    stateOptions  = data.states      || [];
+    resortOptions = data.campgrounds || [];
+    cityOptions   = (data.cities     || []).slice();
+    addCampgroundCities();
+  }
+
+  /* Every campground city gets a "Campgrounds Near <City>" result, even if no
+     hand-made city page exists yet (e.g. Cartersville). Those link to the city's
+     Explore page: /explore/<state>/<city>/ */
+  function slug(t) {
+    return String(t || '').toLowerCase().split("'").join('').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function addCampgroundCities() {
+    var have = {};
+    cityOptions.forEach(function (c) {
+      have[normalize(c.subtitle || c.label)] = true;   /* "City, State" */
+    });
+    resortOptions.forEach(function (r) {
+      var parts = String(r.subtitle || '').split(',');
+      if (parts.length < 2) return;
+      var city = parts[0].trim(), state = parts[parts.length - 1].trim();
+      var key = normalize(city + ' ' + state);
+      if (!city || !state || have[key]) return;
+      have[key] = true;
+      cityOptions.push({
+        href: location.origin + '/explore/' + slug(state) + '/' + slug(city) + '/',
+        label: 'Campgrounds Near ' + city,
+        subtitle: city + ', ' + state,
+        keywords: [city, 'campgrounds near ' + city, state]
+      });
+    });
+  }
+
+  /* ---- ICONS (inline SVG, so the dropdown doesn't depend on Font Awesome) ---- */
+  function svg(inner) {
+    return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
+      ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  }
+  var icons = {
+    state:      svg('<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/>'),
+    city:       svg('<path d="M4 21V8l6-3v16M10 21V3l10 4v14M3 21h18M14 10h2M14 14h2M6 12h1M6 16h1"/>'),
+    campground: svg('<path d="M3 20 12 4l9 16H3Z"/><path d="M12 4v16"/>')
+  };
+
+  /* ---- SEARCH LOGIC ---- */
+  var input = document.getElementById('bsgInput');
+  var menu  = document.getElementById('bsgMenu');
+  var btn   = document.getElementById('bsgBtn');
+  var wrap  = hero.querySelector('.bsg-search-wrap');
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function normalize(v) {
+    return (v || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function levenshtein(a, b) {
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    var row = [];
+    for (var k = 0; k <= b.length; k++) row.push(k);
+    for (var i = 1; i <= a.length; i++) {
+      var prev = i - 1; row[0] = i;
+      for (var j = 1; j <= b.length; j++) {
+        var cur = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = cur;
+      }
+    }
+    return row[b.length];
+  }
+
+  function scoreItem(q, item) {
+    var terms = [item.label, item.subtitle || '', (item.keywords || []).join(' ')].map(normalize).filter(Boolean);
+    var best = 0;
+    /* multi-word searches like "cartersville georgia": every word must appear somewhere */
+    var words = q.split(' ').filter(Boolean);
+    if (words.length > 1) {
+      var all = ' ' + terms.join(' ') + ' ';
+      var hit = words.every(function (w) { return all.indexOf(' ' + w) > -1; });
+      if (hit) best = 175;
+    }
+    terms.forEach(function (t) {
+      if (!t) return;
+      if (t === q)                { best = Math.max(best, 200); return; }
+      if (t.indexOf(q) === 0)     { best = Math.max(best, 170); return; }
+      if (t.indexOf(q) > -1)      { best = Math.max(best, 150); return; }
+      var sim = 1 - levenshtein(q, t) / Math.max(q.length, t.length);
+      if (sim >= 0.55) best = Math.max(best, sim * 120);
+      t.split(' ').forEach(function (tok) {
+        if (!tok) return;
+        if (tok.indexOf(q) === 0) { best = Math.max(best, 145); return; }
+        var ts = 1 - levenshtein(q, tok) / Math.max(q.length, tok.length);
+        if (ts >= 0.55) best = Math.max(best, ts * 140);
+      });
+    });
+    return best;
+  }
+
+  function buildOpt(href, label, subtitle, iconType) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'bsg-opt';
+    b.setAttribute('role', 'option');
+    b.setAttribute('data-href', href);
+    b.innerHTML = (icons[iconType] || icons.state) + '<div><strong>' + esc(label) + '</strong>' +
+      (subtitle ? '<span>' + esc(subtitle) + '</span>' : '') + '</div>';
+    b.addEventListener('click', function () { setOpen(false); window.location.href = href; });
+    return b;
+  }
+
+  function renderMenu(query) {
+    loadData();
+    menu.innerHTML = '';
+    var q = normalize(query);
+    var items = [];
+    if (!q) {
+      stateOptions.forEach(function (s) { items.push({ href: s.href, label: s.label, subtitle: '', score: 100, icon: 'state' }); });
+      cityOptions.forEach(function (c)  { items.push({ href: c.href, label: c.label, subtitle: c.subtitle || '', score: 90, icon: 'city' }); });
+    } else {
+      stateOptions.forEach(function (s) {
+        var sc = scoreItem(q, { label: s.label, keywords: [] });
+        if (sc >= 60) items.push({ href: s.href, label: s.label, subtitle: '', score: sc, icon: 'state' });
+      });
+      cityOptions.forEach(function (c) {
+        var sc = scoreItem(q, c);
+        if (sc >= 60) items.push({ href: c.href, label: c.label, subtitle: c.subtitle || '', score: sc, icon: 'city' });
+      });
+      resortOptions.forEach(function (r) {
+        var sc = scoreItem(q, r);
+        if (sc >= 60) items.push({ href: r.href, label: r.label, subtitle: r.subtitle || '', score: sc, icon: 'campground' });
+      });
+      items.sort(function (a, b) { return b.score - a.score; });
+    }
+    if (!items.length) {
+      var e = document.createElement('div');
+      e.className = 'bsg-empty';
+      e.textContent = 'No close matches yet.';
+      menu.appendChild(e);
+    } else {
+      items.slice(0, 14).forEach(function (item, i) {
+        var o = buildOpt(item.href, item.label, item.subtitle, item.icon);
+        if (i === 0) o.classList.add('active');
+        menu.appendChild(o);
+      });
+    }
+  }
+
+  function setOpen(open) {
+    menu.classList.toggle('open', open);
+    input.setAttribute('aria-expanded', String(open));
+  }
+
+  /* ---- EVENTS ---- */
+  input.addEventListener('focus', function () { renderMenu(input.value); setOpen(true); });
+  input.addEventListener('input', function () { renderMenu(input.value); setOpen(true); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var first = menu.querySelector('.bsg-opt');
+      if (first) { setOpen(false); window.location.href = first.getAttribute('data-href'); }
+    }
+    if (e.key === 'Escape') setOpen(false);
+  });
+  btn.addEventListener('click', function () {
+    var first = menu.querySelector('.bsg-opt');
+    if (input.value.trim() && first) { setOpen(false); window.location.href = first.getAttribute('data-href'); }
+    else { renderMenu(input.value); setOpen(true); input.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!wrap.contains(e.target)) setOpen(false);
+  });
+})();
+</script>

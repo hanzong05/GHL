@@ -884,3 +884,8 @@ COMPLETED TASKS — September 18, 2026
 ✅ Admin Panel - Park Map - Improved shape editing workflow — Expanded the existing tracing/editing system so staff can create, duplicate, transform, clip, and remove map objects without having to retrace them from scratch.
 
 ☐ Park Map - Guest-facing hub — The new trail-tracing and shape functionality is currently available in the admin panel; displaying these newly created trails/shapes on the guest-facing hub page still needs to be implemented.
+
+COMPLETED TASKS — October 2, 2026
+
+✅ Admin Panel - Add User - Fixed new accounts failing halfway and leaving a broken half-made login behind. The admin is now asked for their own password first and it's checked before anything is created.
+✅ Admin Panel - Add User - If anything goes wrong while creating a user, the account is now cleanly undone instead of being left half-created, and a clear "Account was NOT created" message is shown.

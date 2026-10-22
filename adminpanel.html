@@ -2190,12 +2190,12 @@
                 }
 
                 .v2-action-grid {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: minmax(0, 1fr);
                     gap: 12px;
                 }
 
                 .v2-two-col {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: minmax(0, 1fr);
                     gap: 12px;
                 }
 
@@ -3113,6 +3113,7 @@
             }
 
             .v2-action-card {
+                min-width: 0;
                 background: linear-gradient(135deg, #fff, #f9fbff);
                 border: 1px solid var(--border);
                 border-radius: var(--radius-lg);
@@ -3274,11 +3275,11 @@
                 }
 
                 .v2-action-grid {
-                    grid-template-columns: 1fr
+                    grid-template-columns: minmax(0, 1fr)
                 }
 
                 .v2-two-col {
-                    grid-template-columns: 1fr
+                    grid-template-columns: minmax(0, 1fr)
                 }
             }
 
@@ -3793,7 +3794,7 @@
                         </svg>
                         Settings
                     </div>
-                    <div class="nav-item" data-panel="parkmap" onclick="switchPanel(this);loadParkMapPanel()">
+                    <div class="nav-item" data-panel="parkmap" style="display:none;" onclick="switchPanel(this);loadParkMapPanel()">
                         <svg viewBox="0 0 24 24">
                             <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z" />
                             <circle cx="12" cy="10" r="3" />
@@ -6531,17 +6532,45 @@
                 btn.disabled = true;
 
                 const adminEmail = currentUser.email;
-                const adminPassEl = document.getElementById('authPassword');
-                let adminPass = adminPassEl?.value;
-                if (!adminPass) {
-                    adminPass = prompt('Re-enter your admin password to stay logged in:');
-                    if (!adminPass) { btn.textContent = 'Create Account'; btn.disabled = false; return; }
+                // Always ask for the admin password and verify it BEFORE creating the new
+                // login — creating a user signs the admin out, so a wrong/stale password
+                // here used to fail afterwards and leave an orphaned login behind.
+                const adminPass = prompt('Re-enter your admin password to create this account:');
+                if (!adminPass) { btn.textContent = 'Create Account'; btn.disabled = false; return; }
+                try {
+                    await reSignIn(auth, adminEmail, adminPass);
+                } catch (e) {
+                    showToast('Incorrect admin password — account not created.', 'error');
+                    btn.textContent = 'Create Account';
+                    btn.disabled = false;
+                    return;
                 }
 
+                let newAuthUser = null; // set once a login exists but the profile isn't saved yet
                 try {
-                    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                    let cred;
+                    try {
+                        cred = await createUserWithEmailAndPassword(auth, email, pass);
+                    } catch (createErr) {
+                        if (createErr.code !== 'auth/email-already-in-use') throw createErr;
+                        // A login with no profile can be left behind by an earlier failed attempt.
+                        // If it uses this same password, adopt it instead of failing.
+                        try {
+                            cred = await signInWithEmailAndPassword(auth, email, pass);
+                            const existing = await get(ref(db, `users/${cred.user.uid}`));
+                            if (existing.exists()) { await reSignIn(auth, adminEmail, adminPass); throw createErr; }
+                        } catch (adoptErr) {
+                            if (adoptErr === createErr) throw createErr;
+                            const e2 = new Error('A login already exists for this email. Delete it in Firebase Console > Authentication, or use the same temporary password you used before.');
+                            e2.code = 'auth/orphan-login';
+                            throw e2;
+                        }
+                    }
                     const uid = cred.user.uid;
+                    newAuthUser = cred.user;
                     const hubName = hubsCache[hubId]?.name || hubId;
+
+                    await reSignIn(auth, adminEmail, adminPass);
 
                     await set(ref(db, `users/${uid}`), {
                         uid, name, email, role,
@@ -6551,8 +6580,7 @@
                         createdAt: new Date().toISOString(),
                         createdBy: adminEmail
                     });
-
-                    await reSignIn(auth, adminEmail, adminPass);
+                    newAuthUser = null; // fully created — nothing to roll back
 
                     showToast(`Account for ${name} created!`, 'success');
 
@@ -6581,7 +6609,31 @@
                     }
                     closeModal('addUserModal');
                 } catch (e) {
-                    if (e.code === 'auth/email-already-in-use') showToast('Email already in use.', 'error');
+                    // Any failure after the login was made but before the profile saved:
+                    // remove that login so no half-created account is left behind.
+                    if (newAuthUser) {
+                        try {
+                            if (auth.currentUser && auth.currentUser.uid === newAuthUser.uid) {
+                                await newAuthUser.delete();
+                            } else {
+                                const idToken = await getIdToken(auth.currentUser, true);
+                                await fetch(DELETE_USER_WORKER_URL, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ uid: newAuthUser.uid, idToken }),
+                                });
+                            }
+                        } catch (delErr) { console.warn('Rollback of new login failed:', delErr); }
+                        await reSignIn(auth, adminEmail, adminPass).catch(() => { });
+                        showToast('Account was NOT created — ' + (e.message || e), 'error');
+                        return;
+                    }
+                    if (e.code === 'auth/email-already-in-use') showToast('This email already belongs to an existing user.', 'error');
+                    else if (e.code === 'auth/orphan-login') {
+                        showToast(e.message, 'error');
+                        // creation attempt may have signed in as someone else; restore admin session
+                        reSignIn(auth, adminEmail, adminPass).catch(() => { });
+                    }
                     else showToast('Error: ' + e.message, 'error');
                 } finally {
                     btn.textContent = 'Create Account';

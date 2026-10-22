@@ -39,7 +39,8 @@
   }
   #bsg-home .exp-grid { display: grid; grid-template-columns: 400px 1fr; gap: 0 28px; align-items: start; }
   #bsg-home .left-col { display: flex; flex-direction: column; gap: 14px; }
-  #bsg-home .exp-title { font-size: clamp(1.6rem, 2.3vw, 2.1rem); font-weight: 900; line-height: 1.08; letter-spacing: -.025em; color: var(--navy); }
+  #bsg-home .exp-title { font-size: clamp(1.35rem, 1.9vw, 1.65rem); font-weight: 900; line-height: 1.12; letter-spacing: -.025em; color: var(--navy); }
+  #bsg-home .exp-title span { display: block; white-space: nowrap; }  /* fixed 3-line heading */
   #bsg-home .exp-sub { font-size: .82rem; color: var(--muted); line-height: 1.55; margin-top: 6px; }
 
   #bsg-home .states-panel { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
@@ -94,13 +95,15 @@
   #bsg-home .features-strip { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
   #bsg-home .feat-item { display: flex; align-items: center; gap: 14px; padding: 20px; border-right: 1px solid var(--line); }
   #bsg-home .feat-item:last-child { border-right: 0; }
-  #bsg-home .feat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid currentColor; }
+  /* solid brand-colored icon tiles with white icons (per BlueSpot color system) */
+  #bsg-home .feat-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; box-shadow: 0 4px 12px rgba(11, 33, 72, .14); }
   #bsg-home .feat-icon svg { width: 24px; height: 24px; }
-  #bsg-home .feat-icon.blue { color: var(--blue); background: #eef4ff; }
-  #bsg-home .feat-icon.green { color: #16a34a; background: #effbf4; }
-  #bsg-home .feat-icon.amber { color: var(--star); background: #fff7eb; }
-  #bsg-home .feat-title { font-size: .87rem; font-weight: 800; margin-bottom: 3px; }
-  #bsg-home .feat-desc { font-size: .74rem; color: var(--muted2); line-height: 1.5; }
+  #bsg-home .feat-icon.blue  { background: #005baa; }   /* BlueSpot Blue */
+  #bsg-home .feat-icon.green { background: #1f9a4b; }
+  #bsg-home .feat-icon.amber { background: #f5a524; }
+  #bsg-home .feat-icon.red   { background: #e82427; }   /* BlueSpot Red */
+  #bsg-home .feat-title { font-size: .9rem; font-weight: 800; color: #0e2858; margin-bottom: 3px; }
+  #bsg-home .feat-desc { font-size: .76rem; color: #4a5a78; line-height: 1.5; }
 
   /* ================= CAMPGROUND CARDS ================= */
   #bsg-home .bsg-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .18s, box-shadow .18s; }
@@ -123,6 +126,7 @@
   #bsg-home .bsg-cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
   #bsg-home .bsg-cat { width: 100%; height: 150px; margin: 0; padding: 12px 8px 16px; border: 0; cursor: pointer; background: #2e72a0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; text-align: center; font: 800 .92rem 'Figtree', system-ui, sans-serif; color: #fff; }
   #bsg-home .bsg-cat svg { width: 46px; height: 46px; stroke-width: 1.8; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25)); }
+  #bsg-home .bsg-cat[aria-pressed="true"] { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--blue); }
   #bsg-home .bsg-cat:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--blue); outline: 0; }
 
   /* destination chip */
@@ -156,17 +160,42 @@
   #bsg-home .bsg-live-place svg { color: var(--blue); }
   #bsg-home .bsg-live-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
   #bsg-home .bsg-live-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
-  #bsg-home .bsg-live-img { position: relative; aspect-ratio: 1 / 1; background: linear-gradient(150deg, #5a9fc8, #2e72a0, #1d5a80); }
-  #bsg-home .bsg-live-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  #bsg-home .bsg-live-img.is-ad { aspect-ratio: auto; background: #f7faff; }
-  #bsg-home .bsg-live-img.is-ad img { height: auto; max-height: 320px; object-fit: contain; }
+  #bsg-home .bsg-live-img { position: relative; line-height: 0; background: #f7faff; }
+  #bsg-home .bsg-live-img a { display: block; }
+  #bsg-home .bsg-live-img img { display: block; width: 100%; height: auto; }
+  #bsg-home .bsg-live-img.no-img { min-height: 130px; background: linear-gradient(150deg, #5a9fc8, #2e72a0, #1d5a80); }
+  #bsg-home .bsg-live-pill { display: inline-block; margin: 6px 0 2px; padding: 4px 12px; border-radius: 30px; background: #fff4e0; color: #7a4d00; font-size: .68rem; font-weight: 800; }
+  #bsg-home .bsg-live-addr { margin: 3px 0 0; font-size: .78rem; line-height: 1.45; color: var(--muted); }
+  #bsg-home .bsg-live-mi { display: block; margin-top: 2px; color: var(--blue); font-weight: 800; }
+  #bsg-home .bsg-live-promo { margin: 4px 0 0; font-size: .78rem; line-height: 1.45; color: #5c6f96; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  #bsg-home .bsg-live-btns { display: grid; gap: 8px; margin-top: 10px; }
+  #bsg-home .bsg-live-btns.n1 { grid-template-columns: 1fr; }
+  #bsg-home .bsg-live-btns.n2 { grid-template-columns: 1fr 1fr; }
+  #bsg-home .bsg-live-btns.n3 { grid-template-columns: repeat(3, 1fr); }
+  #bsg-home .bsg-lbtn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 10px 4px; border: 1.5px solid var(--line); border-radius: 12px; background: #f7faff; font-size: .66rem; font-weight: 800; text-decoration: none; transition: background .15s, border-color .15s; }
+  #bsg-home .bsg-lbtn svg { width: 17px; height: 17px; fill: currentColor; }
+  #bsg-home .bsg-lbtn-web { color: #005caa; }
+  #bsg-home .bsg-lbtn-call { color: #0d7a3e; }
+  #bsg-home .bsg-lbtn-map, #bsg-home .bsg-lbtn-email { color: #c0392b; }
+  #bsg-home .bsg-lbtn-fb { color: #0d5a99; }
+  #bsg-home .bsg-lbtn:hover { background: #e6f0f9; border-color: currentColor; }
+  #bsg-home .bsg-live-cta { display: block; margin-top: 10px; padding: 12px; border-radius: 12px; background: var(--blue); color: #fff; text-align: center; font-weight: 800; font-size: .8rem; text-decoration: none; }
+  #bsg-home .bsg-live-cta:hover { background: #1650c8; }
+  #bsg-home .bsg-live-reason { margin: 0 0 3px; font-size: .68rem; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #0d9f4b; }
+  #bsg-home .bsg-live-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  #bsg-home .bsg-live-top .bsg-live-head { margin-bottom: 0; }
+  #bsg-home .bsg-live-sort { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; color: var(--muted); margin: 0; }
+  #bsg-home .bsg-live-sort[hidden] { display: none; }
+  #bsg-home .bsg-live-sort select { padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: 600 .8rem 'Figtree', system-ui, sans-serif; color: var(--navy); }
+  #bsg-home .bsg-locate { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1.5px solid var(--line); border-radius: 9px; background: #fff; color: var(--blue); font: 800 .8rem 'Figtree', system-ui, sans-serif; cursor: pointer; white-space: nowrap; }
+  #bsg-home .bsg-locate:hover { border-color: var(--blue); background: var(--soft); }
+  #bsg-home .bsg-locate[hidden] { display: none; }
+  #bsg-home .bsg-locate.is-busy { opacity: .6; pointer-events: none; }
+  #bsg-home .bsg-locate.is-busy svg { animation: bsgSpin 1s linear infinite; }
+  @keyframes bsgSpin { to { transform: rotate(360deg); } }
   #bsg-home .bsg-live-badge { position: absolute; left: 8px; top: 8px; background: var(--star); color: #fff; font-size: .62rem; font-weight: 800; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; }
   #bsg-home .bsg-live-body { padding: 10px 12px 12px; }
   #bsg-home .bsg-live-body h4 { margin: 0; font-size: .9rem; font-weight: 800; color: var(--navy); line-height: 1.25; }
-  #bsg-home .bsg-live-meta { font-size: .74rem; font-weight: 700; color: var(--blue); margin: 3px 0 0; }
-  #bsg-home .bsg-live-tags { font-size: .72rem; color: var(--muted); margin: 3px 0 0; }
-  #bsg-home .bsg-live-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-  #bsg-home .bsg-live-btns a { font-size: .76rem; font-weight: 800; color: var(--blue); }
   #bsg-home .bsg-live-all { display: inline-block; margin-top: 12px; font-size: .85rem; font-weight: 800; color: var(--blue); }
   #bsg-home .bsg-live-all[hidden] { display: none; }
   #bsg-home .bsg-find-label .bsg-exploring-text { margin-right: 6px; }
@@ -276,7 +305,8 @@
     #bsg-home .bsg-find-bar { flex-wrap: wrap; }
     #bsg-home .bsg-find-label { flex: 1; }
     #bsg-home .bsg-find-input { flex-basis: 100%; order: 3; }
-    #bsg-home .bsg-find-bar .bsg-btn { order: 4; width: 100%; justify-content: center; }
+    #bsg-home .bsg-find-bar .bsg-btn { order: 4; flex: 1; justify-content: center; }
+    #bsg-home .bsg-locate { order: 4; }
   }
   @media (max-width: 600px) {
     #bsg-home .bsg-container { padding: 0 16px; }
@@ -316,8 +346,8 @@
       <div class="exp-grid">
         <div class="left-col">
           <div>
-            <h2 class="exp-title">Explore Campgrounds &amp;<br>Local Guides Across the U.S.</h2>
-            <p class="exp-sub">Choose a state to find campgrounds, local guides, dining, attractions, RV services and more.</p>
+            <h2 class="exp-title"><span>Explore Premier Properties</span><span>&amp; Local Guides</span><span>Across the U.S.</span></h2>
+            <p class="exp-sub">Find campgrounds, RV parks, RV resorts, marinas, local dining, attractions, RV services and more</p>
           </div>
 
           <div class="states-panel" id="statesPanel">
@@ -364,19 +394,19 @@
     <div class="bsg-container">
       <div class="features-strip">
         <div class="feat-item">
-          <div class="feat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+          <div class="feat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
           <div><div class="feat-title">Local Area Guides</div><div class="feat-desc">Insider tips on dining, attractions, services and more.</div></div>
         </div>
         <div class="feat-item">
-          <div class="feat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+          <div class="feat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
           <div><div class="feat-title">Trusted by Campgrounds</div><div class="feat-desc">Helpful local information connected to places you stay.</div></div>
         </div>
         <div class="feat-item">
-          <div class="feat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="feat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
           <div><div class="feat-title">Mobile Friendly</div><div class="feat-desc">Plan your trip and explore on the go.</div></div>
         </div>
         <div class="feat-item">
-          <div class="feat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="feat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
           <div><div class="feat-title">Everything in One Place</div><div class="feat-desc">Where to go. What to do. All in one place.</div></div>
         </div>
       </div>
@@ -387,9 +417,9 @@
   <section class="bsg-sec">
     <div class="bsg-container">
       <div class="bsg-head">
-        <div><h2 class="bsg-h2">Find Your Next Stay</h2><p class="bsg-lede">Explore featured campgrounds and start planning your next adventure today.</p></div>
+        <div><h2 class="bsg-h2">Find Your Next Stay</h2><p class="bsg-lede">Explore Premier Properties &amp; start planning your next adventure today.</p></div>
         <div class="bsg-head-actions">
-          <a class="bsg-more" href="https://bluespotguide.com/explore-locations/">View All Campgrounds <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+          <a class="bsg-more" href="https://bluespotguide.com/explore-locations/">View All Premier Properties <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
           <button type="button" class="bsg-arrow-btn" id="bsgCampPrev" aria-label="Previous campgrounds"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button type="button" class="bsg-arrow-btn" id="bsgCampNext" aria-label="Next campgrounds"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
@@ -403,7 +433,7 @@
   </section>
 
   <!-- ============ EXPLORE THE LOCAL AREA ============ -->
-  <section class="bsg-sec">
+  <section class="bsg-sec" hidden> 
     <div class="bsg-container">
       <div class="bsg-head">
         <div><h2 class="bsg-h2">Explore the Local Area</h2><p class="bsg-lede">Choose a category or search for something near your destination.</p></div>
@@ -418,6 +448,10 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="#9baac8" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="#9baac8" stroke-width="2" stroke-linecap="round"/></svg>
             <input type="text" id="bsgFindInput" placeholder="Search food, attractions, a city, or ZIP code..." autocomplete="off" aria-label="Search food, attractions, a city, or ZIP code">
           </label>
+          <button type="button" class="bsg-locate" id="bsgLocate" title="Use my location" aria-label="Use my location">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            <span>Near me</span>
+          </button>
           <button type="submit" class="bsg-btn">Search</button>
         </form>
         <div class="bsg-find-art">
@@ -427,7 +461,17 @@
 
       <!-- live results: business ads that match what's typed -->
       <div class="bsg-live" id="bsgLive" hidden aria-live="polite">
-        <div class="bsg-live-head" id="bsgLiveHead"></div>
+        <div class="bsg-live-top">
+          <div class="bsg-live-head" id="bsgLiveHead"></div>
+          <label class="bsg-live-sort" id="bsgLiveSortWrap" hidden>Sort
+            <select id="bsgLiveSort" aria-label="Sort results">
+              <option value="best">Best match</option>
+              <option value="distance">Closest</option>
+              <option value="az">Name A-Z</option>
+              <option value="za">Name Z-A</option>
+            </select>
+          </label>
+        </div>
         <div class="bsg-live-places" id="bsgLivePlaces"></div>
         <div class="bsg-live-grid" id="bsgLiveGrid"></div>
         <a class="bsg-live-all" id="bsgLiveAll" href="#" hidden>See all results &rarr;</a>
@@ -774,8 +818,7 @@
       byId('states-scroll').innerHTML = STATES.map(function (s) {
         return '<a class="state-row" href="' + stateUrl(s) + '">' +
           '<span class="state-name">' + esc(s.name) + '</span>' +
-          '<span class="state-count">' + s.count + ' Campground' +
-          (s.count === 1 ? '' : 's') + '</span>' + ARROW + '</a>';
+          '<span class="state-count">' + s.count + (s.count === 1 ? ' Property' : ' Properties') + '</span>' + ARROW + '</a>';
       }).join('');
 
       byId('cities-scroll').innerHTML = STATES.filter(function (s) {
@@ -955,14 +998,28 @@
       }
       return null;
     }
+    function nearOf(d) { return d.coords ? d.coords : d.name; }
+    /* what this visitor has looked at, to tailor recommendations */
+    function addInterest(v) {
+      try {
+        var a = JSON.parse(sessionStorage.getItem('bsgInterests') || '[]');
+        v = String(v).toLowerCase();
+        a = a.filter(function (x) { return x !== v; });
+        a.unshift(v);
+        sessionStorage.setItem('bsgInterests', JSON.stringify(a.slice(0, 5)));
+      } catch (e) { }
+    }
+    function interests() {
+      try { return JSON.parse(sessionStorage.getItem('bsgInterests') || '[]'); } catch (e) { return []; }
+    }
     function inPhrase(d) {
       return (d.kind === 'campground' ? 'Near ' : 'in ') + d.name;
     }
     /* real, crawlable results pages from the BlueSpot Local Guide plugin:
        /explore/{place-slug}/{category}/ */
     function catUrl(cat, d) {
-      if (d.kind === 'zip') {
-        return SITE + 'explore/search/?q=' + encodeURIComponent(cat.label + ' near ' + d.name);
+      if (d.kind === 'zip' || d.kind === 'gps') {
+        return SITE + 'explore/search/?q=' + encodeURIComponent(cat.label + ' near ' + nearOf(d));
       }
       /* campground: jump to that section of its own Local Area Guide page */
       if (d.kind === 'campground' && CAMP_RESULTS === 'nearby') {
@@ -978,12 +1035,13 @@
     }
     function shortName(d) {
       if (d.kind === 'zip') return 'ZIP ' + d.name;
+      if (d.kind === 'gps') return 'your location';
       if (d.kind !== 'city') return d.name;
       var bits = String(d.name).split(', ');
       var st = bits.pop();
       return bits.length && ABBR[st] ? bits.join(', ') + ', ' + ABBR[st] : d.name;
     }
-    function goCategory(cat, d) { window.location.href = catUrl(cat, d); }
+    function goCategory(cat, d) { addInterest(cat.key); window.location.href = catUrl(cat, d); }
 
     /* once a destination is known, the search bar becomes:
        [pin] Exploring Macon, GA   Change  x      (or "Near Forsyth Station RV Resort") */
@@ -1021,6 +1079,8 @@
         '<button type="button" class="bsg-chip-x" data-act="clear" aria-label="Clear destination">&times;</button>';
       findInput.placeholder = 'Search tacos, golf, RV repair...';
       if (findInput.value.trim()) liveSearch();
+      else if (typeof activeCat !== 'undefined' && activeCat) showCategoryResults();
+      else if (typeof showRecs === 'function') showRecs();
     }
     if (exploring) {
       exploring.addEventListener('click', function (e) {
@@ -1086,7 +1146,8 @@
     /* free-text search: "Mexican food near Cartersville, GA" -> /explore/search/?q=... */
     function searchUrl(q) {
       var d = getDest();
-      if (d && !/ (near|in|around) /i.test(' ' + q + ' ')) q = q + ' near ' + d.name;
+      if (q.length > 2) addInterest(q);
+      if (d && !/ (near|in|around) /i.test(' ' + q + ' ')) q = q + ' near ' + nearOf(d);
       return SITE + 'explore/search/?q=' + encodeURIComponent(q);
     }
     function renderHits() {
@@ -1235,15 +1296,59 @@
       });
     }
 
-    /* category tile: known destination -> go straight there, otherwise ask */
+    /* category tile: results appear instantly below, no place needed.
+       A known place (or "Near me") just narrows them to the closest. */
+    var activeCat = null;
     catsEl.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('button.bsg-cat') : null;
       if (!b) return;
       var cat = CATEGORIES[parseInt(b.getAttribute('data-cat'), 10)];
-      var d = getDest();
-      if (d && d.url) goCategory(cat, d);
-      else openLoc(cat, '');
+      activeCat = cat;
+      addInterest(cat.key);
+      findInput.value = '';
+      Array.prototype.forEach.call(catsEl.querySelectorAll('button.bsg-cat'), function (x) {
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+      showCategoryResults();
+      live.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
+    var catSeq = 0;
+    function showCategoryResults() {
+      if (!activeCat) return;
+      var cat = activeCat;
+      var d = getDest();
+      var seq = ++catSeq;
+      liveSeq++;
+      recSeq++;
+      live.hidden = false;
+      liveHead.innerHTML = 'Finding ' + esc(cat.label) + '&hellip;';
+      /* offer a way to narrow down when no place is chosen yet */
+      livePlaces.innerHTML = d ? '' :
+        '<button type="button" class="bsg-live-place" data-near="1">' + PIN_ICON + ' Near me</button>' +
+        '<button type="button" class="bsg-live-place" data-pick="1">' + PIN_ICON + ' Choose a place</button>';
+      livePlaces.pl = null;
+      var url = SITE + 'wp-json/bsg/v1/search?limit=24&q=&cat=' + encodeURIComponent(cat.key) +
+        (d ? '&near=' + encodeURIComponent(nearOf(d)) : '');
+      fetch(url).then(function (r) { return r.ok ? r.json() : { items: [] }; }).then(function (res) {
+        if (seq !== catSeq || !activeCat) return;
+        var items = res.items || [];
+        if (!items.length) {
+          liveHead.innerHTML = 'We&rsquo;re still adding <strong>' + esc(cat.label) + '</strong> businesses' + (d ? ' near ' + esc(shortName(d)) : '') + '. Try another category above' + (d ? ' or choose a different place.' : '.');
+        } else {
+          liveHead.innerHTML = '<strong>' + esc(cat.label) + '</strong>' +
+            (d ? ' near <strong>' + esc(shortName(d)) + '</strong>' : ' from all areas. Tap Near me to see the closest first.');
+        }
+        drawLive(items);
+        if (d && !liveSort.dataset.touched) liveSort.value = 'best';
+        liveAll.hidden = !items.length;
+        liveAll.href = SITE + 'explore/search/?q=' + encodeURIComponent(cat.label + (d ? ' near ' + nearOf(d) : ''));
+      }).catch(function () {
+        if (seq !== catSeq) return;
+        liveHead.textContent = 'Results are unavailable right now.';
+        drawLive([]);
+        liveAll.hidden = true;
+      });
+    }
 
     /* "Already know where you're going?" establishes the destination on its own.
        Typing opens the grouped autocomplete; choosing a place stays on the homepage. */
@@ -1254,33 +1359,89 @@
     var liveAll = byId('bsgLiveAll');
     var liveTimer = null;
     var liveSeq = 0;
-    function liveCard(b) {
-      var meta = [];
-      if (b.type) meta.push(esc(b.type));
-      if (b.miles !== null && b.miles !== undefined) meta.push(b.miles + ' mi away');
-      else if (b.where) meta.push(esc(b.where));
-      var btns = '';
-      if (b.maps) btns += '<a href="' + esc(b.maps) + '" target="_blank" rel="noopener">Directions</a>';
-      if (b.website) btns += '<a href="' + esc(b.website) + '" target="_blank" rel="noopener">Website</a>';
-      else if (b.facebook) btns += '<a href="' + esc(b.facebook) + '" target="_blank" rel="noopener">Facebook</a>';
-      if (b.phone) btns += '<a href="tel:' + esc(b.phone.replace(/[^0-9+]/g, '')) + '">Call</a>';
-      return '<article class="bsg-live-card">' +
-        '<div class="bsg-live-img' + (b.full_ad ? ' is-ad' : '') + '">' +
-        (b.image ? '<img src="' + esc(b.image) + '" alt="' + esc(b.name) + '" loading="lazy">' : '') +
-        (b.favorite ? '<span class="bsg-live-badge">Local Favorite</span>' : '') + '</div>' +
-        '<div class="bsg-live-body"><h4>' + esc(b.name) + '</h4>' +
-        (meta.length ? '<p class="bsg-live-meta">' + meta.join(' ' + String.fromCharCode(183) + ' ') + '</p>' : '') +
-        (b.tags && b.tags.length ? '<p class="bsg-live-tags">' + b.tags.map(esc).join(', ') + '</p>' : '') +
-        (btns ? '<div class="bsg-live-btns">' + btns + '</div>' : '') + '</div></article>';
+    /* turn &amp; / &#39; back into text, then escape once (no more "&amp;" showing on screen) */
+    function dec(t) {
+      var ta = document.createElement('textarea');
+      ta.innerHTML = String(t === null || t === undefined ? '' : t);
+      return ta.value;
     }
+    var BTN_ICON = {
+      web: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z',
+      call: 'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z',
+      map: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+      email: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z',
+      fb: 'M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.87.25-1.46 1.5-1.46H16.7V4.96c-.29-.04-1.28-.12-2.43-.12-2.4 0-4.05 1.47-4.05 4.18V11H7.5v3h2.72v8h3.28z'
+    };
+    function liveBtn(kind, label, href, ext) {
+      return '<a class="bsg-lbtn bsg-lbtn-' + kind + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + BTN_ICON[kind] + '"/></svg>' + label + '</a>';
+    }
+    /* same layout as the cards on the guide pages: poster at its natural size, name, address,
+       tag chip, then Website / Call / Email / Map buttons */
+    function liveCard(b) {
+      var name = dec(b.name);
+      var btnList = [];
+      if (b.website) {
+        var fbw = String(b.website).toLowerCase().indexOf('facebook.com') > -1;
+        btnList.push(liveBtn(fbw ? 'fb' : 'web', fbw ? 'Facebook' : 'Website', b.website, true));
+      }
+      if (b.phone) btnList.push(liveBtn('call', 'Call', 'tel:' + String(b.phone).replace(/[^0-9+]/g, ''), false));
+      if (b.facebook) btnList.push(liveBtn('fb', 'Facebook', b.facebook, true));
+      if (b.email) btnList.push(liveBtn('email', 'Email', 'mailto:' + b.email, false));
+      if (b.maps) btnList.push(liveBtn('map', 'Map', b.maps, true));
+      var addr = dec(b.address || b.where || '');
+      var mi = (b.miles !== null && b.miles !== undefined && b.miles > 0) ? '<span class="bsg-live-mi">' + b.miles + ' mi away</span>' : '';
+      var img = b.image ? '<img src="' + esc(b.image) + '" alt="' + esc(name) + '" loading="lazy" decoding="async">' : '';
+      if (img && b.website) img = '<a href="' + esc(b.website) + '" target="_blank" rel="noopener">' + img + '</a>';
+      var showTag = !b.full_ad && b.type;
+      var showPromo = !b.full_ad && b.promo;
+      return '<article class="bsg-live-card">' +
+        '<div class="bsg-live-img' + (b.image ? '' : ' no-img') + '">' + img +
+        (b.favorite ? '<span class="bsg-live-badge">Local Favorite</span>' : '') + '</div>' +
+        '<div class="bsg-live-body">' +
+        (b.reason ? '<p class="bsg-live-reason">' + esc(b.reason) + '</p>' : '') +
+        '<h4>' + esc(name) + '</h4>' +
+        ((addr || mi) ? '<p class="bsg-live-addr">' + esc(addr) + mi + '</p>' : '') +
+        (showTag ? '<span class="bsg-live-pill">' + esc(dec(b.type)) + '</span>' : '') +
+        (showPromo ? '<p class="bsg-live-promo">' + esc(dec(b.promo)) + '</p>' : '') +
+        (btnList.length ? '<div class="bsg-live-btns n' + Math.min(3, btnList.length) + '">' + btnList.join('') + '</div>' : '') +
+        (b.cta && b.website ? '<a class="bsg-live-cta" href="' + esc(b.website) + '" target="_blank" rel="noopener">' + esc(dec(b.cta)) + '</a>' : '') +
+        '</div></article>';
+    }
+    var liveItems = [];
+    var liveSort = byId('bsgLiveSort');
+    var liveSortWrap = byId('bsgLiveSortWrap');
+    function drawLive(items) {
+      liveItems = items.slice();
+      var mode = liveSort.value;
+      var list = items.slice();
+      if (mode === 'az' || mode === 'za') {
+        list.sort(function (a, b) {
+          var c = String(a.name).localeCompare(String(b.name));
+          return mode === 'za' ? -c : c;
+        });
+      } else if (mode === 'distance') {
+        list.sort(function (a, b) {
+          var x = a.miles === null || a.miles === undefined ? 9999 : a.miles;
+          var y = b.miles === null || b.miles === undefined ? 9999 : b.miles;
+          return x - y;
+        });
+      }
+      liveGrid.innerHTML = list.map(liveCard).join('');
+      liveSortWrap.hidden = items.length < 2;
+      var hasMiles = items.some(function (i) { return i.miles !== null && i.miles !== undefined; });
+      liveSort.querySelector('option[value="distance"]').hidden = !hasMiles;
+    }
+    liveSort.addEventListener('change', function () { liveSort.dataset.touched = '1'; drawLive(liveItems); });
     function hideLive() {
       live.hidden = true;
       liveGrid.innerHTML = '';
       livePlaces.innerHTML = '';
+      liveSortWrap.hidden = true;
     }
     function liveSearch() {
       var q = findInput.value.trim();
-      if (q.length < 2) { hideLive(); return; }
+      if (q.length < 2) { showRecs(); return; }
       var d = getDest();
       /* matching places, so a destination can still be picked with one click */
       var pl = rank(q).slice(0, 4);
@@ -1303,7 +1464,7 @@
       var placeName = isZip ? q : (exact ? exact.name : '');
       var url = SITE + 'wp-json/bsg/v1/search?limit=8' + (placeName ?
         '&q=&near=' + encodeURIComponent(placeName) :
-        '&q=' + encodeURIComponent(q) + (d && d.name ? '&near=' + encodeURIComponent(d.name) : ''));
+        '&q=' + encodeURIComponent(q) + (d && d.name ? '&near=' + encodeURIComponent(nearOf(d)) : ''));
       fetch(url).then(function (r) { return r.ok ? r.json() : { items: [] }; }).then(function (res) {
         if (seq !== liveSeq) return;
         var items = res.items || [];
@@ -1317,25 +1478,81 @@
             'Results for <strong>' + esc(q) + '</strong>' + (res.near ? ' near <strong>' + esc(res.near) + '</strong>' : '') :
             'No businesses match <strong>' + esc(q) + '</strong>' + (res.near ? ' near ' + esc(res.near) : '') + ' yet.';
         }
-        liveGrid.innerHTML = items.map(liveCard).join('');
+        drawLive(items);
         liveAll.hidden = !items.length;
         liveAll.href = placeName ? SITE + 'explore/search/?q=' + encodeURIComponent('near ' + placeName) : (res.more || searchUrl(q));
       }).catch(function () {
         if (seq !== liveSeq) return;
         liveHead.textContent = 'Search is unavailable right now.';
-        liveGrid.innerHTML = '';
+        drawLive([]);
         liveAll.hidden = true;
       });
     }
+    /* "Recommended near ..." - shown whenever a place is known and nothing is typed */
+    var recSeq = 0;
+    function showRecs() {
+      var d = getDest();
+      if (!d || d.kind === 'state' || findInput.value.trim().length >= 2) {
+        if (!findInput.value.trim()) hideLive();
+        return;
+      }
+      livePlaces.innerHTML = '';
+      live.hidden = false;
+      liveHead.innerHTML = 'Finding recommendations&hellip;';
+      var seq = ++recSeq;
+      liveSeq++;
+      var url = SITE + 'wp-json/bsg/v1/recommend?limit=8&hour=' + new Date().getHours() +
+        '&near=' + encodeURIComponent(nearOf(d)) + '&interests=' + encodeURIComponent(interests().join(','));
+      fetch(url).then(function (r) { return r.ok ? r.json() : { items: [] }; }).then(function (res) {
+        if (seq !== recSeq || findInput.value.trim().length >= 2) return;
+        var items = res.items || [];
+        if (!items.length) { hideLive(); return; }
+        liveHead.innerHTML = 'Recommended ' + (d.kind === 'gps' ? 'near <strong>you</strong>' :
+          'near <strong>' + esc(shortName(d)) + '</strong>') + '. Or type what you need above.';
+        drawLive(items);
+        liveAll.hidden = true;
+      }).catch(function () { if (seq === recSeq) hideLive(); });
+    }
+
+    /* "Near me": the visitor's own location */
+    var locateBtn = byId('bsgLocate');
+    if (!('geolocation' in navigator)) locateBtn.hidden = true;
+    locateBtn.addEventListener('click', function () {
+      locateBtn.classList.add('is-busy');
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        locateBtn.classList.remove('is-busy');
+        var c = pos.coords.latitude.toFixed(4) + ',' + pos.coords.longitude.toFixed(4);
+        var d = { v: 2, kind: 'gps', name: 'Your Location', coords: c, url: SITE + 'explore/search/', via: '' };
+        try { sessionStorage.setItem(DEST_KEY, JSON.stringify(d)); } catch (e) { }
+        findInput.value = '';
+        showChip();
+        if (activeCat) showCategoryResults(); else showRecs();
+      }, function () {
+        locateBtn.classList.remove('is-busy');
+        live.hidden = false;
+        livePlaces.innerHTML = '';
+        drawLive([]);
+        liveHead.innerHTML = 'We couldn&rsquo;t get your location. Type a campground, city, or ZIP code instead.';
+        liveAll.hidden = true;
+      }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+    });
+
     livePlaces.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('.bsg-live-place') : null;
-      if (!b || !livePlaces.pl) return;
+      if (!b) return;
+      if (b.getAttribute('data-near')) { locateBtn.click(); return; }
+      if (b.getAttribute('data-pick')) { openLoc(null, ''); return; }
+      if (!livePlaces.pl) return;
       var dd = setDest(livePlaces.pl[parseInt(b.getAttribute('data-i'), 10)]);
       findInput.value = '';
       hideLive();
       if (dd) openCats(dd);
     });
     findInput.addEventListener('input', function () {
+      if (findInput.value.trim()) {
+        activeCat = null;
+        Array.prototype.forEach.call(catsEl.querySelectorAll('button.bsg-cat'), function (x) { x.setAttribute('aria-pressed', 'false'); });
+      }
       clearTimeout(liveTimer);
       liveTimer = setTimeout(liveSearch, 250);
     });
@@ -1468,7 +1685,7 @@
         '<h3 class="bsg-card-title">' + esc(pick.label) + '</h3>' +
         (pick.subtitle ? '<div class="bsg-card-loc">' + esc(pick.subtitle) + '</div>' : '') +
         '<div class="bsg-card-excerpt"></div>' +
-        '<span class="bsg-link">View Campground ' + ARROW_R + '</span>' +
+        '<span class="bsg-link">View Property ' + ARROW_R + '</span>' +
         '</div></a>';
     }).join('');
     makeCarousel('camps', track, 'bsgCampPrev', 'bsgCampNext', CAMP_ROTATE_MS, function (w) {

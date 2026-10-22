@@ -3629,21 +3629,11 @@
 
             <!-- MAP TAB -->
             <div class="tab-panel" id="tab-map">
-                <div style="background:#fff;padding:14px 16px 12px;flex-shrink:0;border-bottom:1px solid #f0f0f0;">
-                    <div
-                        style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">
-                        Stone Mountain Park</div>
-                    <div style="font-size:20px;font-weight:700;color:#111827;margin-bottom:2px;">Park Map</div>
-                    <div style="font-size:12px;color:#9ca3af;">Pinch or double-tap to zoom · Drag to move when zoomed
-                    </div>
-                </div>
                 <div id="mapContainer"
-                    style="flex:1;min-height:0;overflow:hidden;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;touch-action:none;padding:12px 12px calc(var(--nav-h) + var(--safe-bottom) + 12px);">
-                    <img id="mapImg"
-                        src="https://assets.cdn.filesafe.space/Sk7XUXxjVtIrJHKp3GhX/media/6a315713dd7879239a2d4612.png"
-                        alt="Stone Mountain Park Map"
-                        style="max-width:100%;max-height:100%;width:auto;height:auto;display:block;object-fit:contain;transform-origin:center center;user-select:none;-webkit-user-drag:none;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.15);"
-                        loading="lazy" decoding="async" draggable="false">
+                    style="flex:1;min-height:0;overflow:hidden;background:var(--bg);position:relative;padding:0 0 calc(var(--nav-h) + var(--safe-bottom));">
+                    <iframe id="mapFrame" src="https://gpsnav-six.vercel.app/?map=cg-VR08ZSKTJg7jSQRVdE4J" title="Stone Mountain Park Map"
+                        style="width:100%;height:100%;border:none;display:block;" allow="geolocation"
+                        loading="lazy"></iframe>
                 </div>
             </div>
             <!-- ACTIVITIES TAB -->
@@ -3714,30 +3704,6 @@
                 </div>
                 <div class="contact-section">
                     <div class="contact-section-label">Other Numbers</div>
-                    <a class="contact-row" href="tel:7704135333">
-                        <div class="contact-row-icon" style="background:#fef2f2"><svg viewBox="0 0 24 24" fill="none"
-                                stroke="#ef4444" stroke-width="2" stroke-linecap="round">
-                                <path
-                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                            </svg></div>
-                        <div class="contact-row-text">
-                            <div class="contact-row-label">SMP Police Emergency #</div>
-                            <div class="contact-row-value">770-413-5333</div>
-                        </div>
-                        <div class="contact-row-arrow">›</div>
-                    </a>
-                    <a class="contact-row" href="tel:7704985675">
-                        <div class="contact-row-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24" fill="none"
-                                stroke="#f97316" stroke-width="2" stroke-linecap="round">
-                                <path
-                                    d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006.99 6.99l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                            </svg></div>
-                        <div class="contact-row-text">
-                            <div class="contact-row-label">Non-Emergency #</div>
-                            <div class="contact-row-value">770-498-5675</div>
-                        </div>
-                        <div class="contact-row-arrow">›</div>
-                    </a>
                     <a class="contact-row" href="tel:7704135276">
                         <div class="contact-row-icon" style="background:#e8f5e9"><svg viewBox="0 0 24 24" fill="none"
                                 stroke="#16a34a" stroke-width="2" stroke-linecap="round">

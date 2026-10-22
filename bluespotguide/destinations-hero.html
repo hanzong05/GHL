@@ -1,0 +1,108 @@
+<!-- BlueSpot Guide — Destinations page HERO (Beaver Builder HTML module, Row = Full Width)
+     Place this row above the Destinations page module.
+     Brand Kit v1.0: Poppins (all text), BlueSpot Blue #005baa. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kaushan+Script&display=swap');
+
+  #bsg-dest-hero *, #bsg-dest-hero *::before, #bsg-dest-hero *::after { box-sizing: border-box; }
+  #bsg-dest-hero h1, #bsg-dest-hero h2, #bsg-dest-hero p { margin: 0; font-family: 'Poppins', system-ui, sans-serif; }
+  #bsg-dest-hero {
+    position: relative; overflow: hidden;
+    font-family: 'Poppins', system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+    background-color: #0b1a33;
+    /* single hero photo — dog on the rock sits in the right third */
+    background-image: url('https://bluespotguide.com/wp-content/uploads/2026/10/BlueSpot-Destinations-Hero-2-1.png');
+    background-size: cover; background-position: center top; background-repeat: no-repeat;
+  }
+  #bsg-dest-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(to right, rgba(5, 12, 30, .78) 0%, rgba(5, 12, 30, .52) 40%, rgba(5, 12, 30, .08) 70%, rgba(5, 12, 30, 0) 100%),
+      linear-gradient(to top, rgba(5, 12, 30, .3) 0%, rgba(5, 12, 30, 0) 40%);
+  }
+  #bsg-dest-hero .bsgd-inner {
+    position: relative; z-index: 1;
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 640px); align-items: center; gap: 24px;
+    padding: 88px 48px 72px;
+  }
+  /* ── SHARED HERO STANDARD (same as the homepage hero) ──
+     height: min-height clamp(580px, 42vw, 760px) on desktop
+     H1  clamp(2.8rem, 5.2vw, 4.6rem) / 800 · H2 clamp(1.1rem, 1.45vw, 1.45rem) / 700 · body 1.02rem / 400 */
+  @media (min-width: 901px) {
+    #bsg-dest-hero .bsgd-inner { min-height: clamp(580px, 42vw, 760px); }
+  }
+  @media (max-width: 900px) { #bsg-dest-hero .bsgd-inner { min-height: 520px; align-content: center; } }
+  @media (max-width: 600px) { #bsg-dest-hero .bsgd-inner { min-height: 470px; } }
+  /* standard BlueSpot hero type: Poppins ExtraBold headline + Poppins Bold subheading */
+  #bsg-dest-hero h1 { font-size: clamp(2.8rem, 5.2vw, 4.6rem); font-weight: 800; line-height: .98; letter-spacing: -.04em; color: #fff; text-shadow: 0 2px 24px rgba(0, 0, 0, .25); }
+  #bsg-dest-hero h2 { font-size: clamp(1.1rem, 1.45vw, 1.45rem); font-weight: 700; color: #fff; margin-top: 20px; line-height: 1.3; letter-spacing: -.01em; max-width: 600px; text-shadow: 0 1px 12px rgba(0, 0, 0, .3); }
+  #bsg-dest-hero p { font-size: 1.02rem; font-weight: 400; color: #fff; line-height: 1.55; margin-top: 12px; max-width: 560px; text-shadow: 0 1px 12px rgba(0, 0, 0, .3); }
+  #bsg-dest-hero .bsgd-swoosh { display: block; width: 190px; height: 14px; margin-top: 14px; color: #005baa; }
+
+  /* pinned top-right, above the dog. The photo scales with the page WIDTH (cover),
+     so the offset is in vw to follow it. */
+  #bsg-dest-hero .bsgd-tagline {
+    position: absolute; z-index: 2;
+    right: 2.5vw; top: clamp(14px, 2.2vw, 40px);
+    pointer-events: none;
+  }
+  #bsg-dest-hero .bsgd-tagline img {
+    display: block; width: clamp(130px, 11vw, 210px); height: auto; max-width: none;
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .35));
+  }
+
+  @media (max-width: 900px) {
+    #bsg-dest-hero .bsgd-inner   { grid-template-columns: 1fr; padding: 72px 32px 60px; }
+    #bsg-dest-hero h1 { font-size: clamp(2.6rem, 7vw, 3.6rem); }
+    #bsg-dest-hero h2 { font-size: 1.12rem; }
+    #bsg-dest-hero .bsgd-tagline { display: none; }
+  }
+  @media (max-width: 600px) {
+    #bsg-dest-hero { background-position: 70% top; }
+    #bsg-dest-hero .bsgd-inner { padding: 48px 20px 48px; }
+    #bsg-dest-hero h1 { font-size: 2.5rem; line-height: 1; }
+    #bsg-dest-hero h2 { font-size: 1.02rem; }
+    #bsg-dest-hero p  { font-size: .92rem; }
+  }
+  @media (max-width: 380px) {
+    #bsg-dest-hero .bsgd-inner { padding: 40px 16px 44px; }
+    #bsg-dest-hero h1 { font-size: 2.15rem; }
+    #bsg-dest-hero h2 { font-size: .96rem; }
+    #bsg-dest-hero p  { font-size: .88rem; }
+  }
+  @media (min-width: 1600px) {
+    #bsg-dest-hero .bsgd-inner { max-width: 1600px; padding: 110px 80px 96px; grid-template-columns: minmax(0, 780px); }
+    #bsg-dest-hero h1 { font-size: 5.6rem; }
+    #bsg-dest-hero h2 { font-size: 1.6rem; max-width: 720px; }
+    #bsg-dest-hero p  { font-size: 1.15rem; max-width: 660px; }
+  }
+  /* very wide / short landscape screens: tuck the script tighter to the top and slightly smaller */
+  @media (min-aspect-ratio: 21/9) and (min-width: 901px) {
+    #bsg-dest-hero .bsgd-tagline     { top: 12px; }
+    #bsg-dest-hero .bsgd-tagline img { width: clamp(130px, 9.5vw, 190px); }
+  }
+
+  /* brand font enforced so the theme can't override it */
+  #bsg-dest-hero, #bsg-dest-hero *:not(svg):not(path) { font-family: 'Poppins', system-ui, sans-serif !important; }
+</style>
+
+<header id="bsg-dest-hero">
+  <div class="bsgd-inner">
+    <div>
+      <h1>Destinations</h1>
+      <h2>Find your next place to explore.</h2>
+      <p>Discover BlueSpot destination guides filled with campgrounds, things to do, dining, shopping, attractions and local favorites.</p>
+      <svg class="bsgd-swoosh" viewBox="0 0 190 14" fill="none" aria-hidden="true"><path d="M3 10C60 3 130 2 187 6" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+  <!-- loading="lazy": hidden on tablets/phones, so they never download it -->
+  <div class="bsgd-tagline">
+    <img src="https://bluespotguide.com/wp-content/uploads/2026/09/Better-Places-Brighter-Adventures.png"
+      alt="Better Places. Brighter Adventures." loading="lazy" decoding="async">
+  </div>
+</header>

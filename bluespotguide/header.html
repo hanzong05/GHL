@@ -1,0 +1,515 @@
+<style>
+  /* ============================================
+     BLUESPOT GUIDE — HEADER
+     Modeled after Pine Ridge v9
+  ============================================ */
+
+  /* ── Beaver Builder page-builder reset ── */
+  .fl-module-html .fl-module-content:has(.bs-header),
+  .fl-col-content:has(.bs-header),
+  .fl-col:has(.bs-header),
+  .fl-row:has(.bs-header),
+  .fl-row-content-wrap:has(.bs-header),
+  .fl-row-content:has(.bs-header) {
+    padding: 0 !important; margin: 0 !important; background: transparent !important;
+    min-height: 0 !important; height: auto !important; overflow: visible !important;
+    max-width: none !important; width: 100% !important; position: static !important;
+  }
+
+  .fl-builder-content .fl-row,
+  .fl-theme-builder-header .fl-row,
+  .fl-theme-builder-header .fl-row-content-wrap,
+  .fl-theme-builder-header .fl-col-group,
+  .fl-theme-builder-header .fl-col,
+  .fl-theme-builder-header .fl-col-content {
+    padding-top: 0 !important; padding-bottom: 0 !important;
+    margin-top: 0 !important; margin-bottom: 0 !important; min-height: 0 !important;
+  }
+
+  /* ── Scoped reset ── */
+  .bs-header, .bs-header *, .bs-header *::before, .bs-header *::after {
+    box-sizing: border-box !important; margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  }
+
+  /* ── Variables + fixed bar ── */
+  .bs-header {
+    --bs-blue:      #1f63e2;
+    --bs-blue-dark: #1550c0;
+    --bs-text:      #1a1a2e;
+    --bs-text-soft: #5a5a72;
+    --bs-border:    #e8e8f0;
+    --bs-hover-bg:  #f0f5ff;
+    --bs-white:     #ffffff;
+
+    position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
+    z-index: 999999 !important;
+    background: rgba(255,255,255,0.98) !important;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bs-border) !important;
+    box-shadow: 0 1px 16px rgba(30,30,60,0.07) !important;
+    font-size: 16px !important; line-height: 1.4 !important;
+    width: 100% !important; color: var(--bs-text) !important;
+    height: 100px !important;
+  }
+
+  body.bs-header-active { padding-top: 100px !important; }
+
+  @media (max-width: 768px) {
+    .bs-header { height: 80px !important; }
+    body.bs-header-active { padding-top: 80px !important; }
+  }
+
+  /* ── Inner container ── */
+  .bs-header .bs-header-inner {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 0 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  @media (min-width: 1600px) {
+    .bs-header .bs-header-inner { max-width: 1600px !important; padding: 0 80px !important; }
+  }
+  @media (max-width: 900px) {
+    .bs-header .bs-header-inner { padding: 0 32px !important; }
+  }
+  @media (max-width: 600px) {
+    .bs-header .bs-header-inner { padding: 0 20px !important; }
+  }
+
+  /* ── Logo ── */
+  .bs-header .bs-header-logo {
+    display: inline-flex !important; align-items: center !important;
+    text-decoration: none !important; flex-shrink: 0 !important;
+    border: 0 !important; outline: none !important;
+    margin-right: auto !important;
+  }
+  .bs-header .bs-header-logo img {
+    display: block !important; height: 68px !important; width: auto !important;
+    max-width: 300px !important; border: 0 !important; margin: 0 !important;
+    padding: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    object-fit: contain !important;
+  }
+  @media (max-width: 1280px) {
+    .bs-header .bs-header-logo img { height: 56px !important; max-width: 260px !important; }
+  }
+  @media (max-width: 768px) {
+    .bs-header .bs-header-logo img { height: 44px !important; max-width: 200px !important; }
+  }
+  @media (max-width: 400px) {
+    .bs-header .bs-header-logo img { height: 36px !important; max-width: 150px !important; }
+  }
+
+  /* ── Hamburger toggle ── */
+  .bs-header .bs-header-toggle {
+    display: none;
+    background: var(--bs-hover-bg) !important;
+    border: 1px solid var(--bs-border) !important;
+    padding: 0 !important; cursor: pointer !important;
+    width: 48px !important; height: 48px !important;
+    align-items: center !important; justify-content: center !important;
+    border-radius: 8px !important; transition: all 0.2s ease;
+    flex-direction: column !important; gap: 5px !important;
+    box-shadow: none !important; flex-shrink: 0 !important;
+  }
+  .bs-header .bs-header-toggle:hover { border-color: var(--bs-blue) !important; }
+  .bs-header .bs-header-toggle-bar {
+    display: block !important; width: 22px !important; height: 2.5px !important;
+    background: var(--bs-text) !important; border-radius: 2px !important;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+  .bs-header .bs-header-toggle.is-active .bs-header-toggle-bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .bs-header .bs-header-toggle.is-active .bs-header-toggle-bar:nth-child(2) { opacity: 0; }
+  .bs-header .bs-header-toggle.is-active .bs-header-toggle-bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ── Nav ── */
+  .bs-header .bs-header-nav {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    gap: 0 !important;
+  }
+
+  /* ── Menu list ── */
+  .bs-header .bs-header-menu {
+    list-style: none !important; margin: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; gap: 0 !important; height: 100% !important;
+  }
+  .bs-header .bs-header-menu > li {
+    position: relative !important; margin: 0 !important; padding: 0 !important;
+    list-style: none !important; display: flex !important; align-items: center !important;
+  }
+  .bs-header .bs-header-menu > li::before,
+  .bs-header .bs-header-menu > li::after { display: none !important; content: none !important; }
+
+  /* ── Nav links ── */
+  .bs-header .bs-header-menu > li > a {
+    display: inline-flex !important; align-items: center !important; gap: 6px !important;
+    padding: 0 20px !important; height: 100px !important;
+    font-size: 12.5px !important; font-weight: 700 !important;
+    text-transform: uppercase !important; letter-spacing: 1.2px !important;
+    color: var(--bs-text-soft) !important; text-decoration: none !important;
+    transition: color 0.2s ease !important; white-space: nowrap !important;
+    line-height: 1.2 !important; background: transparent !important;
+    border: 0 !important; box-shadow: none !important; position: relative !important;
+  }
+  @media (max-width: 1280px) {
+    .bs-header .bs-header-menu > li > a {
+      padding: 0 14px !important;
+      font-size: 11.5px !important;
+      letter-spacing: 1px !important;
+    }
+  }
+
+  /* ── Active underline ── */
+  .bs-header .bs-header-menu > li > a::before {
+    content: "" !important; position: absolute !important;
+    bottom: 26px !important; left: 20px !important; right: 20px !important;
+    height: 2px !important; background: var(--bs-blue) !important;
+    border-radius: 2px !important;
+    transform: scaleX(0) !important; transform-origin: left !important;
+    transition: transform 0.25s ease !important;
+  }
+  @media (max-width: 1280px) {
+    .bs-header .bs-header-menu > li > a::before {
+      left: 14px !important; right: 14px !important;
+      bottom: 26px !important;
+    }
+  }
+  .bs-header .bs-header-menu > li > a::after { display: none !important; }
+
+  .bs-header .bs-header-menu > li > a:hover::before { transform: scaleX(1) !important; }
+  .bs-header .bs-header-menu > li.bs-current > a::before {
+    transform: scaleX(1) !important;
+    transition: none !important;
+  }
+
+  .bs-header .bs-header-menu > li > a:hover,
+  .bs-header .bs-header-menu > li > a:focus {
+    color: var(--bs-blue) !important; text-decoration: none !important; outline: none !important;
+  }
+  .bs-header .bs-header-menu > li.bs-current > a {
+    color: var(--bs-blue) !important; font-weight: 700 !important;
+  }
+
+  /* ── CTA ── */
+  .bs-header .bs-header-nav-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    margin-left: 48px !important;
+  }
+
+  .bs-header a.bs-header-list-btn {
+    display: inline-flex !important; align-items: center !important; gap: 8px !important;
+    background: var(--bs-blue) !important;
+    color: var(--bs-white) !important;
+    padding: 14px 26px !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important; font-size: 12.5px !important;
+    text-transform: uppercase !important; letter-spacing: 1.2px !important;
+    text-decoration: none !important; transition: all 0.25s ease !important;
+    line-height: 1.2 !important; white-space: nowrap !important;
+    border: 0 !important; height: auto !important;
+    box-shadow: 0 2px 8px rgba(31,99,226,0.25) !important;
+  }
+  @media (max-width: 1280px) {
+    .bs-header .bs-header-nav-cta { margin-left: 32px !important; }
+    .bs-header a.bs-header-list-btn {
+      padding: 13px 20px !important; font-size: 11.5px !important;
+    }
+  }
+  .bs-header a.bs-header-list-btn::before,
+  .bs-header a.bs-header-list-btn::after { display: none !important; }
+  .bs-header a.bs-header-list-btn:hover,
+  .bs-header a.bs-header-list-btn:focus {
+    background: var(--bs-blue-dark) !important;
+    color: var(--bs-white) !important; transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(31,99,226,0.38) !important;
+    text-decoration: none !important; outline: none !important;
+  }
+
+  /* ── WordPress active classes ── */
+  .bs-header .bs-header-menu > li.current-menu-item > a,
+  .bs-header .bs-header-menu > li.current-menu-ancestor > a,
+  .bs-header .bs-header-menu > li.current-menu-parent > a,
+  .bs-header .bs-header-menu > li.bs-current > a {
+    color: var(--bs-blue) !important;
+    font-weight: 700 !important;
+  }
+
+  .bs-header .bs-header-menu > li.current-menu-item > a::before,
+  .bs-header .bs-header-menu > li.current-menu-ancestor > a::before,
+  .bs-header .bs-header-menu > li.current-menu-parent > a::before,
+  .bs-header .bs-header-menu > li.bs-current > a::before {
+    transform: scaleX(1) !important;
+    transition: none !important;
+  }
+
+  @media (max-width: 1024px) {
+    .bs-header .bs-header-menu > li.current-menu-item > a,
+    .bs-header .bs-header-menu > li.current-menu-ancestor > a,
+    .bs-header .bs-header-menu > li.current-menu-parent > a,
+    .bs-header .bs-header-menu > li.bs-current > a {
+      background: var(--bs-hover-bg) !important;
+      color: var(--bs-blue) !important;
+    }
+  }
+
+  /* ── Body scroll lock ── */
+  body.bs-menu-open { overflow: hidden !important; }
+
+  /* ── Mobile ── */
+  @media (max-width: 1024px) {
+    .bs-header .bs-header-toggle { display: flex !important; }
+
+    .bs-header .bs-header-nav-cta { display: none !important; }
+
+    .bs-header .bs-header-nav {
+      position: fixed !important; top: 100px !important; left: 0 !important; right: 0 !important;
+      bottom: 0 !important; width: 100vw !important;
+      height: calc(100vh - 100px) !important; height: calc(100dvh - 100px) !important;
+      max-width: 100vw !important; max-height: none !important;
+      background: var(--bs-white) !important; padding: 32px 24px 40px !important;
+      overflow-y: auto !important; overflow-x: hidden !important;
+      transform: translateX(100%) !important; transition: transform 0.3s ease !important;
+      border-top: 1px solid var(--bs-border) !important;
+      display: block !important; z-index: 9998 !important; visibility: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .bs-header .bs-header-nav.is-open {
+      transform: translateX(0) !important; visibility: visible !important;
+    }
+
+    .bs-header .bs-header-nav.is-open .bs-header-nav-cta {
+      display: flex !important;
+      margin-left: 0 !important;
+      margin-top: 28px !important;
+      width: 100% !important;
+    }
+    .bs-header .bs-header-nav.is-open .bs-header-nav-cta a.bs-header-list-btn {
+      width: 100% !important;
+      justify-content: center !important;
+      padding: 16px 22px !important;
+      font-size: 13px !important;
+    }
+
+    .bs-header .bs-header-menu {
+      flex-direction: column !important; align-items: stretch !important;
+      gap: 4px !important; width: 100% !important; max-width: 100% !important;
+      display: flex !important; text-align: center !important; height: auto !important;
+    }
+    .bs-header .bs-header-menu > li {
+      width: 100% !important; display: block !important; border: 0 !important;
+    }
+    .bs-header .bs-header-menu > li > a {
+      height: auto !important; padding: 14px 12px !important;
+      font-size: 13px !important; font-weight: 700 !important;
+      justify-content: center !important; width: 100% !important;
+      border-bottom: 0 !important; border-radius: 8px !important;
+      text-align: center !important; color: var(--bs-text) !important;
+      letter-spacing: 1px !important;
+    }
+    .bs-header .bs-header-menu > li > a:hover,
+    .bs-header .bs-header-menu > li > a:focus {
+      background: var(--bs-hover-bg) !important; color: var(--bs-blue) !important;
+    }
+    .bs-header .bs-header-menu > li.bs-current > a {
+      background: var(--bs-hover-bg) !important; color: var(--bs-blue) !important;
+    }
+    .bs-header .bs-header-menu > li > a::before { display: none !important; }
+  }
+
+  @media (max-width: 768px) {
+    .bs-header .bs-header-nav {
+      top: 80px !important;
+      height: calc(100vh - 80px) !important;
+      height: calc(100dvh - 80px) !important;
+    }
+  }
+</style>
+
+<header class="bs-header" id="bsHeader">
+  <div class="bs-header-inner">
+
+    <!-- LOGO (links to the home page — no separate "Home" menu item) -->
+    <a href="https://bluespotguide.com/" class="bs-header-logo" aria-label="BlueSpot Guide - Home">
+      <img
+        src="https://bluespotguide.com/wp-content/uploads/2025/01/BlueSpot-Guide-Logo-New-scaled.png.webp"
+        alt="BlueSpot Guide"
+      >
+    </a>
+
+    <!-- HAMBURGER (mobile only) -->
+    <button type="button" class="bs-header-toggle" aria-label="Toggle menu" aria-expanded="false" id="bsHeaderToggle">
+      <span class="bs-header-toggle-bar"></span>
+      <span class="bs-header-toggle-bar"></span>
+      <span class="bs-header-toggle-bar"></span>
+    </button>
+
+    <!-- NAV -->
+    <nav class="bs-header-nav" id="bsHeaderNav" aria-label="Main navigation">
+
+      <ul class="bs-header-menu" id="bsHeaderMenu">
+        <li><a href="/destinations/">Destinations</a></li>
+        <li><a href="/premier-property/">Premier Properties</a></li>
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/blog/">Travel Inspiration</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+
+      <div class="bs-header-nav-cta">
+        <a href="https://bluespotconnect.com/" class="bs-header-list-btn" target="_blank" rel="noopener">
+          List your Property
+        </a>
+      </div>
+
+    </nav>
+
+  </div>
+</header>
+
+<script>
+  (function () {
+    document.body.classList.add('bs-header-active');
+
+    var toggle = document.getElementById('bsHeaderToggle');
+    var nav    = document.getElementById('bsHeaderNav');
+    if (!toggle || !nav) return;
+
+    /* ── Dynamic active page detection ── */
+    (function bsSetActive() {
+      var menu = document.getElementById('bsHeaderMenu');
+      if (!menu) return;
+
+      /* Strip ALL WordPress server-side active classes first —
+         WP renders current-menu-item / current-menu-ancestor on <li>
+         which CSS already targets, so we clear everything before
+         re-applying our own logic, otherwise WP wins. */
+      menu.querySelectorAll('li').forEach(function (li) {
+        li.classList.remove(
+          'current-menu-item',
+          'current-menu-ancestor',
+          'current-menu-parent',
+          'current_page_item',
+          'current_page_ancestor',
+          'current_page_parent',
+          'bs-current'
+        );
+      });
+
+      var current = window.location.pathname.replace(/\/+$/, '') || '/';
+      var host    = window.location.hostname;
+      var matched = false;
+
+      menu.querySelectorAll('li').forEach(function (li) {
+        var a = li.querySelector('a');
+        if (!a) return;
+
+        var href = a.getAttribute('href') || '';
+        try {
+          var url  = new URL(href, window.location.origin);
+          /* Skip cross-origin links (e.g. bluespotconnect.com) */
+          if (url.hostname !== host) return;
+          var path = url.pathname.replace(/\/+$/, '') || '/';
+        } catch (e) { return; }
+
+        /* Home: exact '/' only — never prefix-match */
+        if (path === '/') {
+          if (current === '/') {
+            li.classList.add('bs-current');
+            matched = true;
+          }
+          return;
+        }
+
+        /* Exact match */
+        if (path === current) {
+          li.classList.add('bs-current');
+          matched = true;
+          return;
+        }
+
+        /* Prefix match for sub-pages (e.g. /blog/ matches /blog/my-post/,
+           /category/tips/ etc.) — non-root paths only */
+        if (current.indexOf(path) === 0) {
+          var nextChar = current.charAt(path.length);
+          if (nextChar === '' || nextChar === '/') {
+            li.classList.add('bs-current');
+            matched = true;
+          }
+        }
+      });
+
+      /* No match → no active state at all (e.g. on the home page). */
+    })();
+
+    /* ── Hamburger toggle ── */
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.toggle('is-open');
+      toggle.classList.toggle('is-active', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      document.body.classList.toggle('bs-menu-open', isOpen);
+    });
+
+    /* close panel when a nav link is tapped on mobile */
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.innerWidth <= 1024 && !link.classList.contains('bs-header-list-btn')) {
+          nav.classList.remove('is-open');
+          toggle.classList.remove('is-active');
+          toggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('bs-menu-open');
+        }
+      });
+    });
+
+    /* reset on viewport resize past breakpoint */
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 1024) {
+        nav.classList.remove('is-open');
+        toggle.classList.remove('is-active');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('bs-menu-open');
+      }
+    });
+
+    /* ── Publish header height + patch guide page offsets ── */
+    var bsNavStyle = document.createElement('style');
+    bsNavStyle.id = 'bs-header-nav-offset';
+    document.head.appendChild(bsNavStyle);
+
+    function bsPublishHeight() {
+      var el = document.getElementById('bsHeader');
+      if (!el) return;
+      var height  = el.offsetHeight;
+      var bsgNav  = document.getElementById('bsgNav');
+      var bsgNavH = bsgNav ? bsgNav.offsetHeight : 62;
+      var total   = height + bsgNavH - 18;
+
+      document.documentElement.style.setProperty('--bs-header-height', height + 'px');
+      document.documentElement.setAttribute('data-bs-header-height', height);
+
+      bsNavStyle.textContent =
+        '.bsg-nav { top: ' + height + 'px !important; }' +
+        '.bsg-sec { scroll-margin-top: ' + total + 'px !important; }';
+
+      window.getStickyOffset = function () {
+        var h = parseInt(document.documentElement.getAttribute('data-bs-header-height'), 10);
+        return (!isNaN(h) && h > 0) ? h : 0;
+      };
+
+      if (typeof window.bsgApplyOffsets === 'function') window.bsgApplyOffsets();
+    }
+
+    bsPublishHeight();
+    window.addEventListener('resize', bsPublishHeight);
+    window.addEventListener('load', bsPublishHeight);
+
+  })();
+</script>
